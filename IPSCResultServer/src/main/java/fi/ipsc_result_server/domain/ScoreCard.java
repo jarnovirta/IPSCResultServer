@@ -2,16 +2,30 @@ package fi.ipsc_result_server.domain;
 
 import java.util.Calendar;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Entity
 public class ScoreCard {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.TABLE)
+	private Long id;
+	
 	@JsonProperty("shtr")
 	private String shooterId;
 	@JsonProperty("mod")
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+	@Temporal(TemporalType.TIMESTAMP)
 	private Calendar modified;
 	@JsonProperty("popm")
 	private int popperMisses;
@@ -88,6 +102,14 @@ public class ScoreCard {
 
 	public void setPaperTargetHits(int[] paperTargetHits) {
 		this.paperTargetHits = paperTargetHits;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 }
