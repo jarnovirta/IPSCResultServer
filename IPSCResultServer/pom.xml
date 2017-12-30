@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>IPSCResultServer</groupId>
   <artifactId>IPSCResultServer</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>1</version>
   <packaging>war</packaging>
   <properties>
   	<org.springframework-version>3.2.8.RELEASE</org.springframework-version>
@@ -15,34 +15,19 @@
 				</snapshots> -->
 		</repository>
 	</repositories>
-  <build>
-    <sourceDirectory>src/main/java</sourceDirectory>
-    <resources>
-      <resource>
-        <directory>src</directory>
-        <excludes>
-          <exclude>**/*.java</exclude>
-        </excludes>
-      </resource>
-    </resources>
-    <plugins>
-      <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.5.1</version>
-        <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
-        </configuration>
-      </plugin>
-      <plugin>
-        <artifactId>maven-war-plugin</artifactId>
-        <version>3.0.0</version>
-        <configuration>
-          <warSourceDirectory>WebContent</warSourceDirectory>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
+	<build>
+		<sourceDirectory>src/main/java</sourceDirectory>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.7.0</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
   <dependencies>
 	  <dependency>
 		<groupId>mysql</groupId>
