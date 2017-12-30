@@ -14,12 +14,7 @@ import fi.ipsc_result_server.service.MatchScoreService;
 public class ResultUploaderApiController {
 	@Autowired
 	private MatchScoreService matchScoreService;
-	
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String testMethod() {
-		System.out.println("testmethod");
-		return "test";
-	}
+
 	@RequestMapping(value = "/api/matches", method = RequestMethod.POST)
 	public @ResponseBody MatchScore postMatch(@RequestBody MatchScore matchScore) {
 		System.out.println("POST new match");
