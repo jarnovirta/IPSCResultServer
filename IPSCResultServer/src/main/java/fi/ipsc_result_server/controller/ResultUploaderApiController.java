@@ -23,8 +23,6 @@ public class ResultUploaderApiController {
 	@RequestMapping(value = "/api/matches", method = RequestMethod.POST)
 	public @ResponseBody MatchScore postMatch(@RequestBody MatchScore matchScore) {
 		System.out.println("POST new match");
-		// TODO: save match;
-		
 		return matchScoreService.save(matchScore);
 	}
 }
