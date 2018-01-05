@@ -7,7 +7,7 @@
 	<div id="wrap">
 		<div class="container">
 			<div class="page-header">
-				<h1>Result service</h1>
+				<h1>Admin</h1>
 			</div>
 			<br><br>
 			

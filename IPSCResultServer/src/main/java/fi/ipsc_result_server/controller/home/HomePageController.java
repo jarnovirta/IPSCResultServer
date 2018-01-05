@@ -1,4 +1,4 @@
-package fi.ipsc_result_server.controller;
+package fi.ipsc_result_server.controller.home;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

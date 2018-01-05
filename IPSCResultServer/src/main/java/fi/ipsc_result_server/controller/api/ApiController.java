@@ -1,4 +1,4 @@
-package fi.ipsc_result_server.controller;
+package fi.ipsc_result_server.controller.api;
 
 import java.util.Calendar;
 
@@ -13,11 +13,12 @@ import fi.ipsc_result_server.domain.MatchScore;
 import fi.ipsc_result_server.service.MatchScoreService;
 
 @Controller
-public class ResultUploaderApiController {
+@RequestMapping("/api")
+public class ApiController {
 	@Autowired
 	private MatchScoreService matchScoreService;
 
-	@RequestMapping(value = "/api/matches", method = RequestMethod.POST)
+	@RequestMapping(value = "/matches", method = RequestMethod.POST)
 	public @ResponseBody MatchScore postMatch(@RequestBody MatchScore matchScore) {
 		System.out.println("POST new match " + Calendar.getInstance().getTime());
 		return matchScoreService.save(matchScore);
