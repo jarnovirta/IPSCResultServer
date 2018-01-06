@@ -9,18 +9,29 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import fi.ipsc_result_server.domain.Match;
 import fi.ipsc_result_server.domain.MatchScore;
 import fi.ipsc_result_server.service.MatchScoreService;
+import fi.ipsc_result_server.service.MatchService;
 
 @Controller
 @RequestMapping("/api")
 public class ApiController {
 	@Autowired
 	private MatchScoreService matchScoreService;
+	
+	@Autowired
+	private MatchService matchService;
 
 	@RequestMapping(value = "/matches", method = RequestMethod.POST)
-	public @ResponseBody MatchScore postMatch(@RequestBody MatchScore matchScore) {
+	public @ResponseBody Match postMatchData(@RequestBody Match match) {
 		System.out.println("POST new match " + Calendar.getInstance().getTime());
+		return matchService.save(match);
+	}
+	
+	@RequestMapping(value = "/matches/matchId/scores", method = RequestMethod.POST)
+	public @ResponseBody MatchScore postScoreData(@RequestBody MatchScore matchScore) {
+		System.out.println("POST new score data " + Calendar.getInstance().getTime());
 		return matchScoreService.save(matchScore);
 	}
 }

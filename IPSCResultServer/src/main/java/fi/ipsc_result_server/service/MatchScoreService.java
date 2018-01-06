@@ -10,6 +10,7 @@ import fi.ipsc_result_server.repository.MatchScoreRepository;
 public class MatchScoreService {
 	@Autowired
 	MatchScoreRepository matchScoreRepository;
+	
 	public MatchScore save(MatchScore matchScore) {
 		return matchScoreRepository.save(matchScore);
 	}
