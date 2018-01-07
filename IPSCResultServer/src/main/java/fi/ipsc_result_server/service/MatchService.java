@@ -36,8 +36,6 @@ public class MatchService {
 			savedCompetitors.add(competitorService.save(competitor));
 		}
 		match.setCompetitors(savedCompetitors);
-
-		System.out.println("Merging match");
 		return entityManager.merge(match);
 	}
 	

@@ -33,6 +33,7 @@ public class Match implements Serializable {
 	@Id
 	@JsonProperty("match_id")
 	@GeneratedValue(generator="MATCH_ID_GEN")
+	@Column(length = 36)
 	private String id;
 	
 	@JsonProperty("match_name")

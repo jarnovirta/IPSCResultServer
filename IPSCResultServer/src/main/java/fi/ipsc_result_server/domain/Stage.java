@@ -29,6 +29,7 @@ public class Stage implements Serializable {
 	@Id
 	@JsonProperty("stage_uuid")
 	@GeneratedValue(generator="STAGE_ID_GEN")
+	@Column(length = 36)
 	private String id;
 	
 	@JsonProperty("stage_name")

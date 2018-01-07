@@ -28,7 +28,7 @@ public class MatchScore implements Serializable {
 	private Long id;
 	
 	@JsonProperty("match_id")
-	@Column(nullable = false)
+	@Column(nullable = false, length = 36)
 	private String matchId;
 	
 	@JsonProperty("match_scores")

@@ -31,7 +31,7 @@ public class ScoreCard implements Serializable {
 	private Long id;
 	
 	@JsonProperty("shtr")
-	@Column(nullable = false)
+	@Column(nullable = false, length = 36)
 	private String shooterId;
 	
 	@JsonProperty("mod")

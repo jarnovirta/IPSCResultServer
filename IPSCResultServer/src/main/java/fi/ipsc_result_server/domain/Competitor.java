@@ -29,6 +29,7 @@ public class Competitor implements Serializable, Comparable<Competitor> {
 	@Id
 	@JsonProperty("sh_uuid")
 	@GeneratedValue(generator="COMPETITOR_ID_GEN")
+	@Column(length = 36)
 	private String id;
 	
 	@JsonProperty("sh_num")
