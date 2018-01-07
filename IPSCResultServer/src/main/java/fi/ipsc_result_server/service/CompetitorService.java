@@ -31,4 +31,8 @@ public class CompetitorService {
 	public Competitor save(Competitor competitor) {
 		return entityManager.merge(competitor);
 	}
+	
+	public Competitor findOne(String id) {
+		return competitorRepository.findOne(id);
+	}
 }
