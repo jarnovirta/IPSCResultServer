@@ -3,11 +3,13 @@ package fi.ipsc_result_server.domain;
 import java.io.Serializable;
 import java.util.Calendar;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
@@ -32,7 +34,15 @@ public class ScoreCard implements Serializable {
 	
 	@JsonProperty("shtr")
 	@Column(nullable = false, length = 36)
-	private String shooterId;
+	private String competitorId;
+	
+	@ManyToOne(cascade = CascadeType.MERGE)
+	private Competitor competitor;
+	
+	@ManyToOne(cascade = CascadeType.MERGE)
+	private Stage stage;
+	
+	private String stageId;
 	
 	@JsonProperty("mod")
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.SSS")
@@ -83,12 +93,15 @@ public class ScoreCard implements Serializable {
 	@JsonIgnore
 	private int proceduralPenalties;
 
+//	@ManyToOne(cascade = CascadeType.MERGE)
+	private StageScore stageScore;
+	
 	public String getShooterId() {
-		return shooterId;
+		return competitorId;
 	}
 
 	public void setShooterId(String shooterId) {
-		this.shooterId = shooterId;
+		this.competitorId = shooterId;
 	}
 
 	public Calendar getModified() {
@@ -230,5 +243,45 @@ public class ScoreCard implements Serializable {
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	public StageScore getStageScore() {
+		return stageScore;
+	}
+
+	public void setStageScore(StageScore stageScore) {
+		this.stageScore = stageScore;
+	}
+
+	public String getCompetitorId() {
+		return competitorId;
+	}
+
+	public void setCompetitorId(String competitorId) {
+		this.competitorId = competitorId;
+	}
+
+	public Competitor getCompetitor() {
+		return competitor;
+	}
+
+	public void setCompetitor(Competitor competitor) {
+		this.competitor = competitor;
+	}
+
+	public Stage getStage() {
+		return stage;
+	}
+
+	public void setStage(Stage stage) {
+		this.stage = stage;
+	}
+
+	public String getStageId() {
+		return stageId;
+	}
+
+	public void setStageId(String stageId) {
+		this.stageId = stageId;
 	}
 }

@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -59,7 +60,8 @@ public class Match implements Serializable {
 	private List<String> divisions;
 	
 	@JsonProperty("match_stages")
-	@OneToMany(cascade = CascadeType.MERGE)
+	@OneToMany(mappedBy = "match", cascade = CascadeType.MERGE)
+	@OrderColumn
 	private List<Stage> stages;
 	
 	@JsonProperty("match_shooters")

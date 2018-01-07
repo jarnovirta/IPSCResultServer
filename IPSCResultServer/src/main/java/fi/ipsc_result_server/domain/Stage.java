@@ -3,16 +3,19 @@ package fi.ipsc_result_server.domain;
 import java.io.Serializable;
 import java.util.Calendar;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.eclipse.persistence.annotations.UuidGenerator;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -31,6 +34,10 @@ public class Stage implements Serializable {
 	@GeneratedValue(generator="STAGE_ID_GEN")
 	@Column(length = 36)
 	private String id;
+	
+	@ManyToOne(cascade = CascadeType.MERGE)
+	@JsonIgnore
+	private Match match;
 	
 	@JsonProperty("stage_name")
 	@Column(nullable = false)
@@ -81,4 +88,13 @@ public class Stage implements Serializable {
 	public void setModifiedDate(Calendar modifiedDate) {
 		this.modifiedDate = modifiedDate;
 	}
+
+	public Match getMatch() {
+		return match;
+	}
+
+	public void setMatch(Match match) {
+		this.match = match;
+	}
+	
 }

@@ -12,10 +12,57 @@
 	<div id="wrap">
 		<div class="container">
 			<div class="page-header">
-				<h1>Results for ${competitor.firstName } ${competitor.lastName }</h1>
+				<h1>Results for ${resultData.competitor.firstName } ${resultData.competitor.lastName }</h1>
 			</div>
 			<br><br>
-			
+			<table class="table table-striped">
+				<tr>
+					<th>#</th>
+					<th>
+						Stage
+					</th>
+					<th>
+						A
+					</th>
+					<th>
+						C
+					</th>
+					<th>
+						D
+					</th>
+					<th>
+						Miss
+					</th>
+					<th>
+						NS
+					</th>
+				</tr>
+				<c:forEach var="stageScore" items="${resultData.stageScores}">
+						<tr>
+							<td>
+								${stageScore.stage.stageNumber }
+							</td>
+							<td>
+								${stageScore.stage.name}
+							</td>
+							<td>
+								${stageScore.scoreCards[0].aHits}
+							</td>
+							<td>
+								${stageScore.scoreCards[0].cHits}
+							</td>
+							<td>
+								${stageScore.scoreCards[0].dHits}						
+							</td>
+							<td>
+								${stageScore.scoreCards[0].misses}
+							</td>
+							<td>
+								${stageScore.scoreCards[0].noshootHits}
+							</td>
+						</tr>
+				</c:forEach>
+			</table>
 		</div>
 	</div>
 </body>

@@ -3,19 +3,10 @@ package fi.ipsc_result_server.domain;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Entity
 public class MatchScore implements Serializable {
 
 	/**
@@ -23,18 +14,20 @@ public class MatchScore implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.TABLE)
+//	@Id
+//	@GeneratedValue(strategy = GenerationType.TABLE)
 	private Long id;
 	
 	@JsonProperty("match_id")
-	@Column(nullable = false, length = 36)
+//	@Column(nullable = false, length = 36)
 	private String matchId;
 	
+//	@OneToOne(cascade = CascadeType.MERGE)
+	private Match match;
+	
 	@JsonProperty("match_scores")
-	@OneToMany(cascade = CascadeType.ALL)
+//	@OneToMany(mappedBy = "matchScore", cascade = CascadeType.ALL)
 	private List<StageScore> stageScores;
-
 
 	public String getMatchId() {
 		return matchId;
@@ -62,6 +55,14 @@ public class MatchScore implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public Match getMatch() {
+		return match;
+	}
+
+	public void setMatch(Match match) {
+		this.match = match;
 	}
 
 }
