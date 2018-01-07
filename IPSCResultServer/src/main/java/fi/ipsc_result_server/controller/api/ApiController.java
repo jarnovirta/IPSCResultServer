@@ -25,7 +25,7 @@ public class ApiController {
 
 	@RequestMapping(value = "/matches", method = RequestMethod.POST)
 	public @ResponseBody Match postMatchData(@RequestBody Match match) {
-		System.out.println("POST new match " + Calendar.getInstance().getTime());
+		System.out.println("POST new match data" + Calendar.getInstance().getTime());
 		return matchService.save(match);
 	}
 	

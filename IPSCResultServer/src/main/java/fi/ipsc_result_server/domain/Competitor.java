@@ -3,6 +3,7 @@ package fi.ipsc_result_server.domain;
 import java.io.Serializable;
 import java.util.Calendar;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -28,24 +29,30 @@ public class Competitor implements Serializable {
 	private Long id;
 	
 	@JsonProperty("sh_uuid")
+	@Column(nullable = false)
 	private String uuid;
 	
 	@JsonProperty("sh_num")
+	@Column(nullable = false)
 	private int shooterNumber;
 	
 	@JsonProperty("sh_fn")
+	@Column(nullable = false)
 	private String firstName;
 	
 	@JsonProperty("sh_ln")
+	@Column(nullable = false)
 	private String lastName;
 	
 	@JsonProperty("sh_dvp")
+	@Column(nullable = false)
 	private String division;
 	
 	@JsonProperty("sh_cc")
 	private String country;
 	
 	@JsonProperty("sh_dq")
+	@Column(nullable = false)
 	private boolean disqualified;
 	
 	@JsonProperty("sh_grd")
@@ -57,6 +64,7 @@ public class Competitor implements Serializable {
 	@JsonProperty("sh_mod")
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.SSS")
 	@Temporal(TemporalType.TIMESTAMP)
+	@Column(nullable = false)
 	private Calendar modifiedDate;
 	
 	@JsonProperty("sh_pf")

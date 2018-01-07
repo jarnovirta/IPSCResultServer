@@ -1,0 +1,2 @@
+- Olettama että kisa luotu yhdellä laitteella -> uuid käy erottamaan kisat
+- No penalty miss: lasketaanko misseihin vai jätetään huomiotta?

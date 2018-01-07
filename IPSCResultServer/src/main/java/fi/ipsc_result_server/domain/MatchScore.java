@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,6 +28,7 @@ public class MatchScore implements Serializable {
 	private Long id;
 	
 	@JsonProperty("match_id")
+	@Column(nullable = false)
 	private String matchId;
 	
 	@JsonProperty("match_scores")

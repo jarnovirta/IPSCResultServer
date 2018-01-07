@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -32,9 +33,11 @@ public class Match implements Serializable {
 	private Long id;
 	
 	@JsonProperty("match_id")
+	@Column(nullable = false)
 	private String uuid;
 
 	@JsonProperty("match_name")
+	@Column(nullable = false)
 	private String name;
 	
 	@JsonProperty("match_level")
@@ -48,9 +51,11 @@ public class Match implements Serializable {
 	@JsonProperty("match_modifieddate")
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.SSS")
 	@Temporal(TemporalType.TIMESTAMP)
+	@Column(nullable = false)
 	private Calendar modifiedDate;
 
 	@JsonProperty("match_cats")
+	@Column(nullable = false)
 	private List<String> divisions;
 	
 	@JsonProperty("match_stages")

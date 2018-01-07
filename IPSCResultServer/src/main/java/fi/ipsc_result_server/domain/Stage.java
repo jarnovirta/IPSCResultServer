@@ -3,6 +3,7 @@ package fi.ipsc_result_server.domain;
 import java.io.Serializable;
 import java.util.Calendar;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -28,17 +29,21 @@ public class Stage implements Serializable {
 	private Long id;	
 	
 	@JsonProperty("stage_uuid")
+	@Column(nullable = false)
 	private String uuid;
 	
 	@JsonProperty("stage_name")
+	@Column(nullable = false)
 	private String name;
 	
 	@JsonProperty("stage_number")
+	@Column(nullable = false)
 	private int stageNumber;
 	
 	@JsonProperty("stage_modifieddate")
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.SSS")
 	@Temporal(TemporalType.TIMESTAMP)
+	@Column(nullable = false)
 	private Calendar modifiedDate;
 
 	public String getUuid() {

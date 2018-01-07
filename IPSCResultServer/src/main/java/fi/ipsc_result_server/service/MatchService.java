@@ -1,5 +1,7 @@
 package fi.ipsc_result_server.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,5 +15,13 @@ public class MatchService {
 	
 	public Match save(Match match) {
 		return matchRepository.save(match);
+	}
+	
+	public List<Match> findAll() {
+		return matchRepository.findAll();
+	}
+	
+	public Match findOne(Long id) {
+		return matchRepository.findOne(id);
 	}
 }

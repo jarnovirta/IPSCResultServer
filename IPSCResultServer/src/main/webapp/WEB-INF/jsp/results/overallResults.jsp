@@ -7,10 +7,9 @@
 	<div id="wrap">
 		<div class="container">
 			<div class="page-header">
-				<h1>[Overall result page (combined/div/cat)]</h1>
+				<h1>${match.name}</h1>
 			</div>
 			<br><br>
-			
 		</div>
 	</div>
 </body>
