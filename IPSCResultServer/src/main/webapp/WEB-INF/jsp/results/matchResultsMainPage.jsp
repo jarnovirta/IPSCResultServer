@@ -14,20 +14,24 @@
 				<h1>${match.name}</h1>
 			</div>
 			<br><br>
-			<spring:url value="results/competitorResults/${form.resultsForCompetitor}" var = "actionURL" />
-			<form action="results/competitorResults" method="get">
 				<label for="verify">Verify list: </label>
 				<br>
-				<select style="width: auto; max-width: 100%" id="verify" name="resultsForCompetitor"
+				<select style="width: auto; max-width: 100%" id="verify" name="verify"
 					class="form-control">
 					<c:forEach var="competitor" items="${competitors}">
 						<option value="${competitor.id}">${competitor.lastName} ${competitor.firstName} </option>
 					</c:forEach>
 				</select>
 				<br>
-				<button class="btn btn-large btn-primary" type="submit">Ok</button>
-			</form>
+				<button class="btn btn-large btn-primary" onclick="submit()" type="button">Ok</button>
 		</div>
 	</div>
+	<c:url var="url" value="/" />
+	
+	<script>
+		function submit() {
+				window.location.href = "${url}/match/${match.id }/competitor/" + $("select#verify").val();
+		}
+	</script>
 </body>
 </html>

@@ -23,7 +23,7 @@ public class OverAllResultsController {
 	
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
 	public String TESTgetOverallResultsForReport(Model model, @RequestParam("match") String matchId) {
-		model.addAttribute("match", matchService.findOne(matchId));
+		model.addAttribute("match", matchService.getOne(matchId));
 		return "results/overallResults";
 	}
 }

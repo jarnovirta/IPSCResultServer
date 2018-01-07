@@ -16,21 +16,24 @@
 				<h1>Result service</h1>
 			</div>
 			<br><br>
-			
-			<form action="results/mainPage" method="get">
-				<label for="selectedMatch">Choose a match: </label>
+				<label for="seletcMatch">Choose a match: </label>
 				<br>
-				<select style="width: auto; max-width: 100%" id="selectedMatch" name="match"
-					class="form-control">
+				<select style="width: auto; max-width: 100%" id="seletcMatch" class="form-control">
 					<c:forEach var="match" items="${matches}">
 						<option value="${match.id}">${match.name}</option>
 					</c:forEach>
 				</select>
 				<br>
-				<button class="btn btn-large btn-primary" type="submit">Ok</button>
-			</form>
+				<button class="btn btn-large btn-primary" onclick="submit()" type="button">Ok</button>
+			
 		</div>
 	</div>
+	<c:url var="url" value="/" />
+	<script>
+		function submit() {
+			window.location.href = "${url}/match/" + $("select#seletcMatch").val();
+		}
+	</script>
 </body>
 </html>
 

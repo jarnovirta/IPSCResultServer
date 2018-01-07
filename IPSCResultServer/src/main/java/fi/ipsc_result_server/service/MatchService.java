@@ -43,7 +43,7 @@ public class MatchService {
 		return matchRepository.findAll();
 	}
 	
-	public Match findOne(String id) {
-		return matchRepository.findOne(id);
+	public Match getOne(String id) {
+		return matchRepository.getOne(id);
 	}
 }

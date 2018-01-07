@@ -32,7 +32,7 @@ public class CompetitorService {
 		return entityManager.merge(competitor);
 	}
 	
-	public Competitor findOne(String id) {
-		return competitorRepository.findOne(id);
+	public Competitor getOne(String id) {
+		return competitorRepository.getOne(id);
 	}
 }
