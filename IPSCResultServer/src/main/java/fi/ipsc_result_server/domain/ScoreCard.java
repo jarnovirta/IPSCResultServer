@@ -2,6 +2,7 @@ package fi.ipsc_result_server.domain;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -32,7 +33,7 @@ public class ScoreCard implements Serializable {
 	
 	@JsonProperty("shtr")
 	@Column(nullable = false)
-	private String shooterId;
+	private UUID shooterId;
 	
 	@JsonProperty("mod")
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.SSS")
@@ -82,13 +83,12 @@ public class ScoreCard implements Serializable {
 	@JsonProperty("proc")
 	@JsonIgnore
 	private int proceduralPenalties;
-		
 
-	public String getShooterId() {
+	public UUID getShooterId() {
 		return shooterId;
 	}
 
-	public void setShooterId(String shooterId) {
+	public void setShooterId(UUID shooterId) {
 		this.shooterId = shooterId;
 	}
 

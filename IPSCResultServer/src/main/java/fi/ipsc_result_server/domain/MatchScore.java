@@ -2,6 +2,7 @@ package fi.ipsc_result_server.domain;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.UUID;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -29,18 +30,22 @@ public class MatchScore implements Serializable {
 	
 	@JsonProperty("match_id")
 	@Column(nullable = false)
-	private String matchId;
+	private UUID matchId;
 	
 	@JsonProperty("match_scores")
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<StageScore> stageScores;
 
-	public String getMatchId() {
+	public UUID getMatchId() {
 		return matchId;
 	}
 
-	public void setMatchId(String matchId) {
+	public void setMatchId(UUID matchId) {
 		this.matchId = matchId;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 	public List<StageScore> getStageScores() {

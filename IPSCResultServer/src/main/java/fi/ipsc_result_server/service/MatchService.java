@@ -1,6 +1,7 @@
 package fi.ipsc_result_server.service;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,7 @@ public class MatchService {
 		return matchRepository.findAll();
 	}
 	
-	public Match findOne(Long id) {
+	public Match findOne(UUID id) {
 		return matchRepository.findOne(id);
 	}
 }

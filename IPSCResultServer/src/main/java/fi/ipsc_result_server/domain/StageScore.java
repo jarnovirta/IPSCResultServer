@@ -2,6 +2,7 @@ package fi.ipsc_result_server.domain;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.UUID;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -28,7 +29,7 @@ public class StageScore implements Serializable {
 	
 	@JsonProperty("stage_uuid")
 	@Column(nullable = false)
-	private String uuid;
+	private UUID stageUuid;
 	
 	@JsonProperty("stage_number")
 	@Column(nullable = false)
@@ -38,12 +39,16 @@ public class StageScore implements Serializable {
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<ScoreCard> scoreCards;
 
-	public String getUuid() {
-		return uuid;
+	public UUID getStageUuid() {
+		return stageUuid;
 	}
 
-	public void setUuid(String uuid) {
-		this.uuid = uuid;
+	public void setStageUuid(UUID stageUuid) {
+		this.stageUuid = stageUuid;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 	public int getStageNumber() {

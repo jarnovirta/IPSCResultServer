@@ -9,23 +9,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import fi.ipsc_result_server.service.CompetitorService;
 import fi.ipsc_result_server.service.MatchService;
 
 @Controller
-@RequestMapping("/results/overall")
-public class OverAllResultsController {
+@RequestMapping("/results")
+public class MatchResultsMainPageController {
 	@Autowired
 	MatchService matchService;
 	
+	@Autowired
+	CompetitorService competitorService;
 	
-	@RequestMapping(method = RequestMethod.GET)
-	public String getOverallResultsPage() {
-		return "results/overallResults";
-	}
-	
-	@RequestMapping(value = "/test", method = RequestMethod.GET)
+	@RequestMapping(value = "/mainPage", method = RequestMethod.GET)
 	public String TESTgetOverallResultsForReport(Model model, @RequestParam("match") UUID matchId) {
 		model.addAttribute("match", matchService.findOne(matchId));
-		return "results/overallResults";
+		model.addAttribute("competitors", competitorService.findAll());
+		return "results/matchResultsMainPage";
 	}
 }

@@ -2,14 +2,16 @@ package fi.ipsc_result_server.domain;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.eclipse.persistence.annotations.UuidGenerator;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -17,6 +19,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
+@UuidGenerator(name="STAGE_ID_GEN")
 public class Stage implements Serializable {
 	
 	/**
@@ -25,12 +28,10 @@ public class Stage implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.TABLE)
-	private Long id;	
-	
 	@JsonProperty("stage_uuid")
-	@Column(nullable = false)
-	private String uuid;
+	@GeneratedValue(generator="STAGE_ID_GEN")
+	@Column(columnDefinition = "BINARY(128)")
+	private UUID uuid;
 	
 	@JsonProperty("stage_name")
 	@Column(nullable = false)
@@ -46,12 +47,17 @@ public class Stage implements Serializable {
 	@Column(nullable = false)
 	private Calendar modifiedDate;
 
-	public String getUuid() {
+
+	public UUID getUuid() {
 		return uuid;
 	}
 
-	public void setUuid(String uuid) {
+	public void setUuid(UUID uuid) {
 		this.uuid = uuid;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 	public String getName() {

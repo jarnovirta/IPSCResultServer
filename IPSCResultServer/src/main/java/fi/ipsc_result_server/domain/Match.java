@@ -2,17 +2,19 @@ package fi.ipsc_result_server.domain;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.List;
+import java.util.UUID;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.eclipse.persistence.annotations.UuidGenerator;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -21,6 +23,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
 @Table(name = "IPSCMatch")
+@UuidGenerator(name="MATCH_ID_GEN")
 public class Match implements Serializable {
 
 	/**
@@ -29,13 +32,11 @@ public class Match implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.TABLE)
-	private Long id;
-	
 	@JsonProperty("match_id")
-	@Column(nullable = false)
-	private String uuid;
-
+	@GeneratedValue(generator="MATCH_ID_GEN")
+	@Column(columnDefinition = "BINARY(128)")
+	private UUID uuid;
+	
 	@JsonProperty("match_name")
 	@Column(nullable = false)
 	private String name;
@@ -65,14 +66,7 @@ public class Match implements Serializable {
 	@JsonProperty("match_shooters")
 	@OneToMany(cascade = CascadeType.PERSIST)
 	private List<Competitor> competitors; 
-	
-	public String getUuid() {
-		return uuid;
-	}
 
-	public void setUuid(String uuid) {
-		this.uuid = uuid;
-	}
 
 	public String getName() {
 		return name;
@@ -130,12 +124,15 @@ public class Match implements Serializable {
 		this.competitors = competitors;
 	}
 
-	public Long getId() {
-		return id;
+	public UUID getUuid() {
+		return uuid;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setUuid(UUID uuid) {
+		this.uuid = uuid;
 	}
-	
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
 }

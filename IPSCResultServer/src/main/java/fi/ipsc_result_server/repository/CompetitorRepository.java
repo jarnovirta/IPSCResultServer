@@ -4,8 +4,8 @@ import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import fi.ipsc_result_server.domain.Match;
+import fi.ipsc_result_server.domain.Competitor;
 
-public interface MatchRepository extends JpaRepository<Match, UUID>{
+public interface CompetitorRepository extends JpaRepository<Competitor, UUID> {
 
 }

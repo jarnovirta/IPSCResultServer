@@ -2,14 +2,16 @@ package fi.ipsc_result_server.domain;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.eclipse.persistence.annotations.UuidGenerator;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -17,7 +19,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
-public class Competitor implements Serializable {
+@UuidGenerator(name="COMPETITOR_ID_GEN")
+public class Competitor implements Serializable, Comparable<Competitor> {
 	
 	/**
 	 * 
@@ -25,12 +28,10 @@ public class Competitor implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.TABLE)
-	private Long id;
-	
 	@JsonProperty("sh_uuid")
-	@Column(nullable = false)
-	private String uuid;
+	@GeneratedValue(generator="COMPETITOR_ID_GEN")
+	@Column(columnDefinition = "BINARY(128)")
+	private UUID uuid;
 	
 	@JsonProperty("sh_num")
 	@Column(nullable = false)
@@ -70,13 +71,26 @@ public class Competitor implements Serializable {
 	@JsonProperty("sh_pf")
 	private String powerFactor;
 
-	public String getUuid() {
+	@Override
+	public int compareTo(Competitor compareToCompetitor) {
+	    final int EQUAL = 0;
+	    
+	    if (this == compareToCompetitor) return EQUAL;
+	    int lastNameComparison = this.lastName.compareTo(compareToCompetitor.getLastName());
+	    if (lastNameComparison != EQUAL) return lastNameComparison;
+	    return this.firstName.compareTo(compareToCompetitor.getFirstName());
+	}
+	
+
+	public UUID getUuid() {
 		return uuid;
 	}
 
-	public void setUuid(String uuid) {
+
+	public void setUuid(UUID uuid) {
 		this.uuid = uuid;
 	}
+
 
 	public int getShooterNumber() {
 		return shooterNumber;
@@ -157,4 +171,9 @@ public class Competitor implements Serializable {
 	public void setPowerFactor(String powerFactor) {
 		this.powerFactor = powerFactor;
 	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+	
 }

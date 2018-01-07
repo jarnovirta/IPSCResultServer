@@ -2,9 +2,6 @@
 <!DOCTYPE html>
 
 <jsp:include page="/WEB-INF/jsp/include/headTag.jsp" />
-
-
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %> 
@@ -13,17 +10,17 @@
 	<div id="wrap">
 		<div class="container">
 			<div class="page-header">
-				<h1>Result service</h1>
+				<h1>${match.name}</h1>
 			</div>
 			<br><br>
 			
-			<form action="results/mainPage" method="get">
-				<label for="selectedMatch">Choose a match: </label>
+			<form action="results/verify" method="get">
+				<label for="verify">Verify list: </label>
 				<br>
-				<select style="width: auto; max-width: 100%" id="selectedMatch" name="match"
+				<select style="width: auto; max-width: 100%" id="verify" name="verifyForCompetitor"
 					class="form-control">
-					<c:forEach var="match" items="${matches}">
-						<option value="${match.id}">${match.name}</option>
+					<c:forEach var="competitor" items="${competitors}">
+						<option value="${competitor.id}">${competitor.lastName} ${competitor.firstName} </option>
 					</c:forEach>
 				</select>
 				<br>
@@ -33,5 +30,3 @@
 	</div>
 </body>
 </html>
-
-
