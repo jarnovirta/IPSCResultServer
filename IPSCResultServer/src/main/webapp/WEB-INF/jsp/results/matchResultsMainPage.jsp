@@ -30,7 +30,7 @@
 	
 	<script>
 		function submit() {
-				window.location.href = "${url}/match/${match.id }/competitor/" + $("select#verify").val();
+				window.location.href = "${url}match/${match.id }/competitor/" + $("select#verify").val();
 		}
 	</script>
 </body>

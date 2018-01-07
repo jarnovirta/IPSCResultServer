@@ -31,7 +31,7 @@
 	<c:url var="url" value="/" />
 	<script>
 		function submit() {
-			window.location.href = "${url}/match/" + $("select#seletcMatch").val();
+			window.location.href = "${url}match/" + $("select#seletcMatch").val();
 		}
 	</script>
 </body>
