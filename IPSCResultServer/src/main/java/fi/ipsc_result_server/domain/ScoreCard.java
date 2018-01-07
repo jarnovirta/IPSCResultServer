@@ -2,7 +2,6 @@ package fi.ipsc_result_server.domain;
 
 import java.io.Serializable;
 import java.util.Calendar;
-import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

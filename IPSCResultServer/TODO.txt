@@ -1,4 +1,4 @@
 - Olettama ett‰ kisa luotu yhdell‰ laitteella -> uuid k‰y erottamaan kisat
 - No penalty miss: lasketaanko misseihin vai j‰tet‰‰n huomiotta?
-- Tarkista UUID tietokantatallennus: mink‰ kokoinen ja oonko muunnos merkkijonosta oikein?
+- Luokkien ID-numerot: UUID vai String?
 - Siisti service ja repository-luokat. Tee entitymanager factory ja siirr‰ koodit omiin serviceihin ja repoihin.

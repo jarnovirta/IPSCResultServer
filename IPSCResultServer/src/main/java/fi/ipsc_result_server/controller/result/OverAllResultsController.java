@@ -1,7 +1,5 @@
 package fi.ipsc_result_server.controller.result;
 
-import java.util.UUID;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

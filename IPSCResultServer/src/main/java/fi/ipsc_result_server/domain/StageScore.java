@@ -2,7 +2,6 @@ package fi.ipsc_result_server.domain;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.UUID;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -29,7 +28,7 @@ public class StageScore implements Serializable {
 	
 	@JsonProperty("stage_uuid")
 	@Column(nullable = false)
-	private String stageId;
+	private String stageId;	
 	
 	@JsonProperty("stage_number")
 	@Column(nullable = false)
