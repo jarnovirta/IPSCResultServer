@@ -33,7 +33,7 @@ public class ScoreCard implements Serializable {
 	
 	@JsonProperty("shtr")
 	@Column(nullable = false)
-	private UUID shooterId;
+	private String shooterId;
 	
 	@JsonProperty("mod")
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.SSS")
@@ -84,11 +84,11 @@ public class ScoreCard implements Serializable {
 	@JsonIgnore
 	private int proceduralPenalties;
 
-	public UUID getShooterId() {
+	public String getShooterId() {
 		return shooterId;
 	}
 
-	public void setShooterId(UUID shooterId) {
+	public void setShooterId(String shooterId) {
 		this.shooterId = shooterId;
 	}
 

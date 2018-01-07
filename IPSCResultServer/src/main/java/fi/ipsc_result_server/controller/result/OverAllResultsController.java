@@ -24,7 +24,7 @@ public class OverAllResultsController {
 	}
 	
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
-	public String TESTgetOverallResultsForReport(Model model, @RequestParam("match") UUID matchId) {
+	public String TESTgetOverallResultsForReport(Model model, @RequestParam("match") String matchId) {
 		model.addAttribute("match", matchService.findOne(matchId));
 		return "results/overallResults";
 	}

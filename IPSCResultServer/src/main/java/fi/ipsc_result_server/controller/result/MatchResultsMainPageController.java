@@ -22,7 +22,7 @@ public class MatchResultsMainPageController {
 	CompetitorService competitorService;
 	
 	@RequestMapping(value = "/mainPage", method = RequestMethod.GET)
-	public String TESTgetOverallResultsForReport(Model model, @RequestParam("match") UUID matchId) {
+	public String TESTgetOverallResultsForReport(Model model, @RequestParam("match") String matchId) {
 		model.addAttribute("match", matchService.findOne(matchId));
 		model.addAttribute("competitors", competitorService.findAll());
 		return "results/matchResultsMainPage";

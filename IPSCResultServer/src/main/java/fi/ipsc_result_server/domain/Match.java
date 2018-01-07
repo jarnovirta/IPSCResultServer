@@ -34,8 +34,7 @@ public class Match implements Serializable {
 	@Id
 	@JsonProperty("match_id")
 	@GeneratedValue(generator="MATCH_ID_GEN")
-	@Column(columnDefinition = "BINARY(128)")
-	private UUID uuid;
+	private String id;
 	
 	@JsonProperty("match_name")
 	@Column(nullable = false)
@@ -60,11 +59,11 @@ public class Match implements Serializable {
 	private List<String> divisions;
 	
 	@JsonProperty("match_stages")
-	@OneToMany(cascade = CascadeType.PERSIST)
+	@OneToMany(cascade = CascadeType.MERGE)
 	private List<Stage> stages;
 	
 	@JsonProperty("match_shooters")
-	@OneToMany(cascade = CascadeType.PERSIST)
+	@OneToMany(cascade = CascadeType.REMOVE)
 	private List<Competitor> competitors; 
 
 
@@ -124,12 +123,12 @@ public class Match implements Serializable {
 		this.competitors = competitors;
 	}
 
-	public UUID getUuid() {
-		return uuid;
+	public String getId() {
+		return id;
 	}
 
-	public void setUuid(UUID uuid) {
-		this.uuid = uuid;
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public static long getSerialversionuid() {

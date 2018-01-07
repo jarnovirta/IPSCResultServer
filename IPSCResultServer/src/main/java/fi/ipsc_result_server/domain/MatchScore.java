@@ -30,17 +30,18 @@ public class MatchScore implements Serializable {
 	
 	@JsonProperty("match_id")
 	@Column(nullable = false)
-	private UUID matchId;
+	private String matchId;
 	
 	@JsonProperty("match_scores")
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<StageScore> stageScores;
 
-	public UUID getMatchId() {
+
+	public String getMatchId() {
 		return matchId;
 	}
 
-	public void setMatchId(UUID matchId) {
+	public void setMatchId(String matchId) {
 		this.matchId = matchId;
 	}
 

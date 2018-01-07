@@ -30,8 +30,7 @@ public class Stage implements Serializable {
 	@Id
 	@JsonProperty("stage_uuid")
 	@GeneratedValue(generator="STAGE_ID_GEN")
-	@Column(columnDefinition = "BINARY(128)")
-	private UUID uuid;
+	private String id;
 	
 	@JsonProperty("stage_name")
 	@Column(nullable = false)
@@ -47,13 +46,12 @@ public class Stage implements Serializable {
 	@Column(nullable = false)
 	private Calendar modifiedDate;
 
-
-	public UUID getUuid() {
-		return uuid;
+	public String getId() {
+		return id;
 	}
 
-	public void setUuid(UUID uuid) {
-		this.uuid = uuid;
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public static long getSerialversionuid() {
@@ -83,7 +81,4 @@ public class Stage implements Serializable {
 	public void setModifiedDate(Calendar modifiedDate) {
 		this.modifiedDate = modifiedDate;
 	}
-
-	
-	
 }

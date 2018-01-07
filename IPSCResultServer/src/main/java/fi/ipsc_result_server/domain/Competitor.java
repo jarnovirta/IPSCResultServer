@@ -2,7 +2,6 @@ package fi.ipsc_result_server.domain;
 
 import java.io.Serializable;
 import java.util.Calendar;
-import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -30,8 +29,7 @@ public class Competitor implements Serializable, Comparable<Competitor> {
 	@Id
 	@JsonProperty("sh_uuid")
 	@GeneratedValue(generator="COMPETITOR_ID_GEN")
-	@Column(columnDefinition = "BINARY(128)")
-	private UUID uuid;
+	private String id;
 	
 	@JsonProperty("sh_num")
 	@Column(nullable = false)
@@ -82,13 +80,13 @@ public class Competitor implements Serializable, Comparable<Competitor> {
 	}
 	
 
-	public UUID getUuid() {
-		return uuid;
+	public String getId() {
+		return id;
 	}
 
 
-	public void setUuid(UUID uuid) {
-		this.uuid = uuid;
+	public void setId(String id) {
+		this.id = id;
 	}
 
 

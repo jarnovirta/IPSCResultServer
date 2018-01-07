@@ -29,7 +29,7 @@ public class StageScore implements Serializable {
 	
 	@JsonProperty("stage_uuid")
 	@Column(nullable = false)
-	private UUID stageUuid;
+	private String stageId;
 	
 	@JsonProperty("stage_number")
 	@Column(nullable = false)
@@ -39,12 +39,14 @@ public class StageScore implements Serializable {
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<ScoreCard> scoreCards;
 
-	public UUID getStageUuid() {
-		return stageUuid;
+
+
+	public String getStageId() {
+		return stageId;
 	}
 
-	public void setStageUuid(UUID stageUuid) {
-		this.stageUuid = stageUuid;
+	public void setStageId(String stageId) {
+		this.stageId = stageId;
 	}
 
 	public static long getSerialversionuid() {
