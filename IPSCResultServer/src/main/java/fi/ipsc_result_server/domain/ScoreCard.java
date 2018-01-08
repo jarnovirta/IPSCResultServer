@@ -14,6 +14,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -90,11 +92,21 @@ public class ScoreCard implements Serializable {
 	private int noshootHits;
 	
 	@JsonProperty("proc")
-	@JsonIgnore
 	private int proceduralPenalties;
+	
+	@JsonIgnore
+	private double hitFactor;
 
-//	@ManyToOne(cascade = CascadeType.MERGE)
 	private StageScore stageScore;
+	
+	@JsonIgnore
+	private int stageScorePercentage;
+	
+	@JsonIgnore
+	private int stagePoints;
+	
+	@JsonIgnore
+	private int stageRank;
 	
 	public String getShooterId() {
 		return competitorId;
@@ -280,4 +292,37 @@ public class ScoreCard implements Serializable {
 	public void setStageId(String stageId) {
 		this.stageId = stageId;
 	}
+
+	public double getHitFactor() {
+		return hitFactor;
+	}
+
+	public void setHitFactor(double hitFactor) {
+		this.hitFactor = hitFactor;
+	}
+
+	public int getStageScorePercentage() {
+		return stageScorePercentage;
+	}
+
+	public void setStageScorePercentage(int stageScorePercentage) {
+		this.stageScorePercentage = stageScorePercentage;
+	}
+
+	public int getStagePoints() {
+		return stagePoints;
+	}
+
+	public void setStagePoints(int stagePoints) {
+		this.stagePoints = stagePoints;
+	}
+
+	public int getStageRank() {
+		return stageRank;
+	}
+
+	public void setStageRank(int stageRank) {
+		this.stageRank = stageRank;
+	}
+	
 }

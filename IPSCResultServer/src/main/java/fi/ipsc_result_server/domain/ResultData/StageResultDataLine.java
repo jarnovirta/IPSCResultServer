@@ -2,10 +2,16 @@ package fi.ipsc_result_server.domain.ResultData;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+
+import fi.ipsc_result_server.domain.Competitor;
+import fi.ipsc_result_server.domain.ScoreCard;
 
 @Entity
 public class StageResultDataLine implements Serializable {
@@ -15,8 +21,19 @@ public class StageResultDataLine implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.TABLE)
-	Long id;
+	private Long id;
 
+	@ManyToOne(cascade = CascadeType.MERGE)
+	private StageResultData stageResultData;
+	
+	@ManyToOne(cascade = CascadeType.MERGE)
+	private Competitor competitor;
+	private int stageScorePercentage;
+	private int stagePoints;
+	private int stageRank;
+	@OneToOne(cascade = CascadeType.MERGE)
+	private ScoreCard scoreCard;
+	
 	public Long getId() {
 		return id;
 	}
@@ -24,4 +41,57 @@ public class StageResultDataLine implements Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
+
+	public Competitor getCompetitor() {
+		return competitor;
+	}
+
+	public void setCompetitor(Competitor competitor) {
+		this.competitor = competitor;
+	}
+
+	public int getStageScorePercentage() {
+		return stageScorePercentage;
+	}
+
+	public void setStageScorePercentage(int stageScorePercentage) {
+		this.stageScorePercentage = stageScorePercentage;
+	}
+
+	public int getStagePoints() {
+		return stagePoints;
+	}
+
+	public void setStagePoints(int stagePoints) {
+		this.stagePoints = stagePoints;
+	}
+
+	public int getStageRank() {
+		return stageRank;
+	}
+
+	public void setStageRank(int stageRank) {
+		this.stageRank = stageRank;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public StageResultData getStageResultData() {
+		return stageResultData;
+	}
+
+	public void setStageResultData(StageResultData stageResultData) {
+		this.stageResultData = stageResultData;
+	}
+
+	public ScoreCard getScoreCard() {
+		return scoreCard;
+	}
+
+	public void setScoreCard(ScoreCard scoreCard) {
+		this.scoreCard = scoreCard;
+	}
+	
 }
