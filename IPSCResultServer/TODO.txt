@@ -1,4 +1,8 @@
-- Olettama ett‰ kisa luotu yhdell‰ laitteella -> uuid k‰y erottamaan kisat
-- No penalty miss: lasketaanko misseihin vai j‰tet‰‰n huomiotta?
+- Olettama ett√§ kisa luotu yhdell√§ laitteella -> uuid k√§y erottamaan kisat
+- No penalty miss: lasketaanko misseihin vai j√§tet√§√§n huomiotta?
 - Luokkien ID-numerot: UUID vai String?
-- Siisti service ja repository-luokat. Tee entitymanager factory ja siirr‰ koodit omiin serviceihin ja repoihin.
+- Siisti service ja repository-luokat. Tee entitymanager factory ja siirr√§ koodit omiin serviceihin ja repoihin.
+- Poista JsonIgnore:
+	@JsonProperty("proc")
+	@JsonIgnore
+private int proceduralPenalties;
