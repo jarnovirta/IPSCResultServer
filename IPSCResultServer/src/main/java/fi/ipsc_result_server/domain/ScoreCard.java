@@ -170,18 +170,14 @@ public class ScoreCard implements Serializable {
 		this.misses = 0;
 		int missesBitShift = 20;
 		
-		int aHitsBitMask = 0xF;
-		int cHitsBitMask = 0xF00;
-		int dHitsBitMask = 0xF000;
-		int noshootHitsBitMask = 0xF0000;
-		int missBitMask = 0xF00000;
-				
+		int bitMask = 0xF;
+
 		for (int hits : paperTargetHits) {
-			this.aHits += hits & aHitsBitMask;
-			this.cHits += (hits & cHitsBitMask) >> cHitsBitShift;
-			this.dHits += (hits & dHitsBitMask) >> dHitsBitShift;
-			this.noshootHits += (hits & noshootHitsBitMask) >> noshootHitsBitShift;
-			this.misses += (hits & missBitMask) >> missesBitShift;
+			this.aHits += hits & bitMask;
+			this.cHits += (hits >> cHitsBitShift) & bitMask;
+			this.dHits += (hits >> dHitsBitShift) & bitMask;
+			this.noshootHits += (hits >> noshootHitsBitShift) & bitMask;
+			this.misses += (hits >> missesBitShift) & bitMask;
 		}
 	}
 
