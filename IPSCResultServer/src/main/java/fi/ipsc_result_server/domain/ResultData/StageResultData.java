@@ -24,10 +24,10 @@ public class StageResultData implements Serializable {
 	@GeneratedValue(strategy = GenerationType.TABLE)
 	private Long id;
 	
-	@ManyToOne(cascade = CascadeType.MERGE)
+	@ManyToOne
 	private Stage stage;
 	
-	@OneToMany(mappedBy = "stageResultData", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "stageResultData", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<StageResultDataLine> dataLines;
 
 	public StageResultData() { }

@@ -5,7 +5,9 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderColumn;
@@ -51,16 +53,16 @@ public class Match implements Serializable {
 	private Calendar modifiedDate;
 
 	@JsonProperty("match_cats")
-	@Column(nullable = false)
+	@ElementCollection
 	private List<String> divisions;
 	
 	@JsonProperty("match_stages")
-	@OneToMany(mappedBy = "match", cascade = CascadeType.MERGE)
+	@OneToMany(mappedBy = "match", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	@OrderColumn
 	private List<Stage> stages;
 	
 	@JsonProperty("match_shooters")
-	@OneToMany(cascade = CascadeType.REMOVE)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	private List<Competitor> competitors; 
 
 

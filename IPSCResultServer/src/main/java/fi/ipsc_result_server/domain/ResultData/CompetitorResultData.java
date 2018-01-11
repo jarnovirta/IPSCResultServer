@@ -4,17 +4,16 @@ import java.io.Serializable;
 import java.util.Map;
 
 import javax.persistence.CascadeType;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import fi.ipsc_result_server.domain.Competitor;
 import fi.ipsc_result_server.domain.Match;
 import fi.ipsc_result_server.domain.ScoreCard;
-import fi.ipsc_result_server.domain.Stage;
 
 @Entity
 public class CompetitorResultData implements Serializable {
@@ -27,14 +26,14 @@ public class CompetitorResultData implements Serializable {
 	@GeneratedValue(strategy = GenerationType.TABLE)
 	private Long id;
 
-	@ManyToOne(cascade = CascadeType.MERGE)
+	@ManyToOne
 	private Match match; 
 	
-	@ManyToOne(cascade = CascadeType.MERGE)
+	@ManyToOne
 	private Competitor competitor;
 	
-	@ElementCollection
-	private Map<Stage, ScoreCard> scoreCards;
+	// ScoreCard instances mapped to Stage id's
+	private Map<String, ScoreCard> scoreCards; 
 
 	
 	public Long getId() {
@@ -45,11 +44,11 @@ public class CompetitorResultData implements Serializable {
 		this.id = id;
 	}
 
-	public Map<Stage, ScoreCard> getScoreCards() {
+	public Map<String, ScoreCard> getScoreCards() {
 		return scoreCards;
 	}
 
-	public void setScoreCards(Map<Stage, ScoreCard> scoreCards) {
+	public void setScoreCards(Map<String, ScoreCard> scoreCards) {
 		this.scoreCards = scoreCards;
 	}
 

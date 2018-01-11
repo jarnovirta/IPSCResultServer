@@ -3,12 +3,12 @@ package fi.ipsc_result_server.domain;
 import java.io.Serializable;
 import java.util.Calendar;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -38,10 +38,12 @@ public class ScoreCard implements Serializable, Comparable<ScoreCard> {
 	@Column(nullable = false, length = 36)
 	private String competitorId;
 	
-	@ManyToOne(cascade = CascadeType.MERGE)
+	@ManyToOne
+	@JoinColumn(nullable = false)
 	private Competitor competitor;
 	
-	@ManyToOne(cascade = CascadeType.MERGE)
+	@ManyToOne
+	@JoinColumn
 	private Stage stage;
 	
 	private String stageId;
@@ -102,6 +104,7 @@ public class ScoreCard implements Serializable, Comparable<ScoreCard> {
 	@Column(nullable = false)
 	private double hitFactor;
 
+	@JsonIgnore
 	private StageScore stageScore;
 	
 	@JsonIgnore

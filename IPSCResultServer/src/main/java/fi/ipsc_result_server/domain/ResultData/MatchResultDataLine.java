@@ -1,6 +1,5 @@
 package fi.ipsc_result_server.domain.ResultData;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,10 +14,10 @@ public class MatchResultDataLine {
 	@GeneratedValue(strategy = GenerationType.TABLE)
 	private Long id;
 	
-	@ManyToOne(cascade = CascadeType.MERGE)
+	@ManyToOne
 	private MatchResultData matchResultData;
 	
-	@ManyToOne(cascade = CascadeType.MERGE)
+	@ManyToOne
 	private Competitor competitor;
 	
 	private int matchScorePercentage;

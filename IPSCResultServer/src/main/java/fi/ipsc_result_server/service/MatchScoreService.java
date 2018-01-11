@@ -44,12 +44,10 @@ public class MatchScoreService {
 	public void save(MatchScore matchScore) {
 		List<Stage> stagesWithNewResults = new ArrayList<Stage>();
 		deleteMatchResultListing(matchScore.getMatchId());
-		System.out.println("*** STARTING MATCHSCORE SAVE");
 		for (StageScore stageScore : matchScore.getStageScores()) {
 			Stage stage = stageService.getOne(stageScore.getStageId());
 			stagesWithNewResults.add(stage);
 			stageScoreService.deleteStageResultListing(stage.getId());
-			System.out.println("**** DONE DELETING StageResultListing");
 			for (ScoreCard scoreCard : stageScore.getScoreCards()) {
 				scoreCard.setStage(stage);
 				scoreCard.setStageId(stage.getId());
@@ -63,7 +61,6 @@ public class MatchScoreService {
 				scoreCardService.save(scoreCard);
 			}
 		}
-		System.out.println(stagesWithNewResults.size() + " STAGES WITH NEW RESULTS. GENERATING STAGE RESULT LISTINGS...");
 		if (stagesWithNewResults.size() > 0) {
 			for (Stage stageWithNewResults : stagesWithNewResults) {
 				stageScoreService.generateStageResultsListing(stageWithNewResults);
@@ -75,8 +72,6 @@ public class MatchScoreService {
 	
 	@Transactional
 	private void removeOldScoreCard(ScoreCard scoreCard) {
-		System.out.println("**** REMOVING OLD SCORECARDS for scorecard with match id " + scoreCard.getStage().getMatch().getId() + 
-				" AND stage id " + scoreCard.getStage().getId() + " AND competitor id ");
 		try {
 			String queryString = "SELECT s FROM ScoreCard s WHERE s.stage.match.id = :matchId AND s.stage.id = :stageId "
 					+ "AND s.competitor.id = :competitorId AND s.modified <= :modified";

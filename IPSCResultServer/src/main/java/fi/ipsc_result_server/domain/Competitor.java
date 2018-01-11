@@ -74,7 +74,6 @@ public class Competitor implements Serializable, Comparable<Competitor> {
 	    if (lastNameComparison != EQUAL) return lastNameComparison;
 	    return this.firstName.compareTo(compareToCompetitor.getFirstName());
 	}
-	
 
 	public String getId() {
 		return id;

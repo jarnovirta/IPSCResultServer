@@ -3,10 +3,10 @@ package fi.ipsc_result_server.domain;
 import java.io.Serializable;
 import java.util.Calendar;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -26,11 +26,13 @@ public class Stage implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@JsonProperty("stage_uuid")
 	@Column(length = 36)
 	private String id;
 	
 	@JsonIgnore
-	@ManyToOne(cascade = CascadeType.MERGE)
+	@ManyToOne
+	@JoinColumn(nullable = false)
 	private Match match;
 	
 
@@ -91,7 +93,6 @@ public class Stage implements Serializable {
 	public void setMatch(Match match) {
 		this.match = match;
 	}
-	
 	
 	@Override
 	public int hashCode() {

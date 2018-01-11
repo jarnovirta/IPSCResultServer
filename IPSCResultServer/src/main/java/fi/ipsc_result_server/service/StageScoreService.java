@@ -46,28 +46,22 @@ public class StageScoreService {
 	
 	@Transactional
 	public void generateStageResultsListing(Stage stage) {
-		System.out.println("*** REMOVING OLD STAGE RESULT LISTING");
 		removeOldStageResultListing(stage);
-		System.out.println("*** REMOVE DONE");
 		StageResultData stageResultData = new StageResultData(stage);
 		stageResultData.setDataLines(new ArrayList<StageResultDataLine>());
 		List<ScoreCard> scoreCards = scoreCardService.findScoreCardsByStage(stage.getId());
 		Collections.sort(scoreCards);
-		System.out.println("*** SORTED SCORE CARDS HFS: ");
 		
 		for (ScoreCard scoreCard : scoreCards) {
-			System.out.println(scoreCard.getHitFactor());
 			StageResultDataLine resultDataLine = new StageResultDataLine();
 			resultDataLine.setScoreCard(scoreCard);
 			resultDataLine.setCompetitor(scoreCard.getCompetitor());
 			stageResultData.getDataLines().add(resultDataLine);
 		}
-		System.out.println("*** PERSISTING STAGE RESULT LISTING ");
 		entityManager.persist(stageResultData);
 	}
 	@Transactional
 	private void removeOldStageResultListing(Stage stage) {
-		System.out.println("*** REMOVING OLD STAGE RESULT LISTINGS " );
 		try {
 			String queryString = "SELECT s FROM StageResultData s WHERE s.stage.match.id = :matchId AND s.stage.id = :stageId";
 			TypedQuery<StageResultData> query = entityManager.createQuery(queryString, StageResultData.class);
@@ -76,9 +70,7 @@ public class StageScoreService {
 			List<StageResultData> oldStageResultListings = query.getResultList();
 			
 			if (oldStageResultListings != null) {
-				System.out.println("**** Found " + oldStageResultListings.size() + " old cards to remove. Removing...");
 				resultDataService.deleteStageResultListingsInBatch(oldStageResultListings);
-				System.out.println("**** Done removing.");
 			}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -87,12 +79,10 @@ public class StageScoreService {
 	@Transactional
 	public void deleteStageResultListing(String stageId) {
 		try {
-			System.out.println("DELETING STAGE RESLUT LISTING FOR STAGE ID : " + stageId);
 			String queryString = "SELECT s FROM StageResultData s WHERE s.stage.id = :stageId";
 			TypedQuery<StageResultData> query = entityManager.createQuery(queryString, StageResultData.class);
 			query.setParameter("stageId", stageId);
 			List<StageResultData> resultData = query.getResultList();
-			System.out.println("*** FOUND : " + resultData.size());
 			for (StageResultData data : resultData) {
 				stageResultDataLineRepository.deleteInBatch(data.getDataLines());
 				stageResultDataRepository.delete(data);
