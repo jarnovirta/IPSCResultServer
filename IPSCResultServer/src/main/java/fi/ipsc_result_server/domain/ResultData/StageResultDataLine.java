@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
@@ -31,6 +32,7 @@ public class StageResultDataLine implements Serializable {
 	private int stageScorePercentage;
 	private int stagePoints;
 	private int stageRank;
+	
 	@OneToOne(cascade = CascadeType.MERGE)
 	private ScoreCard scoreCard;
 	

@@ -15,6 +15,38 @@
 				<h1>Results for ${resultData.competitor.firstName } ${resultData.competitor.lastName }</h1>
 			</div>
 			<br><br>
+			<div class="panel panel-info">
+			  <div class="panel-heading">Competitor verification list - {resultData.match.name } (${resultData.match.date })</div>
+			  	<div class="panel-body">
+				  	<div class="verifyPageInfoTable">
+					    <div class="verifyPageInfoTableLeft">
+					        <table>
+					        	<tr>
+					        		<td>
+					        		
+					        		</td>
+					        		<td>
+					        		
+					        		</td>
+					        	</tr>
+								<tr>
+					        		<td>
+					        		
+					        		</td>
+					        		<td>
+					        		
+					        		</td>
+					        	</tr>						        	
+					        </table> 
+					    </div>
+					    <div class="verifyPageInfoTableRight">   
+					       Content of the second column. 
+					    </div>        
+					</div>
+				</div>
+			</div>
+
+			<br>
 			<table class="table table-striped">
 				<tr>
 					<th>#</th>

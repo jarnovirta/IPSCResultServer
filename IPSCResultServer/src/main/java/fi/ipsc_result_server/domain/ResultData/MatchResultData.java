@@ -30,6 +30,12 @@ public class MatchResultData implements Serializable {
 	@OneToMany(mappedBy = "matchResultData", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<MatchResultDataLine> dataLines;
 	
+	public MatchResultData() { }
+	
+	public MatchResultData(Match match) {
+		this.match = match;
+	}
+	
 	public Long getId() {
 		return id;
 	}

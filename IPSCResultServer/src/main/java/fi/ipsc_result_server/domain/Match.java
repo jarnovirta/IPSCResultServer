@@ -6,15 +6,12 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
-import org.eclipse.persistence.annotations.UuidGenerator;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -23,7 +20,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
 @Table(name = "IPSCMatch")
-@UuidGenerator(name="MATCH_ID_GEN")
 public class Match implements Serializable {
 
 	/**
@@ -33,7 +29,6 @@ public class Match implements Serializable {
 
 	@Id
 	@JsonProperty("match_id")
-	@GeneratedValue(generator="MATCH_ID_GEN")
 	@Column(length = 36)
 	private String id;
 	

@@ -30,6 +30,11 @@ public class StageResultData implements Serializable {
 	@OneToMany(mappedBy = "stageResultData", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<StageResultDataLine> dataLines;
 
+	public StageResultData() { }
+	
+	public StageResultData(Stage stage) { 
+		this.stage = stage;
+	}
 	public Long getId() {
 		return id;
 	}

@@ -5,12 +5,9 @@ import java.util.Calendar;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
-import org.eclipse.persistence.annotations.UuidGenerator;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -18,7 +15,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
-@UuidGenerator(name="COMPETITOR_ID_GEN")
 public class Competitor implements Serializable, Comparable<Competitor> {
 	
 	/**
@@ -28,7 +24,6 @@ public class Competitor implements Serializable, Comparable<Competitor> {
 
 	@Id
 	@JsonProperty("sh_uuid")
-	@GeneratedValue(generator="COMPETITOR_ID_GEN")
 	@Column(length = 36)
 	private String id;
 	

@@ -6,13 +6,10 @@ import java.util.Calendar;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
-import org.eclipse.persistence.annotations.UuidGenerator;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -21,7 +18,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
-@UuidGenerator(name="STAGE_ID_GEN")
 public class Stage implements Serializable {
 	
 	/**
@@ -30,15 +26,14 @@ public class Stage implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@JsonProperty("stage_uuid")
-	@GeneratedValue(generator="STAGE_ID_GEN")
 	@Column(length = 36)
 	private String id;
 	
-	@ManyToOne(cascade = CascadeType.MERGE)
 	@JsonIgnore
+	@ManyToOne(cascade = CascadeType.MERGE)
 	private Match match;
 	
+
 	@JsonProperty("stage_name")
 	@Column(nullable = false)
 	private String name;
@@ -97,4 +92,30 @@ public class Stage implements Serializable {
 		this.match = match;
 	}
 	
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Stage other = (Stage) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
+
 }

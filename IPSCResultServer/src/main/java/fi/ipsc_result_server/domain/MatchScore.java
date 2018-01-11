@@ -13,20 +13,12 @@ public class MatchScore implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
-//	@Id
-//	@GeneratedValue(strategy = GenerationType.TABLE)
-	private Long id;
 	
-	@JsonProperty("match_id")
-//	@Column(nullable = false, length = 36)
 	private String matchId;
-	
-//	@OneToOne(cascade = CascadeType.MERGE)
+
 	private Match match;
 	
 	@JsonProperty("match_scores")
-//	@OneToMany(mappedBy = "matchScore", cascade = CascadeType.ALL)
 	private List<StageScore> stageScores;
 
 	public String getMatchId() {
@@ -47,14 +39,6 @@ public class MatchScore implements Serializable {
 
 	public void setStageScores(List<StageScore> stageScores) {
 		this.stageScores = stageScores;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public Match getMatch() {

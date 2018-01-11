@@ -14,16 +14,16 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import fi.ipsc_result_server.util.DataFormatUtils;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
-public class ScoreCard implements Serializable {
+public class ScoreCard implements Serializable, Comparable<ScoreCard> {
 	
 	/**
 	 * 
@@ -52,6 +52,8 @@ public class ScoreCard implements Serializable {
 	@Column(nullable = false)
 	private Calendar modified;
 	
+//	private String formattedModifiedDate;
+	
 	@JsonProperty("popm")
 	@Column(nullable = false)
 	private int popperMisses;
@@ -69,8 +71,10 @@ public class ScoreCard implements Serializable {
 	private int points;
 	
 	@JsonProperty("str")
+	private double[] stringTimes;
+	
 	@Column(nullable = false)
-	private double[] time;
+	private double time;
 	
 	@JsonProperty("ts")
 	@Transient
@@ -95,6 +99,7 @@ public class ScoreCard implements Serializable {
 	private int proceduralPenalties;
 	
 	@JsonIgnore
+	@Column(nullable = false)
 	private double hitFactor;
 
 	private StageScore stageScore;
@@ -108,6 +113,13 @@ public class ScoreCard implements Serializable {
 	@JsonIgnore
 	private int stageRank;
 	
+	@Override
+	public int compareTo(ScoreCard compareToScoreCard) {
+	    final int EQUAL = 0;
+	    
+	    if (this == compareToScoreCard) return EQUAL;
+	    return new Double(compareToScoreCard.getHitFactor()).compareTo(new Double(this.hitFactor));
+	}
 	public String getShooterId() {
 		return competitorId;
 	}
@@ -122,6 +134,8 @@ public class ScoreCard implements Serializable {
 
 	public void setModified(Calendar modified) {
 		this.modified = modified;
+//		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//		this.formattedModifiedDate = format.format(modified);
 	}
 
 	public int getPopperMisses() {
@@ -156,11 +170,11 @@ public class ScoreCard implements Serializable {
 		this.points = points;
 	}
 
-	public double[] getTime() {
+	public double getTime() {
 		return time;
 	}
 
-	public void setTime(double[] time) {
+	public void setTime(double time) {
 		this.time = time;
 	}
 
@@ -324,5 +338,17 @@ public class ScoreCard implements Serializable {
 	public void setStageRank(int stageRank) {
 		this.stageRank = stageRank;
 	}
-	
+
+	public double[] getStringTimes() {
+		return stringTimes;
+	}
+
+	public void setStringTimes(double[] stringTimes) {
+		if (stringTimes != null && stringTimes.length > 0) {
+			this.time = DataFormatUtils.round(stringTimes[0], 2);
+		}
+		this.stringTimes = stringTimes;
+		
+	}
+
 }

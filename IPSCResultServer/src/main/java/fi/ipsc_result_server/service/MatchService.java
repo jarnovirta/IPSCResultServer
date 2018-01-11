@@ -24,8 +24,12 @@ public class MatchService {
 	@Autowired
 	CompetitorRepository competitorRepository;
 	
+	@Autowired
+	ResultDataService resultDataService;
+	
 	@Transactional
 	public Match save(Match match) {
+		System.out.println("*** Merging match");
 		return entityManager.merge(match);
 	}
 	

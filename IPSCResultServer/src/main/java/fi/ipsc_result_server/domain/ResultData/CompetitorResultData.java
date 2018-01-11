@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import fi.ipsc_result_server.domain.Competitor;
 import fi.ipsc_result_server.domain.Match;
 import fi.ipsc_result_server.domain.ScoreCard;
 import fi.ipsc_result_server.domain.Stage;
@@ -28,6 +29,9 @@ public class CompetitorResultData implements Serializable {
 
 	@ManyToOne(cascade = CascadeType.MERGE)
 	private Match match; 
+	
+	@ManyToOne(cascade = CascadeType.MERGE)
+	private Competitor competitor;
 	
 	@ElementCollection
 	private Map<Stage, ScoreCard> scoreCards;
@@ -59,6 +63,14 @@ public class CompetitorResultData implements Serializable {
 
 	public void setMatch(Match match) {
 		this.match = match;
+	}
+
+	public Competitor getCompetitor() {
+		return competitor;
+	}
+
+	public void setCompetitor(Competitor competitor) {
+		this.competitor = competitor;
 	}
 	
 }
