@@ -4,8 +4,11 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.TemporalType;
 import javax.persistence.TypedQuery;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +23,8 @@ public class ScoreCardService {
 	
 	@PersistenceContext
 	EntityManager entityManager;
+	
+	final static Logger logger = Logger.getLogger(ScoreCardService.class);
 	
 	@Transactional
 	public ScoreCard save(ScoreCard scoreCard) {
@@ -54,6 +59,23 @@ public class ScoreCardService {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
+		}
+	}
+	
+	@Transactional
+	public void removeOldScoreCard(ScoreCard scoreCard) {
+		try {
+			String queryString = "DELETE FROM ScoreCard s WHERE s.stage.match.id = :matchId AND s.stage.id = :stageId "
+					+ "AND s.competitor.id = :competitorId AND s.modified <= :modified";
+			Query query = entityManager.createQuery(queryString);
+			query.setParameter("matchId", scoreCard.getStage().getMatch().getId());
+			query.setParameter("stageId", scoreCard.getStage().getId());
+			query.setParameter("competitorId", scoreCard.getCompetitor().getId());
+			query.setParameter("modified", scoreCard.getModified(), TemporalType.TIMESTAMP);
+			query.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 }

@@ -7,3 +7,5 @@
 	@JsonIgnore
 private int proceduralPenalties;
 - korjaa c:url tägi javascriptiksi (location.pathname)
+
+- exception handling

@@ -2,7 +2,6 @@ package fi.ipsc_result_server.domain.ResultData;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -35,7 +34,7 @@ public class StageResultDataLine implements Serializable {
 	
 	private int stageRank;
 		
-	@OneToOne(cascade = CascadeType.MERGE)
+	@OneToOne
 	private ScoreCard scoreCard;
 	
 	public Long getId() {

@@ -3,13 +3,11 @@ package fi.ipsc_result_server.domain.ResultData;
 import java.io.Serializable;
 import java.util.Map;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
 import fi.ipsc_result_server.domain.Competitor;
 import fi.ipsc_result_server.domain.Match;
