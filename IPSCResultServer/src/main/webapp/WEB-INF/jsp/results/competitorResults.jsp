@@ -111,49 +111,73 @@
 			<br>
 			<table class="table table-striped">
 				<tr>
-					<th>#</th>
+					<th><p>#</p></th>
 					<th>
-						Stage
+						<p>Stage</p>
 					</th>
 					<th>
-						A
+						<p>Time</p>
 					</th>
 					<th>
-						C
+						<p>A</p>
 					</th>
 					<th>
-						D
+						<p>C</p>
 					</th>
 					<th>
-						Miss
+						<p>D</p>
 					</th>
 					<th>
-						NS
+						<p>Miss</p>
+					</th>
+					<th>
+						<p>NS</p>
+					</th>
+					<th>
+						<p>Proc.</p>
+					</th>
+					<th>
+						<p>Last updated</p>
+					</th>
+					<th>
+						<p>Rank</p>
 					</th>
 				</tr>
 				<c:forEach var="stage" items="${resultData.match.stages}">
 					<c:set var="scoreCard" value="${resultData.scoreCards[stage.id] }" />
 						<tr>
 							<td>
-								${scoreCard.stage.stageNumber }
+								<p>${scoreCard.stage.stageNumber }</p>
 							</td>
 							<td>
-								${scoreCard.stage.name}
+								<p>${scoreCard.stage.name}</p>
 							</td>
 							<td>
-								${scoreCard.aHits}
+								<p><fmt:formatNumber type = "number" minFractionDigits = "2" value="${scoreCard.roundedTime }" /></p>
 							</td>
 							<td>
-								${scoreCard.cHits}
+								<p>${scoreCard.aHits}</p>
 							</td>
 							<td>
-								${scoreCard.dHits}						
+								<p>${scoreCard.cHits}</p>
 							</td>
 							<td>
-								${scoreCard.misses}
+								<p>${scoreCard.dHits}</p>						
 							</td>
 							<td>
-								${scoreCard.noshootHits}
+								<p>${scoreCard.misses}</p>
+							</td>
+							<td>
+								<p>${scoreCard.noshootHits}</p>
+							</td>
+							<td>
+								<p>${scoreCard.proceduralPenalties }</p>
+							</td>
+							<td>
+								<p><fmt:formatDate value="${scoreCard.modified.time }" pattern="dd.MM.yyyy 'at' HH:mm:ss" /></p>
+							</td>
+							<td>
+								<p></p>
 							</td>
 						</tr> 
 				</c:forEach>

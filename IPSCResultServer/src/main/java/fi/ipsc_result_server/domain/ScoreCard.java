@@ -53,8 +53,7 @@ public class ScoreCard implements Serializable, Comparable<ScoreCard> {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(nullable = false)
 	private Calendar modified;
-	
-//	private String formattedModifiedDate;
+
 	
 	@JsonProperty("popm")
 	@Column(nullable = false)
@@ -77,6 +76,8 @@ public class ScoreCard implements Serializable, Comparable<ScoreCard> {
 	
 	@Column(nullable = false)
 	private double time;
+	
+	private double roundedTime;
 	
 	@JsonProperty("ts")
 	@Transient
@@ -119,7 +120,6 @@ public class ScoreCard implements Serializable, Comparable<ScoreCard> {
 	@Override
 	public int compareTo(ScoreCard compareToScoreCard) {
 	    final int EQUAL = 0;
-	    
 	    if (this == compareToScoreCard) return EQUAL;
 	    return new Double(compareToScoreCard.getHitFactor()).compareTo(new Double(this.hitFactor));
 	}
@@ -137,8 +137,7 @@ public class ScoreCard implements Serializable, Comparable<ScoreCard> {
 
 	public void setModified(Calendar modified) {
 		this.modified = modified;
-//		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//		this.formattedModifiedDate = format.format(modified);
+
 	}
 
 	public int getPopperMisses() {
@@ -175,10 +174,6 @@ public class ScoreCard implements Serializable, Comparable<ScoreCard> {
 
 	public double getTime() {
 		return time;
-	}
-
-	public void setTime(double time) {
-		this.time = time;
 	}
 
 	public int[] getPaperTargetHits() {
@@ -348,10 +343,17 @@ public class ScoreCard implements Serializable, Comparable<ScoreCard> {
 
 	public void setStringTimes(double[] stringTimes) {
 		if (stringTimes != null && stringTimes.length > 0) {
-			this.time = DataFormatUtils.round(stringTimes[0], 2);
+			this.time = stringTimes[0];
+			this.roundedTime = DataFormatUtils.round(this.time, 2);
 		}
 		this.stringTimes = stringTimes;
 		
+	}
+	public double getRoundedTime() {
+		return roundedTime;
+	}
+	public void setRoundedTime(double roundedTime) {
+		this.roundedTime = roundedTime;
 	}
 
 }

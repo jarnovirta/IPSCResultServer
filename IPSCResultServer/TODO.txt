@@ -11,3 +11,5 @@ private int proceduralPenalties;
 - exception handling
 
 - Testaa Competitor -> IPSCCategory toiminta, mm. kun monta kategoriaa.
+
+- Vaihda last modified date scorecardeihin niin, että se on palvelimen tallennushetki
