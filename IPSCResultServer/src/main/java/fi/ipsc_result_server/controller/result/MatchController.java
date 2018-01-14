@@ -21,7 +21,6 @@ public class MatchController {
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public String TESTgetOverallResultsForReport(Model model, @PathVariable("id") String matchId) {
-		System.out.println("Controller navigating to " + matchId);
 		model.addAttribute("match", matchService.getOne(matchId));
 		model.addAttribute("competitors", competitorService.findAll());
 		return "results/matchResultsMainPage";

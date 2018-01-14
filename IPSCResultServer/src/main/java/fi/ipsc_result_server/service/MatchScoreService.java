@@ -62,7 +62,6 @@ public class MatchScoreService {
 			// Delete old stage result listing
 			StageResultData oldStageResultData = stageScoreService.findByStage(stage);
 			if (oldStageResultData != null) {
-				logger.info("Deleting old StageResultData");
 				stageScoreService.delete(oldStageResultData);
 			}
 			

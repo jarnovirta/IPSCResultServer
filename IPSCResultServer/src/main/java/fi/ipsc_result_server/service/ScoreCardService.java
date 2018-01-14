@@ -31,18 +31,18 @@ public class ScoreCardService {
 		return scoreCardRepository.save(scoreCard);
 	}
 	
-	public List<ScoreCard> findCompetitorScoreCardsForStage(String competitorId, String stageId) {
+	public ScoreCard findCompetitorScoreCardsForStage(String competitorId, String stageId) {
 		try {
 			String queryString = "SELECT s FROM ScoreCard s WHERE s.competitorId = :competitorId AND s.stageId = :stageId";
 			TypedQuery<ScoreCard> query = entityManager.createQuery(queryString, ScoreCard.class);
 			query.setParameter("competitorId", competitorId);
 			query.setParameter("stageId", stageId);
-			return query.getResultList();
-			
+			List<ScoreCard> scoreCards = query.getResultList();
+			if (scoreCards != null && scoreCards.size() > 0) return scoreCards.get(0);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return null;
 		}
+		return null;
 	}
 	@Transactional
 	public void deleteInBatch(List<ScoreCard> scoreCards) {

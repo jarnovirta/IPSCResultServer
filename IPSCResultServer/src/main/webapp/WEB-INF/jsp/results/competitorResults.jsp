@@ -7,6 +7,7 @@
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %> 
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <body>
 	<div id="wrap">
@@ -16,7 +17,7 @@
 			</div>
 			<br><br>
 			<div class="panel panel-info">
-			  <div class="panel-heading">Competitor verification list - {resultData.match.name } (${resultData.match.date })</div>
+			  <div class="panel-heading">Competitor verification list: ${resultData.match.name } - <fmt:formatDate value="${resultData.match.date.time}" pattern="dd.MM.yyyy" /></div>
 			  	<div class="panel-body">
 				  	<div class="verifyPageInfoTable">
 					    <div class="verifyPageInfoTableLeft">
@@ -69,30 +70,31 @@
 						NS
 					</th>
 				</tr>
-				<c:forEach var="stageScore" items="${resultData.stageScores}">
+				<c:forEach var="stage" items="${resultData.match.stages}">
+					<c:set var="scoreCard" value="${resultData.scoreCards[stage.id] }" />
 						<tr>
 							<td>
-								${stageScore.stage.stageNumber }
+								${scoreCard.stage.stageNumber }
 							</td>
 							<td>
-								${stageScore.stage.name}
+								${scoreCard.stage.name}
 							</td>
 							<td>
-								${stageScore.scoreCards[0].aHits}
+								${scoreCard.aHits}
 							</td>
 							<td>
-								${stageScore.scoreCards[0].cHits}
+								${scoreCard.cHits}
 							</td>
 							<td>
-								${stageScore.scoreCards[0].dHits}						
+								${scoreCard.dHits}						
 							</td>
 							<td>
-								${stageScore.scoreCards[0].misses}
+								${scoreCard.misses}
 							</td>
 							<td>
-								${stageScore.scoreCards[0].noshootHits}
+								${scoreCard.noshootHits}
 							</td>
-						</tr>
+						</tr> 
 				</c:forEach>
 			</table>
 		</div>

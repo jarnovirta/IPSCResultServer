@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,6 +38,8 @@ public class StageScoreService {
 	
 	@Autowired
 	StageResultDataLineRepository stageResultDataLineRepository;
+	
+	final static Logger logger = Logger.getLogger(StageScoreService.class);
 	
 	public List<StageScore> findStageScoresForCompetitor(String matchId, String competitorId) {
 		List<StageScore> stageScores = null;

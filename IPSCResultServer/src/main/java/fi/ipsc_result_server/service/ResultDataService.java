@@ -1,6 +1,8 @@
 package fi.ipsc_result_server.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -10,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import fi.ipsc_result_server.domain.ScoreCard;
+import fi.ipsc_result_server.domain.Stage;
 import fi.ipsc_result_server.domain.ResultData.CompetitorResultData;
 import fi.ipsc_result_server.domain.ResultData.MatchResultData;
 import fi.ipsc_result_server.domain.ResultData.StageResultData;
@@ -34,31 +38,31 @@ public class ResultDataService {
 	StageResultDataRepository stageResultDataRepository;
 	
 	public CompetitorResultData getCompetitorResultData(String competitorId, String matchId) {
+		
 		try {
-			String queryString = "SELECT c FROM CompetitorResultData c WHERE s.competitor.id = :competitorId AND s.match.id = :matchId";
-			TypedQuery<CompetitorResultData> query = entityManager.createQuery(queryString, CompetitorResultData.class);
+			
+			String queryString = "SELECT s FROM ScoreCard s WHERE s.competitor.id = :competitorId AND s.stage.match.id = :matchId";
+			TypedQuery<ScoreCard> query = entityManager.createQuery(queryString, ScoreCard.class);
 			query.setParameter("competitorId", competitorId);
 			query.setParameter("matchId", matchId);
-			List<CompetitorResultData> resultList = query.getResultList();
-			if (resultList != null && resultList.size() > 0) {
-				return resultList.get(0);
+			List<ScoreCard> resultList = query.getResultList();
+			Map<String, ScoreCard> scoreCards = new HashMap<String, ScoreCard>();
+			for (ScoreCard card : resultList) {
+				scoreCards.put(card.getStage().getId(), card);
 			}
+	
+			CompetitorResultData resultData = new CompetitorResultData();
+			resultData.setScoreCards(scoreCards);
+			resultData.setCompetitor(competitorService.getOne(competitorId));
+			resultData.setMatch(matchService.getOne(matchId));
+			
+			return resultData;
+			
 			} catch (Exception e) {
 				e.printStackTrace();
+				return null;
 			}
-			return null;
-//		CompetitorResultData resultData = new CompetitorResultData();
-//		resultData.setCompetitor(competitorService.getOne(competitorId));
-//		resultData.setMatch(matchService.getOne(matchId));
-//		List<ScoreCard> scoreCards = new ArrayList<ScoreCard>();
-//		for (Stage stage : resultData.getMatch().getStages()) {
-//			StageScore stageScore = new StageScore();
-//			stageScore.setStage(stage);
-//			stageScore.setScoreCards(scoreCardService.findCompetitorScoreCardsForStage(competitorId, stage.getId()));
-//			stageScores.add(stageScore);
-//		}
-//		resultData.setStageScores(stageScores);
-//		return resultData;
+		
 	}
 	
 	@Transactional
