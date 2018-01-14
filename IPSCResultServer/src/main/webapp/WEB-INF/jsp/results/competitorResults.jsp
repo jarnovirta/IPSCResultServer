@@ -19,29 +19,90 @@
 			<div class="panel panel-info">
 			  <div class="panel-heading">Competitor verification list: ${resultData.match.name } - <fmt:formatDate value="${resultData.match.date.time}" pattern="dd.MM.yyyy" /></div>
 			  	<div class="panel-body">
-				  	<div class="verifyPageInfoTable">
+			  	  	<div class="verifyPageInfoTable">
 					    <div class="verifyPageInfoTableLeft">
 					        <table>
 					        	<tr>
 					        		<td>
-					        		
+					        			<p>Competitor #:</p>
 					        		</td>
 					        		<td>
-					        		
+					        			<c:if test = "${resultData.competitor.shooterNumber != -1} "> 
+					        				<p>${resultData.competitor.shooterNumber }</p>
+					        			</c:if>
+					        		</td>
+					        	</tr>
+					        	<tr>
+					        		<td>
+					        			<p>Name:</p>
+					        		</td>
+					        		<td>
+					        			<p>${resultData.competitor.firstName } ${resultData.competitor.lastName }</p>
 					        		</td>
 					        	</tr>
 								<tr>
 					        		<td>
-					        		
+					        			<p>Alias:</p>
 					        		</td>
 					        		<td>
-					        		
+					        			<p>${resultData.competitor.ipscAlias }</p>
 					        		</td>
-					        	</tr>						        	
+					        	</tr>	
+					        	<tr>
+					        		<td>
+					        			<p>Division:</p>
+					        		</td>
+					        		<td>
+					        			<p>${resultData.competitor.division }</p>
+					        		</td>
+					        	</tr>
+					        	<tr>
+					        		<td>
+					        			<p>Team:</p>
+					        		</td>
+					        		<td>
+					        			<p>${resultData.competitor.team }</p>
+					        		</td>
+					        	</tr>					    			        	
 					        </table> 
 					    </div>
 					    <div class="verifyPageInfoTableRight">   
-					       Content of the second column. 
+					       	<table>
+					        	<tr>
+					        		<td>
+					        			<p>Power Factor:</p>
+					        		</td>
+					        		<td>
+					        			<p>${resultData.competitor.powerFactor }</p>
+					        		</td>
+					        	</tr>
+					        	<tr>
+					        		<td>
+					        			<p>Category:</p>
+					        		</td>
+					        		<td>
+					        			<c:forEach items="${resultData.competitor.categories }" var="category">
+					        				<p><c:out value="${category}" /></p> 
+					        			</c:forEach>
+					        		</td>
+					        	</tr>
+								<tr>
+					        		<td>
+					        			<p>Region:</p>
+					        		</td>
+					        		<td>
+					        			<p>${resultData.competitor.country }</p>
+					        		</td>
+					        	</tr>	
+					        	<tr>
+					        		<td>
+					        			<p>Squad:</p>
+					        		</td>
+					        		<td>
+					        			<p>${resultData.competitor.squad }</p>
+					        		</td>
+					        	</tr>			        	
+					        </table> 
 					    </div>        
 					</div>
 				</div>

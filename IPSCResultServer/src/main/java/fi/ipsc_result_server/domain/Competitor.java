@@ -1,19 +1,25 @@
 package fi.ipsc_result_server.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(Include.NON_NULL)
 @Entity
 public class Competitor implements Serializable, Comparable<Competitor> {
 	
@@ -39,9 +45,18 @@ public class Competitor implements Serializable, Comparable<Competitor> {
 	@Column(nullable = false)
 	private String lastName;
 	
+	@JsonProperty("sh_id")
+	private int ipscAlias;
+	
 	@JsonProperty("sh_dvp")
 	@Column(nullable = false)
 	private String division;
+	
+	@JsonProperty("sh_ctgs")
+	@Transient
+	private String practiScoreCategoryString;
+	
+	private List<IPSCCategory> categories;
 	
 	@JsonProperty("sh_cc")
 	private String country;
@@ -64,6 +79,9 @@ public class Competitor implements Serializable, Comparable<Competitor> {
 	
 	@JsonProperty("sh_pf")
 	private String powerFactor;
+	
+	@JsonProperty("sh_sqd")
+	private int squad;
 
 	@Override
 	public int compareTo(Competitor compareToCompetitor) {
@@ -163,10 +181,56 @@ public class Competitor implements Serializable, Comparable<Competitor> {
 
 	public void setPowerFactor(String powerFactor) {
 		this.powerFactor = powerFactor;
+		if (powerFactor != null && powerFactor.length() > 0) {
+			this.powerFactor = powerFactor.substring(0, 1).toUpperCase() 
+					+ powerFactor.substring(1).toLowerCase(); 
+		}
 	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	
+
+	public int getSquad() {
+		return squad;
+	}
+
+	public void setSquad(int squad) {
+		this.squad = squad;
+	}
+
+	public int getIpscAlias() {
+		return ipscAlias;
+	}
+
+	public void setIpscAlias(int ipscAlias) {
+		this.ipscAlias = ipscAlias;
+	}
+
+	public String getPractiScoreCategoryString() {
+		return practiScoreCategoryString;
+	}
+
+	public void setPractiScoreCategoryString(String practiScoreCategoryString) {
+		this.practiScoreCategoryString = practiScoreCategoryString;
+		if (this.categories == null) this.categories = new ArrayList<IPSCCategory>();
+		practiScoreCategoryString = practiScoreCategoryString.replace("\"", "");
+		practiScoreCategoryString = practiScoreCategoryString.replace("[", "");
+		practiScoreCategoryString = practiScoreCategoryString.replace("]", "");
+		practiScoreCategoryString = practiScoreCategoryString.replace(" ", "");
+		String[] categoryStrings = practiScoreCategoryString.split(",");
+		for (String categoryString : categoryStrings) {
+			if (categoryString.equals("SuperSenior")) categoryString = "Super_Senior";
+			IPSCCategory category = IPSCCategory.valueOf(categoryString.toUpperCase());
+			if (!this.categories.contains(category)) this.categories.add(category);
+		}
+	}
+
+	public List<IPSCCategory> getCategories() {
+		return categories;
+	}
+
+	public void setCategories(List<IPSCCategory> categories) {
+		this.categories = categories;
+	}
 }
