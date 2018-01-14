@@ -12,8 +12,6 @@ import fi.ipsc_result_server.service.ResultDataService;
 @Controller
 @RequestMapping("/match/{matchId}/competitor")
 public class CompetitorResultsController {
-
-	
 	@Autowired
 	ResultDataService resultDataService;
 	

@@ -55,12 +55,22 @@ public class StageScoreService {
 		List<ScoreCard> scoreCards = scoreCardService.findScoreCardsByStage(stage.getId());
 		Collections.sort(scoreCards);
 		
+		
+		double topHitFactor = -1.0;
+		double topPoints = -1.0;
+		int rank = 1;
 		for (ScoreCard scoreCard : scoreCards) {
+			if (rank == 1) topHitFactor = scoreCard.getHitFactor();
 			StageResultDataLine resultDataLine = new StageResultDataLine();
+			resultDataLine.setStageRank(rank);
 			resultDataLine.setStageResultData(stageResultData);
 			resultDataLine.setScoreCard(scoreCard);
 			resultDataLine.setCompetitor(scoreCard.getCompetitor());
+			resultDataLine.setStagePoints((scoreCard.getHitFactor() / topHitFactor) * stage.getMaxPoints()); 
+			if (rank == 1) topPoints = resultDataLine.getStagePoints();
+			resultDataLine.setStageScorePercentage(resultDataLine.getStagePoints() / topPoints * 100);
 			dataLines.add(resultDataLine);
+			rank++;
 		}
 		stageResultData.setDataLines(dataLines);
 		entityManager.persist(stageResultData);

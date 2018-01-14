@@ -1,6 +1,6 @@
 @CHARSET "ISO-8859-1";
 .verifyPageInfoTable { width:100%; overflow:hidden; }
-.verifyPageInfoTable table { border-collapse: separate;border-spacing: 10px; }
+.verifyPageInfoTable table { border-collapse: separate;border-spacing: 5px; }
 
 .verifyPageInfoTableLeft { float:left; width:50%; }
 .verifyPageInfoTableReft { float:right; width:50%;  }

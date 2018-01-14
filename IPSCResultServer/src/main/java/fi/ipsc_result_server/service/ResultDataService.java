@@ -56,6 +56,7 @@ public class ResultDataService {
 			resultData.setCompetitor(competitorService.getOne(competitorId));
 			resultData.setMatch(matchService.getOne(matchId));
 			
+			
 			return resultData;
 			
 			} catch (Exception e) {
@@ -86,17 +87,18 @@ public class ResultDataService {
 	}
 	
 	public StageResultData findResultDataForStage(String stageId) {
+		StageResultData resultData = new StageResultData();
 		try {
 			String queryString = "SELECT s FROM StageResultData s WHERE s.stage.id = :stageId";
 			TypedQuery<StageResultData> query = entityManager.createQuery(queryString, StageResultData.class);
-			query.setParameter("matchId", stageId);
+			query.setParameter("stageId", stageId);
 			List<StageResultData> resultList = query.getResultList();
 			if (resultList != null && resultList.size() > 0) {
-				return resultList.get(0);
+				resultData = resultList.get(0);
 			}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			return null;
+			return resultData;
 	}
 }

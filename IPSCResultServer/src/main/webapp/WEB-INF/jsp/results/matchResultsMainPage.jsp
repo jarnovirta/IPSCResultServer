@@ -23,14 +23,28 @@
 					</c:forEach>
 				</select>
 				<br>
-				<button class="btn btn-large btn-primary" onclick="submit()" type="button">Ok</button>
+				<button class="btn btn-large btn-primary" onclick="submitCompetitor()" type="button">Ok</button>
+			<br>
+			<label for="stageList">Stage: </label>
+				<br>
+				<select style="width: auto; max-width: 100%" id="stage" name="stage"
+					class="form-control">
+					<c:forEach var="stage" items="${match.stages}">
+						<option value="${stage.id}">${stage.name}</option>
+					</c:forEach>
+				</select>
+				<br>
+				<button class="btn btn-large btn-primary" onclick="submitStage()" type="button">Ok</button>
 		</div>
 	</div>
 	<c:url var="url" value="/" />
 	
 	<script>
-		function submit() {
+		function submitCompetitor() {
 				window.location.href = "${url}match/${match.id }/competitor/" + $("select#verify").val();
+		}
+		function submitStage() {
+			window.location.href = "${url}match/${match.id }/stage/" + $("select#stage").val();
 		}
 	</script>
 </body>

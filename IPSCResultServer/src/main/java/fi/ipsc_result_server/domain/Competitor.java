@@ -78,7 +78,10 @@ public class Competitor implements Serializable, Comparable<Competitor> {
 	private Calendar modifiedDate;
 	
 	@JsonProperty("sh_pf")
-	private String powerFactor;
+	@Transient
+	private String practiScorePowerFactorString;
+	
+	private PowerFactor powerFactor;
 	
 	@JsonProperty("sh_sqd")
 	private int squad;
@@ -175,16 +178,13 @@ public class Competitor implements Serializable, Comparable<Competitor> {
 		this.modifiedDate = modifiedDate;
 	}
 
-	public String getPowerFactor() {
-		return powerFactor;
+	public String getPractiScorePowerFactorString() {
+		return practiScorePowerFactorString;
 	}
 
-	public void setPowerFactor(String powerFactor) {
-		this.powerFactor = powerFactor;
-		if (powerFactor != null && powerFactor.length() > 0) {
-			this.powerFactor = powerFactor.substring(0, 1).toUpperCase() 
-					+ powerFactor.substring(1).toLowerCase(); 
-		}
+	public void setPractiScorePowerFactorString(String practiScorePowerFactorString) {
+		this.practiScorePowerFactorString = practiScorePowerFactorString;
+		this.powerFactor = PowerFactor.valueOf(practiScorePowerFactorString.toUpperCase());
 	}
 
 	public static long getSerialversionuid() {
@@ -233,4 +233,13 @@ public class Competitor implements Serializable, Comparable<Competitor> {
 	public void setCategories(List<IPSCCategory> categories) {
 		this.categories = categories;
 	}
+
+	public PowerFactor getPowerFactor() {
+		return powerFactor;
+	}
+
+	public void setPowerFactor(PowerFactor powerFactor) {
+		this.powerFactor = powerFactor;
+	}
+	
 }

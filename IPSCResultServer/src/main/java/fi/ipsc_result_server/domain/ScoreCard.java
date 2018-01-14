@@ -183,6 +183,9 @@ public class ScoreCard implements Serializable, Comparable<ScoreCard> {
 	public void setPaperTargetHits(int[] paperTargetHits) {
 		this.paperTargetHits = paperTargetHits;
 
+	}
+	
+	public void setHitsAndPoints() {
 		// Count total hits from PractiScore hits data
 		this.aHits = 0;
 		this.cHits = 0;
@@ -202,6 +205,19 @@ public class ScoreCard implements Serializable, Comparable<ScoreCard> {
 			this.dHits += (hits >> dHitsBitShift) & bitMask;
 			this.noshootHits += (hits >> noshootHitsBitShift) & bitMask;
 			this.misses += (hits >> missesBitShift) & bitMask;
+		}
+		
+		this.aHits += this.popperHits;
+		this.misses += popperMisses;
+		
+		this.points -= noshootHits * 10;
+		this.points -= misses * 10;
+		this.points -= proceduralPenalties * 10;
+		
+		if (this.points > 0) this.hitFactor = this.points / this.time;
+		else {
+			this.points = 0;
+			this.hitFactor = 0;
 		}
 	}
 
@@ -354,6 +370,10 @@ public class ScoreCard implements Serializable, Comparable<ScoreCard> {
 	}
 	public void setRoundedTime(double roundedTime) {
 		this.roundedTime = roundedTime;
+	}
+
+	public void setTime(double time) {
+		this.time = time;
 	}
 
 }

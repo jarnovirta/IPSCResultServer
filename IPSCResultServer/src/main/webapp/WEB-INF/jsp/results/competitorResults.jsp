@@ -73,7 +73,7 @@
 					        			<p>Power Factor:</p>
 					        		</td>
 					        		<td>
-					        			<p>${resultData.competitor.powerFactor }</p>
+					        			<p><c:out value="${resultData.competitor.powerFactor }" /></p>
 					        		</td>
 					        	</tr>
 					        	<tr>

@@ -18,7 +18,6 @@ import fi.ipsc_result_server.domain.Stage;
 import fi.ipsc_result_server.domain.StageScore;
 import fi.ipsc_result_server.domain.ResultData.MatchResultData;
 import fi.ipsc_result_server.domain.ResultData.StageResultData;
-import fi.ipsc_result_server.util.DataFormatUtils;
 
 @Service
 public class MatchScoreService {
@@ -69,13 +68,10 @@ public class MatchScoreService {
 			scoreCardService.deleteInBatch(stageScore.getScoreCards());
 			
 			for (ScoreCard scoreCard : stageScore.getScoreCards()) {
+				scoreCard.setHitsAndPoints();
 				scoreCard.setStage(stage);
 				scoreCard.setStageId(stage.getId());
 				scoreCard.setCompetitor(competitorService.getOne(scoreCard.getCompetitorId()));
-				scoreCard.setaHits(scoreCard.getaHits() + scoreCard.getPopperHits());
-				scoreCard.setMisses(scoreCard.getMisses() + scoreCard.getPopperMisses());
-				scoreCard.setCompetitor(competitorService.getOne(scoreCard.getCompetitorId()));
-				scoreCard.setHitFactor(DataFormatUtils.round(scoreCard.getPoints() / scoreCard.getTime(), 2));
 				
 				scoreCardService.removeOldScoreCard(scoreCard);
 				scoreCardService.save(scoreCard);
@@ -83,6 +79,7 @@ public class MatchScoreService {
 		}
 		if (stagesWithNewResults.size() > 0) {
 			for (Stage stageWithNewResults : stagesWithNewResults) {
+				logger.info("Generating stage results data for stages with new results...");
 				stageScoreService.generateStageResultsListing(stageWithNewResults);
 			}
 //			generateMatchResultListing(matchScore.getMatchId());

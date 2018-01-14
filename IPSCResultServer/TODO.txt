@@ -1,11 +1,8 @@
-- Olettama ett√§ kisa luotu yhdell√§ laitteella -> uuid k√§y erottamaan kisat
+
 - No penalty miss: lasketaanko misseihin vai j√§tet√§√§n huomiotta?
-- Luokkien ID-numerot: UUID vai String?
+
 - Siisti service ja repository-luokat. Tee entitymanager factory ja siirr√§ koodit omiin serviceihin ja repoihin.
-- Poista JsonIgnore:
-	@JsonProperty("proc")
-	@JsonIgnore
-private int proceduralPenalties;
+
 - korjaa c:url t√§gi javascriptiksi (location.pathname)
 
 - exception handling
@@ -13,3 +10,11 @@ private int proceduralPenalties;
 - Testaa Competitor -> IPSCCategory toiminta, mm. kun monta kategoriaa.
 
 - Vaihda last modified date scorecardeihin niin, ett‰ se on palvelimen tallennushetki
+
+- tarkista ett‰ DQ huomioidaan ja nollatut staget.
+
+- Tarkista ett‰ procedural penalties huomioidaan scorecardin pistelaskussa oikein. Nyt ScoreCard setHitsAndPoints() metodissa
+   olettamalla ett‰ PractiScoren pointseissa ei ole mukana vaan pit‰‰ v‰hent‰‰.
+  
+- Tarkista popperien ja taulujen huomioiminen ja non penaltien huomioiminen stagen maksimipistem‰‰r‰n laskemisessa
+   

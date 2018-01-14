@@ -28,9 +28,9 @@ public class StageResultDataLine implements Serializable {
 	@ManyToOne
 	private Competitor competitor;
 	
-	private int stageScorePercentage;
+	private double stageScorePercentage;
 	
-	private int stagePoints;
+	private double stagePoints;
 	
 	private int stageRank;
 		
@@ -53,19 +53,19 @@ public class StageResultDataLine implements Serializable {
 		this.competitor = competitor;
 	}
 
-	public int getStageScorePercentage() {
+	public double getStageScorePercentage() {
 		return stageScorePercentage;
 	}
 
-	public void setStageScorePercentage(int stageScorePercentage) {
+	public void setStageScorePercentage(double stageScorePercentage) {
 		this.stageScorePercentage = stageScorePercentage;
 	}
 
-	public int getStagePoints() {
+	public double getStagePoints() {
 		return stagePoints;
 	}
 
-	public void setStagePoints(int stagePoints) {
+	public void setStagePoints(double stagePoints) {
 		this.stagePoints = stagePoints;
 	}
 
