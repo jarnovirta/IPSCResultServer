@@ -25,7 +25,19 @@
 				<br>
 				<button class="btn btn-large btn-primary" onclick="submitCompetitor()" type="button">Ok</button>
 			<br><br>
-			<label for="stageList">Stage: </label>
+			<label for="stageList">Match results: </label>
+				<br>
+				<select style="width: auto; max-width: 100%" id="division" name="division"
+					class="form-control">
+					<c:forEach var="division" items="${match.divisionsWithResults}">
+						<option value="${division}"><c:out value="${division}" /></option>
+					</c:forEach>
+				</select>
+				<br>
+				<button class="btn btn-large btn-primary" onclick="submitDivision()" type="button">Ok</button>
+				
+			<br><br>
+			<label for="stageList">Stage results: </label>
 				<br>
 				<select style="width: auto; max-width: 100%" id="stage" name="stage"
 					class="form-control">
@@ -42,6 +54,9 @@
 	<script>
 		function submitCompetitor() {
 				window.location.href = "${url}match/${match.id }/competitor/" + $("select#verify").val();
+		}
+		function submitDivision() {
+			window.location.href = "${url}match/${match.id }/division/" + $("select#division").val();
 		}
 		function submitStage() {
 			window.location.href = "${url}match/${match.id }/stage/" + $("select#stage").val();

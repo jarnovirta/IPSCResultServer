@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import fi.ipsc_result_server.domain.Competitor;
 import fi.ipsc_result_server.domain.IPSCDivision;
 import fi.ipsc_result_server.domain.Match;
 import fi.ipsc_result_server.repository.CompetitorRepository;
@@ -29,6 +30,7 @@ public class MatchService {
 	@Autowired
 	ResultDataService resultDataService;
 	
+	
 	@Transactional
 	public Match save(Match match) {
 		System.out.println("*** Merging match");
@@ -36,6 +38,12 @@ public class MatchService {
 			List<IPSCDivision> divisionsWithResults = new ArrayList<IPSCDivision>();
 			divisionsWithResults.add(IPSCDivision.COMBINED);
 			match.setDivisionsWithResults(divisionsWithResults);
+		}
+		if (match.getCompetitors() != null) {
+			int competitorNumber = 1;
+			for (Competitor competitor : match.getCompetitors()) {
+				competitor.setShooterNumber(competitorNumber++);
+			}
 		}
 		return entityManager.merge(match);
 	}

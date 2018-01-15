@@ -1,6 +1,3 @@
-
-- No penalty miss: lasketaanko misseihin vai j√§tet√§√§n huomiotta?
-
 - Siisti service ja repository-luokat. Tee entitymanager factory ja siirr√§ koodit omiin serviceihin ja repoihin.
 
 - korjaa c:url t√§gi javascriptiksi (location.pathname)
@@ -9,14 +6,4 @@
 
 - Testaa Competitor -> IPSCCategory toiminta, mm. kun monta kategoriaa.
 
-- Vaihda last modified date scorecardeihin niin, ett‰ se on palvelimen tallennushetki
-
-- tarkista ett‰ DQ huomioidaan ja nollatut staget.
-
-- Tarkista ett‰ procedural penalties huomioidaan scorecardin pistelaskussa oikein. Nyt ScoreCard setHitsAndPoints() metodissa
-   olettamalla ett‰ PractiScoren pointseissa ei ole mukana vaan pit‰‰ v‰hent‰‰.
-  
-- Tarkista popperien ja taulujen huomioiminen ja non penaltien huomioiminen stagen maksimipistem‰‰r‰n laskemisessa
-
-- Pit‰‰ huomioida kilpailijoiden divisioonan muutokset ym. tietojen muutokset tulostiedoissa kesken kisan.
-   
+- Tulosten py√∂ristys: ei py√∂ristet√§ vaan katkaistaan.

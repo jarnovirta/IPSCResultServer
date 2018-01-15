@@ -27,9 +27,7 @@
 					        			<p>Competitor #:</p>
 					        		</td>
 					        		<td>
-					        			<c:if test = "${resultData.competitor.shooterNumber != -1} "> 
-					        				<p>${resultData.competitor.shooterNumber }</p>
-					        			</c:if>
+					        			<p>${resultData.competitor.shooterNumber }</p>
 					        		</td>
 					        	</tr>
 					        	<tr>
@@ -53,7 +51,7 @@
 					        			<p>Division:</p>
 					        		</td>
 					        		<td>
-					        			<p>${resultData.competitor.division }</p>
+					        			<p><c:out value="${resultData.competitor.division }" /></p>
 					        		</td>
 					        	</tr>
 					        	<tr>

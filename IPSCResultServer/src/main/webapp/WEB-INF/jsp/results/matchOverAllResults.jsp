@@ -14,36 +14,15 @@
 	<div id="wrap">
 		<div class="container">
 			<div class="page-header">
-				<h1>Results for Stage in ${stageResultData.stage.match.name}</h1>
+				<h1>Results for ${stageResultData.stage.match.name}</h1>
 			</div>
 			<br><br>
 			<div class="panel panel-info">
-			  <div class="panel-heading">Stage Results</div>
+			  <div class="panel-heading">Match Results</div>
 			  	<div class="panel-body">
 			  	  	<div class="verifyPageInfoTable">
 					    <div class="verifyPageInfoTableLeft">
 					        <table>
-					        	<tr>
-					        		<td>
-					        			<p>Stage:</p>
-					        		</td>
-					        		<td>
-										<p>
-											<select style="width: auto; max-width: 100%" id="stage" name="stage"
-												class="form-control">
-												<c:forEach var="stage" items="${stageResultData.stage.match.stages}">
-													<c:if test="${stageResultData.stage.name eq stage.name}">
-														<option value="${stage.id}" selected>${stage.name}</option>
-													</c:if>
-													<c:if test="${stageResultData.stage.name ne stage.name}">
-														<option value="${stage.id}">${stage.name}</option>
-													</c:if>
-												</c:forEach>
-											</select>
-										</p>					        			
-					        		</td>
-					        	</tr>
-					        	<tr>
 					        		<td>
 					        			<p>Division:</p>
 					        		</td>
@@ -66,10 +45,9 @@
 					        	<tr>
 					        		<td></td>
 					        		<td>
-					        			<button class="btn btn-large btn-primary" onclick="submitStageListingChange()" type="button">Ok</button>
+					        			<button class="btn btn-large btn-primary" onclick="submitDivisionChange()" type="button">Ok</button>
 					        		</td>
 					        	</tr>
-								    			        	
 					        </table> 
 					    </div>
 					</div>
@@ -131,7 +109,9 @@
 							<p><fmt:formatNumber type = "number" minFractionDigits = "2" maxFractionDigits = "2" value="${dataline.stageScorePercentage }" /></p>			
 						</td>
 						<td>
-							<p>${dataline.competitor.shooterNumber }</p>
+							<c:if test = "${resultData.competitor.shooterNumber != -1} "> 
+					        	<p>${resultData.competitor.shooterNumber }</p>
+					        </c:if>
 						</td>
 						<td>
 							<p>${dataline.competitor.lastName }, ${dataline.competitor.firstName }</p>
@@ -165,11 +145,9 @@
 	</div>
 	<c:url var="url" value="/" />
 	<script>
-		function submitStageListingChange() {
-				console.log($("select#stage").val());
+		function submitDivisionChange() {
 				console.log($("select#division").val());
-				window.location.href = "${url}match/${stageResultData.stage.match.id }/stage/" 
-					+ $("select#stage").val() + "/division/"+ $("select#division").val();
+				window.location.href = "${url}match/${stageResultData.stage.match.id }/division/"+ $("select#division").val();
 		}
 	</script>
 	

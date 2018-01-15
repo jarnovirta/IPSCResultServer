@@ -82,7 +82,8 @@ public class MatchScoreService {
 				logger.info("Generating stage results data for stages with new results...");
 				stageScoreService.generateStageResultsListing(stageWithNewResults);
 			}
-//			generateMatchResultListing(matchScore.getMatchId());
+			logger.info("Generating match result data...");
+			generateMatchResultListing(matchScore.getMatchId());
 		}
 		System.out.println("**** MATCH SCORE SAVE DONE");
 	}
