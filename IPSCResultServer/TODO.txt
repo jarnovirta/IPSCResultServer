@@ -11,3 +11,5 @@ private int proceduralPenalties;
 - exception handling
 
 - Testaa Competitor -> IPSCCategory toiminta, mm. kun monta kategoriaa.
+
+- Tulosten pyöristys: ei pyöristetä vaan katkaistaan.
