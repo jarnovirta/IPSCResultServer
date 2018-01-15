@@ -1,11 +1,5 @@
-- Olettama että kisa luotu yhdellä laitteella -> uuid käy erottamaan kisat
-- No penalty miss: lasketaanko misseihin vai jätetään huomiotta?
-- Luokkien ID-numerot: UUID vai String?
 - Siisti service ja repository-luokat. Tee entitymanager factory ja siirrä koodit omiin serviceihin ja repoihin.
-- Poista JsonIgnore:
-	@JsonProperty("proc")
-	@JsonIgnore
-private int proceduralPenalties;
+
 - korjaa c:url tägi javascriptiksi (location.pathname)
 
 - exception handling
