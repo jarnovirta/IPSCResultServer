@@ -12,8 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import fi.ipsc_result_server.domain.IPSCDivision;
 import fi.ipsc_result_server.domain.ScoreCard;
-import fi.ipsc_result_server.domain.Stage;
 import fi.ipsc_result_server.domain.ResultData.CompetitorResultData;
 import fi.ipsc_result_server.domain.ResultData.MatchResultData;
 import fi.ipsc_result_server.domain.ResultData.StageResultData;
@@ -56,7 +56,6 @@ public class ResultDataService {
 			resultData.setCompetitor(competitorService.getOne(competitorId));
 			resultData.setMatch(matchService.getOne(matchId));
 			
-			
 			return resultData;
 			
 			} catch (Exception e) {
@@ -86,12 +85,13 @@ public class ResultDataService {
 			return null;
 	}
 	
-	public StageResultData findResultDataForStage(String stageId) {
+	public StageResultData findResultDataForStage(String stageId, IPSCDivision division) {
 		StageResultData resultData = new StageResultData();
 		try {
-			String queryString = "SELECT s FROM StageResultData s WHERE s.stage.id = :stageId";
+			String queryString = "SELECT s FROM StageResultData s WHERE s.stage.id = :stageId AND s.division = :division";
 			TypedQuery<StageResultData> query = entityManager.createQuery(queryString, StageResultData.class);
 			query.setParameter("stageId", stageId);
+			query.setParameter("division", division);
 			List<StageResultData> resultList = query.getResultList();
 			if (resultList != null && resultList.size() > 0) {
 				resultData = resultList.get(0);
@@ -99,6 +99,6 @@ public class ResultDataService {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			return resultData;
+		return resultData;
 	}
 }

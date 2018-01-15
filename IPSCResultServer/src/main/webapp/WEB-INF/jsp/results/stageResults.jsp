@@ -25,10 +25,22 @@
 					        <table>
 					        	<tr>
 					        		<td>
-					        			<p>Stage name:</p>
+					        			<p>Stage:</p>
 					        		</td>
 					        		<td>
-					        			<p>${stageResultData.stage.name}</p>
+										<p>
+											<select style="width: auto; max-width: 100%" id="stage" name="stage"
+												class="form-control">
+												<c:forEach var="stage" items="${stageResultData.stage.match.stages}">
+													<c:if test="${stageResultData.stage.name eq stage.name}">
+														<option value="${stage.id}" selected>${stage.name}</option>
+													</c:if>
+													<c:if test="${stageResultData.stage.name ne stage.name}">
+														<option value="${stage.id}">${stage.name}</option>
+													</c:if>
+												</c:forEach>
+											</select>
+										</p>					        			
 					        		</td>
 					        	</tr>
 					        	<tr>
@@ -36,7 +48,25 @@
 					        			<p>Division:</p>
 					        		</td>
 					        		<td>
-					        			<p>[Division dropdown]</p>
+										<p>
+											<select style="width: auto; max-width: 100%" id="division" name="division"
+												class="form-control">
+												<c:forEach var="division" items="${stageResultData.stage.match.divisionsWithResults}">
+													<c:if test="${selectedDivision eq division}">
+														<option value="${division}" selected><c:out value="${division}" /></option>
+													</c:if>
+													<c:if test="${selectedDivision ne division}">
+														<option value="${division}"><c:out value="${division}" /></option>
+													</c:if>
+												</c:forEach>
+											</select>
+										</p>							        			
+					        		</td>
+					        	</tr>
+					        	<tr>
+					        		<td></td>
+					        		<td>
+					        			<button class="btn btn-large btn-primary" onclick="submitStageListingChange()" type="button">Ok</button>
 					        		</td>
 					        	</tr>
 								    			        	
@@ -135,5 +165,15 @@
 			</table>
 		</div>
 	</div>
+	<c:url var="url" value="/" />
+	<script>
+		function submitStageListingChange() {
+				console.log($("select#stage").val());
+				console.log($("select#division").val());
+				window.location.href = "${url}match/${stageResultData.stage.match.id }/stage/" 
+					+ $("select#stage").val() + "/division/"+ $("select#division").val();
+		}
+	</script>
+	
 </body>
 </html>

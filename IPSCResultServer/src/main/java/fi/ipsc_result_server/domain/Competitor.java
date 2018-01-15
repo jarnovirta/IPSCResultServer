@@ -7,6 +7,8 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -49,13 +51,18 @@ public class Competitor implements Serializable, Comparable<Competitor> {
 	private int ipscAlias;
 	
 	@JsonProperty("sh_dvp")
-	@Column(nullable = false)
-	private String division;
+	@Transient
+	private String practiScoreDivisionString;
 	
+	@Enumerated(EnumType.ORDINAL)
+	@Column(nullable = false)
+	private IPSCDivision division;
+		
 	@JsonProperty("sh_ctgs")
 	@Transient
 	private String practiScoreCategoryString;
 	
+	@Enumerated(EnumType.ORDINAL)
 	private List<IPSCCategory> categories;
 	
 	@JsonProperty("sh_cc")
@@ -130,11 +137,20 @@ public class Competitor implements Serializable, Comparable<Competitor> {
 		this.lastName = lastName;
 	}
 
-	public String getDivision() {
+	public String getPractiScoreDivisionString() {
+		return practiScoreDivisionString;
+	}
+
+	public void setPractiScoreDivisionString(String practiScoreDivisionString) {
+		this.practiScoreDivisionString = practiScoreDivisionString;
+		this.division = IPSCDivision.valueOf(practiScoreDivisionString.toUpperCase());
+	}
+
+	public IPSCDivision getDivision() {
 		return division;
 	}
 
-	public void setDivision(String division) {
+	public void setDivision(IPSCDivision division) {
 		this.division = division;
 	}
 

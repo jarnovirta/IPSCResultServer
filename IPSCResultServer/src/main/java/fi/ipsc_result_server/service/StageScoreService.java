@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import fi.ipsc_result_server.domain.IPSCDivision;
 import fi.ipsc_result_server.domain.ScoreCard;
 import fi.ipsc_result_server.domain.Stage;
 import fi.ipsc_result_server.domain.StageScore;
@@ -49,32 +50,46 @@ public class StageScoreService {
 	
 	@Transactional
 	public void generateStageResultsListing(Stage stage) {
-		StageResultData stageResultData = new StageResultData(stage);
+		List<IPSCDivision> divisions = new ArrayList<IPSCDivision>();
+		divisions.add(IPSCDivision.COMBINED);
+		divisions.addAll(stage.getMatch().getDivisions());
 		
-		List<StageResultDataLine> dataLines = new ArrayList<StageResultDataLine>();
-		List<ScoreCard> scoreCards = scoreCardService.findScoreCardsByStage(stage.getId());
-		Collections.sort(scoreCards);
-		
-		
-		double topHitFactor = -1.0;
-		double topPoints = -1.0;
-		int rank = 1;
-		for (ScoreCard scoreCard : scoreCards) {
-			if (rank == 1) topHitFactor = scoreCard.getHitFactor();
-			StageResultDataLine resultDataLine = new StageResultDataLine();
-			resultDataLine.setStageRank(rank);
-			resultDataLine.setStageResultData(stageResultData);
-			resultDataLine.setScoreCard(scoreCard);
-			resultDataLine.setCompetitor(scoreCard.getCompetitor());
-			resultDataLine.setStagePoints((scoreCard.getHitFactor() / topHitFactor) * stage.getMaxPoints()); 
-			if (rank == 1) topPoints = resultDataLine.getStagePoints();
-			resultDataLine.setStageScorePercentage(resultDataLine.getStagePoints() / topPoints * 100);
-			dataLines.add(resultDataLine);
-			rank++;
+		for (IPSCDivision division : divisions) {
+			StageResultData stageResultData = new StageResultData(stage, division);
+			
+			List<StageResultDataLine> dataLines = new ArrayList<StageResultDataLine>();
+			List<ScoreCard> scoreCards;
+			if (division == IPSCDivision.COMBINED) scoreCards = scoreCardService.findScoreCardsByStage(stage.getId()); 
+			else scoreCards = scoreCardService.findScoreCardsByStageAndDivision(stage.getId(), division);
+			Collections.sort(scoreCards);
+			
+			double topHitFactor = -1.0;
+			double topPoints = -1.0;
+			int rank = 1;
+			for (ScoreCard scoreCard : scoreCards) {
+				if (rank == 1) topHitFactor = scoreCard.getHitFactor();
+				StageResultDataLine resultDataLine = new StageResultDataLine();
+				resultDataLine.setStageRank(rank);
+				resultDataLine.setStageResultData(stageResultData);
+				resultDataLine.setScoreCard(scoreCard);
+				resultDataLine.setCompetitor(scoreCard.getCompetitor());
+				resultDataLine.setStagePoints((scoreCard.getHitFactor() / topHitFactor) * stage.getMaxPoints()); 
+				scoreCard.setStageRank(rank);
+				entityManager.merge(scoreCard);
+				if (rank == 1) topPoints = resultDataLine.getStagePoints();
+				resultDataLine.setStageScorePercentage(resultDataLine.getStagePoints() / topPoints * 100);
+				dataLines.add(resultDataLine);
+				
+				if (!stage.getMatch().getDivisionsWithResults().contains(scoreCard.getCompetitor().getDivision())) {
+					stage.getMatch().getDivisionsWithResults().add(scoreCard.getCompetitor().getDivision());
+				}
+				rank++;
+			}
+			
+			stageResultData.setDataLines(dataLines);
+			entityManager.persist(stageResultData);
 		}
-		stageResultData.setDataLines(dataLines);
-		entityManager.persist(stageResultData);
-		
+				
 	}
 	@Transactional
 	private void removeOldStageResultListing(Stage stage) {
@@ -108,25 +123,22 @@ public class StageScoreService {
 		}
 	}
 	@Transactional
-	public void delete(StageResultData stageResultData) {
-		entityManager.remove(stageResultData);
-			
+	public void deleteInBatch(List<StageResultData> stageResultDataList) {
+		for (StageResultData data : stageResultDataList) {
+			entityManager.remove(data);
+		}
 	}
 	
-	public StageResultData findByStage(Stage stage) {
-			StageResultData resultData = null;
+	public List<StageResultData> findByStage(Stage stage) {
 			try {
 				String queryString = "SELECT s FROM StageResultData s WHERE s.stage = :stage";
 				TypedQuery<StageResultData> query = entityManager.createQuery(queryString, StageResultData.class); 
 				query.setParameter("stage", stage);
-				List<StageResultData> resultList = query.getResultList();
-				if (resultList != null && resultList.size() > 0) {
-					resultData = resultList.get(0);
-				}
+				return query.getResultList();
 				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			return resultData;
+			return null;
 	}
 }

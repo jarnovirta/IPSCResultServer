@@ -24,7 +24,7 @@
 				</select>
 				<br>
 				<button class="btn btn-large btn-primary" onclick="submitCompetitor()" type="button">Ok</button>
-			<br>
+			<br><br>
 			<label for="stageList">Stage: </label>
 				<br>
 				<select style="width: auto; max-width: 100%" id="stage" name="stage"

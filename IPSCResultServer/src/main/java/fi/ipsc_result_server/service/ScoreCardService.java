@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import fi.ipsc_result_server.domain.IPSCDivision;
 import fi.ipsc_result_server.domain.ScoreCard;
 import fi.ipsc_result_server.repository.ScoreCardRepository;
 
@@ -47,6 +48,20 @@ public class ScoreCardService {
 	@Transactional
 	public void deleteInBatch(List<ScoreCard> scoreCards) {
 		scoreCardRepository.deleteInBatch(scoreCards);
+	}
+	
+	public List<ScoreCard> findScoreCardsByStageAndDivision(String stageId, IPSCDivision division) {
+		try {
+			String queryString = "SELECT s FROM ScoreCard s WHERE s.stage.id = :stageId AND s.competitor.division = :division";
+			TypedQuery<ScoreCard> query = entityManager.createQuery(queryString, ScoreCard.class);
+			query.setParameter("stageId", stageId);
+			query.setParameter("division", division);
+			return query.getResultList();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	public List<ScoreCard> findScoreCardsByStage(String stageId) {

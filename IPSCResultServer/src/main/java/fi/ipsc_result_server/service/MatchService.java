@@ -1,5 +1,6 @@
 package fi.ipsc_result_server.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import fi.ipsc_result_server.domain.IPSCDivision;
 import fi.ipsc_result_server.domain.Match;
 import fi.ipsc_result_server.repository.CompetitorRepository;
 import fi.ipsc_result_server.repository.MatchRepository;
@@ -30,6 +32,11 @@ public class MatchService {
 	@Transactional
 	public Match save(Match match) {
 		System.out.println("*** Merging match");
+		if (match.getDivisionsWithResults() == null) {
+			List<IPSCDivision> divisionsWithResults = new ArrayList<IPSCDivision>();
+			divisionsWithResults.add(IPSCDivision.COMBINED);
+			match.setDivisionsWithResults(divisionsWithResults);
+		}
 		return entityManager.merge(match);
 	}
 	

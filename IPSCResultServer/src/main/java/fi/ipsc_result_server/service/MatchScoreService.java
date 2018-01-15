@@ -59,9 +59,9 @@ public class MatchScoreService {
 			stagesWithNewResults.add(stage);
 			
 			// Delete old stage result listing
-			StageResultData oldStageResultData = stageScoreService.findByStage(stage);
+			List<StageResultData> oldStageResultData = stageScoreService.findByStage(stage);
 			if (oldStageResultData != null) {
-				stageScoreService.delete(oldStageResultData);
+				stageScoreService.deleteInBatch(oldStageResultData);
 			}
 			
 			// Remove old scorecards

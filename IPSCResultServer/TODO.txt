@@ -17,4 +17,6 @@
    olettamalla ett‰ PractiScoren pointseissa ei ole mukana vaan pit‰‰ v‰hent‰‰.
   
 - Tarkista popperien ja taulujen huomioiminen ja non penaltien huomioiminen stagen maksimipistem‰‰r‰n laskemisessa
+
+- Pit‰‰ huomioida kilpailijoiden divisioonan muutokset ym. tietojen muutokset tulostiedoissa kesken kisan.
    

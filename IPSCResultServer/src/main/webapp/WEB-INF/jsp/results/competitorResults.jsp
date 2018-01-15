@@ -177,7 +177,7 @@
 								<p><fmt:formatDate value="${scoreCard.modified.time }" pattern="dd.MM.yyyy 'at' HH:mm:ss" /></p>
 							</td>
 							<td>
-								<p></p>
+								<p>${scoreCard.stageRank}</p>
 							</td>
 						</tr> 
 				</c:forEach>

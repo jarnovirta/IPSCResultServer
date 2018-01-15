@@ -1,12 +1,14 @@
 package fi.ipsc_result_server.domain;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -14,6 +16,7 @@ import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -53,9 +56,15 @@ public class Match implements Serializable {
 	private Calendar modifiedDate;
 
 	@JsonProperty("match_cats")
-	@ElementCollection
-	private List<String> divisions;
+	@Transient
+	private List<String> divisionStrings;
 	
+	@Enumerated(EnumType.ORDINAL)
+	private List<IPSCDivision> divisions;
+	
+	@Enumerated(EnumType.ORDINAL)
+	private List<IPSCDivision> divisionsWithResults;
+		
 	@JsonProperty("match_stages")
 	@OneToMany(mappedBy = "match", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	@OrderColumn
@@ -90,11 +99,23 @@ public class Match implements Serializable {
 		this.modifiedDate = modifiedDate;
 	}
 
-	public List<String> getDivisions() {
+	public List<String> getDivisionStrings() {
+		return divisionStrings;
+	}
+
+	public void setDivisionStrings(List<String> divisionStrings) {
+		this.divisionStrings = divisionStrings;
+		this.divisions = new ArrayList<IPSCDivision>();
+		for (String divisionString : this.divisionStrings) {
+			this.divisions.add(IPSCDivision.valueOf(divisionString.toUpperCase()));
+		}
+	}
+
+	public List<IPSCDivision> getDivisions() {
 		return divisions;
 	}
 
-	public void setDivisions(List<String> divisions) {
+	public void setDivisions(List<IPSCDivision> divisions) {
 		this.divisions = divisions;
 	}
 
@@ -133,4 +154,13 @@ public class Match implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+
+	public List<IPSCDivision> getDivisionsWithResults() {
+		return divisionsWithResults;
+	}
+
+	public void setDivisionsWithResults(List<IPSCDivision> divisionsWithResults) {
+		this.divisionsWithResults = divisionsWithResults;
+	}
+	
 }
