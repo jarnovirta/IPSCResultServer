@@ -67,6 +67,9 @@ public class StageScoreService {
 			double topPoints = -1.0;
 			int rank = 1;
 			for (ScoreCard scoreCard : scoreCards) {
+				// Discard results for DQ'ed competitor
+				if (scoreCard.getCompetitor().isDisqualified()) continue;
+				
 				if (rank == 1) topHitFactor = scoreCard.getHitFactor();
 				StageResultDataLine resultDataLine = new StageResultDataLine();
 				resultDataLine.setStageRank(rank);

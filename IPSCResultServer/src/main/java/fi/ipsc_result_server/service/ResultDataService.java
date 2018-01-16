@@ -12,11 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import fi.ipsc_result_server.domain.Competitor;
 import fi.ipsc_result_server.domain.IPSCDivision;
 import fi.ipsc_result_server.domain.ScoreCard;
 import fi.ipsc_result_server.domain.ResultData.CompetitorResultData;
 import fi.ipsc_result_server.domain.ResultData.MatchResultData;
 import fi.ipsc_result_server.domain.ResultData.StageResultData;
+import fi.ipsc_result_server.domain.ResultData.StageResultDataLine;
 import fi.ipsc_result_server.repository.StageResultDataRepository;
 
 @Service
@@ -70,11 +72,12 @@ public class ResultDataService {
 		stageResultDataRepository.deleteInBatch(stageResultData);
 	}
 	
-	public MatchResultData findResultDataForMatch(String matchId) {
+	public MatchResultData findResultDataForMatch(String matchId, IPSCDivision division) {
 		try {
-			String queryString = "SELECT m FROM MatchResultData m WHERE m.match.id = :matchId";
+			String queryString = "SELECT m FROM MatchResultData m WHERE m.match.id = :matchId AND m.division = :division";
 			TypedQuery<MatchResultData> query = entityManager.createQuery(queryString, MatchResultData.class);
 			query.setParameter("matchId", matchId);
+			query.setParameter("division", division);
 			List<MatchResultData> resultList = query.getResultList();
 			if (resultList != null && resultList.size() > 0) {
 				return resultList.get(0);
@@ -100,5 +103,24 @@ public class ResultDataService {
 				e.printStackTrace();
 			}
 		return resultData;
+	}
+	
+	public List<StageResultDataLine> getStageResultDataLinesForCompetitor(Competitor competitor) {
+		try {
+			String queryString = "SELECT s FROM StageResultDataLine s WHERE s.competitor = :competitor AND s.stageResultData.division = :competitorDivision";
+			TypedQuery<StageResultDataLine> query = entityManager.createQuery(queryString, StageResultDataLine.class);
+			query.setParameter("competitor", competitor);
+			query.setParameter("competitorDivision", competitor.getDivision());
+			return query.getResultList();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		return null;
+	}
+	
+	@Transactional
+	public MatchResultData save(MatchResultData matchResultData) {
+		entityManager.persist(matchResultData);
+		return matchResultData;
 	}
 }

@@ -17,7 +17,7 @@
 			</div>
 			<br><br>
 			<div class="panel panel-info">
-			  <div class="panel-heading">Competitor verification list: ${resultData.match.name } - <fmt:formatDate value="${resultData.match.date.time}" pattern="dd.MM.yyyy" /></div>
+			  <div class="panel-heading">Competitor verification list / ${resultData.match.name } - <fmt:formatDate value="${resultData.match.date.time}" pattern="dd.MM.yyyy" /></div>
 			  	<div class="panel-body">
 			  	  	<div class="verifyPageInfoTable">
 					    <div class="verifyPageInfoTableLeft">
@@ -148,10 +148,11 @@
 								<p>${scoreCard.stage.stageNumber }</p>
 							</td>
 							<td>
-								<p>${scoreCard.stage.name}</p>
+								<c:url var="url" value="/match/${resultData.match.id}/stage/${scoreCard.stage.id}/division/${scoreCard.competitor.division }" />
+								<p><a href="${url}">${scoreCard.stage.name}</a></p>
 							</td>
 							<td>
-								<p><fmt:formatNumber type = "number" minFractionDigits = "2" value="${scoreCard.roundedTime }" /></p>
+								<p><fmt:formatNumber type = "number" minFractionDigits = "2" value="${scoreCard.time }" /></p>
 							</td>
 							<td>
 								<p>${scoreCard.aHits}</p>

@@ -9,7 +9,7 @@ import javax.persistence.ManyToOne;
 import fi.ipsc_result_server.domain.Competitor;
 
 @Entity
-public class MatchResultDataLine {
+public class MatchResultDataLine implements Comparable<MatchResultDataLine> {
 	@Id
 	@GeneratedValue(strategy = GenerationType.TABLE)
 	private Long id;
@@ -20,11 +20,25 @@ public class MatchResultDataLine {
 	@ManyToOne
 	private Competitor competitor;
 	
-	private int matchScorePercentage;
+	private double scorePercentage;
 	
-	private int matchPoints;
+	private double points;
 
 	private int rank;
+	
+	private int scoredStages;
+	
+	public MatchResultDataLine() { }
+	public MatchResultDataLine(Competitor competitor, MatchResultData matchResultData) {
+		this.competitor = competitor;
+		this.matchResultData = matchResultData;
+	}
+	@Override
+	public int compareTo(MatchResultDataLine compareToDataLine) {
+	    final int EQUAL = 0;
+	    if (this == compareToDataLine) return EQUAL;
+	    return new Double(compareToDataLine.getPoints()).compareTo(new Double(this.points));
+	}
 	
 	public Long getId() {
 		return id;
@@ -50,20 +64,20 @@ public class MatchResultDataLine {
 		this.competitor = competitor;
 	}
 
-	public int getMatchScorePercentage() {
-		return matchScorePercentage;
+	public double getScorePercentage() {
+		return scorePercentage;
 	}
 
-	public void setMatchScorePercentage(int matchScorePercentage) {
-		this.matchScorePercentage = matchScorePercentage;
+	public void setScorePercentage(double scorePercentage) {
+		this.scorePercentage = scorePercentage;
 	}
 
-	public int getMatchPoints() {
-		return matchPoints;
+	public double getPoints() {
+		return points;
 	}
 
-	public void setMatchPoints(int matchPoints) {
-		this.matchPoints = matchPoints;
+	public void setPoints(double points) {
+		this.points = points;
 	}
 
 	public int getRank() {
@@ -72,5 +86,13 @@ public class MatchResultDataLine {
 
 	public void setRank(int rank) {
 		this.rank = rank;
+	}
+
+	public int getScoredStages() {
+		return scoredStages;
+	}
+
+	public void setScoredStages(int scoredStages) {
+		this.scoredStages = scoredStages;
 	}
 }

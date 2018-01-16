@@ -14,6 +14,7 @@ public class MatchScore implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	
+	@JsonProperty("match_id")
 	private String matchId;
 
 	private Match match;

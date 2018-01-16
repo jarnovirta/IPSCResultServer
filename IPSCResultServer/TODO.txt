@@ -14,4 +14,8 @@
 - korjaa c:url t√§gi javascriptiksi (location.pathname)
 - exception handling
 - Testaa Competitor -> IPSCCategory toiminta, mm. kun monta kategoriaa.
-- Tulosten py√∂ristys: ei py√∂ristet√§ vaan katkaistaan.
+
+- Linkit n‰kymien divisioonavaihtoihin ym. niin, ett‰ ei tule historiatietoon, jotta peruuttamalla p‰‰see edelliselle sivulle.
+- Onko mahdollista ett‰ sama kilpailija ampuu saman kisan toisessa divisioonassa esim. toisena p‰iv‰n‰? Miten t‰llˆin k‰y practiscoressa? Onko kilpailijoita kaksi?
+	Pit‰‰ huomioida tuloksia laskettaessa?
+- Sulje pois tuloslaskennasta kilpailijat, joilla ei ole pisteytettyj‰ suorituksia lainkaan.

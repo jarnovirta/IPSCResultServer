@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import fi.ipsc_result_server.domain.IPSCDivision;
 import fi.ipsc_result_server.domain.Match;
 
 @Entity
@@ -27,13 +30,17 @@ public class MatchResultData implements Serializable {
 	@ManyToOne
 	private Match match; 
 	
+	@Enumerated(EnumType.ORDINAL)
+	private IPSCDivision division;
+		
 	@OneToMany(mappedBy = "matchResultData", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<MatchResultDataLine> dataLines;
 	
 	public MatchResultData() { }
 	
-	public MatchResultData(Match match) {
+	public MatchResultData(Match match, IPSCDivision division) {
 		this.match = match;
+		this.division = division;
 	}
 	
 	public Long getId() {
@@ -63,6 +70,12 @@ public class MatchResultData implements Serializable {
 	public void setDataLines(List<MatchResultDataLine> dataLines) {
 		this.dataLines = dataLines;
 	}
-	
-	
+
+	public IPSCDivision getDivision() {
+		return division;
+	}
+
+	public void setDivision(IPSCDivision division) {
+		this.division = division;
+	}
 }

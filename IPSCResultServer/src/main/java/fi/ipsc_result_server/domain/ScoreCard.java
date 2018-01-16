@@ -19,8 +19,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import fi.ipsc_result_server.util.DataFormatUtils;
-
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
 public class ScoreCard implements Serializable, Comparable<ScoreCard> {
@@ -360,7 +358,6 @@ public class ScoreCard implements Serializable, Comparable<ScoreCard> {
 	public void setStringTimes(double[] stringTimes) {
 		if (stringTimes != null && stringTimes.length > 0) {
 			this.time = stringTimes[0];
-			this.roundedTime = DataFormatUtils.round(this.time, 2);
 		}
 		this.stringTimes = stringTimes;
 		

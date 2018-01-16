@@ -18,7 +18,7 @@
 			</div>
 			<br><br>
 			<div class="panel panel-info">
-			  <div class="panel-heading">Stage Results</div>
+			  <div class="panel-heading">Stage: ${stageResultData.stage.name} / <c:out value="${stageResultData.division }"/></div>
 			  	<div class="panel-body">
 			  	  	<div class="verifyPageInfoTable">
 					    <div class="verifyPageInfoTableLeft">
@@ -119,7 +119,7 @@
 							<p>${dataline.scoreCard.points}</p>
 						</td>
 						<td>
-							<p><fmt:formatNumber type = "number" minFractionDigits = "2" maxFractionDigits = "2" value="${dataline.scoreCard.roundedTime }" /></p>
+							<p><fmt:formatNumber type = "number" minFractionDigits = "2" maxFractionDigits = "2" value="${dataline.scoreCard.time }" /></p>
 						</td>
 						<td>
 							<p><fmt:formatNumber type = "number" minFractionDigits = "4" maxFractionDigits = "4" value="${dataline.scoreCard.hitFactor }" /></p>
@@ -134,7 +134,8 @@
 							<p>${dataline.competitor.shooterNumber }</p>
 						</td>
 						<td>
-							<p>${dataline.competitor.lastName }, ${dataline.competitor.firstName }</p>
+							<c:url var="url" value="/match/${dataline.stageResultData.stage.match.id}/competitor/${dataline.competitor.id}" />
+							<p><a href="${url }">${dataline.competitor.lastName }, ${dataline.competitor.firstName }</a></p>
 						</td>
 						<td>
 							<c:forEach items = "${dataline.competitor.categories}" var = "category">
@@ -166,10 +167,8 @@
 	<c:url var="url" value="/" />
 	<script>
 		function submitStageListingChange() {
-				console.log($("select#stage").val());
-				console.log($("select#division").val());
-				window.location.href = "${url}match/${stageResultData.stage.match.id }/stage/" 
-					+ $("select#stage").val() + "/division/"+ $("select#division").val();
+			location.replace("${url}match/${stageResultData.stage.match.id }/stage/" 
+					+ $("select#stage").val() + "/division/"+ $("select#division").val());
 		}
 	</script>
 	

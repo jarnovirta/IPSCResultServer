@@ -53,7 +53,7 @@
 	
 	<script>
 		function submitCompetitor() {
-				window.location.href = "${url}match/${match.id }/competitor/" + $("select#verify").val();
+			window.location.href = "${url}match/${match.id }/competitor/" + $("select#verify").val();
 		}
 		function submitDivision() {
 			window.location.href = "${url}match/${match.id }/division/" + $("select#division").val();

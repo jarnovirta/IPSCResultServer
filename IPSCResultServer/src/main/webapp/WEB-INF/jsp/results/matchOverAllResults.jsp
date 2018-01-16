@@ -14,15 +14,16 @@
 	<div id="wrap">
 		<div class="container">
 			<div class="page-header">
-				<h1>Results for ${stageResultData.stage.match.name}</h1>
+				<h1>Results for ${matchResultData.match.name}</h1>
 			</div>
 			<br><br>
 			<div class="panel panel-info">
-			  <div class="panel-heading">Match Results</div>
+			  <div class="panel-heading">Match Results - <c:out value="${matchResultData.division}"/></div>
 			  	<div class="panel-body">
 			  	  	<div class="verifyPageInfoTable">
 					    <div class="verifyPageInfoTableLeft">
 					        <table>
+					        	<tr>
 					        		<td>
 					        			<p>Division:</p>
 					        		</td>
@@ -30,7 +31,7 @@
 										<p>
 											<select style="width: auto; max-width: 100%" id="division" name="division"
 												class="form-control">
-												<c:forEach var="division" items="${stageResultData.stage.match.divisionsWithResults}">
+												<c:forEach var="division" items="${matchResultData.match.divisionsWithResults}">
 													<c:if test="${selectedDivision eq division}">
 														<option value="${division}" selected><c:out value="${division}" /></option>
 													</c:if>
@@ -56,21 +57,14 @@
 			<br>
 			<table class="table table-striped">
 				<tr>
-					<th><p>#</p></th>
 					<th>
-						<p>Points</p>
-					</th>
-					<th>
-						<p>Time</p>
-					</th>
-					<th>
-						<p>Hit Factor</p>
-					</th>
-					<th>
-						<p>Stage Points</p>
+						<p>#</p>
 					</th>
 					<th>
 						<p>%</p>
+					</th>
+					<th>
+						<p>Points</p>
 					</th>
 					<th>
 						<p>CompNr</p>
@@ -82,39 +76,35 @@
 						<p>Cat</p>
 					</th>
 					<th>
-						<p>Reg</p>
+						<p>Region</p>
 					</th>
 					<th>
-						<p>Div</p>
+						<p>Division</p>
+					</th>
+					<th>
+						<p>Team</p>
+					</th>
+					<th>
+						<p>Scored</p>
 					</th>
 				</tr>
-				<c:forEach var="dataline" items="${stageResultData.dataLines}">
+				<c:forEach var="dataline" items="${matchResultData.dataLines}">
 					<tr>
 						<td>
-							<p>${dataline.stageRank}.</p>
+							<p>${dataline.rank}.</p>
 						</td>
 						<td>
-							<p>${dataline.scoreCard.points}</p>
+							<p><fmt:formatNumber type = "number" minFractionDigits = "2" maxFractionDigits = "2" value="${dataline.scorePercentage }" /></p>
 						</td>
 						<td>
-							<p><fmt:formatNumber type = "number" minFractionDigits = "2" maxFractionDigits = "2" value="${dataline.scoreCard.roundedTime }" /></p>
+							<p><fmt:formatNumber type = "number" minFractionDigits = "4" maxFractionDigits = "4" value="${dataline.points }" /></p>
 						</td>
 						<td>
-							<p><fmt:formatNumber type = "number" minFractionDigits = "4" maxFractionDigits = "4" value="${dataline.scoreCard.hitFactor }" /></p>
+							<p>${dataline.competitor.shooterNumber}</p>
 						</td>
 						<td>
-							<p><fmt:formatNumber type = "number" minFractionDigits = "4" maxFractionDigits = "4" value="${dataline.stagePoints }" /></p>
-						</td>
-						<td>
-							<p><fmt:formatNumber type = "number" minFractionDigits = "2" maxFractionDigits = "2" value="${dataline.stageScorePercentage }" /></p>			
-						</td>
-						<td>
-							<c:if test = "${resultData.competitor.shooterNumber != -1} "> 
-					        	<p>${resultData.competitor.shooterNumber }</p>
-					        </c:if>
-						</td>
-						<td>
-							<p>${dataline.competitor.lastName }, ${dataline.competitor.firstName }</p>
+							<c:url var="url" value="/match/${dataline.matchResultData.match.id}/competitor/${dataline.competitor.id}" />
+							<p><a href="${url }">${dataline.competitor.lastName }, ${dataline.competitor.firstName }</a></p> 
 						</td>
 						<td>
 							<c:forEach items = "${dataline.competitor.categories}" var = "category">
@@ -136,7 +126,18 @@
 							<c:if test="${dataline.competitor.powerFactor eq  'MAJOR'}">
 								<c:set var="pf" value="+" />
 							</c:if>
-							<p>${fn:substring(dataline.competitor.division, 0, 1)}${pf}</p>
+							<p>${fn:substring(dataline.competitor.division, 0, 1)}${pf}</p>			
+						</td>
+						<td>
+							<c:set var="team" value="${dataline.competitor.team }" />
+							<c:if test="${fn:length(team) > 15 }">
+								<c:set var="team" value="${fn:substring(team, 0, 15)}..." />
+							</c:if>
+							<p>${team }</p>
+						</td>
+
+						<td>
+							<p>${dataline.scoredStages }</p>
 						</td>
 					</tr> 
 				</c:forEach>
@@ -146,8 +147,7 @@
 	<c:url var="url" value="/" />
 	<script>
 		function submitDivisionChange() {
-				console.log($("select#division").val());
-				window.location.href = "${url}match/${stageResultData.stage.match.id }/division/"+ $("select#division").val();
+				location.replace("${url}match/${matchResultData.match.id }/division/"+ $("select#division").val());
 		}
 	</script>
 	
