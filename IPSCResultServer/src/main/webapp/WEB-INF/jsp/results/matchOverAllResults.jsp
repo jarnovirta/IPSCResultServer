@@ -8,7 +8,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %> 
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix = "fn" uri = "http://java.sun.com/jsp/jstl/functions"  %>
+<%@ taglib prefix = "fn" uri = "http://java.sun.com/jsp/jstl/functions" %>
 
 <body>
 
@@ -17,7 +17,7 @@
 		<div class="container">
 			<ol class="breadcrumb breadcrumb-arrow">
 				<li><a href="${baseUrl }">Home</a></li>
-				<li><a href="${baseUrl }/match/${matchResultData.match.id}">Match Main Page</a></li>
+				<li><a href="${baseUrl }match/${matchResultData.match.id}">Match Main Page</a></li>
 				<li class="active"><span>Match Results</span></li>
 			</ol>
 			<div class="page-header">

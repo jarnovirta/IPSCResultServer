@@ -14,7 +14,7 @@
 		<div class="container">
 		    <ol class="breadcrumb breadcrumb-arrow">
 				<li><a href="${baseUrl }">Home</a></li>
-				<li class="active"><span>Match</span></li>
+				<li class="active"><span>Match Main Page</span></li>
 			</ol>
 			<div class="page-header">
 				<h1>${match.name}</h1>
@@ -53,6 +53,9 @@
 				</select>
 				<br>
 				<button class="btn btn-large btn-primary" onclick="submitStage()" type="button">Ok</button>
+				
+				<br><br>
+				<button class="btn btn-large btn-primary" onclick="showStatistics()" type="button">Statistics</button>
 		</div>
 	</div>
 	
@@ -65,6 +68,9 @@
 		}
 		function submitStage() {
 			window.location.href = "${baseUrl}match/${match.id }/stage/" + $("select#stage").val();
+		}
+		function showStatistics() {
+			window.location.href = "${baseUrl}match/${match.id }/statistics";
 		}
 	</script>
 <jsp:include page="/WEB-INF/jsp/include/footer.jsp" />

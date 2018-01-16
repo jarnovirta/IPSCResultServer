@@ -52,6 +52,9 @@ public class MatchScoreService {
 	@Autowired
 	ResultDataService resultDataService;
 	
+	@Autowired
+	StatisticsService statisticsService;
+	
 	final static Logger logger = Logger.getLogger(MatchScoreService.class);
 	
 	@Transactional
@@ -114,7 +117,10 @@ public class MatchScoreService {
 			}
 		}
 		generateMatchResultListing(match);
-		System.out.println("**** MATCH SCORE SAVE DONE");
+		
+		statisticsService.generateCompetitorStatistics(match);
+		
+		logger.info("**** MATCH SCORE SAVE DONE");
 	}
 	
 	

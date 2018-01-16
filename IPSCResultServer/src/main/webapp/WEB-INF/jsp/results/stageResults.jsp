@@ -17,7 +17,7 @@
 		<div class="container">
 			<ol class="breadcrumb breadcrumb-arrow">
 				<li><a href="${baseUrl }">Home</a></li>
-				<li><a href="${baseUrl }/match/${stageResultData.stage.match.id}">Match Main Page</a></li>
+				<li><a href="${baseUrl }match/${stageResultData.stage.match.id}">Match Main Page</a></li>
 				<li class="active"><span>Stage Results</span></li>
 			</ol>
 		

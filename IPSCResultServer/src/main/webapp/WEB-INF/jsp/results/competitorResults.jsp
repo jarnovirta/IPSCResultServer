@@ -16,7 +16,7 @@
 		<div class="container">
 			<ol class="breadcrumb breadcrumb-arrow">
 				<li><a href="${baseUrl }">Home</a></li>
-				<li><a href="${baseUrl }/match/${resultData.match.id}">Match Main Page</a></li>
+				<li><a href="${baseUrl }match/${resultData.match.id}">Match Main Page</a></li>
 				<li class="active"><span>Verify List</span></li>
 			</ol>
 			<div class="page-header">
@@ -159,7 +159,7 @@
 								<p><a href="${url}">${scoreCard.stage.name}</a></p>
 							</td>
 							<td>
-								<p><fmt:formatNumber type = "number" minFractionDigits = "2" value="${scoreCard.time }" /></p>
+								<p><fmt:formatNumber type = "number" minFractionDigits = "2" maxFractionDigits = "2" value="${scoreCard.time }" /></p>
 							</td>
 							<td>
 								<p>${scoreCard.aHits}</p>

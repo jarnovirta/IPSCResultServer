@@ -17,6 +17,7 @@ import fi.ipsc_result_server.domain.IPSCDivision;
 import fi.ipsc_result_server.domain.ScoreCard;
 import fi.ipsc_result_server.domain.ResultData.CompetitorResultData;
 import fi.ipsc_result_server.domain.ResultData.MatchResultData;
+import fi.ipsc_result_server.domain.ResultData.MatchResultDataLine;
 import fi.ipsc_result_server.domain.ResultData.StageResultData;
 import fi.ipsc_result_server.domain.ResultData.StageResultDataLine;
 import fi.ipsc_result_server.repository.StageResultDataRepository;
@@ -112,6 +113,20 @@ public class ResultDataService {
 			query.setParameter("competitor", competitor);
 			query.setParameter("competitorDivision", competitor.getDivision());
 			return query.getResultList();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		return null;
+	}
+	
+	public MatchResultDataLine getMatchResultDataLineForCompetitor(Competitor competitor) {
+		try {
+			String queryString = "SELECT m FROM MatchResultDataLine m WHERE m.competitor = :competitor AND m.matchResultData.division = :competitorDivision";
+			TypedQuery<MatchResultDataLine> query = entityManager.createQuery(queryString, MatchResultDataLine.class);
+			query.setParameter("competitor", competitor);
+			query.setParameter("competitorDivision", competitor.getDivision());
+			List<MatchResultDataLine> lines = query.getResultList();
+			if (lines != null && lines.size() > 0) return lines.get(0);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
