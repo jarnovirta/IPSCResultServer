@@ -12,6 +12,9 @@
 <body>
 	<div id="wrap">
 		<div class="container">
+			<ol class="breadcrumb breadcrumb-arrow">
+				<li class="active"><span>Home</span></li>
+			</ol>
 			<div class="page-header">
 				<h1>Result service</h1>
 			</div>

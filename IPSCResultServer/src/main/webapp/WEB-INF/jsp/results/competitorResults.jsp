@@ -10,8 +10,15 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <body>
+
+	<c:url var="baseUrl" value="/" />
 	<div id="wrap">
 		<div class="container">
+			<ol class="breadcrumb breadcrumb-arrow">
+				<li><a href="${baseUrl }">Home</a></li>
+				<li><a href="${baseUrl }/match/${resultData.match.id}">Match Main Page</a></li>
+				<li class="active"><span>Verify List</span></li>
+			</ol>
 			<div class="page-header">
 				<h1>Results for ${resultData.competitor.firstName } ${resultData.competitor.lastName }</h1>
 			</div>

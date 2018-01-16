@@ -56,11 +56,15 @@ public class MatchScoreService {
 	
 	@Transactional
 	public void save(MatchScore matchScore) {
+		logger.info("Saving match score data...");
+		
+		Match match = matchService.getOne(matchScore.getMatchId());
+		if (match.getDivisions() == null) match.setDivisions(new ArrayList<IPSCDivision>());
+		
 		List<Stage> stagesWithNewResults = new ArrayList<Stage>();
 		// Delete old match result listing
 		List<MatchResultData> oldMatchResultData = findByMatchId(matchScore.getMatchId());
 		if (oldMatchResultData != null) {
-			logger.info("Deleting old MatchResultData");
 			deleteInBatch(oldMatchResultData);
 		}
 		
@@ -78,6 +82,11 @@ public class MatchScoreService {
 			// Remove old scorecards
 			scoreCardService.deleteInBatch(stageScore.getScoreCards());
 			
+			
+			if (match.getDivisionsWithResults() == null) {
+				match.setDivisionsWithResults(new ArrayList<IPSCDivision>());
+			}
+			List<IPSCDivision> newIPSCDivisionsWithResults = new ArrayList<IPSCDivision>();
 			for (ScoreCard scoreCard : stageScore.getScoreCards()) {
 				scoreCard.setHitsAndPoints();
 				scoreCard.setStage(stage);
@@ -86,6 +95,16 @@ public class MatchScoreService {
 				
 				scoreCardService.removeOldScoreCard(scoreCard);
 				scoreCardService.save(scoreCard);
+				
+				IPSCDivision scoreCardDivision = scoreCard.getCompetitor().getDivision();
+
+				if (!match.getDivisions().contains(scoreCardDivision) && !newIPSCDivisionsWithResults.contains(scoreCardDivision))  {
+					newIPSCDivisionsWithResults.add(scoreCardDivision);
+				}
+			}
+			// If match has results for more than one division, add IPSCDivision combined to match for result listing purposes.
+			if (match.getDivisionsWithResults().size() + newIPSCDivisionsWithResults.size() > 1 && !match.getDivisions().contains(IPSCDivision.COMBINED)) {
+				match.getDivisionsWithResults().add(IPSCDivision.COMBINED);
 			}
 		}
 		if (stagesWithNewResults.size() > 0) {
@@ -93,19 +112,17 @@ public class MatchScoreService {
 				logger.info("Generating stage results data for stages with new results...");
 				stageScoreService.generateStageResultsListing(stageWithNewResults);
 			}
-			
-			
 		}
-		generateMatchResultListing(matchScore.getMatchId());
+		generateMatchResultListing(match);
 		System.out.println("**** MATCH SCORE SAVE DONE");
 	}
 	
 	
 	
 	@Transactional
-	public MatchResultData generateMatchResultListing(String matchId) {
+	public MatchResultData generateMatchResultListing(Match match) {
 		logger.info("Generating match result data...");
-		Match match = matchService.getOne(matchId);
+		
 		
 		for (IPSCDivision division : match.getDivisionsWithResults()) {
 			MatchResultData matchResultData = new MatchResultData(match, division);

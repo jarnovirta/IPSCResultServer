@@ -8,8 +8,14 @@
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %> 
 
 <body>
+	<c:url var="baseUrl" value="/" />
+
 	<div id="wrap">
 		<div class="container">
+		    <ol class="breadcrumb breadcrumb-arrow">
+				<li><a href="${baseUrl }">Home</a></li>
+				<li class="active"><span>Match</span></li>
+			</ol>
 			<div class="page-header">
 				<h1>${match.name}</h1>
 			</div>
@@ -49,17 +55,16 @@
 				<button class="btn btn-large btn-primary" onclick="submitStage()" type="button">Ok</button>
 		</div>
 	</div>
-	<c:url var="url" value="/" />
 	
 	<script>
 		function submitCompetitor() {
-			window.location.href = "${url}match/${match.id }/competitor/" + $("select#verify").val();
+			window.location.href = "${baseUrl}match/${match.id }/competitor/" + $("select#verify").val();
 		}
 		function submitDivision() {
-			window.location.href = "${url}match/${match.id }/division/" + $("select#division").val();
+			window.location.href = "${baseUrl}match/${match.id }/division/" + $("select#division").val();
 		}
 		function submitStage() {
-			window.location.href = "${url}match/${match.id }/stage/" + $("select#stage").val();
+			window.location.href = "${baseUrl}match/${match.id }/stage/" + $("select#stage").val();
 		}
 	</script>
 </body>

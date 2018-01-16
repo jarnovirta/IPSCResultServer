@@ -34,11 +34,7 @@ public class MatchService {
 	@Transactional
 	public Match save(Match match) {
 		System.out.println("*** Merging match");
-		if (match.getDivisionsWithResults() == null) {
-			List<IPSCDivision> divisionsWithResults = new ArrayList<IPSCDivision>();
-			divisionsWithResults.add(IPSCDivision.COMBINED);
-			match.setDivisionsWithResults(divisionsWithResults);
-		}
+
 		if (match.getCompetitors() != null) {
 			int competitorNumber = 1;
 			for (Competitor competitor : match.getCompetitors()) {

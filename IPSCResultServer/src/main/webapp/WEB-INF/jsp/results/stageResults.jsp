@@ -11,8 +11,16 @@
 <%@ taglib prefix = "fn" uri = "http://java.sun.com/jsp/jstl/functions"  %>
 
 <body>
+	<c:url var="baseUrl" value="/" />
+
 	<div id="wrap">
 		<div class="container">
+			<ol class="breadcrumb breadcrumb-arrow">
+				<li><a href="${baseUrl }">Home</a></li>
+				<li><a href="${baseUrl }/match/${stageResultData.stage.match.id}">Match Main Page</a></li>
+				<li class="active"><span>Stage Results</span></li>
+			</ol>
+		
 			<div class="page-header">
 				<h1>Results for Stage in ${stageResultData.stage.match.name}</h1>
 			</div>
@@ -164,12 +172,12 @@
 			</table>
 		</div>
 	</div>
-	<c:url var="url" value="/" />
+	
 	<script>
 		function submitStageListingChange() {
-			location.replace("${url}match/${stageResultData.stage.match.id }/stage/" 
+			location.replace("${baseUrl}match/${stageResultData.stage.match.id }/stage/" 
 					+ $("select#stage").val() + "/division/"+ $("select#division").val());
-		}
+		} 
 	</script>
 	
 </body>
