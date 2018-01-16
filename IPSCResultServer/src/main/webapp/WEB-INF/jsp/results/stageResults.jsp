@@ -180,5 +180,4 @@
 		} 
 	</script>
 	
-</body>
-</html>
+<jsp:include page="/WEB-INF/jsp/include/footer.jsp" />

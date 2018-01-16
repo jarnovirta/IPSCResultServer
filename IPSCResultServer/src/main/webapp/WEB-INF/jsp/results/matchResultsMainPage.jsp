@@ -67,5 +67,4 @@
 			window.location.href = "${baseUrl}match/${match.id }/stage/" + $("select#stage").val();
 		}
 	</script>
-</body>
-</html>
+<jsp:include page="/WEB-INF/jsp/include/footer.jsp" />

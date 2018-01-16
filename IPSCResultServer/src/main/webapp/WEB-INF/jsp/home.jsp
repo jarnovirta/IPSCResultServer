@@ -37,7 +37,4 @@
 			window.location.href = "${url}match/" + $("select#seletcMatch").val();
 		}
 	</script>
-</body>
-</html>
-
-
+<jsp:include page="/WEB-INF/jsp/include/footer.jsp" />

@@ -157,6 +157,6 @@
 				location.replace("${baseUrl}match/${matchResultData.match.id }/division/"+ $("select#division").val());
 		}
 	</script>
-	
-</body>
-</html>
+
+	<jsp:include page="/WEB-INF/jsp/include/footer.jsp" />
+    
