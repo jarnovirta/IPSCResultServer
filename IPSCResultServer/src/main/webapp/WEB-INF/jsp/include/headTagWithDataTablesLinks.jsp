@@ -18,11 +18,12 @@
 
 	<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 	
 <!-- CSS: -->
 
-<link rel="stylesheet" href="<c:url value='/resources/css/stickyfooter-template.css' />"/>
-
+	<link rel="stylesheet" href="<c:url value='/resources/css/stickyfooter-template.css' />"/>
+	
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	
 	<!-- Optional theme -->
@@ -30,4 +31,11 @@
 		
 	<!-- Custom styles -->
 	<link rel="stylesheet" href="<c:url value='/resources/css/ipscResultServerStyles.css' />"/>
+	
+		<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+		<link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css"/>
+		<script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"></script>
+		
 </head>
+
+	

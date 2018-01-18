@@ -1,12 +1,15 @@
 @CHARSET "ISO-8859-1";
-.verifyPageInfoTable { width:100%; overflow:hidden; }
-.verifyPageInfoTable table { border-collapse: separate;border-spacing: 5px; }
+.pageInfoTable { width:100%; overflow:hidden; }
+.pageInfoTable table { border-collapse: separate;border-spacing: 10px; }
 
-.verifyPageInfoTableLeft { float:left; width:50%; }
-.verifyPageInfoTableReft { float:right; width:50%;  }
+.pageInfoTableLeft { float:left; width:50%; }
+.pageInfoTableRight { float:right; width:50%;  }
+
+.resultsPageDropDownTable { padding-left: 10px; }
 
 body{
     padding-top: 50px;   
+    padding-bottom: 50px;
 }
 
 .breadcrumb-arrow {
