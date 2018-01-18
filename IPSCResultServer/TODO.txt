@@ -19,3 +19,4 @@
 - Onko mahdollista että sama kilpailija ampuu saman kisan toisessa divisioonassa esim. toisena päivänä? Miten tällöin käy practiscoressa? Onko kilpailijoita kaksi?
 	Pitää huomioida tuloksia laskettaessa?
 - Sulje pois tuloslaskennasta kilpailijat, joilla ei ole pisteytettyjä suorituksia lainkaan.
+

@@ -27,6 +27,7 @@
 			  <div class="panel-heading">Match Info</div>
 			  	<div class="panel-body">
 					    <div class="pageInfoTable">
+					    	<div class="pageInfoTableLeft">
 					        <table>
 					        	<tr>
 					        		<td>
@@ -44,62 +45,68 @@
 					        			<fmt:formatDate value="${statistics.match.date.time}" pattern="dd.MM.yyyy" />
 					        		</td>
 					        	</tr>
-					        	<tr>
+					        	
+							</table>
+							</div>
+							<div class="pageInfoTableRight">   
+					       	<table>
+					       		<tr>
 					        		<td>
-					        			<b>Division:</b>
+					        			<b>Showing statistics for division:</b>
 					        		</td>
 					        		<td>
 					        			<c:out value="${statistics.division}" />
 					        		</td>
 					        	</tr>
-							</table>
+					        </table>
+					       	</div>
+							
 					    </div>
 					  </div>
 				</div>
-		        <div class="pageInfoTable"> 
-			        <table class="resultsPageDropDownTable">
-			        	<tr>
-			        		<td>
-			        			<b>Division:</b>
-			        		</td>
-			        		<td>
-			        			<select style="width: auto; max-width: 100%" id="division" name="division"
-									class="form-control">
-									<c:forEach var="division" items="${statistics.match.divisionsWithResults}">
-										<c:if test="${selectedDivision eq division}">
-											<option value="${division}" selected><c:out value="${division}" /></option>
-										</c:if>
-										<c:if test="${selectedDivision ne division}">
-											<option value="${division}"><c:out value="${division}" /></option>
-										</c:if>
-									</c:forEach>
-								</select>
-			        		</td>
-			        		<td>
-			        			<button class="btn btn-large btn-primary" onclick="submitDivisionChange()" type="button">Ok</button>
-			        		</td>
-			        	</tr>
-			        </table>
-				</div>
-
+		        <table class="resultsPageDropDownTable">
+		        	<tr>
+		        		<td>
+		        			<b>Show statistics for division:</b>
+		        		</td>
+		        		<td>
+		        			<select style="width: auto; max-width: 100%" id="division" name="division"
+								class="form-control">
+								<c:forEach var="division" items="${statistics.match.divisionsWithResults}">
+									<c:if test="${selectedDivision eq division}">
+										<option value="${division}" selected><c:out value="${division}" /></option>
+									</c:if>
+									<c:if test="${selectedDivision ne division}">
+										<option value="${division}"><c:out value="${division}" /></option>
+									</c:if>
+								</c:forEach>
+							</select>
+		        		</td>
+		        		<td>
+		        			<button class="btn btn-large btn-primary" onclick="submitDivisionChange()" type="button">Ok</button>
+		        		</td>
+		        	</tr>
+		        </table>
+			        
+				<div class="sortTableHint"><p><i>(Hold shift to sort by several columns)</i></p></div>
 			<br>
 			<table class="table table-striped table-bordered" id="statisticsTable">
 				<thead>
 					<tr>
 						<th>
-							CompNr
+							Div Pos
 						</th>
 						<th>
 							Name
 						</th>
 						<th>
-							Div Pos
-						</th>
-						<th>
-							Div%
+							CompNr
 						</th>
 						<th>
 							Total Pts
+						</th>
+						<th>
+							Div%
 						</th>
 						<th>
 							Time
@@ -137,43 +144,43 @@
 					<c:forEach var="line" items="${statistics.statisticsLines}">
 							<tr>
 								<td align="right">
-									${line.competitor.shooterNumber }
+									${line.divisionRank}
 								</td>
 								<td>
 									<c:url var="url" value="/match/${statistics.match.id}/competitor/${line.competitor.id}" />
 									<a href="${url}">${line.competitor.firstName} ${line.competitor.lastName} </a>
 								</td>
 								<td align="right">
-									${line.divisionRank}.
-								</td>
-								<td align="right">
-									<fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${line.divisionScorePercentage }" />
+									${line.competitor.shooterNumber }
 								</td>
 								<td align="right">
 									<fmt:formatNumber type="number" minFractionDigits="4" maxFractionDigits="4" value="${line.divisionPoints }" />
 								</td>
 								<td align="right">
+									<fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${line.divisionScorePercentage }" />
+								</td>
+								<td align="right">
 									<fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${line.matchTime }" />
 								</td>
-								<td align="center">
+								<td align="right">
 									${line.aHits}
 								</td>
 								<td align="right">
 									<fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${line.aHitPercentage }" />
 								</td>
-								<td align="center">
+								<td align="right">
 									${line.cHits}						
 								</td>
-								<td align="center">
+								<td align="right">
 									${line.dHits}
 								</td>
-								<td align="center">
+								<td align="right">
 									${line.misses}
 								</td>
-								<td align="center">
+								<td align="right">
 									${line.noShootHits }
 								</td>
-								<td align="center">
+								<td align="right">
 									${line.proceduralPenalties}
 								</td>
 								<td align="right">

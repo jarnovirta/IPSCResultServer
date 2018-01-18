@@ -138,4 +138,16 @@ public class ResultDataService {
 		entityManager.persist(matchResultData);
 		return matchResultData;
 	}
+	public List<IPSCDivision> getAvailableDivisionsForStageResults(String stageId) {
+		try {
+			String queryString = "SELECT DISTINCT(s.division) FROM StageResultData s WHERE s.stage.id = :stageId";
+			TypedQuery<IPSCDivision> query = entityManager.createQuery(queryString, IPSCDivision.class); 
+			query.setParameter("stageId", stageId);
+			return query.getResultList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 }

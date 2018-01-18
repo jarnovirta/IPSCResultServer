@@ -20,174 +20,197 @@
 				<li class="active"><span>Verify List</span></li>
 			</ol>
 			<div class="page-header">
-				<h1>Results for ${resultData.competitor.firstName } ${resultData.competitor.lastName }</h1>
+				<h1>Verify List</h1>
 			</div>
 			<br><br>
+			
 			<div class="panel panel-info">
-			  <div class="panel-heading">Competitor verification list / ${resultData.match.name } - <fmt:formatDate value="${resultData.match.date.time}" pattern="dd.MM.yyyy" /></div>
+			  <div class="panel-heading">Competitor Information</div>
 			  	<div class="panel-body">
-			  	  	<div class="verifyPageInfoTable">
-					    <div class="verifyPageInfoTableLeft">
-					        <table>
-					        	<tr>
-					        		<td>
-					        			<p>Competitor #:</p>
-					        		</td>
-					        		<td>
-					        			<p>${resultData.competitor.shooterNumber }</p>
-					        		</td>
-					        	</tr>
-					        	<tr>
-					        		<td>
-					        			<p>Name:</p>
-					        		</td>
-					        		<td>
-					        			<p>${resultData.competitor.firstName } ${resultData.competitor.lastName }</p>
-					        		</td>
-					        	</tr>
-								<tr>
-					        		<td>
-					        			<p>Alias:</p>
-					        		</td>
-					        		<td>
-					        			<p>${resultData.competitor.ipscAlias }</p>
-					        		</td>
-					        	</tr>	
-					        	<tr>
-					        		<td>
-					        			<p>Division:</p>
-					        		</td>
-					        		<td>
-					        			<p><c:out value="${resultData.competitor.division }" /></p>
-					        		</td>
-					        	</tr>
-					        	<tr>
-					        		<td>
-					        			<p>Team:</p>
-					        		</td>
-					        		<td>
-					        			<p>${resultData.competitor.team }</p>
-					        		</td>
-					        	</tr>					    			        	
-					        </table> 
-					    </div>
-					    <div class="verifyPageInfoTableRight">   
+					    <div class="pageInfoTable">
+					    	<div class="pageInfoTableLeft">
+						        <table>
+						        	<tr>
+						        		<td>
+						        			<b>Name:</b>
+						        		</td>
+						        		<td>
+						        			<b>${resultData.competitor.firstName } ${resultData.competitor.lastName }</b>
+						        		</td>
+						        	</tr>
+						        	<tr>
+						        		<td>
+						        			<b>Competitor #:</b>
+						        		</td>
+						        		<td>
+						        			${resultData.competitor.shooterNumber }
+						        		</td>
+						        	</tr>
+									<tr>
+						        		<td>
+						        			<b>Alias:</b>
+						        		</td>
+						        		<td>
+						        			${resultData.competitor.ipscAlias }
+						        		</td>
+						        	</tr>	
+						        	<tr>
+						        		<td>
+						        			<b>Match:</b>
+						        		</td>
+						        		<td>
+						        			${resultData.match.name }
+						        		</td>
+						        	</tr>
+						        	<tr>
+						        		<td>
+						        			<b>Match date:</b>
+						        		</td>
+						        		<td>
+						        			<fmt:formatDate value="${resultData.match.date.time}" pattern="dd.MM.yyyy" />
+						        		</td>
+						        	</tr>
+						        </table> 
+						    </div>
+					    <div class="pageInfoTableRight">   
 					       	<table>
-					        	<tr>
+					       		<tr>
 					        		<td>
-					        			<p>Power Factor:</p>
+					        			<b>Division:</b>
 					        		</td>
 					        		<td>
-					        			<p><c:out value="${resultData.competitor.powerFactor }" /></p>
+					        			<c:url var="url" value="/match/${resultData.match.id}/division/${resultData.competitor.division}" />
+										<a href="${url}"><c:out value="${resultData.competitor.division }" /></a>
 					        		</td>
 					        	</tr>
 					        	<tr>
 					        		<td>
-					        			<p>Category:</p>
+					        			<b>Power Factor:</b>
+					        		</td>
+					        		<td>
+					        			<c:out value="${resultData.competitor.powerFactor }" />
+					        		</td>
+					        	</tr>
+					        	<tr>
+					        		<td>
+					        			<b>Category:</b>
 					        		</td>
 					        		<td>
 					        			<c:forEach items="${resultData.competitor.categories }" var="category">
-					        				<p><c:out value="${category}" /></p> 
+					        				<c:out value="${category}" /> 
 					        			</c:forEach>
 					        		</td>
 					        	</tr>
 								<tr>
 					        		<td>
-					        			<p>Region:</p>
+					        			<b>Region:</b>
 					        		</td>
 					        		<td>
-					        			<p>${resultData.competitor.country }</p>
+					        			${resultData.competitor.country }
 					        		</td>
 					        	</tr>	
 					        	<tr>
 					        		<td>
-					        			<p>Squad:</p>
+					        			<b>Squad:</b>
 					        		</td>
 					        		<td>
-					        			<p>${resultData.competitor.squad }</p>
+					        			${resultData.competitor.squad }
 					        		</td>
-					        	</tr>			        	
+					        	</tr>
+					        	<tr>
+						        	<td>
+						        		<b>Team:</b>
+						        	</td>
+						        	<td>
+						        		${resultData.competitor.team }
+						        	</td>
+						        </tr>			        	
 					        </table> 
-					    </div>        
-					</div>
+					    </div>
+					  </div>
 				</div>
 			</div>
 
 			<br>
-			<table class="table table-striped">
-				<tr>
-					<th><p>#</p></th>
-					<th>
-						<p>Stage</p>
-					</th>
-					<th>
-						<p>Time</p>
-					</th>
-					<th>
-						<p>A</p>
-					</th>
-					<th>
-						<p>C</p>
-					</th>
-					<th>
-						<p>D</p>
-					</th>
-					<th>
-						<p>Miss</p>
-					</th>
-					<th>
-						<p>NS</p>
-					</th>
-					<th>
-						<p>Proc.</p>
-					</th>
-					<th>
-						<p>Last updated</p>
-					</th>
-					<th>
-						<p>Rank</p>
-					</th>
-				</tr>
-				<c:forEach var="stage" items="${resultData.match.stages}">
-					<c:set var="scoreCard" value="${resultData.scoreCards[stage.id] }" />
-						<tr>
-							<td>
-								<p>${scoreCard.stage.stageNumber }</p>
-							</td>
-							<td>
-								<c:url var="url" value="/match/${resultData.match.id}/stage/${scoreCard.stage.id}/division/${scoreCard.competitor.division }" />
-								<p><a href="${url}">${scoreCard.stage.name}</a></p>
-							</td>
-							<td>
-								<p><fmt:formatNumber type = "number" minFractionDigits = "2" maxFractionDigits = "2" value="${scoreCard.time }" /></p>
-							</td>
-							<td>
-								<p>${scoreCard.aHits}</p>
-							</td>
-							<td>
-								<p>${scoreCard.cHits}</p>
-							</td>
-							<td>
-								<p>${scoreCard.dHits}</p>						
-							</td>
-							<td>
-								<p>${scoreCard.misses}</p>
-							</td>
-							<td>
-								<p>${scoreCard.noshootHits}</p>
-							</td>
-							<td>
-								<p>${scoreCard.proceduralPenalties }</p>
-							</td>
-							<td>
-								<p><fmt:formatDate value="${scoreCard.modified.time }" pattern="dd.MM.yyyy 'at' HH:mm:ss" /></p>
-							</td>
-							<td>
-								<p>${scoreCard.stageRank}</p>
-							</td>
-						</tr> 
-				</c:forEach>
+			<table class="table table-striped table-bordered" id="competitorResultTable">
+				<thead>
+					<tr>
+						<th>Stage #</th>
+						<th>
+							Stage Name
+						</th>
+						<th>
+							Time
+						</th>
+						<th>
+							A
+						</th>
+						<th>
+							C
+						</th>
+						<th>
+							D
+						</th>
+						<th>
+							Miss
+						</th>
+						<th>
+							NS
+						</th>
+						<th>
+							Proc.
+						</th>
+						<th>
+							Last updated
+						</th>
+						<th>
+							Rank
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<c:forEach var="stage" items="${resultData.match.stages}">
+						<c:set var="scoreCard" value="${resultData.scoreCards[stage.id] }" />
+							<tr>
+								<td align="right">
+									${scoreCard.stage.stageNumber }
+								</td>
+								<td>
+									<c:url var="url" value="/match/${resultData.match.id}/stage/${scoreCard.stage.id}/division/${scoreCard.competitor.division }" />
+									<a href="${url}">${scoreCard.stage.name}</a>
+								</td>
+								<td align="right">
+									<fmt:formatNumber type = "number" minFractionDigits = "2" maxFractionDigits = "2" value="${scoreCard.time }" />
+								</td>
+								<td align="right">
+									${scoreCard.aHits}
+								</td>
+								<td align="right">
+									${scoreCard.cHits}
+								</td>
+								<td align="right">
+									${scoreCard.dHits}						
+								</td>
+								<td align="right">
+									${scoreCard.misses}
+								</td>
+								<td align="right">
+									${scoreCard.noshootHits}
+								</td>
+								<td align="right">
+									${scoreCard.proceduralPenalties }
+								</td>
+								<td align="right">
+									<fmt:formatDate value="${scoreCard.modified.time }" pattern="dd.MM.yyyy 'at' HH:mm:ss" />
+								</td>
+								<td align="right">
+									${scoreCard.stageRank}
+								</td>
+							</tr> 
+					</c:forEach>
+				</tbody>
 			</table>
 		</div>
 	</div>
+
 <jsp:include page="/WEB-INF/jsp/include/footer.jsp" />

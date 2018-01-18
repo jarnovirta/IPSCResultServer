@@ -5,8 +5,13 @@
 .pageInfoTableLeft { float:left; width:50%; }
 .pageInfoTableRight { float:right; width:50%;  }
 
-.resultsPageDropDownTable { padding-left: 15px; }
+.resultsPageDropDownTable { padding-left: 15px; overflow:hidden; float:left; border-collapse: separate;border-spacing: 10px;  }
+ 
+.sortTableHint { float:right; padding-top:20px }
 
+.matchMainPageMenuTable { border-collapse: separate;border-spacing: 10px; }
+
+.matchMainPageSelectButtonCell { vertical-align: bottom; }
 body{
     padding-top: 50px;   
     padding-bottom: 50px;

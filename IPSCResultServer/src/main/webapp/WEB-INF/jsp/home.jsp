@@ -27,7 +27,7 @@
 					</c:forEach>
 				</select>
 				<br>
-				<button class="btn btn-large btn-primary" onclick="submit()" type="button">Ok</button>
+				<button class="btn btn-large btn-primary" onclick="submit()" type="button">Show</button>
 			
 		</div>
 	</div>

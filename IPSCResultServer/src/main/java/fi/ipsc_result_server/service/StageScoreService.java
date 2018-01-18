@@ -51,15 +51,23 @@ public class StageScoreService {
 	@Transactional
 	public void generateStageResultsListing(Stage stage) {
 		List<IPSCDivision> divisions = new ArrayList<IPSCDivision>();
-		divisions.add(IPSCDivision.COMBINED);
 		divisions.addAll(stage.getMatch().getDivisions());
-		
+		divisions.add(IPSCDivision.COMBINED);
+		int divisionsWithResults = 0;
 		for (IPSCDivision division : divisions) {
 			StageResultData stageResultData = new StageResultData(stage, division);
 			
 			List<StageResultDataLine> dataLines = new ArrayList<StageResultDataLine>();
 			List<ScoreCard> scoreCards;
-			if (division == IPSCDivision.COMBINED) scoreCards = scoreCardService.findScoreCardsByStage(stage.getId()); 
+			// Only generate data for combined divisions if at least 2 divisions have results. 
+			if (division == IPSCDivision.COMBINED) {
+				if (divisionsWithResults < 2) {
+					continue;
+				}
+				else {
+					scoreCards = scoreCardService.findScoreCardsByStage(stage.getId());
+				}
+			}
 			else scoreCards = scoreCardService.findScoreCardsByStageAndDivision(stage.getId(), division);
 			Collections.sort(scoreCards);
 			
@@ -69,7 +77,6 @@ public class StageScoreService {
 			for (ScoreCard scoreCard : scoreCards) {
 				// Discard results for DQ'ed competitor
 				if (scoreCard.getCompetitor().isDisqualified()) continue;
-				
 				if (rank == 1) topHitFactor = scoreCard.getHitFactor();
 				StageResultDataLine resultDataLine = new StageResultDataLine();
 				resultDataLine.setStageRank(rank);
@@ -89,8 +96,10 @@ public class StageScoreService {
 				rank++;
 			}
 			
+			divisionsWithResults++;
 			stageResultData.setDataLines(dataLines);
 			entityManager.persist(stageResultData);
+		
 		}
 				
 	}

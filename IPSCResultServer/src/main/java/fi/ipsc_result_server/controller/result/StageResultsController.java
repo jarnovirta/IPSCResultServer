@@ -1,5 +1,7 @@
 package fi.ipsc_result_server.controller.result;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,9 +18,19 @@ public class StageResultsController {
 	@Autowired
 	ResultDataService resultDataService;
 	
+	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public String getStageResultsPage(Model model, @PathVariable("id") String stageId) {
-		IPSCDivision division = IPSCDivision.COMBINED;
+		List<IPSCDivision> availableDivisions = resultDataService.getAvailableDivisionsForStageResults(stageId);
+		if (availableDivisions.size() == 0) {
+			model.addAttribute("stageResultData", null);
+			model.addAttribute("selectedDivision", null);
+			return "results/stageResults";
+		}
+		IPSCDivision division;
+		if (availableDivisions.contains(IPSCDivision.COMBINED)) division = IPSCDivision.COMBINED;
+		else division = availableDivisions.get(0);
+				
 		model.addAttribute("stageResultData", resultDataService.findResultDataForStage(stageId, division));
 		model.addAttribute("selectedDivision", division);
 		return "results/stageResults";
@@ -27,6 +39,7 @@ public class StageResultsController {
 	@RequestMapping(value = "/{id}/division/{division}", method = RequestMethod.GET)
 	public String getStageResultsPageForDivision(Model model, @PathVariable("id") String stageId, 
 			@PathVariable("division") String divisionString) {
+		
 		IPSCDivision division = IPSCDivision.valueOf(divisionString.toUpperCase());
 		model.addAttribute("stageResultData", resultDataService.findResultDataForStage(stageId, division));
 		model.addAttribute("selectedDivision", division);
