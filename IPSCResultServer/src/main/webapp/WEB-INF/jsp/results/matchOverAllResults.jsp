@@ -124,7 +124,7 @@
 				<tbody>
 					<c:forEach var="dataline" items="${matchResultData.dataLines}">
 						<tr>
-							<td>
+							<td align="right">
 								${dataline.rank}.
 							</td>
 							<td>
@@ -134,16 +134,16 @@
 							<td>
 								<a href="${url }">${dataline.competitor.lastName }</a> 
 							</td>
-							<td>
+							<td align="left">
 								${dataline.competitor.shooterNumber}
 							</td>
-							<td>
+							<td align="right">
 								<fmt:formatNumber type = "number" minFractionDigits = "4" maxFractionDigits = "4" value="${dataline.points }" />
 							</td>
-							<td>
+							<td align="right">
 								<fmt:formatNumber type = "number" minFractionDigits = "2" maxFractionDigits = "2" value="${dataline.scorePercentage }" />
 							</td>
-							<td>
+							<td align="center">
 								<c:if test="${dataline.competitor.powerFactor eq  'MINOR'}">
 									<c:set var="pf" value="-" />
 								</c:if>
@@ -152,7 +152,7 @@
 								</c:if>
 								${fn:substring(dataline.competitor.division, 0, 1)}${pf}			
 							</td>
-							<td>
+							<td align="center">
 								<c:forEach items = "${dataline.competitor.categories}" var = "category">
 									<c:if test="${category eq  'SUPER_SENIOR'}">
 										<p>SS</p>
@@ -172,7 +172,7 @@
 								</c:if>
 								${team }
 							</td>
-							<td>
+							<td align="left">
 								${dataline.scoredStages }
 							</td>
 						</tr> 
