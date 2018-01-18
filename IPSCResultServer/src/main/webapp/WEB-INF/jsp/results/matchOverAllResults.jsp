@@ -83,7 +83,7 @@
 			        </table>
 				</div>
 
-			<table class="table table-striped table-bordered resultDataTable" id="matchResultTable">
+			<table class="table table-striped table-bordered" id="matchResultTable">
 				<thead>
 					<tr>
 						<th>

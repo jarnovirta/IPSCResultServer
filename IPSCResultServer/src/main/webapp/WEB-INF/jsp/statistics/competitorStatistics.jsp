@@ -1,7 +1,7 @@
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 
-<jsp:include page="/WEB-INF/jsp/include/headTag.jsp" />
+<jsp:include page="/WEB-INF/jsp/include/headTagWithDataTablesLinks.jsp" />
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form"%>
@@ -23,158 +23,187 @@
 				<h1>Competitor Statistics</h1>
 			</div>
 			<br><br>
-
 			<div class="panel panel-info">
-			  <div class="panel-heading">Competitor Statistics for ${statistics.match.name} / <c:out value="${statistics.division }"/></div>
+			  <div class="panel-heading">Match Info</div>
 			  	<div class="panel-body">
-			  	  	<div class="verifyPageInfoTable">
-					    <div class="verifyPageInfoTableLeft">
+					    <div class="pageInfoTable">
 					        <table>
 					        	<tr>
 					        		<td>
-					        			<p>Division:</p>
+					        			<b>Match:</b>
 					        		</td>
 					        		<td>
-										<p>
-											<select style="width: auto; max-width: 100%" id="division" name="division"
-												class="form-control">
-												<c:forEach var="division" items="${statistics.match.divisionsWithResults}">
-													<c:if test="${selectedDivision eq division}">
-														<option value="${division}" selected><c:out value="${division}" /></option>
-													</c:if>
-													<c:if test="${selectedDivision ne division}">
-														<option value="${division}"><c:out value="${division}" /></option>
-													</c:if>
-												</c:forEach>
-											</select>
-										</p>							        			
+					        			${statistics.match.name}
 					        		</td>
 					        	</tr>
 					        	<tr>
-					        		<td></td>
 					        		<td>
-					        			<button class="btn btn-large btn-primary" onclick="submitDivisionChange()" type="button">Ok</button>
+					        			<b>Date:</b>
+					        		</td>
+					        		<td>
+					        			<fmt:formatDate value="${statistics.match.date.time}" pattern="dd.MM.yyyy" />
 					        		</td>
 					        	</tr>
-								    			        	
-					        </table> 
+					        	<tr>
+					        		<td>
+					        			<b>Division:</b>
+					        		</td>
+					        		<td>
+					        			<c:out value="${statistics.division}" />
+					        		</td>
+					        	</tr>
+							</table>
 					    </div>
-					</div>
+					  </div>
 				</div>
-			</div>
-			<br>
-			<table class="table table-striped">
-				<tr>
-					<th>
-						<p>CompNr</p>
-					</th>
-					<th>
-						<p>Name</p>
-					</th>
-					<th>
-						<p>Div Rank</p>
-					</th>
-					<th>
-						<p>Div%</p>
-					</th>
-					<th>
-						<p>Div pts</p>
-					</th>
-					<th>
-						<p>Time</p>
-					</th>
-					<th>
-						<p>A</p>
-					</th>
-					<th>
-						<p>A%</p>
-					</th>
-					<th>
-						<p>C</p>
-					</th>
-					<th>
-						<p>D</p>
-					</th>
-					<th>
-						<p>Miss</p>
-					</th>
-					<th>
-						<p>NS</p>
-					</th>
-					<th>
-						<p>Proc</p>
-					</th>
-					<th>
-						<p>Sum of pts</p>
-					</th>
-					<th>
-						<p>Div</p>
-					</th>
-				</tr>
-				
-				<c:forEach var="line" items="${statistics.statisticsLines}">
-						<tr>
-							<td>
-								<p>${line.competitor.shooterNumber }</p>
-							</td>
-							<td>
-								<c:url var="url" value="/match/${statistics.match.id}/competitor/${line.competitor.id}" />
-								<p><a href="${url}">${line.competitor.firstName} ${line.competitor.lastName} </a></p>
-							</td>
-							<td>
-								<p>${line.divisionRank}</p>
-							</td>
-							<td>
-								<p><fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${line.divisionScorePercentage }" /></p>
-							</td>
-							<td>
-								<p><fmt:formatNumber type="number" minFractionDigits="4" maxFractionDigits="4" value="${line.divisionPoints }" /></p>
-							</td>
-							<td>
-								<p><fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${line.matchTime }" /></p>
-							</td>
-							<td>
-								<p>${line.aHits}</p>
-							</td>
-							<td>
-								<p><fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${line.aHitPercentage }" /></p>
-							</td>
-							<td>
-								<p>${line.cHits}</p>						
-							</td>
-							<td>
-								<p>${line.dHits}</p>
-							</td>
-							<td>
-								<p>${line.misses}</p>
-							</td>
-							<td>
-								<p>${line.noShootHits }</p>
-							</td>
-							<td>
-								<p>${line.proceduralPenalties}</p>
-							</td>
-							<td>
-								<p>${line.sumOfPoints }</p>
-							</td>
-							<td>
-								<c:if test="${line.competitor.powerFactor eq  'MINOR'}">
-									<c:set var="pf" value="-" />
-								</c:if>
-								<c:if test="${line.competitor.powerFactor eq  'MAJOR'}">
-									<c:set var="pf" value="+" />
-								</c:if>
-								<c:url var="url" value="/match/${statistics.match.id}/division/${line.competitor.division}" />
-								<p><a href="${url}">${fn:substring(line.competitor.division, 0, 1)}${pf} </a></p>		
-							</td>
+		        <div class="pageInfoTable"> 
+			        <table class="resultsPageDropDownTable">
+			        	<tr>
+			        		<td>
+			        			<b>Division:</b>
+			        		</td>
+			        		<td>
+			        			<select style="width: auto; max-width: 100%" id="division" name="division"
+									class="form-control">
+									<c:forEach var="division" items="${statistics.match.divisionsWithResults}">
+										<c:if test="${selectedDivision eq division}">
+											<option value="${division}" selected><c:out value="${division}" /></option>
+										</c:if>
+										<c:if test="${selectedDivision ne division}">
+											<option value="${division}"><c:out value="${division}" /></option>
+										</c:if>
+									</c:forEach>
+								</select>
+			        		</td>
+			        		<td>
+			        			<button class="btn btn-large btn-primary" onclick="submitDivisionChange()" type="button">Ok</button>
+			        		</td>
+			        	</tr>
+			        </table>
+				</div>
 
-						</tr> 
-				</c:forEach>
+			<br>
+			<table class="table table-striped table-bordered" id="statisticsTable">
+				<thead>
+					<tr>
+						<th>
+							CompNr
+						</th>
+						<th>
+							Name
+						</th>
+						<th>
+							Div Pos
+						</th>
+						<th>
+							Div%
+						</th>
+						<th>
+							Total Pts
+						</th>
+						<th>
+							Time
+						</th>
+						<th >
+							A
+						</th>
+						<th>
+							A%
+						</th>
+						<th>
+							C
+						</th>
+						<th>
+							D
+						</th>
+						<th>
+							Miss
+						</th>
+						<th>
+							NS
+						</th>
+						<th>
+							Proc
+						</th>
+						<th>
+							Sum of Pts
+						</th>
+						<th>
+							Div
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<c:forEach var="line" items="${statistics.statisticsLines}">
+							<tr>
+								<td align="right">
+									${line.competitor.shooterNumber }
+								</td>
+								<td>
+									<c:url var="url" value="/match/${statistics.match.id}/competitor/${line.competitor.id}" />
+									<a href="${url}">${line.competitor.firstName} ${line.competitor.lastName} </a>
+								</td>
+								<td align="right">
+									${line.divisionRank}.
+								</td>
+								<td align="right">
+									<fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${line.divisionScorePercentage }" />
+								</td>
+								<td align="right">
+									<fmt:formatNumber type="number" minFractionDigits="4" maxFractionDigits="4" value="${line.divisionPoints }" />
+								</td>
+								<td align="right">
+									<fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${line.matchTime }" />
+								</td>
+								<td align="center">
+									${line.aHits}
+								</td>
+								<td align="right">
+									<fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${line.aHitPercentage }" />
+								</td>
+								<td align="center">
+									${line.cHits}						
+								</td>
+								<td align="center">
+									${line.dHits}
+								</td>
+								<td align="center">
+									${line.misses}
+								</td>
+								<td align="center">
+									${line.noShootHits }
+								</td>
+								<td align="center">
+									${line.proceduralPenalties}
+								</td>
+								<td align="right">
+									${line.sumOfPoints }
+								</td>
+								<td align="center">
+									<c:if test="${line.competitor.powerFactor eq  'MINOR'}">
+										<c:set var="pf" value="-" />
+									</c:if>
+									<c:if test="${line.competitor.powerFactor eq  'MAJOR'}">
+										<c:set var="pf" value="+" />
+									</c:if>
+									<c:url var="url" value="/match/${statistics.match.id}/division/${line.competitor.division}" />
+									<a href="${url}">${fn:substring(line.competitor.division, 0, 1)}${pf} </a>		
+								</td>
+							</tr> 
+						</c:forEach>
+					</tbody>
 			</table>
 		</div>
 	</div>
 	<script>
-			function submitDivisionChange() {
+		$(document).ready(function() {
+			$('#statisticsTable').DataTable( {
+				paging: false,
+				searching: false,
+				info: false
+			});
+		} );
+		function submitDivisionChange() {
 			location.replace("${baseUrl}match/${statistics.match.id }/statistics/division/"+ $("select#division").val());
 		} 
 	</script>
