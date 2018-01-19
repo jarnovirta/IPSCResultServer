@@ -11,4 +11,5 @@ public class AdminController {
 	public String getAdminMainPage() {
 		return "admin/adminMainPage";
 	}
+
 }

@@ -14,6 +14,9 @@
 	<c:url var="baseUrl" value="/" />
 	<div id="wrap">
 		<div class="container">
+			<div style="float:right">
+				<button class="btn btn-default" onclick="login()" type="button">Login</button>
+			</div>
 			<ol class="breadcrumb breadcrumb-arrow">
 				<li><a href="${baseUrl }">Home</a></li>
 				<li><a href="${baseUrl }match/${resultData.match.id}">Match Main Page</a></li>
@@ -212,5 +215,10 @@
 			</table>
 		</div>
 	</div>
+	<script>
+		function login() {
+			window.location.href = "${baseUrl}login";
+		}
+	</script>
 
 <jsp:include page="/WEB-INF/jsp/include/footer.jsp" />

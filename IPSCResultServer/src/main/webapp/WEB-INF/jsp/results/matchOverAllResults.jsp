@@ -15,6 +15,9 @@
 	<c:url var="baseUrl" value="/" />
 	<div id="wrap">
 		<div class="container">
+			<div style="float:right">
+				<button class="btn btn-default" onclick="login()" type="button">Login</button>
+			</div>
 			<ol class="breadcrumb breadcrumb-arrow">
 				<li><a href="${baseUrl }">Home</a></li>
 				<li><a href="${baseUrl }match/${matchResultData.match.id}">Match Main Page</a></li>
@@ -201,6 +204,9 @@
 		} );
 		function submitDivisionChange() {
 				location.replace("${baseUrl}match/${matchResultData.match.id }/division/"+ $("select#division").val());
+		}
+		function login() {
+			window.location.href = "${baseUrl}login";
 		}
 	</script>
 

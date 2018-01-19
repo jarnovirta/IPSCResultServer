@@ -14,6 +14,9 @@
 	<c:url var="baseUrl" value="/" />
 	<div id="wrap">
 		<div class="container">
+			<div style="float:right">
+				<button class="btn btn-default" onclick="login()" type="button">Login</button>
+			</div>
 			<ol class="breadcrumb breadcrumb-arrow">
 				<li><a href="${baseUrl }">Home</a></li>
 				<li><a href="${baseUrl }match/${statistics.match.id}">Match Main Page</a></li>
@@ -83,7 +86,7 @@
 							</select>
 		        		</td>
 		        		<td>
-		        			<button class="btn btn-large btn-primary" onclick="submitDivisionChange()" type="button">Ok</button>
+		        			<button class="btn btn-large btn-primary" onclick="submitDivisionChange()" type="button">Show</button>
 		        		</td>
 		        	</tr>
 		        </table>
@@ -212,6 +215,9 @@
 		} );
 		function submitDivisionChange() {
 			location.replace("${baseUrl}match/${statistics.match.id }/statistics/division/"+ $("select#division").val());
-		} 
+		}
+		function login() {
+			window.location.href = "${baseUrl}login";
+		}
 	</script>
 <jsp:include page="/WEB-INF/jsp/include/footer.jsp" />

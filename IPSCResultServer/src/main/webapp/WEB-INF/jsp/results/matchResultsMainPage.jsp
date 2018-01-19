@@ -12,6 +12,9 @@
 
 	<div id="wrap">
 		<div class="container">
+			<div style="float:right">
+				<button class="btn btn-default" onclick="login()" type="button">Login</button>
+			</div>
 		    <ol class="breadcrumb breadcrumb-arrow">
 				<li><a href="${baseUrl }">Home</a></li>
 				<li class="active"><span>Match Main Page</span></li>
@@ -113,6 +116,9 @@
 		}
 		function showStatistics() {
 			window.location.href = "${baseUrl}match/${match.id }/statistics";
+		}
+		function login() {
+			window.location.href = "${baseUrl}login";
 		}
 	</script>
 <jsp:include page="/WEB-INF/jsp/include/footer.jsp" />
