@@ -1,4 +1,4 @@
-package fi.ipsc_result_server.service;
+package fi.ipsc_result_server.service.resultDataService;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -8,31 +8,27 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import fi.ipsc_result_server.domain.Competitor;
 import fi.ipsc_result_server.domain.IPSCDivision;
 import fi.ipsc_result_server.domain.ScoreCard;
 import fi.ipsc_result_server.domain.Stage;
 import fi.ipsc_result_server.domain.StageScore;
+import fi.ipsc_result_server.domain.ResultData.MatchResultData;
 import fi.ipsc_result_server.domain.ResultData.StageResultData;
 import fi.ipsc_result_server.domain.ResultData.StageResultDataLine;
 import fi.ipsc_result_server.repository.StageResultDataLineRepository;
 import fi.ipsc_result_server.repository.StageResultDataRepository;
+import fi.ipsc_result_server.service.ScoreCardService;
 
 @Service
-public class StageScoreService {
-	
+public class StageResultDataService {
+
 	@PersistenceContext
 	EntityManager entityManager;
-	
-	@Autowired
-	ResultDataService resultDataService;
-	
-	@Autowired
-	ScoreCardService scoreCardService;
 	
 	@Autowired
 	StageResultDataRepository stageResultDataRepository;
@@ -40,7 +36,70 @@ public class StageScoreService {
 	@Autowired
 	StageResultDataLineRepository stageResultDataLineRepository;
 	
-	final static Logger logger = Logger.getLogger(StageScoreService.class);
+	@Autowired
+	ScoreCardService scoreCardService;
+	
+	
+	public StageResultData findResultDataForStage(String stageId, IPSCDivision division) {
+		StageResultData resultData = new StageResultData();
+		try {
+			String queryString = "SELECT s FROM StageResultData s WHERE s.stage.id = :stageId AND s.division = :division";
+			TypedQuery<StageResultData> query = entityManager.createQuery(queryString, StageResultData.class);
+			query.setParameter("stageId", stageId);
+			query.setParameter("division", division);
+			List<StageResultData> resultList = query.getResultList();
+			if (resultList != null && resultList.size() > 0) {
+				resultData = resultList.get(0);
+			}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		return resultData;
+	}
+	
+	public List<StageResultDataLine> getStageResultDataLinesForCompetitor(Competitor competitor) {
+		try {
+			String queryString = "SELECT s FROM StageResultDataLine s WHERE s.competitor = :competitor AND s.stageResultData.division = :competitorDivision";
+			TypedQuery<StageResultDataLine> query = entityManager.createQuery(queryString, StageResultDataLine.class);
+			query.setParameter("competitor", competitor);
+			query.setParameter("competitorDivision", competitor.getDivision());
+			return query.getResultList();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		return null;
+	}
+	@Transactional
+	public void deleteStageResultListingsInBatch(List<StageResultData> stageResultData) {
+		stageResultDataRepository.deleteInBatch(stageResultData);
+	}
+	
+	public MatchResultData findResultDataForMatch(String matchId, IPSCDivision division) {
+		try {
+			String queryString = "SELECT m FROM MatchResultData m WHERE m.match.id = :matchId AND m.division = :division";
+			TypedQuery<MatchResultData> query = entityManager.createQuery(queryString, MatchResultData.class);
+			query.setParameter("matchId", matchId);
+			query.setParameter("division", division);
+			List<MatchResultData> resultList = query.getResultList();
+			if (resultList != null && resultList.size() > 0) {
+				return resultList.get(0);
+			}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return null;
+	}
+	public List<IPSCDivision> getAvailableDivisionsForStageResults(String stageId) {
+		try {
+			String queryString = "SELECT DISTINCT(s.division) FROM StageResultData s WHERE s.stage.id = :stageId";
+			TypedQuery<IPSCDivision> query = entityManager.createQuery(queryString, IPSCDivision.class); 
+			query.setParameter("stageId", stageId);
+			return query.getResultList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 	
 	public List<StageScore> findStageScoresForCompetitor(String matchId, String competitorId) {
 		List<StageScore> stageScores = null;
@@ -113,7 +172,7 @@ public class StageScoreService {
 			List<StageResultData> oldStageResultListings = query.getResultList();
 			
 			if (oldStageResultListings != null) {
-				resultDataService.deleteStageResultListingsInBatch(oldStageResultListings);
+				deleteStageResultListingsInBatch(oldStageResultListings);
 			}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -153,4 +212,5 @@ public class StageScoreService {
 			}
 			return null;
 	}
+	
 }

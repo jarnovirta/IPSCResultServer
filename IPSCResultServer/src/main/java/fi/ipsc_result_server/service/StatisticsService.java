@@ -22,6 +22,8 @@ import fi.ipsc_result_server.domain.ResultData.CompetitorResultData;
 import fi.ipsc_result_server.domain.ResultData.MatchResultDataLine;
 import fi.ipsc_result_server.domain.statistics.CompetitorStatistics;
 import fi.ipsc_result_server.domain.statistics.CompetitorStatisticsLine;
+import fi.ipsc_result_server.service.resultDataService.CompetitorResultDataService;
+import fi.ipsc_result_server.service.resultDataService.MatchResultDataService;
 
 @Service
 public class StatisticsService {
@@ -30,7 +32,11 @@ public class StatisticsService {
 	EntityManager entityManager;
 	
 	@Autowired
-	ResultDataService resultDataService;
+	CompetitorResultDataService competitorResultDataService;
+	
+	@Autowired
+	MatchResultDataService matchResultDataService;
+	
 	
 	final static Logger logger = Logger.getLogger(StatisticsService.class);
 	
@@ -76,7 +82,7 @@ public class StatisticsService {
 				int proceduralPenalties = 0;
 				int noShootHits = 0;
 				int sumOfPoints = 0;
-				CompetitorResultData competitorResultData = resultDataService.getCompetitorResultData(competitor.getId(), match.getId());
+				CompetitorResultData competitorResultData = competitorResultDataService.getCompetitorResultData(competitor.getId(), match.getId());
 				if (competitorResultData.getScoreCards() == null || competitorResultData.getScoreCards().size() == 0) continue; 
 				for (ScoreCard card : competitorResultData.getScoreCards().values()) {
 					aHits += card.getaHits();
@@ -100,7 +106,7 @@ public class StatisticsService {
 				int totalShots = aHits + cHits + dHits + misses;
 				line.setaHitPercentage((double) aHits / (double) totalShots * 100.0);
 				
-				MatchResultDataLine matchDataLine = resultDataService.getMatchResultDataLineForCompetitor(competitor);
+				MatchResultDataLine matchDataLine = matchResultDataService.getMatchResultDataLineForCompetitor(competitor);
 				if (matchDataLine != null) {
 					line.setDivisionRank(matchDataLine.getRank());
 					line.setDivisionPoints(matchDataLine.getPoints());

@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import fi.ipsc_result_server.domain.Match;
 import fi.ipsc_result_server.domain.MatchScore;
 import fi.ipsc_result_server.domain.Stage;
-import fi.ipsc_result_server.service.MatchScoreService;
 import fi.ipsc_result_server.service.MatchService;
+import fi.ipsc_result_server.service.practiScoreDataService.MatchScoreService;
 
 @Controller
 @RequestMapping("/api")

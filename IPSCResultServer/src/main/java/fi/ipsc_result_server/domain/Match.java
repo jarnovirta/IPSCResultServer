@@ -41,6 +41,10 @@ public class Match implements Serializable {
 	@Column(nullable = false)
 	private String name;
 	
+	@Enumerated(EnumType.ORDINAL)
+	private MatchStatus status = MatchStatus.CLOSED;
+	
+	
 	@JsonProperty("match_level")
 	private String level;
 
@@ -74,7 +78,14 @@ public class Match implements Serializable {
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	private List<Competitor> competitors; 
 
-
+	public Match() { }
+	
+	public Match(String id, String name, MatchStatus status) { 
+		this.id = id;
+		this.name = name;
+		this.status = status;
+	}
+	
 	public String getName() {
 		return name;
 	}
@@ -161,6 +172,14 @@ public class Match implements Serializable {
 
 	public void setDivisionsWithResults(List<IPSCDivision> divisionsWithResults) {
 		this.divisionsWithResults = divisionsWithResults;
+	}
+
+	public MatchStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(MatchStatus status) {
+		this.status = status;
 	}
 	
 }

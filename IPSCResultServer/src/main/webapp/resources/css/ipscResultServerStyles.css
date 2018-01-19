@@ -12,6 +12,10 @@
 .matchMainPageMenuTable { border-collapse: separate;border-spacing: 10px; }
 
 .matchMainPageSelectButtonCell { vertical-align: bottom; }
+
+.adminTableLabel { margin-top:0 }
+
+.adminTableStatusButton { margin-left: 15px}
 body{
     padding-top: 50px;   
     padding-bottom: 50px;

@@ -10,18 +10,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import fi.ipsc_result_server.domain.IPSCDivision;
-import fi.ipsc_result_server.service.ResultDataService;
+import fi.ipsc_result_server.service.resultDataService.StageResultDataService;
 
 @Controller
 @RequestMapping("/match/{matchId}/stage")
 public class StageResultsController {
 	@Autowired
-	ResultDataService resultDataService;
+	StageResultDataService stageResultDataService;
 	
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public String getStageResultsPage(Model model, @PathVariable("id") String stageId) {
-		List<IPSCDivision> availableDivisions = resultDataService.getAvailableDivisionsForStageResults(stageId);
+		List<IPSCDivision> availableDivisions = stageResultDataService.getAvailableDivisionsForStageResults(stageId);
 		if (availableDivisions.size() == 0) {
 			model.addAttribute("stageResultData", null);
 			model.addAttribute("selectedDivision", null);
@@ -31,7 +31,7 @@ public class StageResultsController {
 		if (availableDivisions.contains(IPSCDivision.COMBINED)) division = IPSCDivision.COMBINED;
 		else division = availableDivisions.get(0);
 				
-		model.addAttribute("stageResultData", resultDataService.findResultDataForStage(stageId, division));
+		model.addAttribute("stageResultData", stageResultDataService.findResultDataForStage(stageId, division));
 		model.addAttribute("selectedDivision", division);
 		return "results/stageResults";
 	}
@@ -41,7 +41,7 @@ public class StageResultsController {
 			@PathVariable("division") String divisionString) {
 		
 		IPSCDivision division = IPSCDivision.valueOf(divisionString.toUpperCase());
-		model.addAttribute("stageResultData", resultDataService.findResultDataForStage(stageId, division));
+		model.addAttribute("stageResultData", stageResultDataService.findResultDataForStage(stageId, division));
 		model.addAttribute("selectedDivision", division);
 		return "results/stageResults";
 	}

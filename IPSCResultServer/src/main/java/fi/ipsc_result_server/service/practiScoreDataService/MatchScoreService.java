@@ -1,4 +1,4 @@
-package fi.ipsc_result_server.service;
+package fi.ipsc_result_server.service.practiScoreDataService;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +23,13 @@ import fi.ipsc_result_server.domain.ResultData.MatchResultData;
 import fi.ipsc_result_server.domain.ResultData.MatchResultDataLine;
 import fi.ipsc_result_server.domain.ResultData.StageResultData;
 import fi.ipsc_result_server.domain.ResultData.StageResultDataLine;
+import fi.ipsc_result_server.service.CompetitorService;
+import fi.ipsc_result_server.service.MatchService;
+import fi.ipsc_result_server.service.ScoreCardService;
+import fi.ipsc_result_server.service.StageService;
+import fi.ipsc_result_server.service.StatisticsService;
+import fi.ipsc_result_server.service.resultDataService.MatchResultDataService;
+import fi.ipsc_result_server.service.resultDataService.StageResultDataService;
 
 @Service
 public class MatchScoreService {
@@ -35,7 +41,7 @@ public class MatchScoreService {
 	StageService stageService;
 	
 	@Autowired
-	StageScoreService stageScoreService;
+	StageResultDataService stageResultDataService;
 	
 	@Autowired
 	MatchScoreService matchScoreService;
@@ -50,7 +56,7 @@ public class MatchScoreService {
 	ScoreCardService scoreCardService;
 
 	@Autowired
-	ResultDataService resultDataService;
+	MatchResultDataService matchResultDataService;
 	
 	@Autowired
 	StatisticsService statisticsService;
@@ -66,9 +72,9 @@ public class MatchScoreService {
 		
 		List<Stage> stagesWithNewResults = new ArrayList<Stage>();
 		// Delete old match result listing
-		List<MatchResultData> oldMatchResultData = findByMatchId(matchScore.getMatchId());
+		List<MatchResultData> oldMatchResultData = matchResultDataService.findByMatchId(matchScore.getMatchId());
 		if (oldMatchResultData != null) {
-			deleteInBatch(oldMatchResultData);
+			matchResultDataService.deleteInBatch(oldMatchResultData);
 		}
 		
 		for (StageScore stageScore : matchScore.getStageScores()) {
@@ -77,15 +83,14 @@ public class MatchScoreService {
 			
 			// Delete old stage result listing
 			
-			List<StageResultData> oldStageResultData = stageScoreService.findByStage(stage);
+			List<StageResultData> oldStageResultData = stageResultDataService.findByStage(stage);
 			if (oldStageResultData != null) {
-				stageScoreService.deleteInBatch(oldStageResultData);
+				stageResultDataService.deleteInBatch(oldStageResultData);
 			}
 			
 			// Remove old scorecards
 			scoreCardService.deleteInBatch(stageScore.getScoreCards());
-			
-			
+						
 			if (match.getDivisionsWithResults() == null) {
 				match.setDivisionsWithResults(new ArrayList<IPSCDivision>());
 			}
@@ -113,7 +118,7 @@ public class MatchScoreService {
 		if (stagesWithNewResults.size() > 0) {
 			for (Stage stageWithNewResults : stagesWithNewResults) {
 				logger.info("Generating stage results data for stages with new results...");
-				stageScoreService.generateStageResultsListing(stageWithNewResults);
+				stageResultDataService.generateStageResultsListing(stageWithNewResults);
 			}
 		}
 		generateMatchResultListing(match);
@@ -137,7 +142,7 @@ public class MatchScoreService {
 			// Calculate competitor total points for match and set scored stages count
 			for (Competitor competitor : match.getCompetitors()) {
 				MatchResultDataLine competitorDataLine = new MatchResultDataLine(competitor, matchResultData);
-				List<StageResultDataLine> stageResultDataLines = resultDataService.getStageResultDataLinesForCompetitor(competitor);
+				List<StageResultDataLine> stageResultDataLines = stageResultDataService.getStageResultDataLinesForCompetitor(competitor);
 				
 				// Exclude competitors with no results for stages (did not show up)
 				if (stageResultDataLines.size() == 0) continue;
@@ -163,28 +168,8 @@ public class MatchScoreService {
 			}
 			matchResultData.setDataLines(dataLines);
 			logger.info("Saving match result data for division " + division);
-			resultDataService.save(matchResultData);
+			matchResultDataService.save(matchResultData);
 		}
 		return null;
 	}
-	
-	@Transactional
-	public List<MatchResultData> findByMatchId(String matchId) {
-		try {
-			String queryString = "SELECT m FROM MatchResultData m WHERE m.match.id = :matchId";
-			TypedQuery<MatchResultData> query = entityManager.createQuery(queryString, MatchResultData.class); 
-			query.setParameter("matchId", matchId);
-			return query.getResultList();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-	@Transactional
-	public void deleteInBatch(List<MatchResultData> matchResultDataList) {
-		for (MatchResultData matchResultData : matchResultDataList) {
-			entityManager.remove(matchResultData);
-		}
-	}
-	
 }
