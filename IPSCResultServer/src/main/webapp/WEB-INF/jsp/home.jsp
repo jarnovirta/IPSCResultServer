@@ -21,7 +21,7 @@
 			</ol>
 
 			<div class="page-header">
-				<h1>Result service</h1>
+				<h1>Result Service</h1>
 			</div>
 			<br><br>
 				<label for="seletcMatch">Choose a match: </label>

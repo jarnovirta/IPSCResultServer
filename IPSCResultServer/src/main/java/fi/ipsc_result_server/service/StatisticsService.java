@@ -133,11 +133,10 @@ public class StatisticsService {
 				stats.setMatch(null);
 				for (CompetitorStatisticsLine line : stats.getStatisticsLines()) {
 					line.setCompetitor(null);
+					
 				}
+				entityManager.remove(stats);
 			}
-			// Delete CompetitorStatistics
-			queryString = "DELETE FROM CompetitorStatistics c WHERE c.match = :match";
-			entityManager.createQuery(queryString).setParameter("match", match).executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
