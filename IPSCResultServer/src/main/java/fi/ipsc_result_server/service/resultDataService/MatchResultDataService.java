@@ -1,5 +1,6 @@
 package fi.ipsc_result_server.service.resultDataService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -36,12 +37,14 @@ public class MatchResultDataService {
 			return null;
 	}
 	
-	public List<MatchResultData> findByMatch(String matchId) {
+	public MatchResultData findByMatch(String matchId) {
+		List<MatchResultData> resultList = new ArrayList<MatchResultData>();
 		try {
 			String queryString = "SELECT m FROM MatchResultData m WHERE m.match.id = :matchId";
 			TypedQuery<MatchResultData> query = entityManager.createQuery(queryString, MatchResultData.class); 
 			query.setParameter("matchId", matchId);
-			return query.getResultList();
+			resultList = query.getResultList();
+			if (resultList.size() > 0) return resultList.get(0);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -69,11 +72,7 @@ public class MatchResultDataService {
 	}
 	@Transactional
 	public void deleteByMatch(Match match) {
-		List<MatchResultData> oldMatchResultData = findByMatch(match.getId());
-		if (oldMatchResultData != null) {
-			for (MatchResultData matchResultData : oldMatchResultData) {
-				entityManager.remove(matchResultData);
-			}
-		}
+		MatchResultData resultData = findByMatch(match.getId());
+		if (resultData != null) entityManager.remove(resultData);
 	}
 }

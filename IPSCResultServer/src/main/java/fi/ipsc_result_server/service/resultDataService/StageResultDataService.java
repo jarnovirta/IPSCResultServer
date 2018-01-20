@@ -147,7 +147,10 @@ public class StageResultDataService {
 	@Transactional
 	public void deleteByMatch(Match match) {
 		for (Stage stage : match.getStages()) {
-			deleteByStage(stage);
+			List<StageResultData> data = findByStage(stage);
+			for (StageResultData d : data) {
+				entityManager.remove(d);
+			}
 		}
 	}
 }

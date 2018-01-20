@@ -104,13 +104,9 @@ public class ScoreCardService {
 			for (Stage stage : match.getStages()) {
 				List<ScoreCard> cards = findByStage(stage.getId());
 				if (cards != null) {
-					for (ScoreCard card : cards) {
-						card.setStage(null);
-					}
+					scoreCardRepository.deleteInBatch(cards);
 				}
 			}
-			String queryString = "DELETE FROM ScoreCard s WHERE s.stage.match = :match";
-			entityManager.createQuery(queryString).setParameter("match", match).executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

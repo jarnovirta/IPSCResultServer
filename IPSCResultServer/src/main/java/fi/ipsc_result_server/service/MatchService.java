@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import fi.ipsc_result_server.domain.Competitor;
 import fi.ipsc_result_server.domain.Match;
-import fi.ipsc_result_server.repository.CompetitorRepository;
 import fi.ipsc_result_server.repository.MatchRepository;
 import fi.ipsc_result_server.service.resultDataService.MatchResultDataService;
 import fi.ipsc_result_server.service.resultDataService.StageResultDataService;
@@ -25,10 +24,7 @@ public class MatchService {
 	
 	@PersistenceContext
 	EntityManager entityManager;
-	
-	@Autowired
-	CompetitorRepository competitorRepository;
-	
+		
 	@Autowired
 	MatchResultDataService matchResultDataService;
 	
@@ -75,17 +71,25 @@ public class MatchService {
 	
 	@Transactional
 	public void delete(String matchId) {
-		
 		Match match = getOne(matchId);
+		
+		logger.info("Deleting statistics");
+		// Delete statistics for match
+		statisticsService.deleteByMatch(match);
+		
+		// Delete stage and match result data
+		logger.info("Deleting stage result data");
+		stageResultDataService.deleteByMatch(match);
 		logger.info("Deleting match result data");
 		matchResultDataService.deleteByMatch(match);
-		logger.info("Deleting stage data");
-		stageResultDataService.deleteByMatch(match);
-		logger.info("Deleting statistics");
-		statisticsService.deleteByMatch(match);
+		
+		// Delete score cards
 		logger.info("Deleting score cards");
 		scoreCardService.deleteByMatch(match);
+		
+		// Delete match
 		logger.info("Deleting match");
 		matchRepository.delete(match);
+		logger.info("Match delete done!");
 	}
 }

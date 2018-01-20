@@ -133,7 +133,6 @@ public class StatisticsService {
 				stats.setMatch(null);
 				for (CompetitorStatisticsLine line : stats.getStatisticsLines()) {
 					line.setCompetitor(null);
-					
 				}
 				entityManager.remove(stats);
 			}

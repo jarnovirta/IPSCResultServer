@@ -38,5 +38,4 @@ public class CompetitorResultData {
 	public void setCompetitor(Competitor competitor) {
 		this.competitor = competitor;
 	}
-	
 }
