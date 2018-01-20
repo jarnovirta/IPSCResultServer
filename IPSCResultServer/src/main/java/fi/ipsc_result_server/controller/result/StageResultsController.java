@@ -29,9 +29,7 @@ public class StageResultsController {
 	public String getStageResultsPage(Model model, @PathVariable("id") String stageId) {
 		Stage stage = stageService.getOne(stageId);
 		List<IPSCDivision> availableDivisions = new ArrayList<IPSCDivision>();
-		
 		if (stage.getMatch().getDivisionsWithResults() != null) {
-			if (stage.getMatch().getDivisionsWithResults().size() > 1) availableDivisions.add(IPSCDivision.COMBINED);
 			for (IPSCDivision division : stage.getMatch().getDivisionsWithResults()) {
 				availableDivisions.add(division);
 			}

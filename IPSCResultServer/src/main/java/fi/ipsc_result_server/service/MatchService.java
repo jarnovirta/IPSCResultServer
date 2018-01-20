@@ -82,12 +82,10 @@ public class MatchService {
 		logger.info("Deleting stage data");
 		stageResultDataService.deleteByMatch(match);
 		logger.info("Deleting statistics");
-		statisticsService.deleteStatisticsForMatch(match);
+		statisticsService.deleteByMatch(match);
 		logger.info("Deleting score cards");
 		scoreCardService.deleteByMatch(match);
 		logger.info("Deleting match");
 		matchRepository.delete(match);
-
-		
 	}
 }

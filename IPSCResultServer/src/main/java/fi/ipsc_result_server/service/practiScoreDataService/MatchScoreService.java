@@ -62,9 +62,11 @@ public class MatchScoreService {
 	
 	final static Logger logger = Logger.getLogger(MatchScoreService.class);
 	
+	// Save match result data from PractiScore and generate result listings
+	// for new data
 	@Transactional
 	public void save(MatchScore matchScore) {
-		logger.info("Saving match score data...");
+		logger.info("SAVING MATCH RESULT DATA...");
 		
 		Match match = matchService.getOne(matchScore.getMatchId());
 		if (match.getDivisions() == null) match.setDivisions(new ArrayList<IPSCDivision>());
@@ -115,19 +117,13 @@ public class MatchScoreService {
 			}
 		}
 		generateMatchResultListing(match);
-		
 		statisticsService.generateCompetitorStatistics(match);
-		
-		logger.info("**** MATCH SCORE SAVE DONE");
+		logger.info("**** MATCH RESULT DATA SAVE DONE");
 	}
-	
-	
 	
 	@Transactional
 	public MatchResultData generateMatchResultListing(Match match) {
 		logger.info("Generating match result data...");
-		
-		
 		for (IPSCDivision division : match.getDivisionsWithResults()) {
 			MatchResultData matchResultData = new MatchResultData(match, division);
 			List<MatchResultDataLine> dataLines = new ArrayList<MatchResultDataLine>();

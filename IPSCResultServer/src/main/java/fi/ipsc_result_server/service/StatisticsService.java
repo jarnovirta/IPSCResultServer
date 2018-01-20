@@ -38,7 +38,7 @@ public class StatisticsService {
 	
 	final static Logger logger = Logger.getLogger(StatisticsService.class);
 	
-	public CompetitorStatistics getCompetitorStatisticsForMatchAndDivision(String matchId, IPSCDivision division) {
+	public CompetitorStatistics findCompetitorStatisticsByMatchAndDivision(String matchId, IPSCDivision division) {
 		try {
 			String queryString = "SELECT c FROM CompetitorStatistics c WHERE c.match.id = :matchId AND c.division = :division";
 			TypedQuery<CompetitorStatistics> query = entityManager.createQuery(queryString, CompetitorStatistics.class);
@@ -60,7 +60,7 @@ public class StatisticsService {
 	
 	@Transactional
 	public void generateCompetitorStatistics(Match match) {
-		deleteStatisticsForMatch(match);	
+		deleteByMatch(match);	
 				
 		for (IPSCDivision division : IPSCDivision.values()) {
 			logger.info("Generating match statistics for " + division);
@@ -123,7 +123,7 @@ public class StatisticsService {
 	}
 	
 	@Transactional
-	public void deleteStatisticsForMatch(Match match) {
+	public void deleteByMatch(Match match) {
 		try {
 			// Set entity references to null in CompetitorStatistics to be deleted
 			String queryString = "SELECT c FROM CompetitorStatistics c WHERE c.match = :match";

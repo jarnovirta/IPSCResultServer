@@ -19,7 +19,6 @@ public class StatisticsController {
 	@Autowired
 	StatisticsService statisticsService;
 	
-
 	@Autowired
 	MatchService matchService;
 	
@@ -34,14 +33,13 @@ public class StatisticsController {
 		if (match.getDivisionsWithResults().contains(IPSCDivision.COMBINED)) division = IPSCDivision.COMBINED;
 		else division = match.getDivisionsWithResults().get(0);
 		
-		model.addAttribute("statistics", statisticsService.getCompetitorStatisticsForMatchAndDivision(matchId, division));
+		model.addAttribute("statistics", statisticsService.findCompetitorStatisticsByMatchAndDivision(matchId, division));
 		return "statistics/competitorStatistics";
 	}
 	
 	@RequestMapping(value="/division/{division}", method = RequestMethod.GET)
 	public String getStatisticsPageForDivision(Model model, @PathVariable("matchId") String matchId, @PathVariable("division") String divisionString) {
-		model.addAttribute("statistics", statisticsService.getCompetitorStatisticsForMatchAndDivision(matchId, IPSCDivision.valueOf(divisionString)));
+		model.addAttribute("statistics", statisticsService.findCompetitorStatisticsByMatchAndDivision(matchId, IPSCDivision.valueOf(divisionString)));
 		return "statistics/competitorStatistics";
 	}
-	
 }
