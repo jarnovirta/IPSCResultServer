@@ -107,7 +107,7 @@ public class StatisticsService {
 				
 				// Get following data from competitor's MatchResultDataLine instance: position within division results,
 				// total points and score percentage within division. 
-				MatchResultDataLine matchDataLine = matchResultDataService.getMatchResultDataLineForCompetitor(competitor);
+				MatchResultDataLine matchDataLine = matchResultDataService.findMatchResultDataLinesByCompetitor(competitor);
 				if (matchDataLine != null) {
 					line.setDivisionRank(matchDataLine.getRank());
 					line.setDivisionPoints(matchDataLine.getPoints());

@@ -72,7 +72,7 @@ public class MatchScoreService {
 		List<Stage> stagesWithNewResults = new ArrayList<Stage>();
 		
 		// Delete old match result listing
-		matchResultDataService.deleteResultDataForMatch(match);
+		matchResultDataService.deleteByMatch(match);
 						
 		for (StageScore stageScore : matchScore.getStageScores()) {
 			Stage stage = stageService.getOne(stageScore.getStageId());

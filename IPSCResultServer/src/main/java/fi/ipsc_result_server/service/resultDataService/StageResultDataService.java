@@ -134,19 +134,14 @@ public class StageResultDataService {
 			}
 		}
 	}
-
-	@Transactional
-	public void deleteInBatch(List<StageResultData> stageResultDataList) {
-		for (StageResultData data : stageResultDataList) {
-			entityManager.remove(data);
-		}
-	}
 	
 	@Transactional
 	public void deleteByStage(Stage stage) {
 		List<StageResultData> oldStageResultData = findByStage(stage);
 		if (oldStageResultData != null) {
-			deleteInBatch(oldStageResultData);
+			for (StageResultData data : oldStageResultData) {
+				entityManager.remove(data);
+			}
 		}
 	}
 	@Transactional

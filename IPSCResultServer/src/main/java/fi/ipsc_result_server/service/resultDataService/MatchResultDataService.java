@@ -19,9 +19,8 @@ import fi.ipsc_result_server.domain.ResultData.MatchResultDataLine;
 public class MatchResultDataService {
 	@PersistenceContext
 	EntityManager entityManager;
-	
-	
-	public MatchResultData findResultDataForMatch(String matchId, IPSCDivision division) {
+		
+	public MatchResultData findByMatchAndDivision(String matchId, IPSCDivision division) {
 		try {
 			String queryString = "SELECT m FROM MatchResultData m WHERE m.match.id = :matchId AND m.division = :division";
 			TypedQuery<MatchResultData> query = entityManager.createQuery(queryString, MatchResultData.class);
@@ -37,7 +36,19 @@ public class MatchResultDataService {
 			return null;
 	}
 	
-	public MatchResultDataLine getMatchResultDataLineForCompetitor(Competitor competitor) {
+	public List<MatchResultData> findByMatch(String matchId) {
+		try {
+			String queryString = "SELECT m FROM MatchResultData m WHERE m.match.id = :matchId";
+			TypedQuery<MatchResultData> query = entityManager.createQuery(queryString, MatchResultData.class); 
+			query.setParameter("matchId", matchId);
+			return query.getResultList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public MatchResultDataLine findMatchResultDataLinesByCompetitor(Competitor competitor) {
 		try {
 			String queryString = "SELECT m FROM MatchResultDataLine m WHERE m.competitor = :competitor AND m.matchResultData.division = :competitorDivision";
 			TypedQuery<MatchResultDataLine> query = entityManager.createQuery(queryString, MatchResultDataLine.class);
@@ -50,35 +61,19 @@ public class MatchResultDataService {
 			}
 		return null;
 	}
+	
 	@Transactional
 	public MatchResultData save(MatchResultData matchResultData) {
 		entityManager.persist(matchResultData);
 		return matchResultData;
 	}
 	@Transactional
-	public void deleteResultDataForMatch(Match match) {
-		List<MatchResultData> oldMatchResultData = findByMatchId(match.getId());
+	public void deleteByMatch(Match match) {
+		List<MatchResultData> oldMatchResultData = findByMatch(match.getId());
 		if (oldMatchResultData != null) {
-			deleteInBatch(oldMatchResultData);
+			for (MatchResultData matchResultData : oldMatchResultData) {
+				entityManager.remove(matchResultData);
+			}
 		}
 	}
-	@Transactional
-	public void deleteInBatch(List<MatchResultData> matchResultDataList) {
-		for (MatchResultData matchResultData : matchResultDataList) {
-			entityManager.remove(matchResultData);
-		}
-	}
-	
-	public List<MatchResultData> findByMatchId(String matchId) {
-		try {
-			String queryString = "SELECT m FROM MatchResultData m WHERE m.match.id = :matchId";
-			TypedQuery<MatchResultData> query = entityManager.createQuery(queryString, MatchResultData.class); 
-			query.setParameter("matchId", matchId);
-			return query.getResultList();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
 }

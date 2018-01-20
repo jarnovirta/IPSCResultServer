@@ -20,7 +20,7 @@ public class MatchOverAllResultsController {
 	public String getDivisionOverAllResultsPage(Model model, @PathVariable("matchId") String matchId, 
 			@PathVariable("division") String divisionString) {
 		IPSCDivision division = IPSCDivision.valueOf(divisionString.toUpperCase());
-		model.addAttribute("matchResultData", matchResultDataService.findResultDataForMatch(matchId, division));
+		model.addAttribute("matchResultData", matchResultDataService.findByMatchAndDivision(matchId, division));
 		model.addAttribute("selectedDivision", division);
 		return "results/matchOverAllResults";
 	}
@@ -28,7 +28,7 @@ public class MatchOverAllResultsController {
 	@RequestMapping(value="/division", method = RequestMethod.GET)
 	public String getCombinedOverAllResultsPage(Model model, @PathVariable("matchId") String matchId) {
 		IPSCDivision division = IPSCDivision.COMBINED;
-		model.addAttribute("matchResultData", matchResultDataService.findResultDataForMatch(matchId, division));
+		model.addAttribute("matchResultData", matchResultDataService.findByMatchAndDivision(matchId, division));
 		model.addAttribute("selectedDivision", division);
 		return "results/matchOverAllResults";
 	}

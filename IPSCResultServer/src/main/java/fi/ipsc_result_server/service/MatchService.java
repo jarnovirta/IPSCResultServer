@@ -78,7 +78,7 @@ public class MatchService {
 		
 		Match match = getOne(matchId);
 		logger.info("Deleting match result data");
-		matchResultDataService.deleteResultDataForMatch(match);
+		matchResultDataService.deleteByMatch(match);
 		logger.info("Deleting stage data");
 		stageResultDataService.deleteByMatch(match);
 		logger.info("Deleting statistics");
