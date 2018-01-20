@@ -1,0 +1,123 @@
+package fi.ipscResultServer.repository.repositoryImpl;
+
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.TemporalType;
+import javax.persistence.TypedQuery;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import fi.ipscResultServer.domain.IPSCDivision;
+import fi.ipscResultServer.domain.Match;
+import fi.ipscResultServer.domain.ScoreCard;
+import fi.ipscResultServer.domain.Stage;
+import fi.ipscResultServer.repository.ScoreCardRepository;
+import fi.ipscResultServer.repository.springJPARepository.SpringJPAScoreCardRepository;
+
+@Repository
+public class ScoreCardRepositoryImpl implements ScoreCardRepository {
+	
+	@Autowired
+	SpringJPAScoreCardRepository springJPAScoreCardRepository;
+	
+	@PersistenceContext
+	EntityManager entityManager;
+
+	public ScoreCard save(ScoreCard scoreCard) {
+		return springJPAScoreCardRepository.save(scoreCard);
+	}
+	
+	
+	public List<ScoreCard> findByStageAndDivision(String stageId, IPSCDivision division) {
+		try {
+			String queryString = "SELECT s FROM ScoreCard s WHERE s.stage.id = :stageId AND s.competitor.division = :division";
+			TypedQuery<ScoreCard> query = entityManager.createQuery(queryString, ScoreCard.class);
+			query.setParameter("stageId", stageId);
+			query.setParameter("division", division);
+			return query.getResultList();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public List<ScoreCard> findByStage(String stageId) {
+		try {
+			String queryString = "SELECT s FROM ScoreCard s WHERE s.stage.id = :stageId";
+			TypedQuery<ScoreCard> query = entityManager.createQuery(queryString, ScoreCard.class);
+			query.setParameter("stageId", stageId);
+			return query.getResultList();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public ScoreCard findByCompetitorAndStage(String competitorId, String stageId) {
+		try {
+			String queryString = "SELECT s FROM ScoreCard s WHERE s.competitorId = :competitorId AND s.stageId = :stageId";
+			TypedQuery<ScoreCard> query = entityManager.createQuery(queryString, ScoreCard.class);
+			query.setParameter("competitorId", competitorId);
+			query.setParameter("stageId", stageId);
+			List<ScoreCard> scoreCards = query.getResultList();
+			if (scoreCards != null && scoreCards.size() > 0) return scoreCards.get(0);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	public List<ScoreCard> findByCompetitorAndMatch(String competitorId, String matchId) {
+		try {
+			String queryString = "SELECT s FROM ScoreCard s WHERE s.competitor.id = :competitorId AND s.stage.match.id = :matchId";
+			TypedQuery<ScoreCard> query = entityManager.createQuery(queryString, ScoreCard.class);
+			query.setParameter("competitorId", competitorId);
+			query.setParameter("matchId", matchId);
+			return query.getResultList();
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	public void deleteInBatch(List<ScoreCard> scoreCards) {
+		springJPAScoreCardRepository.deleteInBatch(scoreCards);
+	}
+
+	
+	public void delete(ScoreCard scoreCard) {
+		try {
+			String queryString = "DELETE FROM ScoreCard s WHERE s.stage.match.id = :matchId AND s.stage.id = :stageId "
+					+ "AND s.competitor.id = :competitorId AND s.modified <= :modified";
+			Query query = entityManager.createQuery(queryString);
+			query.setParameter("matchId", scoreCard.getStage().getMatch().getId());
+			query.setParameter("stageId", scoreCard.getStage().getId());
+			query.setParameter("competitorId", scoreCard.getCompetitor().getId());
+			query.setParameter("modified", scoreCard.getModified(), TemporalType.TIMESTAMP);
+			query.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void deleteByMatch(Match match) {
+		try {
+			// Set reference to stage to null
+			for (Stage stage : match.getStages()) {
+				List<ScoreCard> cards = findByStage(stage.getId());
+				if (cards != null) {
+					deleteInBatch(cards);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+}

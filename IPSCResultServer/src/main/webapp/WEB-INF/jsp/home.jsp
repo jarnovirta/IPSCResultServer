@@ -39,7 +39,10 @@
 	<c:url var="url" value="/" />
 	<script>
 		function submit() {
-			window.location.href = "${url}match/" + $("select#seletcMatch").val();
+			var matchId = $("select#seletcMatch").val();
+			if (matchId != null && matchId != '') {
+				window.location.href = "${url}match/" + matchId;
+			}
 		}
 		function login() {
 			window.location.href = "${url}login";
