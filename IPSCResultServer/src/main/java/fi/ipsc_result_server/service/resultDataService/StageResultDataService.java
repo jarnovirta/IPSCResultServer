@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import fi.ipsc_result_server.domain.Competitor;
 import fi.ipsc_result_server.domain.IPSCDivision;
+import fi.ipsc_result_server.domain.Match;
 import fi.ipsc_result_server.domain.ScoreCard;
 import fi.ipsc_result_server.domain.Stage;
 import fi.ipsc_result_server.domain.StageScore;
@@ -213,4 +214,18 @@ public class StageResultDataService {
 			return null;
 	}
 	
+	@Transactional
+	public void deleteStageResultDataForStage(Stage stage) {
+		List<StageResultData> oldStageResultData = findByStage(stage);
+		if (oldStageResultData != null) {
+			deleteInBatch(oldStageResultData);
+		}
+	}
+	@Transactional
+	public void deleteStageResultDataForMatch(Match match) {
+		for (Stage stage : match.getStages()) {
+			deleteStageResultDataForStage(stage);
+		}
+		
+	}
 }

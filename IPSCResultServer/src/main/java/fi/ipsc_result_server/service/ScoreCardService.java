@@ -14,14 +14,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import fi.ipsc_result_server.domain.IPSCDivision;
+import fi.ipsc_result_server.domain.Match;
 import fi.ipsc_result_server.domain.ScoreCard;
+import fi.ipsc_result_server.domain.Stage;
 import fi.ipsc_result_server.repository.ScoreCardRepository;
 
 @Service
 public class ScoreCardService {
 	@Autowired
 	ScoreCardRepository scoreCardRepository;
-	
+		
 	@PersistenceContext
 	EntityManager entityManager;
 	
@@ -89,6 +91,23 @@ public class ScoreCardService {
 			query.setParameter("modified", scoreCard.getModified(), TemporalType.TIMESTAMP);
 			query.executeUpdate();
 			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	@Transactional
+	public void deleteScoreCardsForMatch(Match match) {
+		try {
+			for (Stage stage : match.getStages()) {
+				List<ScoreCard> cards = findScoreCardsByStage(stage.getId());
+				if (cards != null) {
+					for (ScoreCard card : cards) {
+						card.setStage(null);
+					}
+				}
+			}
+			String queryString = "DELETE FROM ScoreCard s WHERE s.stage.match = :match";
+			entityManager.createQuery(queryString).setParameter("match", match).executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

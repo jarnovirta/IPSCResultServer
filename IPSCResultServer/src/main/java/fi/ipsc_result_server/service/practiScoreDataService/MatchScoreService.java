@@ -21,7 +21,6 @@ import fi.ipsc_result_server.domain.Stage;
 import fi.ipsc_result_server.domain.StageScore;
 import fi.ipsc_result_server.domain.ResultData.MatchResultData;
 import fi.ipsc_result_server.domain.ResultData.MatchResultDataLine;
-import fi.ipsc_result_server.domain.ResultData.StageResultData;
 import fi.ipsc_result_server.domain.ResultData.StageResultDataLine;
 import fi.ipsc_result_server.service.CompetitorService;
 import fi.ipsc_result_server.service.MatchService;
@@ -71,22 +70,16 @@ public class MatchScoreService {
 		if (match.getDivisions() == null) match.setDivisions(new ArrayList<IPSCDivision>());
 		
 		List<Stage> stagesWithNewResults = new ArrayList<Stage>();
-		// Delete old match result listing
-		List<MatchResultData> oldMatchResultData = matchResultDataService.findByMatchId(matchScore.getMatchId());
-		if (oldMatchResultData != null) {
-			matchResultDataService.deleteInBatch(oldMatchResultData);
-		}
 		
+		// Delete old match result listing
+		matchResultDataService.deleteResultDataForMatch(match);
+						
 		for (StageScore stageScore : matchScore.getStageScores()) {
 			Stage stage = stageService.getOne(stageScore.getStageId());
 			stagesWithNewResults.add(stage);
 			
 			// Delete old stage result listing
-			
-			List<StageResultData> oldStageResultData = stageResultDataService.findByStage(stage);
-			if (oldStageResultData != null) {
-				stageResultDataService.deleteInBatch(oldStageResultData);
-			}
+			stageResultDataService.deleteStageResultDataForStage(stage);
 			
 			// Remove old scorecards
 			scoreCardService.deleteInBatch(stageScore.getScoreCards());

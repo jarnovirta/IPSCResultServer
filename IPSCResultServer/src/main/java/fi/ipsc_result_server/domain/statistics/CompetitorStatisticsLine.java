@@ -9,7 +9,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 import fi.ipsc_result_server.domain.Competitor;
-import fi.ipsc_result_server.domain.ScoreCard;
 
 @Entity
 public class CompetitorStatisticsLine implements Serializable, Comparable<CompetitorStatisticsLine> {

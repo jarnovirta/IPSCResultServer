@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.apache.log4j.Logger;
@@ -37,12 +36,10 @@ public class StatisticsService {
 	@Autowired
 	MatchResultDataService matchResultDataService;
 	
-	
 	final static Logger logger = Logger.getLogger(StatisticsService.class);
 	
-	public CompetitorStatistics getCompetitorStatistics(String matchId, IPSCDivision division) {
+	public CompetitorStatistics getCompetitorStatisticsForMatchAndDivision(String matchId, IPSCDivision division) {
 		try {
-			
 			String queryString = "SELECT c FROM CompetitorStatistics c WHERE c.match.id = :matchId AND c.division = :division";
 			TypedQuery<CompetitorStatistics> query = entityManager.createQuery(queryString, CompetitorStatistics.class);
 			query.setParameter("matchId", matchId);
@@ -63,7 +60,6 @@ public class StatisticsService {
 	
 	@Transactional
 	public void generateCompetitorStatistics(Match match) {
-		logger.info("Deleting old match statistics..");
 		deleteStatisticsForMatch(match);	
 				
 		for (IPSCDivision division : IPSCDivision.values()) {
@@ -71,6 +67,7 @@ public class StatisticsService {
 			CompetitorStatistics statistics = new CompetitorStatistics(match, division);
 			List<CompetitorStatisticsLine> lines = new ArrayList<CompetitorStatisticsLine>();
 			
+			// Generate CompetitorStatisticsLine instances for competitors
 			for (Competitor competitor : match.getCompetitors()) {
 				if (competitor.getDivision() != division) continue;
 				CompetitorStatisticsLine line = new CompetitorStatisticsLine(competitor);
@@ -83,6 +80,8 @@ public class StatisticsService {
 				int noShootHits = 0;
 				int sumOfPoints = 0;
 				CompetitorResultData competitorResultData = competitorResultDataService.getCompetitorResultData(competitor.getId(), match.getId());
+				
+				// Exclude competitors with no score card data. Will not be shown at all in statistics listing.
 				if (competitorResultData.getScoreCards() == null || competitorResultData.getScoreCards().size() == 0) continue; 
 				for (ScoreCard card : competitorResultData.getScoreCards().values()) {
 					aHits += card.getaHits();
@@ -106,6 +105,8 @@ public class StatisticsService {
 				int totalShots = aHits + cHits + dHits + misses;
 				line.setaHitPercentage((double) aHits / (double) totalShots * 100.0);
 				
+				// Get following data from competitor's MatchResultDataLine instance: position within division results,
+				// total points and score percentage within division. 
 				MatchResultDataLine matchDataLine = matchResultDataService.getMatchResultDataLineForCompetitor(competitor);
 				if (matchDataLine != null) {
 					line.setDivisionRank(matchDataLine.getRank());
@@ -124,25 +125,21 @@ public class StatisticsService {
 	@Transactional
 	public void deleteStatisticsForMatch(Match match) {
 		try {
-			String queryString = "DELETE FROM CompetitorStatistics c WHERE c.match = :match";
-			Query query = entityManager.createQuery(queryString);
-			query.setParameter("match", match);
-			query.executeUpdate();
-			
+			// Set entity references to null in CompetitorStatistics to be deleted
+			String queryString = "SELECT c FROM CompetitorStatistics c WHERE c.match = :match";
+			TypedQuery<CompetitorStatistics> query = entityManager.createQuery(queryString, CompetitorStatistics.class);
+			List<CompetitorStatistics> statistics = query.setParameter("match", match).getResultList();
+			for (CompetitorStatistics stats : statistics) {
+				stats.setMatch(null);
+				for (CompetitorStatisticsLine line : stats.getStatisticsLines()) {
+					line.setCompetitor(null);
+				}
+			}
+			// Delete CompetitorStatistics
+			queryString = "DELETE FROM CompetitorStatistics c WHERE c.match = :match";
+			entityManager.createQuery(queryString).setParameter("match", match).executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-	
-	public List<IPSCDivision> getAvailableDivisionsForStatistics(String matchId) {
-		try {
-			String queryString = "SELECT DISTINCT(c.division) FROM CompetitorStatistics c WHERE c.match.id = :matchId";
-			TypedQuery<IPSCDivision> query = entityManager.createQuery(queryString, IPSCDivision.class); 
-			query.setParameter("matchId", matchId);
-			return query.getResultList();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
 	}
 }

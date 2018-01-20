@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import fi.ipsc_result_server.domain.Competitor;
 import fi.ipsc_result_server.domain.IPSCDivision;
 import fi.ipsc_result_server.domain.Match;
-import fi.ipsc_result_server.domain.Stage;
 import fi.ipsc_result_server.domain.ResultData.MatchResultData;
 import fi.ipsc_result_server.domain.ResultData.MatchResultDataLine;
 
@@ -58,16 +57,10 @@ public class MatchResultDataService {
 	}
 	@Transactional
 	public void deleteResultDataForMatch(Match match) {
-		// Delete old match result listing
 		List<MatchResultData> oldMatchResultData = findByMatchId(match.getId());
 		if (oldMatchResultData != null) {
 			deleteInBatch(oldMatchResultData);
 		}
-		
-		for (Stage stage : match.getStages()) {
-			
-		}
-		
 	}
 	@Transactional
 	public void deleteInBatch(List<MatchResultData> matchResultDataList) {

@@ -16,6 +16,7 @@ import fi.ipsc_result_server.domain.Match;
 import fi.ipsc_result_server.repository.CompetitorRepository;
 import fi.ipsc_result_server.repository.MatchRepository;
 import fi.ipsc_result_server.service.resultDataService.MatchResultDataService;
+import fi.ipsc_result_server.service.resultDataService.StageResultDataService;
 
 @Service
 public class MatchService {
@@ -30,6 +31,15 @@ public class MatchService {
 	
 	@Autowired
 	MatchResultDataService matchResultDataService;
+	
+	@Autowired
+	StageResultDataService stageResultDataService;
+	
+	@Autowired
+	StatisticsService statisticsService;
+	
+	@Autowired
+	ScoreCardService scoreCardService;
 	
 	final static Logger logger = Logger.getLogger(MatchService.class);
 	
@@ -64,15 +74,19 @@ public class MatchService {
 	
 	@Transactional
 	public void delete(String matchId) {
-		logger.info("Deleting result data");
-		try {
-			logger.info("Deleting result data");
-			matchResultDataService.deleteResultDataForMatch(getOne(matchId));
-			logger.info("Deleting match");
-			String queryString = "DELETE FROM Match m WHERE m.id = :matchId";
-			entityManager.createQuery(queryString).executeUpdate();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+		
+		Match match = getOne(matchId);
+		logger.info("Deleting match result data");
+		matchResultDataService.deleteResultDataForMatch(match);
+		logger.info("Deleting stage data");
+		stageResultDataService.deleteStageResultDataForMatch(match);
+		logger.info("Deleting statistics");
+		statisticsService.deleteStatisticsForMatch(match);
+		logger.info("Deleting score cards");
+		scoreCardService.deleteScoreCardsForMatch(match);
+		logger.info("Deleting match");
+		matchRepository.delete(match);
+
+		
 	}
 }
