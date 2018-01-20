@@ -79,7 +79,7 @@ public class MatchScoreService {
 			stagesWithNewResults.add(stage);
 			
 			// Delete old stage result listing
-			stageResultDataService.deleteStageResultDataForStage(stage);
+			stageResultDataService.deleteByStage(stage);
 			
 			// Remove old scorecards
 			scoreCardService.deleteInBatch(stageScore.getScoreCards());
@@ -135,7 +135,7 @@ public class MatchScoreService {
 			// Calculate competitor total points for match and set scored stages count
 			for (Competitor competitor : match.getCompetitors()) {
 				MatchResultDataLine competitorDataLine = new MatchResultDataLine(competitor, matchResultData);
-				List<StageResultDataLine> stageResultDataLines = stageResultDataService.getStageResultDataLinesForCompetitor(competitor);
+				List<StageResultDataLine> stageResultDataLines = stageResultDataService.findStageResultDataLinesByCompetitor(competitor);
 				
 				// Exclude competitors with no results for stages (did not show up)
 				if (stageResultDataLines.size() == 0) continue;

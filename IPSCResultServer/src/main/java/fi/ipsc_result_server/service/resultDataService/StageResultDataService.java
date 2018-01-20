@@ -17,8 +17,6 @@ import fi.ipsc_result_server.domain.IPSCDivision;
 import fi.ipsc_result_server.domain.Match;
 import fi.ipsc_result_server.domain.ScoreCard;
 import fi.ipsc_result_server.domain.Stage;
-import fi.ipsc_result_server.domain.StageScore;
-import fi.ipsc_result_server.domain.ResultData.MatchResultData;
 import fi.ipsc_result_server.domain.ResultData.StageResultData;
 import fi.ipsc_result_server.domain.ResultData.StageResultDataLine;
 import fi.ipsc_result_server.repository.StageResultDataLineRepository;
@@ -40,8 +38,7 @@ public class StageResultDataService {
 	@Autowired
 	ScoreCardService scoreCardService;
 	
-	
-	public StageResultData findResultDataForStage(String stageId, IPSCDivision division) {
+	public StageResultData findByStageAndDivision(String stageId, IPSCDivision division) {
 		StageResultData resultData = new StageResultData();
 		try {
 			String queryString = "SELECT s FROM StageResultData s WHERE s.stage.id = :stageId AND s.division = :division";
@@ -57,8 +54,20 @@ public class StageResultDataService {
 			}
 		return resultData;
 	}
-	
-	public List<StageResultDataLine> getStageResultDataLinesForCompetitor(Competitor competitor) {
+
+	public List<StageResultData> findByStage(Stage stage) {
+		try {
+			String queryString = "SELECT s FROM StageResultData s WHERE s.stage = :stage";
+			TypedQuery<StageResultData> query = entityManager.createQuery(queryString, StageResultData.class); 
+			query.setParameter("stage", stage);
+			return query.getResultList();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	public List<StageResultDataLine> findStageResultDataLinesByCompetitor(Competitor competitor) {
 		try {
 			String queryString = "SELECT s FROM StageResultDataLine s WHERE s.competitor = :competitor AND s.stageResultData.division = :competitorDivision";
 			TypedQuery<StageResultDataLine> query = entityManager.createQuery(queryString, StageResultDataLine.class);
@@ -70,44 +79,6 @@ public class StageResultDataService {
 			}
 		return null;
 	}
-	@Transactional
-	public void deleteStageResultListingsInBatch(List<StageResultData> stageResultData) {
-		stageResultDataRepository.deleteInBatch(stageResultData);
-	}
-	
-	public MatchResultData findResultDataForMatch(String matchId, IPSCDivision division) {
-		try {
-			String queryString = "SELECT m FROM MatchResultData m WHERE m.match.id = :matchId AND m.division = :division";
-			TypedQuery<MatchResultData> query = entityManager.createQuery(queryString, MatchResultData.class);
-			query.setParameter("matchId", matchId);
-			query.setParameter("division", division);
-			List<MatchResultData> resultList = query.getResultList();
-			if (resultList != null && resultList.size() > 0) {
-				return resultList.get(0);
-			}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			return null;
-	}
-	public List<IPSCDivision> getAvailableDivisionsForStageResults(String stageId) {
-		try {
-			String queryString = "SELECT DISTINCT(s.division) FROM StageResultData s WHERE s.stage.id = :stageId";
-			TypedQuery<IPSCDivision> query = entityManager.createQuery(queryString, IPSCDivision.class); 
-			query.setParameter("stageId", stageId);
-			return query.getResultList();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
-	public List<StageScore> findStageScoresForCompetitor(String matchId, String competitorId) {
-		List<StageScore> stageScores = null;
-		
-		return stageScores;
-	}
-	
 	@Transactional
 	public void generateStageResultsListing(Stage stage) {
 		List<IPSCDivision> divisions = new ArrayList<IPSCDivision>();
@@ -156,44 +127,14 @@ public class StageResultDataService {
 				rank++;
 			}
 			
-			divisionsWithResults++;
-			stageResultData.setDataLines(dataLines);
-			entityManager.persist(stageResultData);
-		
-		}
-				
-	}
-	@Transactional
-	private void removeOldStageResultListing(Stage stage) {
-		try {
-			String queryString = "SELECT s FROM StageResultData s WHERE s.stage.match.id = :matchId AND s.stage.id = :stageId";
-			TypedQuery<StageResultData> query = entityManager.createQuery(queryString, StageResultData.class);
-			query.setParameter("matchId", stage.getMatch().getId());
-			query.setParameter("stageId", stage.getId());
-			List<StageResultData> oldStageResultListings = query.getResultList();
-			
-			if (oldStageResultListings != null) {
-				deleteStageResultListingsInBatch(oldStageResultListings);
+			if (dataLines.size() > 0) { 
+				divisionsWithResults++;
+				stageResultData.setDataLines(dataLines);
+				entityManager.persist(stageResultData);
 			}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-	}
-	@Transactional
-	public void delete(String stageId) {
-		try {
-			String queryString = "SELECT s FROM StageResultData s WHERE s.stage.id = :stageId";
-			TypedQuery<StageResultData> query = entityManager.createQuery(queryString, StageResultData.class);
-			query.setParameter("stageId", stageId);
-			List<StageResultData> resultData = query.getResultList();
-			for (StageResultData data : resultData) {
-				stageResultDataLineRepository.deleteInBatch(data.getDataLines());
-				stageResultDataRepository.delete(data);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 	}
+
 	@Transactional
 	public void deleteInBatch(List<StageResultData> stageResultDataList) {
 		for (StageResultData data : stageResultDataList) {
@@ -201,31 +142,17 @@ public class StageResultDataService {
 		}
 	}
 	
-	public List<StageResultData> findByStage(Stage stage) {
-			try {
-				String queryString = "SELECT s FROM StageResultData s WHERE s.stage = :stage";
-				TypedQuery<StageResultData> query = entityManager.createQuery(queryString, StageResultData.class); 
-				query.setParameter("stage", stage);
-				return query.getResultList();
-				
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			return null;
-	}
-	
 	@Transactional
-	public void deleteStageResultDataForStage(Stage stage) {
+	public void deleteByStage(Stage stage) {
 		List<StageResultData> oldStageResultData = findByStage(stage);
 		if (oldStageResultData != null) {
 			deleteInBatch(oldStageResultData);
 		}
 	}
 	@Transactional
-	public void deleteStageResultDataForMatch(Match match) {
+	public void deleteByMatch(Match match) {
 		for (Stage stage : match.getStages()) {
-			deleteStageResultDataForStage(stage);
+			deleteByStage(stage);
 		}
-		
 	}
 }

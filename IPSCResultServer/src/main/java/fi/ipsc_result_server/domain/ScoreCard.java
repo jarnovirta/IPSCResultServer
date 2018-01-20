@@ -41,7 +41,6 @@ public class ScoreCard implements Serializable, Comparable<ScoreCard> {
 	private Competitor competitor;
 	
 	@ManyToOne
-	@JoinColumn
 	private Stage stage;
 	
 	private String stageId;

@@ -79,6 +79,8 @@ public class ScoreCardService {
 		}
 	}
 	
+	// Delete ScoreCard. Needs to use properties other than id because ScoreCard data from PractiScore does not 
+	// include id.
 	@Transactional
 	public void delete(ScoreCard scoreCard) {
 		try {
@@ -98,6 +100,7 @@ public class ScoreCardService {
 	@Transactional
 	public void deleteByMatch(Match match) {
 		try {
+			// Set reference to stage to null
 			for (Stage stage : match.getStages()) {
 				List<ScoreCard> cards = findByStage(stage.getId());
 				if (cards != null) {

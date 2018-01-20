@@ -80,7 +80,7 @@ public class MatchService {
 		logger.info("Deleting match result data");
 		matchResultDataService.deleteResultDataForMatch(match);
 		logger.info("Deleting stage data");
-		stageResultDataService.deleteStageResultDataForMatch(match);
+		stageResultDataService.deleteByMatch(match);
 		logger.info("Deleting statistics");
 		statisticsService.deleteStatisticsForMatch(match);
 		logger.info("Deleting score cards");
