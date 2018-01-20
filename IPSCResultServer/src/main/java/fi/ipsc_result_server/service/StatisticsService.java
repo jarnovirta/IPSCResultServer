@@ -79,7 +79,7 @@ public class StatisticsService {
 				int proceduralPenalties = 0;
 				int noShootHits = 0;
 				int sumOfPoints = 0;
-				CompetitorResultData competitorResultData = competitorResultDataService.getCompetitorResultData(competitor.getId(), match.getId());
+				CompetitorResultData competitorResultData = competitorResultDataService.findByCompetitorAndMatch(competitor.getId(), match.getId());
 				
 				// Exclude competitors with no score card data. Will not be shown at all in statistics listing.
 				if (competitorResultData.getScoreCards() == null || competitorResultData.getScoreCards().size() == 0) continue; 

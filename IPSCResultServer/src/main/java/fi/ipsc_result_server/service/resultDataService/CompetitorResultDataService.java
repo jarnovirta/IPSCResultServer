@@ -27,10 +27,8 @@ public class CompetitorResultDataService {
 	@Autowired
 	MatchService matchService;
 	
-	public CompetitorResultData getCompetitorResultData(String competitorId, String matchId) {
-		
+	public CompetitorResultData findByCompetitorAndMatch(String competitorId, String matchId) {
 		try {
-			
 			String queryString = "SELECT s FROM ScoreCard s WHERE s.competitor.id = :competitorId AND s.stage.match.id = :matchId";
 			TypedQuery<ScoreCard> query = entityManager.createQuery(queryString, ScoreCard.class);
 			query.setParameter("competitorId", competitorId);
@@ -52,6 +50,5 @@ public class CompetitorResultDataService {
 				e.printStackTrace();
 				return null;
 			}
-		
 	}
 }

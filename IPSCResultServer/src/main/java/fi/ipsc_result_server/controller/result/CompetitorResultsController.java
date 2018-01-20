@@ -18,7 +18,7 @@ public class CompetitorResultsController {
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public String getCompetitorResultsPage(Model model, @PathVariable("id") String competitorId, 
 			@PathVariable("matchId") String matchId) {
-		model.addAttribute("resultData", competitorResultDataService.getCompetitorResultData(competitorId, matchId));
+		model.addAttribute("resultData", competitorResultDataService.findByCompetitorAndMatch(competitorId, matchId));
 		return "results/competitorResults";
 	}
 }
