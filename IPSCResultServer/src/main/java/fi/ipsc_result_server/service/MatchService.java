@@ -57,7 +57,8 @@ public class MatchService {
 	public List<Match> findAll() {
 		return matchRepository.findAll();
 	}
-	
+	// Returns Match list with only necessary properties set for listing purposes
+	// instead of full instances with a list of Stages etc.
 	public List<Match> getAdminPageMatchList() {
 		try {
 			String queryString = "SELECT NEW fi.ipsc_result_server.domain.Match(m.id, m.name, m.status) FROM Match m ORDER BY m.date DESC";
@@ -83,7 +84,7 @@ public class MatchService {
 		logger.info("Deleting statistics");
 		statisticsService.deleteStatisticsForMatch(match);
 		logger.info("Deleting score cards");
-		scoreCardService.deleteScoreCardsForMatch(match);
+		scoreCardService.deleteByMatch(match);
 		logger.info("Deleting match");
 		matchRepository.delete(match);
 

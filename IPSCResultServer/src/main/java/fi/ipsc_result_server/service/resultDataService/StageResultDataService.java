@@ -125,10 +125,10 @@ public class StageResultDataService {
 					continue;
 				}
 				else {
-					scoreCards = scoreCardService.findScoreCardsByStage(stage.getId());
+					scoreCards = scoreCardService.findByStage(stage.getId());
 				}
 			}
-			else scoreCards = scoreCardService.findScoreCardsByStageAndDivision(stage.getId(), division);
+			else scoreCards = scoreCardService.findByStageAndDivision(stage.getId(), division);
 			Collections.sort(scoreCards);
 			
 			double topHitFactor = -1.0;

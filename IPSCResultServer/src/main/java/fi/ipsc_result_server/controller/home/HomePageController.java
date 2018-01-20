@@ -16,8 +16,6 @@ public class HomePageController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String getHomePage(Model model) {
 		model.addAttribute("matches", matchService.findAll());
-		
 		return "home";
 	}
-	
 }

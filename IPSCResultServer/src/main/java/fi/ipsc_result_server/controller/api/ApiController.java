@@ -1,7 +1,5 @@
 package fi.ipsc_result_server.controller.api;
 
-import java.util.Calendar;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,7 +24,6 @@ public class ApiController {
 
 	@RequestMapping(value = "/matches", method = RequestMethod.POST)
 	public @ResponseBody Match postMatchData(@RequestBody Match match) {
-		System.out.println("POST new match data" + Calendar.getInstance().getTime());
 		for (Stage stage : match.getStages()) {
 			stage.setMatch(match);
 		}
@@ -36,7 +33,6 @@ public class ApiController {
 	// TODO: fix return value, set status
 	@RequestMapping(value = "/matches/matchId/scores", method = RequestMethod.POST)
 	public @ResponseBody MatchScore postScoreData(@RequestBody MatchScore matchScore) {
-		System.out.println("POST new score data " + Calendar.getInstance().getTime());
 		matchScoreService.save(matchScore);
 		return null;
 	}

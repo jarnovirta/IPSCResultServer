@@ -94,7 +94,7 @@ public class MatchScoreService {
 				scoreCard.setStageId(stage.getId());
 				scoreCard.setCompetitor(competitorService.getOne(scoreCard.getCompetitorId()));
 				
-				scoreCardService.removeOldScoreCard(scoreCard);
+				scoreCardService.delete(scoreCard);
 				scoreCardService.save(scoreCard);
 				
 				IPSCDivision scoreCardDivision = scoreCard.getCompetitor().getDivision();

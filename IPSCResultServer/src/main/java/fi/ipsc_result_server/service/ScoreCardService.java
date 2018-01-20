@@ -34,7 +34,7 @@ public class ScoreCardService {
 		return scoreCardRepository.save(scoreCard);
 	}
 	
-	public ScoreCard findCompetitorScoreCardsForStage(String competitorId, String stageId) {
+	public ScoreCard findByCompetitorAndStage(String competitorId, String stageId) {
 		try {
 			String queryString = "SELECT s FROM ScoreCard s WHERE s.competitorId = :competitorId AND s.stageId = :stageId";
 			TypedQuery<ScoreCard> query = entityManager.createQuery(queryString, ScoreCard.class);
@@ -52,7 +52,7 @@ public class ScoreCardService {
 		scoreCardRepository.deleteInBatch(scoreCards);
 	}
 	
-	public List<ScoreCard> findScoreCardsByStageAndDivision(String stageId, IPSCDivision division) {
+	public List<ScoreCard> findByStageAndDivision(String stageId, IPSCDivision division) {
 		try {
 			String queryString = "SELECT s FROM ScoreCard s WHERE s.stage.id = :stageId AND s.competitor.division = :division";
 			TypedQuery<ScoreCard> query = entityManager.createQuery(queryString, ScoreCard.class);
@@ -66,7 +66,7 @@ public class ScoreCardService {
 		}
 	}
 	
-	public List<ScoreCard> findScoreCardsByStage(String stageId) {
+	public List<ScoreCard> findByStage(String stageId) {
 		try {
 			String queryString = "SELECT s FROM ScoreCard s WHERE s.stage.id = :stageId";
 			TypedQuery<ScoreCard> query = entityManager.createQuery(queryString, ScoreCard.class);
@@ -80,7 +80,7 @@ public class ScoreCardService {
 	}
 	
 	@Transactional
-	public void removeOldScoreCard(ScoreCard scoreCard) {
+	public void delete(ScoreCard scoreCard) {
 		try {
 			String queryString = "DELETE FROM ScoreCard s WHERE s.stage.match.id = :matchId AND s.stage.id = :stageId "
 					+ "AND s.competitor.id = :competitorId AND s.modified <= :modified";
@@ -96,10 +96,10 @@ public class ScoreCardService {
 		}
 	}
 	@Transactional
-	public void deleteScoreCardsForMatch(Match match) {
+	public void deleteByMatch(Match match) {
 		try {
 			for (Stage stage : match.getStages()) {
-				List<ScoreCard> cards = findScoreCardsByStage(stage.getId());
+				List<ScoreCard> cards = findByStage(stage.getId());
 				if (cards != null) {
 					for (ScoreCard card : cards) {
 						card.setStage(null);
