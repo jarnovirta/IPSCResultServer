@@ -19,6 +19,7 @@ import fi.ipscResultServer.domain.StageScore;
 import fi.ipscResultServer.domain.ResultData.MatchResultData;
 import fi.ipscResultServer.domain.ResultData.MatchResultDataLine;
 import fi.ipscResultServer.domain.ResultData.StageResultDataLine;
+import fi.ipscResultServer.exception.DatabaseException;
 import fi.ipscResultServer.service.CompetitorService;
 import fi.ipscResultServer.service.MatchService;
 import fi.ipscResultServer.service.ScoreCardService;
@@ -56,7 +57,7 @@ public class MatchScoreService {
 	// Save match result data from PractiScore and generate result listings
 	// for new data
 	@Transactional
-	public void save(MatchScore matchScore) {
+	public void save(MatchScore matchScore) throws DatabaseException {
 		logger.info("SAVING MATCH RESULT DATA...");
 		
 		Match match = matchService.getOne(matchScore.getMatchId());
@@ -113,7 +114,7 @@ public class MatchScoreService {
 	}
 	
 	@Transactional
-	public MatchResultData generateMatchResultListing(Match match) {
+	public MatchResultData generateMatchResultListing(Match match) throws DatabaseException {
 		logger.info("Generating match result data...");
 		for (IPSCDivision division : match.getDivisionsWithResults()) {
 			MatchResultData matchResultData = new MatchResultData(match, division);

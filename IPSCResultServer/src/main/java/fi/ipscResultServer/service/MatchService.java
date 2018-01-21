@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import fi.ipscResultServer.domain.Competitor;
 import fi.ipscResultServer.domain.Match;
+import fi.ipscResultServer.exception.DatabaseException;
 import fi.ipscResultServer.repository.MatchRepository;
 import fi.ipscResultServer.service.resultDataService.MatchResultDataService;
 import fi.ipscResultServer.service.resultDataService.StageResultDataService;
@@ -33,7 +34,7 @@ public class MatchService {
 	final static Logger logger = Logger.getLogger(MatchService.class);
 	
 	@Transactional
-	public Match save(Match match) {
+	public Match save(Match match) throws DatabaseException {
 		if (match.getCompetitors() != null) {
 			int competitorNumber = 1;
 			for (Competitor competitor : match.getCompetitors()) {
@@ -51,12 +52,12 @@ public class MatchService {
 	public List<Match> getAdminPageMatchList() {
 		return matchRepository.getAdminPageMatchList();
 	}
-	public Match getOne(String id) {
+	public Match getOne(String id) throws DatabaseException {
 		return matchRepository.getOne(id);
 	}
 	
 	@Transactional
-	public void delete(String matchId) {
+	public void delete(String matchId) throws DatabaseException {
 		Match match = getOne(matchId);
 		
 		logger.info("Deleting statistics");

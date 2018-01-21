@@ -16,6 +16,7 @@ import fi.ipscResultServer.domain.ResultData.CompetitorResultData;
 import fi.ipscResultServer.domain.ResultData.MatchResultDataLine;
 import fi.ipscResultServer.domain.statistics.CompetitorStatistics;
 import fi.ipscResultServer.domain.statistics.CompetitorStatisticsLine;
+import fi.ipscResultServer.exception.DatabaseException;
 import fi.ipscResultServer.repository.CompetitorStatisticsRepository;
 import fi.ipscResultServer.service.resultDataService.CompetitorResultDataService;
 import fi.ipscResultServer.service.resultDataService.MatchResultDataService;
@@ -33,12 +34,13 @@ public class StatisticsService {
 	
 	final static Logger logger = Logger.getLogger(StatisticsService.class);
 	
-	public CompetitorStatistics findCompetitorStatisticsByMatchAndDivision(String matchId, IPSCDivision division) {
+	public CompetitorStatistics findCompetitorStatisticsByMatchAndDivision(String matchId, IPSCDivision division) 
+		throws DatabaseException {
 		return competitorStatisticsRepository.findCompetitorStatisticsByMatchAndDivision(matchId, division);
 	}
 	
 	@Transactional
-	public void generateCompetitorStatistics(Match match) {
+	public void generateCompetitorStatistics(Match match) throws DatabaseException {
 		deleteByMatch(match);	
 				
 		for (IPSCDivision division : IPSCDivision.values()) {
@@ -101,7 +103,7 @@ public class StatisticsService {
 	}
 	
 	@Transactional
-	public void deleteByMatch(Match match) {
+	public void deleteByMatch(Match match) throws DatabaseException {
 		competitorStatisticsRepository.deleteByMatch(match);
 	}
 }

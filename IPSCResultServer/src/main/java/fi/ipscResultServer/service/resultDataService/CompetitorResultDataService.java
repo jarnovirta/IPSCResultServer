@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import fi.ipscResultServer.domain.ScoreCard;
 import fi.ipscResultServer.domain.ResultData.CompetitorResultData;
+import fi.ipscResultServer.exception.DatabaseException;
 import fi.ipscResultServer.service.CompetitorService;
 import fi.ipscResultServer.service.MatchService;
 import fi.ipscResultServer.service.ScoreCardService;
@@ -25,7 +26,8 @@ public class CompetitorResultDataService {
 	@Autowired
 	MatchService matchService;
 	
-	public CompetitorResultData findByCompetitorAndMatch(String competitorId, String matchId) {
+	public CompetitorResultData findByCompetitorAndMatch(String competitorId, String matchId) 
+			throws DatabaseException {
 		List<ScoreCard> cards = scoreCardService.findByCompetitorAndMatch(competitorId, matchId);
 		Map<String, ScoreCard> scoreCards = new HashMap<String, ScoreCard>();
 		for (ScoreCard card : cards) {

@@ -8,8 +8,7 @@ public class DatabaseException extends Exception {
 	
 	Exception wrappedException;
 	
-	public DatabaseException(String message, Exception e) {
-		super(message);
-		this.wrappedException = e;
+	public DatabaseException(Exception e) {
+		super("Error during database operation: " + e.getMessage());
 	}
 }

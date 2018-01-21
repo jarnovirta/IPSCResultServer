@@ -17,8 +17,6 @@ public class MatchScore implements Serializable {
 	@JsonProperty("match_id")
 	private String matchId;
 
-	private Match match;
-	
 	@JsonProperty("match_scores")
 	private List<StageScore> stageScores;
 
@@ -40,14 +38,6 @@ public class MatchScore implements Serializable {
 
 	public void setStageScores(List<StageScore> stageScores) {
 		this.stageScores = stageScores;
-	}
-
-	public Match getMatch() {
-		return match;
-	}
-
-	public void setMatch(Match match) {
-		this.match = match;
 	}
 
 }

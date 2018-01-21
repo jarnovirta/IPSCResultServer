@@ -15,6 +15,7 @@ import fi.ipscResultServer.domain.ScoreCard;
 import fi.ipscResultServer.domain.Stage;
 import fi.ipscResultServer.domain.ResultData.StageResultData;
 import fi.ipscResultServer.domain.ResultData.StageResultDataLine;
+import fi.ipscResultServer.exception.DatabaseException;
 import fi.ipscResultServer.repository.StageResultDataRepository;
 import fi.ipscResultServer.service.ScoreCardService;
 
@@ -27,18 +28,21 @@ public class StageResultDataService {
 	@Autowired
 	ScoreCardService scoreCardService;
 	
-	public StageResultData findByStageAndDivision(String stageId, IPSCDivision division) {
+	public StageResultData findByStageAndDivision(String stageId, IPSCDivision division) 
+			throws DatabaseException {
 		return stageResultDataRepository.findByStageAndDivision(stageId, division);
 	}
 
-	public List<StageResultData> findByStage(Stage stage) {
+	public List<StageResultData> findByStage(Stage stage) 
+			throws DatabaseException {
 		return stageResultDataRepository.findByStage(stage);
 	}
-	public List<StageResultDataLine> findStageResultDataLinesByCompetitor(Competitor competitor) {
+	public List<StageResultDataLine> findStageResultDataLinesByCompetitor(Competitor competitor) 
+			throws DatabaseException {
 		return stageResultDataRepository.findStageResultDataLinesByCompetitor(competitor);
 	}
 	@Transactional
-	public void generateStageResultsListing(Stage stage) {
+	public void generateStageResultsListing(Stage stage) throws DatabaseException {
 		List<IPSCDivision> divisions = new ArrayList<IPSCDivision>();
 		divisions.addAll(stage.getMatch().getDivisions());
 		divisions.add(IPSCDivision.COMBINED);
@@ -94,7 +98,7 @@ public class StageResultDataService {
 	}
 	
 	@Transactional
-	public void deleteByStage(Stage stage) {
+	public void deleteByStage(Stage stage) throws DatabaseException {
 		List<StageResultData> oldStageResultData = findByStage(stage);
 		if (oldStageResultData != null) {
 			for (StageResultData data : oldStageResultData) {
@@ -103,7 +107,7 @@ public class StageResultDataService {
 		}
 	}
 	@Transactional
-	public void deleteByMatch(Match match) {
+	public void deleteByMatch(Match match) throws DatabaseException {
 		for (Stage stage : match.getStages()) {
 			List<StageResultData> data = findByStage(stage);
 			for (StageResultData d : data) {

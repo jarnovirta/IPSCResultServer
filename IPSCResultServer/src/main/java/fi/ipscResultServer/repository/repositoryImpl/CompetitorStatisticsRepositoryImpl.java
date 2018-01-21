@@ -43,14 +43,19 @@ public class CompetitorStatisticsRepositoryImpl implements CompetitorStatisticsR
 			}
 						
 		} catch (Exception e) {
-			logger.error(e.getMessage());
-			e.printStackTrace();
+			logger.error(e);
 		}
 		return null;
 	}
 	
 	public CompetitorStatistics save(CompetitorStatistics competitorStatistics) {
-		return springJPACompetitorStatisticsRepository.save(competitorStatistics);
+		try {
+			return springJPACompetitorStatisticsRepository.save(competitorStatistics);
+		}
+		catch (Exception e) {
+			logger.error(e);
+			return null;
+		}
 	}
 	
 	public void deleteByMatch(Match match) {
@@ -67,7 +72,7 @@ public class CompetitorStatisticsRepositoryImpl implements CompetitorStatisticsR
 				entityManager.remove(stats);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e);
 		}
 	}
 }

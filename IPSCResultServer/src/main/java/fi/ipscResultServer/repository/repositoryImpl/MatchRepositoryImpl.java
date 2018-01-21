@@ -6,10 +6,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import fi.ipscResultServer.domain.Match;
+import fi.ipscResultServer.exception.DatabaseException;
 import fi.ipscResultServer.repository.MatchRepository;
 import fi.ipscResultServer.repository.springJPARepository.SpringJPAMatchRepository;
 
@@ -22,13 +24,22 @@ public class MatchRepositoryImpl implements MatchRepository {
 	@PersistenceContext
 	EntityManager entityManager;
 	
-	public Match save(Match match) {
-		return springJPAMatchRepository.save(match);
+	final static Logger logger = Logger.getLogger(MatchRepositoryImpl.class);
+	
+	public Match save(Match match) throws DatabaseException {
+		try {
+			return springJPAMatchRepository.save(match);
+		}
+		catch (Exception e) {
+			logger.error(e);
+			throw new DatabaseException(e);
+		}
 	}
 	
 	
 	public List<Match> findAll() {
 		return springJPAMatchRepository.findAll();
+		
 	}
 	// Returns Match list with only necessary properties set for listing purposes
 	// instead of full instances with a list of Stages etc.
@@ -38,16 +49,28 @@ public class MatchRepositoryImpl implements MatchRepository {
 			TypedQuery<Match> query = entityManager.createQuery(queryString, Match.class);
 			return query.getResultList();
 			} catch (Exception e) {
-				e.printStackTrace();
+				logger.error(e);
 			}
 			return null;
 	}
 	
-	public Match getOne(String id) {
-		return springJPAMatchRepository.getOne(id);
+	public Match getOne(String id) throws DatabaseException {
+		try {
+			return springJPAMatchRepository.getOne(id);
+		}
+		catch (Exception e) {
+			logger.error(e);
+			throw new DatabaseException(e);
+		}
 	}
 	
-	public void delete(Match match) {
-		springJPAMatchRepository.delete(match);
+	public void delete(Match match) throws DatabaseException {
+		try {
+			springJPAMatchRepository.delete(match);
+		}
+		catch (Exception e) {
+			logger.error(e);
+			throw new DatabaseException(e);
+		}
 	}
 }

@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -14,6 +15,7 @@ import fi.ipscResultServer.domain.IPSCDivision;
 import fi.ipscResultServer.domain.Stage;
 import fi.ipscResultServer.domain.ResultData.StageResultData;
 import fi.ipscResultServer.domain.ResultData.StageResultDataLine;
+import fi.ipscResultServer.exception.DatabaseException;
 import fi.ipscResultServer.repository.StageResultDataRepository;
 import fi.ipscResultServer.repository.springJPARepository.SpringJPAStageResultDataRepository;
 
@@ -25,7 +27,10 @@ public class StageResultDataRepositoryImpl implements StageResultDataRepository 
 	@Autowired
 	SpringJPAStageResultDataRepository springJPAStageResultDataRepository;
 	
-	public StageResultData findByStageAndDivision(String stageId, IPSCDivision division) {
+	final static Logger logger = Logger.getLogger(StageResultDataRepositoryImpl.class);
+	
+	public StageResultData findByStageAndDivision(String stageId, IPSCDivision division) 
+			throws DatabaseException {
 		StageResultData resultData = new StageResultData();
 		try {
 			String queryString = "SELECT s FROM StageResultData s WHERE s.stage.id = :stageId AND s.division = :division";
@@ -36,43 +41,60 @@ public class StageResultDataRepositoryImpl implements StageResultDataRepository 
 			if (resultList != null && resultList.size() > 0) {
 				resultData = resultList.get(0);
 			}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+		}
+		catch (Exception e) {
+			logger.error(e);
+			throw new DatabaseException(e);
+		}
 		return resultData;
 	}
 	
-	public List<StageResultData> findByStage(Stage stage) {
+	public List<StageResultData> findByStage(Stage stage) throws DatabaseException {
 		try {
 			String queryString = "SELECT s FROM StageResultData s WHERE s.stage = :stage";
 			TypedQuery<StageResultData> query = entityManager.createQuery(queryString, StageResultData.class); 
 			query.setParameter("stage", stage);
 			return query.getResultList();
 			
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
-		return null;
+		catch (Exception e) {
+			logger.error(e);
+			throw new DatabaseException(e);
+		}
 	}
 	
-	public List<StageResultDataLine> findStageResultDataLinesByCompetitor(Competitor competitor) {
+	public List<StageResultDataLine> findStageResultDataLinesByCompetitor(Competitor competitor) 
+			throws DatabaseException {
 		try {
 			String queryString = "SELECT s FROM StageResultDataLine s WHERE s.competitor = :competitor AND s.stageResultData.division = :competitorDivision";
 			TypedQuery<StageResultDataLine> query = entityManager.createQuery(queryString, StageResultDataLine.class);
 			query.setParameter("competitor", competitor);
 			query.setParameter("competitorDivision", competitor.getDivision());
 			return query.getResultList();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		return null;
+		}
+		catch (Exception e) {
+			logger.error(e);
+			throw new DatabaseException(e);
+		}
 	}
 
-	public void delete(StageResultData data) {
-		springJPAStageResultDataRepository.delete(data);
+	public void delete(StageResultData data) throws DatabaseException {
+		try {
+			springJPAStageResultDataRepository.delete(data);
+		}
+		catch (Exception e) {
+			logger.error(e);
+			throw new DatabaseException(e);
+		}		
 	}
 	
-	public StageResultData save(StageResultData stageResultData) {
-		return springJPAStageResultDataRepository.save(stageResultData);
+	public StageResultData save(StageResultData stageResultData) throws DatabaseException {
+		try {
+			return springJPAStageResultDataRepository.save(stageResultData);
+		}
+		catch (Exception e) {
+			logger.error(e);
+			throw new DatabaseException(e);
+		}
 	}
 }

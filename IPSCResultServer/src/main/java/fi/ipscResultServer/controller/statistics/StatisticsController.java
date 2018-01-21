@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import fi.ipscResultServer.domain.IPSCDivision;
 import fi.ipscResultServer.domain.Match;
+import fi.ipscResultServer.exception.DatabaseException;
 import fi.ipscResultServer.service.MatchService;
 import fi.ipscResultServer.service.StatisticsService;
 
@@ -24,22 +25,35 @@ public class StatisticsController {
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public String getStatisticsPage(Model model, @PathVariable("matchId") String matchId) {
-		Match match = matchService.getOne(matchId);
-		if (match.getDivisionsWithResults() == null || match.getDivisionsWithResults().size() == 0) {
-			model.addAttribute("statistics", null);
+		try {
+			Match match = matchService.getOne(matchId);
+			if (match.getDivisionsWithResults() == null || match.getDivisionsWithResults().size() == 0) {
+				model.addAttribute("statistics", null);
+				return "statistics/competitorStatistics";
+			}
+			IPSCDivision division;
+			if (match.getDivisionsWithResults().contains(IPSCDivision.COMBINED)) division = IPSCDivision.COMBINED;
+			else division = match.getDivisionsWithResults().get(0);
+			
+			model.addAttribute("statistics", statisticsService.findCompetitorStatisticsByMatchAndDivision(matchId, division));
 			return "statistics/competitorStatistics";
 		}
-		IPSCDivision division;
-		if (match.getDivisionsWithResults().contains(IPSCDivision.COMBINED)) division = IPSCDivision.COMBINED;
-		else division = match.getDivisionsWithResults().get(0);
-		
-		model.addAttribute("statistics", statisticsService.findCompetitorStatisticsByMatchAndDivision(matchId, division));
-		return "statistics/competitorStatistics";
+		// Exception logged in repository
+		catch (DatabaseException e) {
+			return "statistics/competitorStatistics";
+		}
 	}
 	
 	@RequestMapping(value="/division/{division}", method = RequestMethod.GET)
 	public String getStatisticsPageForDivision(Model model, @PathVariable("matchId") String matchId, @PathVariable("division") String divisionString) {
-		model.addAttribute("statistics", statisticsService.findCompetitorStatisticsByMatchAndDivision(matchId, IPSCDivision.valueOf(divisionString)));
-		return "statistics/competitorStatistics";
+		try {
+			model.addAttribute("statistics", statisticsService.findCompetitorStatisticsByMatchAndDivision(matchId, IPSCDivision.valueOf(divisionString)));
+			return "statistics/competitorStatistics";
+		}
+		
+		// Exception logged in repository
+		catch (DatabaseException e) {
+			return "statistics/competitorStatistics";
+		}
 	}
 }

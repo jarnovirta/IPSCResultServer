@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import fi.ipscResultServer.exception.DatabaseException;
 import fi.ipscResultServer.service.CompetitorService;
 import fi.ipscResultServer.service.MatchService;
 
@@ -21,8 +22,14 @@ public class MatchController {
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public String getMatchMainPage(Model model, @PathVariable("id") String matchId) {
-		model.addAttribute("match", matchService.getOne(matchId));
-		model.addAttribute("competitors", competitorService.findAll());
-		return "results/matchResultsMainPage";
+		try {
+			model.addAttribute("match", matchService.getOne(matchId));
+			model.addAttribute("competitors", competitorService.findAll());
+			return "results/matchResultsMainPage";
+		}
+		// Exception logged in repository
+		catch (DatabaseException e) {
+			return "results/matchResultsMainPage";
+		}
 	}
 }

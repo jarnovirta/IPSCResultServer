@@ -3,9 +3,10 @@ package fi.ipscResultServer.repository;
 import java.util.List;
 
 import fi.ipscResultServer.domain.Match;
+import fi.ipscResultServer.exception.DatabaseException;
 
 public interface MatchRepository {
-	public Match save(Match match);
+	public Match save(Match match) throws DatabaseException;
 	
 	public List<Match> findAll();
 	
@@ -13,9 +14,9 @@ public interface MatchRepository {
 	// instead of full instances with a list of Stages etc.
 	public List<Match> getAdminPageMatchList();
 	
-	public Match getOne(String id);
+	public Match getOne(String id) throws DatabaseException;
 	
-	public void delete(Match match);
+	public void delete(Match match) throws DatabaseException;
 	
 	
 }

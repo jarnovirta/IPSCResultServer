@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import fi.ipscResultServer.domain.IPSCDivision;
 import fi.ipscResultServer.domain.Stage;
+import fi.ipscResultServer.exception.DatabaseException;
 import fi.ipscResultServer.service.StageService;
 import fi.ipscResultServer.service.resultDataService.StageResultDataService;
 
@@ -27,35 +28,46 @@ public class StageResultsController {
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public String getStageResultsPage(Model model, @PathVariable("id") String stageId) {
-		Stage stage = stageService.getOne(stageId);
-		List<IPSCDivision> availableDivisions = new ArrayList<IPSCDivision>();
-		if (stage.getMatch().getDivisionsWithResults() != null) {
-			for (IPSCDivision division : stage.getMatch().getDivisionsWithResults()) {
-				availableDivisions.add(division);
+		try {
+			Stage stage = stageService.getOne(stageId);
+			List<IPSCDivision> availableDivisions = new ArrayList<IPSCDivision>();
+			if (stage.getMatch().getDivisionsWithResults() != null) {
+				for (IPSCDivision division : stage.getMatch().getDivisionsWithResults()) {
+					availableDivisions.add(division);
+				}
 			}
-		}
-		if (availableDivisions.size() == 0) {
-			model.addAttribute("stageResultData", null);
-			model.addAttribute("selectedDivision", null);
+			if (availableDivisions.size() == 0) {
+				model.addAttribute("stageResultData", null);
+				model.addAttribute("selectedDivision", null);
+				return "results/stageResults";
+			}
+			IPSCDivision division;
+			if (availableDivisions.contains(IPSCDivision.COMBINED)) division = IPSCDivision.COMBINED;
+			else division = availableDivisions.get(0);
+					
+			model.addAttribute("stageResultData", stageResultDataService.findByStageAndDivision(stageId, division));
+			model.addAttribute("selectedDivision", division);
 			return "results/stageResults";
 		}
-		IPSCDivision division;
-		if (availableDivisions.contains(IPSCDivision.COMBINED)) division = IPSCDivision.COMBINED;
-		else division = availableDivisions.get(0);
-				
-		model.addAttribute("stageResultData", stageResultDataService.findByStageAndDivision(stageId, division));
-		model.addAttribute("selectedDivision", division);
-		return "results/stageResults";
+		// Exception logged in repository
+		catch (DatabaseException e) {
+			return "results/stageResults";
+		}
 	}
 	
 	@RequestMapping(value = "/{id}/division/{division}", method = RequestMethod.GET)
 	public String getStageResultsPageForDivision(Model model, @PathVariable("id") String stageId, 
 			@PathVariable("division") String divisionString) {
-		
-		IPSCDivision division = IPSCDivision.valueOf(divisionString.toUpperCase());
-		model.addAttribute("stageResultData", stageResultDataService.findByStageAndDivision(stageId, division));
-		model.addAttribute("selectedDivision", division);
-		return "results/stageResults";
+		try {
+			IPSCDivision division = IPSCDivision.valueOf(divisionString.toUpperCase());
+			model.addAttribute("stageResultData", stageResultDataService.findByStageAndDivision(stageId, division));
+			model.addAttribute("selectedDivision", division);
+			return "results/stageResults";
+		}
+		// Exception logged in repository
+		catch (DatabaseException e) {
+			return "results/stageResults";
+		}
 	}
 	
 }

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import fi.ipscResultServer.exception.DatabaseException;
 import fi.ipscResultServer.service.resultDataService.CompetitorResultDataService;
 
 @Controller
@@ -18,7 +19,13 @@ public class CompetitorResultsController {
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public String getCompetitorResultsPage(Model model, @PathVariable("id") String competitorId, 
 			@PathVariable("matchId") String matchId) {
-		model.addAttribute("resultData", competitorResultDataService.findByCompetitorAndMatch(competitorId, matchId));
-		return "results/competitorResults";
+		try {
+			model.addAttribute("resultData", competitorResultDataService.findByCompetitorAndMatch(competitorId, matchId));
+			return "results/competitorResults";
+		}
+		// Exception logged in repository
+		catch (DatabaseException e) {
+			return "results/competitorResults";
+		}
 	}
 }

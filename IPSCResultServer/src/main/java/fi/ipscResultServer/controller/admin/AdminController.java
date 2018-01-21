@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import fi.ipscResultServer.domain.MatchStatus;
+import fi.ipscResultServer.exception.DatabaseException;
 import fi.ipscResultServer.service.MatchService;
 
 @Controller
@@ -30,8 +31,6 @@ public class AdminController {
 	@RequestMapping(value="/match/{matchId}/setStatus/{status}", method = RequestMethod.GET)
 	public String setMatchStatus(@PathVariable("matchId") String matchId, 
 			@PathVariable("status") MatchStatus status, Model model) {
-		logger.info("Set status to " + status + " for match " + matchId);
-		
 		model.addAttribute("matchList", matchService.getAdminPageMatchList());
 		model.addAttribute("matchStatusList", Arrays.asList(MatchStatus.values()));
 		return "admin/adminMainPage";
@@ -39,13 +38,15 @@ public class AdminController {
 	
 	@RequestMapping(value="/deleteMatch/{matchId}", method = RequestMethod.GET)
 	public String deleteMatch(@PathVariable("matchId") String matchId, Model model) {
-		logger.info("Delete match " + matchId);
-		
-		matchService.delete(matchId);
-		
-		model.addAttribute("matchList", matchService.getAdminPageMatchList());
-		model.addAttribute("matchStatusList", Arrays.asList(MatchStatus.values()));
-		return "admin/adminMainPage";
+		try {
+			matchService.delete(matchId);
+			
+			model.addAttribute("matchList", matchService.getAdminPageMatchList());
+			model.addAttribute("matchStatusList", Arrays.asList(MatchStatus.values()));
+			return "admin/adminMainPage";
+		}
+		catch (DatabaseException e) {
+			return "admin/adminMainPage";
+		}
 	}
-
 }

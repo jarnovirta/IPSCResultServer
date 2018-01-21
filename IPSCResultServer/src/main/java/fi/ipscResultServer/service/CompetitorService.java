@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import fi.ipscResultServer.domain.Competitor;
+import fi.ipscResultServer.exception.DatabaseException;
 import fi.ipscResultServer.repository.CompetitorRepository;
 
 @Service
@@ -21,18 +22,18 @@ public class CompetitorService {
 	@PersistenceContext
 	EntityManager entityManager;
 	
-	public List<Competitor> findAll() {
+	public List<Competitor> findAll() throws DatabaseException {
 		List<Competitor> competitors = competitorRepository.findAll();
 		Collections.sort(competitors);
 		return competitors;
 	}
 	
 	@Transactional
-	public Competitor save(Competitor competitor) {
+	public Competitor save(Competitor competitor) throws DatabaseException {
 		return competitorRepository.save(competitor);
 	}
 	
-	public Competitor getOne(String id) {
+	public Competitor getOne(String id) throws DatabaseException {
 		return competitorRepository.getOne(id);
 	}
 }
