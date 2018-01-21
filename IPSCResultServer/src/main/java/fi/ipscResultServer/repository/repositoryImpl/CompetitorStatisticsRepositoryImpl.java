@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -25,6 +26,8 @@ public class CompetitorStatisticsRepositoryImpl implements CompetitorStatisticsR
 	@Autowired
 	SpringJPACompetitorStatisticsRepository springJPACompetitorStatisticsRepository;
 	
+	final static Logger logger = Logger.getLogger(CompetitorStatisticsRepositoryImpl.class);
+	
 	public CompetitorStatistics findCompetitorStatisticsByMatchAndDivision(String matchId, IPSCDivision division) {
 		try {
 			String queryString = "SELECT c FROM CompetitorStatistics c WHERE c.match.id = :matchId AND c.division = :division";
@@ -40,6 +43,7 @@ public class CompetitorStatisticsRepositoryImpl implements CompetitorStatisticsR
 			}
 						
 		} catch (Exception e) {
+			logger.error(e.getMessage());
 			e.printStackTrace();
 		}
 		return null;
