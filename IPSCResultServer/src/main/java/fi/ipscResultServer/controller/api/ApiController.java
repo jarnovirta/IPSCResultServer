@@ -29,12 +29,13 @@ public class ApiController {
 	
 	@RequestMapping(value = "/matches", method = RequestMethod.POST)
 	public ResponseEntity<String> postMatchData(@RequestBody Match match) {
+		logger.info("POST request to /matches");
 		for (Stage stage : match.getStages()) {
 			stage.setMatch(match);
 		}
 		try {
 			matchService.save(match);
-			return new ResponseEntity<String>("Result data saved", null, HttpStatus.OK);
+			return new ResponseEntity<String>("Match data saved", null, HttpStatus.OK);
 			
 		}
 		catch (DatabaseException e) {
@@ -45,6 +46,7 @@ public class ApiController {
 
 	@RequestMapping(value = "/matches/matchId/scores", method = RequestMethod.POST)
 	public ResponseEntity<String> postScoreData(@RequestBody MatchScore matchScore) {
+		logger.info("POST request to /matches/matchId/scores");
 		try {
 			matchScoreService.save(matchScore);
 			return new ResponseEntity<String>("Result data saved", null, HttpStatus.OK);
@@ -53,5 +55,11 @@ public class ApiController {
 			logger.info("Responding to API request with status code 500 - Internal Server Error");
 			return new ResponseEntity<String>("Error occurred while saving data", null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+	}
+	@RequestMapping(value = "testConnection", method = RequestMethod.GET)
+	public ResponseEntity<String> testConnection() {
+		logger.info("GET request to /testConnection");
+		return new ResponseEntity<String>("Connection ok!", null, HttpStatus.OK);
+		
 	}
 }
