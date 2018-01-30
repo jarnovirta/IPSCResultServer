@@ -22,3 +22,4 @@
 
 - Lisää virhetilanteita varten web-sivu.
 
+- VARMISTA ETTÄ DIVISIOONAT TOIMIVAT AINA, OLI MIKÄ VAAN -> TEKSTIKSI ENUM SIJAAN?

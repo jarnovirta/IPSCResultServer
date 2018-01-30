@@ -22,8 +22,8 @@ public class CompetitorService {
 	@PersistenceContext
 	EntityManager entityManager;
 	
-	public List<Competitor> findAll() throws DatabaseException {
-		List<Competitor> competitors = competitorRepository.findAll();
+	public List<Competitor> findByMatch(String matchId) throws DatabaseException {
+		List<Competitor> competitors = competitorRepository.findByMatch(matchId);
 		Collections.sort(competitors);
 		return competitors;
 	}

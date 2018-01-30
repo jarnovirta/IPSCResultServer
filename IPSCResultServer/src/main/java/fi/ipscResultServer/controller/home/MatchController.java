@@ -24,7 +24,7 @@ public class MatchController {
 	public String getMatchMainPage(Model model, @PathVariable("id") String matchId) {
 		try {
 			model.addAttribute("match", matchService.getOne(matchId));
-			model.addAttribute("competitors", competitorService.findAll());
+			model.addAttribute("competitors", competitorService.findByMatch(matchId));
 			return "results/matchResultsMainPage";
 		}
 		// Exception logged in repository

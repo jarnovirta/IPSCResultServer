@@ -1,9 +1,13 @@
 package fi.ipscResultServer.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
 
 import fi.ipscResultServer.domain.Competitor;
 
-public interface CompetitorRepository extends JpaRepository<Competitor, String> {
-
+public interface CompetitorRepository {
+	public Competitor save(Competitor competitor);
+	
+	public Competitor getOne(String id);
+	
+	public List<Competitor> findByMatch(String matchId);
 }
