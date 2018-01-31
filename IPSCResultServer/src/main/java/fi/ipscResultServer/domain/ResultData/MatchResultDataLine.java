@@ -20,9 +20,9 @@ public class MatchResultDataLine implements Comparable<MatchResultDataLine> {
 	@ManyToOne
 	private Competitor competitor;
 	
-	private double scorePercentage;
+	private double scorePercentage = 0;
 	
-	private double points;
+	private double points = 0;
 
 	private int rank;
 	

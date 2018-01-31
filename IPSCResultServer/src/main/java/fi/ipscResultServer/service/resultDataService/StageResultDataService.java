@@ -68,6 +68,7 @@ public class StageResultDataService {
 			double topPoints = -1.0;
 			int rank = 1;
 			for (ScoreCard scoreCard : scoreCards) {
+				
 				// Discard results for DQ'ed competitor
 				if (scoreCard.getCompetitor().isDisqualified()) continue;
 				if (rank == 1) topHitFactor = scoreCard.getHitFactor();
@@ -76,8 +77,13 @@ public class StageResultDataService {
 				resultDataLine.setStageResultData(stageResultData);
 				resultDataLine.setScoreCard(scoreCard);
 				resultDataLine.setCompetitor(scoreCard.getCompetitor());
-				resultDataLine.setStagePoints((scoreCard.getHitFactor() / topHitFactor) * stage.getMaxPoints()); 
+				
+				if (topHitFactor > 0) resultDataLine.setStagePoints((scoreCard.getHitFactor() / topHitFactor) * stage.getMaxPoints());
+				else {
+					resultDataLine.setStagePoints(stage.getMaxPoints());
+				}
 				scoreCard.setStageRank(rank);
+				
 				scoreCard = scoreCardService.save(scoreCard);
 				if (rank == 1) topPoints = resultDataLine.getStagePoints();
 				resultDataLine.setStageScorePercentage(resultDataLine.getStagePoints() / topPoints * 100);

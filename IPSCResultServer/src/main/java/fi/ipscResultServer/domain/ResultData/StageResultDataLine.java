@@ -28,9 +28,9 @@ public class StageResultDataLine implements Serializable {
 	@ManyToOne
 	private Competitor competitor;
 	
-	private double stageScorePercentage;
+	private double stageScorePercentage = 0.0;
 	
-	private double stagePoints;
+	private double stagePoints = 0.0;
 	
 	private int stageRank;
 		

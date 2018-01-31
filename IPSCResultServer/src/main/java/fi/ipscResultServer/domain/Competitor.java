@@ -242,7 +242,6 @@ public class Competitor implements Serializable, Comparable<Competitor> {
 		practiScoreCategoryString = practiScoreCategoryString.replace(" ", "");
 		String[] categoryStrings = practiScoreCategoryString.split(",");
 		for (String category : categoryStrings) {
-			System.out.println(category);
 			this.categories.add(category);
 		}
 	}

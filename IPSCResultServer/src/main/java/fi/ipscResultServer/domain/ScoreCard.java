@@ -74,8 +74,6 @@ public class ScoreCard implements Serializable, Comparable<ScoreCard> {
 	@Column(nullable = false)
 	private double time;
 	
-	private double roundedTime;
-	
 	@JsonProperty("ts")
 	@Transient
 	private int[] paperTargetHits;
@@ -360,12 +358,6 @@ public class ScoreCard implements Serializable, Comparable<ScoreCard> {
 		}
 		this.stringTimes = stringTimes;
 		
-	}
-	public double getRoundedTime() {
-		return roundedTime;
-	}
-	public void setRoundedTime(double roundedTime) {
-		this.roundedTime = roundedTime;
 	}
 
 	public void setTime(double time) {
