@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import fi.ipscResultServer.domain.IPSCDivision;
+import fi.ipscResultServer.domain.Constants;
 import fi.ipscResultServer.domain.Stage;
 import fi.ipscResultServer.exception.DatabaseException;
 import fi.ipscResultServer.service.StageService;
@@ -30,9 +30,9 @@ public class StageResultsController {
 	public String getStageResultsPage(Model model, @PathVariable("id") String stageId) {
 		try {
 			Stage stage = stageService.getOne(stageId);
-			List<IPSCDivision> availableDivisions = new ArrayList<IPSCDivision>();
+			List<String> availableDivisions = new ArrayList<String>();
 			if (stage.getMatch().getDivisionsWithResults() != null) {
-				for (IPSCDivision division : stage.getMatch().getDivisionsWithResults()) {
+				for (String division : stage.getMatch().getDivisionsWithResults()) {
 					availableDivisions.add(division);
 				}
 			}
@@ -41,8 +41,8 @@ public class StageResultsController {
 				model.addAttribute("selectedDivision", null);
 				return "results/stageResults";
 			}
-			IPSCDivision division;
-			if (availableDivisions.contains(IPSCDivision.COMBINED)) division = IPSCDivision.COMBINED;
+			String division;
+			if (availableDivisions.contains(Constants.COMBINED_DIVISION)) division = Constants.COMBINED_DIVISION;
 			else division = availableDivisions.get(0);
 					
 			model.addAttribute("stageResultData", stageResultDataService.findByStageAndDivision(stageId, division));
@@ -57,9 +57,8 @@ public class StageResultsController {
 	
 	@RequestMapping(value = "/{id}/division/{division}", method = RequestMethod.GET)
 	public String getStageResultsPageForDivision(Model model, @PathVariable("id") String stageId, 
-			@PathVariable("division") String divisionString) {
+			@PathVariable("division") String division) {
 		try {
-			IPSCDivision division = IPSCDivision.valueOf(divisionString.toUpperCase());
 			model.addAttribute("stageResultData", stageResultDataService.findByStageAndDivision(stageId, division));
 			model.addAttribute("selectedDivision", division);
 			return "results/stageResults";

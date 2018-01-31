@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import fi.ipscResultServer.domain.IPSCDivision;
+import fi.ipscResultServer.domain.Constants;
 import fi.ipscResultServer.domain.Match;
 import fi.ipscResultServer.exception.DatabaseException;
 import fi.ipscResultServer.service.MatchService;
@@ -31,8 +31,8 @@ public class StatisticsController {
 				model.addAttribute("statistics", null);
 				return "statistics/competitorStatistics";
 			}
-			IPSCDivision division;
-			if (match.getDivisionsWithResults().contains(IPSCDivision.COMBINED)) division = IPSCDivision.COMBINED;
+			String division;
+			if (match.getDivisionsWithResults().contains(Constants.COMBINED_DIVISION)) division = Constants.COMBINED_DIVISION;
 			else division = match.getDivisionsWithResults().get(0);
 			
 			model.addAttribute("statistics", statisticsService.findCompetitorStatisticsByMatchAndDivision(matchId, division));
@@ -45,9 +45,9 @@ public class StatisticsController {
 	}
 	
 	@RequestMapping(value="/division/{division}", method = RequestMethod.GET)
-	public String getStatisticsPageForDivision(Model model, @PathVariable("matchId") String matchId, @PathVariable("division") String divisionString) {
+	public String getStatisticsPageForDivision(Model model, @PathVariable("matchId") String matchId, @PathVariable("division") String division) {
 		try {
-			model.addAttribute("statistics", statisticsService.findCompetitorStatisticsByMatchAndDivision(matchId, IPSCDivision.valueOf(divisionString)));
+			model.addAttribute("statistics", statisticsService.findCompetitorStatisticsByMatchAndDivision(matchId, division));
 			return "statistics/competitorStatistics";
 		}
 		

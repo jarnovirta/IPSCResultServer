@@ -5,8 +5,6 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,7 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-import fi.ipscResultServer.domain.IPSCDivision;
 import fi.ipscResultServer.domain.Match;
 
 @Entity
@@ -32,15 +29,14 @@ public class CompetitorStatistics implements Serializable {
 	@OneToOne
 	private Match match;
 	
-	@Enumerated(EnumType.ORDINAL)
-	private IPSCDivision division;
+	private String division;
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
 	List<CompetitorStatisticsLine> statisticsLines;
 	
 	public CompetitorStatistics() { }
 	
-	public CompetitorStatistics(Match match, IPSCDivision division) {
+	public CompetitorStatistics(Match match, String division) {
 		this.match = match;
 		this.division = division;
 	}
@@ -72,11 +68,11 @@ public class CompetitorStatistics implements Serializable {
 		this.statisticsLines = statisticsLines;
 	}
 
-	public IPSCDivision getDivision() {
+	public String getDivision() {
 		return division;
 	}
 
-	public void setDivision(IPSCDivision division) {
+	public void setDivision(String division) {
 		this.division = division;
 	}
 }

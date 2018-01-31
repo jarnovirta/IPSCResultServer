@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import fi.ipscResultServer.domain.Competitor;
-import fi.ipscResultServer.domain.IPSCDivision;
+import fi.ipscResultServer.domain.Constants;
 import fi.ipscResultServer.domain.Match;
 import fi.ipscResultServer.domain.ScoreCard;
 import fi.ipscResultServer.domain.Stage;
@@ -28,7 +28,7 @@ public class StageResultDataService {
 	@Autowired
 	ScoreCardService scoreCardService;
 	
-	public StageResultData findByStageAndDivision(String stageId, IPSCDivision division) 
+	public StageResultData findByStageAndDivision(String stageId, String division) 
 			throws DatabaseException {
 		return stageResultDataRepository.findByStageAndDivision(stageId, division);
 	}
@@ -43,17 +43,17 @@ public class StageResultDataService {
 	}
 	@Transactional
 	public void generateStageResultsListing(Stage stage) throws DatabaseException {
-		List<IPSCDivision> divisions = new ArrayList<IPSCDivision>();
+		List<String> divisions = new ArrayList<String>();
 		divisions.addAll(stage.getMatch().getDivisions());
-		divisions.add(IPSCDivision.COMBINED);
+		divisions.add(Constants.COMBINED_DIVISION);
 		int divisionsWithResults = 0;
-		for (IPSCDivision division : divisions) {
+		for (String division : divisions) {
 			StageResultData stageResultData = new StageResultData(stage, division);
 			
 			List<StageResultDataLine> dataLines = new ArrayList<StageResultDataLine>();
 			List<ScoreCard> scoreCards;
 			// Only generate data for combined divisions if at least 2 divisions have results. 
-			if (division == IPSCDivision.COMBINED) {
+			if (division.equals(Constants.COMBINED_DIVISION)) {
 				if (divisionsWithResults < 2) {
 					continue;
 				}

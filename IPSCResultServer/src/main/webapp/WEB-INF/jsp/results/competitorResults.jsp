@@ -10,7 +10,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <body>
-
 	<c:url var="baseUrl" value="/" />
 	<div id="wrap">
 		<div class="container">
@@ -19,7 +18,7 @@
 			</div>
 			<ol class="breadcrumb breadcrumb-arrow">
 				<li><a href="${baseUrl }">Home</a></li>
-				<li><a href="${baseUrl }match/${resultData.match.id}">Match Main Page</a></li>
+				<li><a href="${baseUrl }match/${resultData.match.id}">Match</a></li>
 				<li class="active"><span>Verify List</span></li>
 			</ol>
 			<div class="page-header">
@@ -100,7 +99,7 @@
 					        		</td>
 					        		<td>
 					        			<c:forEach items="${resultData.competitor.categories }" var="category">
-					        				<c:out value="${category}" /> 
+					        				${category} 
 					        			</c:forEach>
 					        		</td>
 					        	</tr>

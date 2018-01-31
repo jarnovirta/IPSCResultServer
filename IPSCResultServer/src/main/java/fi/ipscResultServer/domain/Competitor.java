@@ -6,9 +6,8 @@ import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -51,20 +50,15 @@ public class Competitor implements Serializable, Comparable<Competitor> {
 	private int ipscAlias;
 	
 	@JsonProperty("sh_dvp")
-	@Transient
-	private String practiScoreDivisionString;
-	
-	@Enumerated(EnumType.ORDINAL)
 	@Column(nullable = false)
-	private IPSCDivision division;
-		
+	private String division;
+	
+	@ElementCollection
+	private List<String> categories;
+	
 	@JsonProperty("sh_ctgs")
-	@Transient
 	private String practiScoreCategoryString;
-	
-	@Enumerated(EnumType.ORDINAL)
-	private List<IPSCCategory> categories;
-	
+		
 	@JsonProperty("sh_cc")
 	private String country;
 	
@@ -138,20 +132,7 @@ public class Competitor implements Serializable, Comparable<Competitor> {
 	}
 
 	public String getPractiScoreDivisionString() {
-		return practiScoreDivisionString;
-	}
-
-	public void setPractiScoreDivisionString(String practiScoreDivisionString) {
-		this.practiScoreDivisionString = practiScoreDivisionString;
-		this.division = IPSCDivision.valueOf(practiScoreDivisionString.toUpperCase());
-	}
-
-	public IPSCDivision getDivision() {
 		return division;
-	}
-
-	public void setDivision(IPSCDivision division) {
-		this.division = division;
 	}
 
 	public String getCountry() {
@@ -223,32 +204,6 @@ public class Competitor implements Serializable, Comparable<Competitor> {
 		this.ipscAlias = ipscAlias;
 	}
 
-	public String getPractiScoreCategoryString() {
-		return practiScoreCategoryString;
-	}
-
-	public void setPractiScoreCategoryString(String practiScoreCategoryString) {
-		this.practiScoreCategoryString = practiScoreCategoryString;
-		if (this.categories == null) this.categories = new ArrayList<IPSCCategory>();
-		practiScoreCategoryString = practiScoreCategoryString.replace("\"", "");
-		practiScoreCategoryString = practiScoreCategoryString.replace("[", "");
-		practiScoreCategoryString = practiScoreCategoryString.replace("]", "");
-		practiScoreCategoryString = practiScoreCategoryString.replace(" ", "");
-		String[] categoryStrings = practiScoreCategoryString.split(",");
-		for (String categoryString : categoryStrings) {
-			if (categoryString.equals("SuperSenior")) categoryString = "Super_Senior";
-			IPSCCategory category = IPSCCategory.valueOf(categoryString.toUpperCase());
-			if (!this.categories.contains(category)) this.categories.add(category);
-		}
-	}
-
-	public List<IPSCCategory> getCategories() {
-		return categories;
-	}
-
-	public void setCategories(List<IPSCCategory> categories) {
-		this.categories = categories;
-	}
 
 	public PowerFactor getPowerFactor() {
 		return powerFactor;
@@ -256,6 +211,40 @@ public class Competitor implements Serializable, Comparable<Competitor> {
 
 	public void setPowerFactor(PowerFactor powerFactor) {
 		this.powerFactor = powerFactor;
+	}
+
+	public String getDivision() {
+		return division;
+	}
+
+	public void setDivision(String division) {
+		this.division = division;
+	}
+
+	public List<String> getCategories() {
+		return categories;
+	}
+
+	public void setCategories(List<String> categories) {
+		this.categories = categories;
+	}
+
+	public void setPractiScoreDivisionString(String practiScoreDivisionString) {
+		this.division = practiScoreDivisionString;
+	}
+	
+	public void setPractiScoreCategoryString(String categoriesString) {
+		this.practiScoreCategoryString = categoriesString;
+		if (this.categories == null) this.categories = new ArrayList<String>();
+		practiScoreCategoryString = practiScoreCategoryString.replace("\"", "");
+		practiScoreCategoryString = practiScoreCategoryString.replace("[", "");
+		practiScoreCategoryString = practiScoreCategoryString.replace("]", "");
+		practiScoreCategoryString = practiScoreCategoryString.replace(" ", "");
+		String[] categoryStrings = practiScoreCategoryString.split(",");
+		for (String category : categoryStrings) {
+			System.out.println(category);
+			this.categories.add(category);
+		}
 	}
 	
 }

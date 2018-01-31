@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import fi.ipscResultServer.domain.Competitor;
-import fi.ipscResultServer.domain.IPSCDivision;
 import fi.ipscResultServer.domain.ResultData.MatchResultData;
 import fi.ipscResultServer.domain.ResultData.MatchResultDataLine;
 import fi.ipscResultServer.exception.DatabaseException;
@@ -29,7 +28,7 @@ public class MatchResultDataRepositoryImpl implements MatchResultDataRepository 
 	
 	final static Logger logger = Logger.getLogger(MatchResultDataRepositoryImpl.class);
 	
-	public MatchResultData findByMatchAndDivision(String matchId, IPSCDivision division) throws DatabaseException {
+	public MatchResultData findByMatchAndDivision(String matchId, String division) throws DatabaseException {
 		try {
 			String queryString = "SELECT m FROM MatchResultData m WHERE m.match.id = :matchId AND m.division = :division";
 			TypedQuery<MatchResultData> query = entityManager.createQuery(queryString, MatchResultData.class);

@@ -20,7 +20,7 @@
 			</div>
 			<ol class="breadcrumb breadcrumb-arrow">
 				<li><a href="${baseUrl }">Home</a></li>
-				<li><a href="${baseUrl }match/${stageResultData.stage.match.id}">Match Main Page</a></li>
+				<li><a href="${baseUrl }match/${stageResultData.stage.match.id}">Match</a></li>
 				<li class="active"><span>Stage Results</span></li>
 			</ol>
 		
@@ -201,12 +201,7 @@
 							</td>
 							<td align="center">
 								<c:forEach items = "${dataline.competitor.categories}" var = "category">
-									<c:if test="${category eq  'SUPER_SENIOR'}">
-										SS
-									</c:if> 
-									<c:if test="${category ne  'SUPER_SENIOR'}">
-										${fn:substring(category, 0, 1)}
-									</c:if>
+										${category}
 								</c:forEach>
 							</td>
 							<td align="left">

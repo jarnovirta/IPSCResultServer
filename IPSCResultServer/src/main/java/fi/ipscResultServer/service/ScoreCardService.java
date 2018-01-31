@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import fi.ipscResultServer.domain.IPSCDivision;
 import fi.ipscResultServer.domain.Match;
 import fi.ipscResultServer.domain.ScoreCard;
 import fi.ipscResultServer.exception.DatabaseException;
@@ -37,7 +36,7 @@ public class ScoreCardService {
 		scoreCardRepository.deleteInBatch(scoreCards);
 	}
 	
-	public List<ScoreCard> findByStageAndDivision(String stageId, IPSCDivision division) throws DatabaseException {
+	public List<ScoreCard> findByStageAndDivision(String stageId, String division) throws DatabaseException {
 		return scoreCardRepository.findByStageAndDivision(stageId, division);
 	}
 	

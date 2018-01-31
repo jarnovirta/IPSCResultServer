@@ -17,7 +17,7 @@
 			</div>
 		    <ol class="breadcrumb breadcrumb-arrow">
 				<li><a href="${baseUrl }">Home</a></li>
-				<li class="active"><span>Match Main Page</span></li>
+				<li class="active"><span>Match</span></li>
 			</ol>
 			<div class="page-header">
 				<h1>${match.name}</h1>

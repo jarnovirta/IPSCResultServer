@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import fi.ipscResultServer.domain.Competitor;
-import fi.ipscResultServer.domain.IPSCDivision;
+import fi.ipscResultServer.domain.Constants;
 import fi.ipscResultServer.domain.Match;
 import fi.ipscResultServer.domain.MatchScore;
 import fi.ipscResultServer.domain.ScoreCard;
@@ -60,8 +60,10 @@ public class MatchScoreService {
 	public void save(MatchScore matchScore) throws DatabaseException {
 		logger.info("SAVING MATCH RESULT DATA...");
 		
+		if (matchScore == null) return; 
+		
 		Match match = matchService.getOne(matchScore.getMatchId());
-		if (match.getDivisions() == null) match.setDivisions(new ArrayList<IPSCDivision>());
+		if (match.getDivisions() == null) match.setDivisions(new ArrayList<String>());
 		
 		List<Stage> stagesWithNewResults = new ArrayList<Stage>();
 		
@@ -79,9 +81,9 @@ public class MatchScoreService {
 			scoreCardService.deleteInBatch(stageScore.getScoreCards());
 						
 			if (match.getDivisionsWithResults() == null) {
-				match.setDivisionsWithResults(new ArrayList<IPSCDivision>());
+				match.setDivisionsWithResults(new ArrayList<String>());
 			}
-			List<IPSCDivision> newIPSCDivisionsWithResults = new ArrayList<IPSCDivision>();
+			List<String> newIPSCDivisionsWithResults = new ArrayList<String>();
 			for (ScoreCard scoreCard : stageScore.getScoreCards()) {
 				scoreCard.setHitsAndPoints();
 				scoreCard.setStage(stage);
@@ -91,15 +93,15 @@ public class MatchScoreService {
 				scoreCardService.delete(scoreCard);
 				scoreCardService.save(scoreCard);
 				
-				IPSCDivision scoreCardDivision = scoreCard.getCompetitor().getDivision();
+				String scoreCardDivision = scoreCard.getCompetitor().getDivision();
 
 				if (!match.getDivisions().contains(scoreCardDivision) && !newIPSCDivisionsWithResults.contains(scoreCardDivision))  {
 					newIPSCDivisionsWithResults.add(scoreCardDivision);
 				}
 			}
 			// If match has results for more than one division, add IPSCDivision combined to match for result listing purposes.
-			if (match.getDivisionsWithResults().size() + newIPSCDivisionsWithResults.size() > 1 && !match.getDivisions().contains(IPSCDivision.COMBINED)) {
-				match.getDivisionsWithResults().add(IPSCDivision.COMBINED);
+			if (match.getDivisionsWithResults().size() + newIPSCDivisionsWithResults.size() > 1 && !match.getDivisions().contains(Constants.COMBINED_DIVISION)) {
+				match.getDivisionsWithResults().add(Constants.COMBINED_DIVISION);
 			}
 		}
 		if (stagesWithNewResults.size() > 0) {
@@ -116,7 +118,7 @@ public class MatchScoreService {
 	@Transactional
 	public MatchResultData generateMatchResultListing(Match match) throws DatabaseException {
 		logger.info("Generating match result data...");
-		for (IPSCDivision division : match.getDivisionsWithResults()) {
+		for (String division : match.getDivisionsWithResults()) {
 			MatchResultData matchResultData = new MatchResultData(match, division);
 			List<MatchResultDataLine> dataLines = new ArrayList<MatchResultDataLine>();
 			

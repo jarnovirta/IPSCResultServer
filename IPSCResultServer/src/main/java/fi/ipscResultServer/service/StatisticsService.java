@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import fi.ipscResultServer.domain.Competitor;
-import fi.ipscResultServer.domain.IPSCDivision;
 import fi.ipscResultServer.domain.Match;
 import fi.ipscResultServer.domain.ScoreCard;
 import fi.ipscResultServer.domain.ResultData.CompetitorResultData;
@@ -34,7 +33,7 @@ public class StatisticsService {
 	
 	final static Logger logger = Logger.getLogger(StatisticsService.class);
 	
-	public CompetitorStatistics findCompetitorStatisticsByMatchAndDivision(String matchId, IPSCDivision division) 
+	public CompetitorStatistics findCompetitorStatisticsByMatchAndDivision(String matchId, String division) 
 		throws DatabaseException {
 		return competitorStatisticsRepository.findCompetitorStatisticsByMatchAndDivision(matchId, division);
 	}
@@ -43,14 +42,14 @@ public class StatisticsService {
 	public void generateCompetitorStatistics(Match match) throws DatabaseException {
 		deleteByMatch(match);	
 				
-		for (IPSCDivision division : IPSCDivision.values()) {
+		for (String division : match.getDivisions()) {
 			logger.info("Generating match statistics for " + division);
 			CompetitorStatistics statistics = new CompetitorStatistics(match, division);
 			List<CompetitorStatisticsLine> lines = new ArrayList<CompetitorStatisticsLine>();
 			
 			// Generate CompetitorStatisticsLine instances for competitors
 			for (Competitor competitor : match.getCompetitors()) {
-				if (competitor.getDivision() != division) continue;
+				if (!competitor.getDivision().equals(division)) continue;
 				CompetitorStatisticsLine line = new CompetitorStatisticsLine(competitor);
 				double matchTime = 0.0;
 				int aHits = 0;

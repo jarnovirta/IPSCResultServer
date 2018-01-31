@@ -12,7 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import fi.ipscResultServer.domain.IPSCDivision;
 import fi.ipscResultServer.domain.Stage;
 
 @Entity
@@ -28,14 +27,14 @@ public class StageResultData implements Serializable {
 	@ManyToOne
 	private Stage stage;
 	
-	private IPSCDivision division;
+	private String division;
 	
 	@OneToMany(mappedBy = "stageResultData", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<StageResultDataLine> dataLines;
 
 	public StageResultData() { }
 	
-	public StageResultData(Stage stage, IPSCDivision division) { 
+	public StageResultData(Stage stage, String division) { 
 		this.stage = stage;
 		this.division = division;
 	}
@@ -67,11 +66,11 @@ public class StageResultData implements Serializable {
 		this.dataLines = dataLines;
 	}
 
-	public IPSCDivision getDivision() {
+	public String getDivision() {
 		return division;
 	}
 
-	public void setDivision(IPSCDivision division) {
+	public void setDivision(String division) {
 		this.division = division;
 	}
 	

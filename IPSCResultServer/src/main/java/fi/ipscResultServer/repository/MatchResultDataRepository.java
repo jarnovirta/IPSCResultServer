@@ -1,13 +1,12 @@
 package fi.ipscResultServer.repository;
 
 import fi.ipscResultServer.domain.Competitor;
-import fi.ipscResultServer.domain.IPSCDivision;
 import fi.ipscResultServer.domain.ResultData.MatchResultData;
 import fi.ipscResultServer.domain.ResultData.MatchResultDataLine;
 import fi.ipscResultServer.exception.DatabaseException;
 
 public interface MatchResultDataRepository {
-	public MatchResultData findByMatchAndDivision(String matchId, IPSCDivision division) throws DatabaseException;
+	public MatchResultData findByMatchAndDivision(String matchId, String division) throws DatabaseException;
 		
 	public MatchResultData findByMatch(String matchId) throws DatabaseException;
 		

@@ -35,7 +35,7 @@ public class MatchService {
 	
 	@Transactional
 	public Match save(Match match) throws DatabaseException {
-		if (match.getCompetitors() != null) {
+		if (match != null && match.getCompetitors() != null) {
 			int competitorNumber = 1;
 			for (Competitor competitor : match.getCompetitors()) {
 				competitor.setShooterNumber(competitorNumber++);

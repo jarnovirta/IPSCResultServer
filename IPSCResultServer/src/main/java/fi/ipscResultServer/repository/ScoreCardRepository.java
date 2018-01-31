@@ -2,7 +2,6 @@ package fi.ipscResultServer.repository;
 
 import java.util.List;
 
-import fi.ipscResultServer.domain.IPSCDivision;
 import fi.ipscResultServer.domain.Match;
 import fi.ipscResultServer.domain.ScoreCard;
 import fi.ipscResultServer.exception.DatabaseException;
@@ -12,7 +11,7 @@ public interface ScoreCardRepository {
 	
 	public ScoreCard findByCompetitorAndStage(String competitorId, String stageId) throws DatabaseException;
 
-	public List<ScoreCard> findByStageAndDivision(String stageId, IPSCDivision division) throws DatabaseException;
+	public List<ScoreCard> findByStageAndDivision(String stageId, String division) throws DatabaseException;
 	
 	public List<ScoreCard> findByCompetitorAndMatch(String competitorId, String matchId) throws DatabaseException;
 	

@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import fi.ipscResultServer.domain.Competitor;
-import fi.ipscResultServer.domain.IPSCDivision;
 import fi.ipscResultServer.domain.Stage;
 import fi.ipscResultServer.domain.ResultData.StageResultData;
 import fi.ipscResultServer.domain.ResultData.StageResultDataLine;
@@ -29,7 +28,7 @@ public class StageResultDataRepositoryImpl implements StageResultDataRepository 
 	
 	final static Logger logger = Logger.getLogger(StageResultDataRepositoryImpl.class);
 	
-	public StageResultData findByStageAndDivision(String stageId, IPSCDivision division) 
+	public StageResultData findByStageAndDivision(String stageId, String division) 
 			throws DatabaseException {
 		StageResultData resultData = new StageResultData();
 		try {

@@ -12,7 +12,6 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import fi.ipscResultServer.domain.IPSCDivision;
 import fi.ipscResultServer.domain.Match;
 import fi.ipscResultServer.domain.ScoreCard;
 import fi.ipscResultServer.domain.Stage;
@@ -42,7 +41,7 @@ public class ScoreCardRepositoryImpl implements ScoreCardRepository {
 	}
 	
 	
-	public List<ScoreCard> findByStageAndDivision(String stageId, IPSCDivision division) 
+	public List<ScoreCard> findByStageAndDivision(String stageId, String division) 
 			throws DatabaseException {
 		try {
 			String queryString = "SELECT s FROM ScoreCard s WHERE s.stage.id = :stageId AND s.competitor.division = :division";

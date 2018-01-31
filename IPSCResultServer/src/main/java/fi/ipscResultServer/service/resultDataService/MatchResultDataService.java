@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import fi.ipscResultServer.domain.Competitor;
-import fi.ipscResultServer.domain.IPSCDivision;
 import fi.ipscResultServer.domain.Match;
 import fi.ipscResultServer.domain.ResultData.MatchResultData;
 import fi.ipscResultServer.domain.ResultData.MatchResultDataLine;
@@ -18,7 +17,7 @@ public class MatchResultDataService {
 	@Autowired
 	MatchResultDataRepository matchResultDataRepository;
 		
-	public MatchResultData findByMatchAndDivision(String matchId, IPSCDivision division) 
+	public MatchResultData findByMatchAndDivision(String matchId, String division) 
 			throws DatabaseException {
 		return matchResultDataRepository.findByMatchAndDivision(matchId, division);
 	}

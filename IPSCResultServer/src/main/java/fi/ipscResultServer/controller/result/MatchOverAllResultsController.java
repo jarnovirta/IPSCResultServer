@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import fi.ipscResultServer.domain.IPSCDivision;
+import fi.ipscResultServer.domain.Constants;
 import fi.ipscResultServer.exception.DatabaseException;
 import fi.ipscResultServer.service.resultDataService.MatchResultDataService;
 
@@ -19,9 +19,8 @@ public class MatchOverAllResultsController {
 	
 	@RequestMapping(value="/division/{division}", method = RequestMethod.GET)
 	public String getDivisionOverAllResultsPage(Model model, @PathVariable("matchId") String matchId, 
-			@PathVariable("division") String divisionString) {
+			@PathVariable("division") String division) {
 		try {
-			IPSCDivision division = IPSCDivision.valueOf(divisionString.toUpperCase());
 			model.addAttribute("matchResultData", matchResultDataService.findByMatchAndDivision(matchId, division));
 			model.addAttribute("selectedDivision", division);
 			return "results/matchOverAllResults";
@@ -35,7 +34,7 @@ public class MatchOverAllResultsController {
 	@RequestMapping(value="/division", method = RequestMethod.GET)
 	public String getCombinedOverAllResultsPage(Model model, @PathVariable("matchId") String matchId) {
 		try {
-			IPSCDivision division = IPSCDivision.COMBINED;
+			String division = Constants.COMBINED_DIVISION;
 			model.addAttribute("matchResultData", matchResultDataService.findByMatchAndDivision(matchId, division));
 			model.addAttribute("selectedDivision", division);
 			return "results/matchOverAllResults";

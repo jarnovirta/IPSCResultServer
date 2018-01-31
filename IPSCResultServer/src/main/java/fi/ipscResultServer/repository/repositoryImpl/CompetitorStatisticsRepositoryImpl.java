@@ -11,7 +11,6 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import fi.ipscResultServer.domain.IPSCDivision;
 import fi.ipscResultServer.domain.Match;
 import fi.ipscResultServer.domain.statistics.CompetitorStatistics;
 import fi.ipscResultServer.domain.statistics.CompetitorStatisticsLine;
@@ -28,7 +27,7 @@ public class CompetitorStatisticsRepositoryImpl implements CompetitorStatisticsR
 	
 	final static Logger logger = Logger.getLogger(CompetitorStatisticsRepositoryImpl.class);
 	
-	public CompetitorStatistics findCompetitorStatisticsByMatchAndDivision(String matchId, IPSCDivision division) {
+	public CompetitorStatistics findCompetitorStatisticsByMatchAndDivision(String matchId, String division) {
 		try {
 			String queryString = "SELECT c FROM CompetitorStatistics c WHERE c.match.id = :matchId AND c.division = :division";
 			TypedQuery<CompetitorStatistics> query = entityManager.createQuery(queryString, CompetitorStatistics.class);

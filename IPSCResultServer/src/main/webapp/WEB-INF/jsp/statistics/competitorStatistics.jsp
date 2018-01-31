@@ -19,7 +19,7 @@
 			</div>
 			<ol class="breadcrumb breadcrumb-arrow">
 				<li><a href="${baseUrl }">Home</a></li>
-				<li><a href="${baseUrl }match/${statistics.match.id}">Match Main Page</a></li>
+				<li><a href="${baseUrl }match/${statistics.match.id}">Match</a></li>
 				<li class="active"><span>Competitor Statistics</span></li>
 			</ol>
 			<div class="page-header">
