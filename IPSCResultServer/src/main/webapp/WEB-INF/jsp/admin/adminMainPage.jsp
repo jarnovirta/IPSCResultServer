@@ -1,7 +1,7 @@
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 
-<jsp:include page="/WEB-INF/jsp/include/headTag.jsp" />
+<jsp:include page="/WEB-INF/jsp/include/headTagWithDataTablesLinks.jsp" />
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form"%>
@@ -22,79 +22,29 @@
 			<div class="page-header">
 				<h1>Admin</h1>
 			</div>
-			<br><br>
-			<table class="table table-striped table-bordered" id="adminMatchListingTable">
-				<thead>
-					<tr>
-						<th>
-							#
-						</th>
-						<th>
-							Match name
-						</th>
-						<th>
-							Status
-						</th>
-						<th>
-							Change status
-						</th>
-						<th>
-							Delete match
-						</th>
-					</tr>
-				</thead>
-				<tbody>
-					<c:set var="matchCounter" value="1" />
-					<c:forEach items="${matchList}" var="match">
-						<tr>
-							<td align="right">
-								${matchCounter }
-								<c:set var="matchCounter" value="${matchCounter + 1 }" />
-							</td>
-							<td>
-								${match.name }
-							</td>
-							<td>
-								<h4 class="adminTableLabel">
-								<c:if test="${match.status eq 'CLOSED' }">
-									<span class="label label-warning">
-								</c:if>
-								<c:if test="${match.status eq 'SCORING' }">
-									<span class="label label-success">
-								</c:if>
-								<c:if test="${match.status eq 'SCORING_ENDED' }">
-									<span class="label label-default">
-								</c:if>
-								<c:out value="${match.status }" />
-								</span>
-								</h4>
-							</td>
-							<td>
-								<select id="${match.id }">
-									<c:forEach items="${matchStatusList }" var="status">
-										<c:if test="${match.status eq  status}">
-											<option value="${status }" selected><c:out value="${status }" /></option>
-										</c:if>
-										<c:if test="${match.status ne  status}">
-											<option value="${status }"><c:out value="${status }" /></option>
-										</c:if>
-									</c:forEach>
-								</select>
-								<button class="btn btn-default adminTableStatusButton" onclick="statusChange('${match.id}')" type="button">Set</button>
-							</td>
-							<td>
-								<button class="btn btn-danger" onclick="deleteMatch('${match.id}')" type="button">Delete</button>
-							</td>
-						</tr> 
-					</c:forEach>
-				</tbody>
-			</table>
+			<br>
+			<%@ include file="/WEB-INF/jsp/admin/matchTable.jsp" %>
+			<hr />
+			<%@ include file="/WEB-INF/jsp/admin/userTable.jsp" %>
 		</div>
 	</div>
 	<script>
-		function statusChange(matchId) {
-			window.location.href = "${baseUrl}admin/match/" + matchId + "/setStatus/" + $("select#" + matchId).val();
-		};
+		$(document).ready(function() {
+			$('#adminMatchListingTable').DataTable( {
+				paging: true,
+				searching: true,
+				info: true,
+				ordering: false
+			});
+			$('#adminUserListingTable').DataTable( {
+				paging: true,
+				searching: true,
+				info: true,
+				ordering: false
+			});
+		} );
+	
+		
 		function deleteMatch(matchId) {
 			window.location.href = "${baseUrl}admin/deleteMatch/" + matchId;
 		}
