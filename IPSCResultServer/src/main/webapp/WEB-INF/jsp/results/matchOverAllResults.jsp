@@ -15,9 +15,7 @@
 	<c:url var="baseUrl" value="/" />
 	<div id="wrap">
 		<div class="container">
-			<div style="float:right">
-				<button class="btn btn-default" onclick="login()" type="button">Login</button>
-			</div>
+			<%@ include file="/WEB-INF/jsp/include/loginLogoutButtons.jsp" %>
 			<ol class="breadcrumb breadcrumb-arrow">
 				<li><a href="${baseUrl }">Home</a></li>
 				<li><a href="${baseUrl }match/${matchResultData.match.id}">Match</a></li>
@@ -200,10 +198,8 @@
 		function submitDivisionChange() {
 				location.replace("${baseUrl}match/${matchResultData.match.id }/division/"+ $("select#division").val());
 		}
-		function login() {
-			window.location.href = "${baseUrl}login";
-		}
-	</script>
 
+	</script>
+	<%@include file="/WEB-INF/jsp/include/loginLogoutScripts.jsp" %>
 	<jsp:include page="/WEB-INF/jsp/include/footer.jsp" />
     

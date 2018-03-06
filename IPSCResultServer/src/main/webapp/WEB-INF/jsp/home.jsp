@@ -3,32 +3,17 @@
 
 <jsp:include page="/WEB-INF/jsp/include/headTag.jsp" />
 
-
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %> 
+
 
 <body>
+	<c:url var="baseUrl" value="/" />
+	
 	<div id="wrap">
 		<div class="container">
-			<div style="float:right">
-				<security:authorize var="loggedIn" access="isAuthenticated()" />
-				<c:choose>
-					<c:when test="${loggedIn}">
-					
-						<form:form action="${pageContext.request.contextPath}/logout" method="POST" id="logoutForm">
-						    
-						</form:form>
-						 <security:authentication property="principal.username" />  <button class="btn btn-default" style="margin-left: 10px" onclick="logout()" type="button">Logout</button>
-					</c:when>
-					<c:otherwise>
-				       <button class="btn btn-default" onclick="login()" type="button">Login</button>
-				    </c:otherwise>
-				</c:choose>
-			</div>
-			
+			<%@ include file="/WEB-INF/jsp/include/loginLogoutButtons.jsp" %>
 			<ol class="breadcrumb breadcrumb-arrow">
 				<li class="active"><span>Home</span></li>
 			</ol>
@@ -49,19 +34,15 @@
 			
 		</div>
 	</div>
-	<c:url var="url" value="/" />
+		
 	<script>
 		function submit() {
 			var matchId = $("select#seletcMatch").val();
 			if (matchId != null && matchId != '') {
-				window.location.href = "${url}match/" + matchId;
+				window.location.href = "${baseUrl}match/" + matchId;
 			}
 		}
-		function login() {
-			window.location.href = "${url}login";
-		}
-		function logout() {
-			document.getElementById("logoutForm").submit();
-		}
+
 	</script>
+	<%@include file="/WEB-INF/jsp/include/loginLogoutScripts.jsp" %>
 <jsp:include page="/WEB-INF/jsp/include/footer.jsp" />

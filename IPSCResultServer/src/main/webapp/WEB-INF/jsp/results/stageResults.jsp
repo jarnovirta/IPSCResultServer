@@ -10,14 +10,13 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix = "fn" uri = "http://java.sun.com/jsp/jstl/functions"  %>
 
+
 <body>
 	<c:url var="baseUrl" value="/" />
 
 	<div id="wrap">
 		<div class="container">
-			<div style="float:right">
-				<button class="btn btn-default" onclick="login()" type="button">Login</button>
-			</div>
+			<%@ include file="/WEB-INF/jsp/include/loginLogoutButtons.jsp" %>
 			<ol class="breadcrumb breadcrumb-arrow">
 				<li><a href="${baseUrl }">Home</a></li>
 				<li><a href="${baseUrl }match/${stageResultData.stage.match.id}">Match</a></li>
@@ -235,9 +234,7 @@
 			location.replace("${baseUrl}match/${stageResultData.stage.match.id }/stage/" 
 					+ $("select#stage").val() + "/division/"+ $("select#division").val());
 		}
-		function login() {
-			window.location.href = "${baseUrl}login";
-		}
 	</script>
+	<%@include file="/WEB-INF/jsp/include/loginLogoutScripts.jsp" %>
 	
 <jsp:include page="/WEB-INF/jsp/include/footer.jsp" />

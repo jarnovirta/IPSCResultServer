@@ -14,9 +14,7 @@
 	<c:url var="baseUrl" value="/" />
 	<div id="wrap">
 		<div class="container">
-			<div style="float:right">
-				<button class="btn btn-default" onclick="logout()" type="button">Logout</button>
-			</div>
+			<%@ include file="/WEB-INF/jsp/include/loginLogoutButtons.jsp" %>
 			<ol class="breadcrumb breadcrumb-arrow">
 				<li><a href="${baseUrl }">Home</a></li>
 				<li class="active"><span>Admin</span></li>
@@ -101,5 +99,6 @@
 			window.location.href = "${baseUrl}admin/deleteMatch/" + matchId;
 		}
 	</script>
+	<%@include file="/WEB-INF/jsp/include/loginLogoutScripts.jsp" %>
 	
 <jsp:include page="/WEB-INF/jsp/include/footer.jsp" />
