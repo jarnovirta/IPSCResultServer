@@ -5,7 +5,7 @@
   <version>1</version>
   <packaging>war</packaging>
   <properties>
-  	<org.springframework-version>5.0.2.RELEASE</org.springframework-version>
+  	<org.springframework-version>5.0.1.RELEASE</org.springframework-version>
   </properties>
   	<repositories>
 		<repository>
@@ -89,20 +89,27 @@
 	    <dependency>
 	        <groupId>org.springframework.security</groupId>
 	        <artifactId>spring-security-web</artifactId>
-	        <version>5.0.0.RELEASE</version>
+	        <version>${org.springframework-version}</version>
 	    </dependency>
 	    
 	    <dependency>
         	<groupId>org.springframework.security</groupId>
         	<artifactId>spring-security-config</artifactId>
-        	<version>5.0.0.RELEASE</version>
+        	<version>${org.springframework-version}</version>
     	</dependency>
     	
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-taglibs</artifactId>
-			<version>5.0.0.RELEASE</version>
+			<version>${org.springframework-version}</version>
 		</dependency>
+			<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-crypto -->
+			<dependency>
+			    <groupId>org.springframework.security</groupId>
+			    <artifactId>spring-security-crypto</artifactId>
+			    <version>${org.springframework-version}</version>
+			</dependency>
+
 		
 		<dependency>
 		    <groupId>org.eclipse.persistence</groupId>

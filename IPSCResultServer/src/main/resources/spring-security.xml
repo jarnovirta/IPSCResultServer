@@ -3,40 +3,20 @@
   xmlns:beans="http://www.springframework.org/schema/beans"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans.xsd
-           http://www.springframework.org/schema/security
-           http://www.springframework.org/schema/security/spring-security.xsd">
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/security
+		http://www.springframework.org/schema/security/spring-security.xsd">
                         
-	<!-- <http auto-config="true" use-expressions="true">
-	    	
-	      <intercept-url pattern="/login" access="hasAnyRole('ROLE_ADMIN','ROLE_TESTER','ROLE_GUEST', 'ROLE_SUPPORT')" />
-	      <intercept-url pattern="/*" access="hasAnyRole('ROLE_ADMIN', 'ROLE_TESTER', 'ROLE_CLIENT', 'ROLE_SUPPORT')" />
-	      <intercept-url pattern="/admin/*" access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPPORT')" /> 
-	      
-	      <form-login login-page="/login" 
-	      			authentication-failure-url="/login" />
-	      <anonymous username="guest" granted-authority="ROLE_GUEST" /> 
-	      
+	<http auto-config="true" use-expressions="true">
+		<intercept-url pattern="/admin" access="hasAnyRole('ROLE_ADMIN')" />
+	    <intercept-url pattern="/admin/*" access="hasAnyRole('ROLE_ADMIN')" /> 
+	    <logout logout-success-url="/" logout-url="/logout" />
 	 </http> 
-	    
-	 <jdbc-user-service id="userService"
-	 		data-source-ref="dataSource" 
-	 		users-by-username-query=
-	 			"SELECT USERNAME, PASSWORD, ENABLED FROM USER WHERE USERNAME=?"
-	 		authorities-by-username-query=
-	 			"SELECT USERNAME, ROLE FROM USER WHERE USERNAME=?" />  -->
-	 			
-	<!-- KÄYTTÄJÄ ENSIMMÄISTÄ KÄYNNISTYSTÄ VARTEN JA MUIDEN KÄYTTÄJÄTILIEN HELPOMPAA LUOMISTA VARTEN -->
-	 			
-	<!-- <user-service id="xmlUserService">
-		<user name="hubbabubba" password="purukumi" authorities="ROLE_ADMIN" />
-	</user-service> -->
-	
-	<!-- <authentication-manager>
-		<authentication-provider user-service-ref="userService">
-			<password-encoder hash="bcrypt" />
-		</authentication-provider> -->
-		<!-- <authentication-provider user-service-ref="xmlUserService" />  -->
-	<!-- </authentication-manager> 
-	 -->
+	<authentication-manager>
+		<authentication-provider>
+			<user-service>
+				<user name="admin" password="{noop}pass" authorities="ROLE_ADMIN" />
+			</user-service> 
+		</authentication-provider>
+	</authentication-manager> 
 </beans:beans>

@@ -21,10 +21,10 @@
 			</div>
 			<br><br>
 			
-			<form method="post" action="${baseUrl }/j_spring_security_check">
+			<form action="${pageContext.request.contextPath}/authenticate">
 				<label for="userName">User name: </label>
 				<br>
-				<input name="j_username" type="text" style="width: 15em; max-width: 100%" />
+				<input name="j_username" type="text" id="j_username" style="width: 15em; max-width: 100%" />
 				<br><br>
 				<label for="password">Password: </label>
 				<br>
@@ -35,11 +35,4 @@
 		</div>
 	</div>
 
-	<c:url var="url" value="/" />
-	<script>
-		function submit() {
-			window.location.href = "${url}match/" + $("select#seletcMatch").val();
-		}
-
-	</script>
 <jsp:include page="/WEB-INF/jsp/include/footer.jsp" />

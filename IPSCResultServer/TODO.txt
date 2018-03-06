@@ -1,25 +1,16 @@
+Tarkista/korjaa tuloslaskusta:
+	- No penalty miss: miten käsitellään?
+	- Testaa Competitor -> IPSCCategory toiminta, mm. kun monta kategoriaa.
+	- tarkista että DQ huomioidaan ja nollatut staget.
+	- Tarkista että procedural penalties huomioidaan scorecardin pistelaskussa oikein. Nyt ScoreCard setHitsAndPoints() metodissa
+   		olettamalla että PractiScoren pointseissa ei ole mukana vaan pitää vähentää.
+	- Tarkista popperien ja taulujen huomioiminen ja non penaltien huomioiminen stagen maksimipistemäärän laskemisessa
 
-- No penalty miss: lasketaanko misseihin vai jÃ¤tetÃ¤Ã¤n huomiotta?
-- Siisti service ja repository-luokat. Tee entitymanager factory ja siirrÃ¤ koodit omiin serviceihin ja repoihin.
-- korjaa c:url tÃ¤gi javascriptiksi (location.pathname)
-- exception handling
-- Testaa Competitor -> IPSCCategory toiminta, mm. kun monta kategoriaa.
-- Vaihda last modified date scorecardeihin niin, että se on palvelimen tallennushetki
-- tarkista että DQ huomioidaan ja nollatut staget.
-- Tarkista että procedural penalties huomioidaan scorecardin pistelaskussa oikein. Nyt ScoreCard setHitsAndPoints() metodissa
-   olettamalla että PractiScoren pointseissa ei ole mukana vaan pitää vähentää.
-- Tarkista popperien ja taulujen huomioiminen ja non penaltien huomioiminen stagen maksimipistemäärän laskemisessa
-- Pitää huomioida kilpailijoiden divisioonan muutokset ym. tietojen muutokset tulostiedoissa kesken kisan.
-- Siisti service ja repository-luokat. Tee entitymanager factory ja siirrÃ¤ koodit omiin serviceihin ja repoihin.
-- korjaa c:url tÃ¤gi javascriptiksi (location.pathname)
-- exception handling
-- Testaa Competitor -> IPSCCategory toiminta, mm. kun monta kategoriaa.
+- Onko mahdollista että sama kilpailija ampuu saman kisan toisessa divisioonassa esim. toisena päivänä? Miten tällöin käy practiscoressa? 
+	Onko kilpailijoita kaksi? Pitää huomioida tuloksia laskettaessa?
 
-- Linkit näkymien divisioonavaihtoihin ym. niin, että ei tule historiatietoon, jotta peruuttamalla pääsee edelliselle sivulle.
-- Onko mahdollista että sama kilpailija ampuu saman kisan toisessa divisioonassa esim. toisena päivänä? Miten tällöin käy practiscoressa? Onko kilpailijoita kaksi?
-	Pitää huomioida tuloksia laskettaessa?
 - Sulje pois tuloslaskennasta kilpailijat, joilla ei ole pisteytettyjä suorituksia lainkaan.
 
-- Lisää virhetilanteita varten web-sivu.
+- korjaa c:url tÃ¤gi javascriptiksi (location.pathname)
 
 - VARMISTA ETTÄ DIVISIOONAT TOIMIVAT AINA, OLI MIKÄ VAAN -> TEKSTIKSI ENUM SIJAAN?
