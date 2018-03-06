@@ -5,7 +5,8 @@
 	<c:choose>
 		<c:when test="${loggedIn}">
 			
-			 <security:authentication property="principal.username" />  <button class="btn btn-default" style="margin-left: 10px" onclick="logout()" type="button">Logout</button>
+			 <security:authentication property="principal.username"/>  <button class="btn btn-default" style="margin-left: 10px" onclick="logout()" type="button">Logout</button>
+			 <a style="text-decoration: none" href="<c:url value='/' />admin"><button class="btn btn-primary" type="button">Admin page</button></a>
 		</c:when>
 		<c:otherwise>
 	       <button class="btn btn-default" onclick="login()" type="button">Login</button>
