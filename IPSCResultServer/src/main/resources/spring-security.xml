@@ -9,35 +9,33 @@
 
 	 <http entry-point-ref="customEntryPoint" use-expressions="true" pattern="/api/**">
 		<custom-filter ref="authenticationFilter" before="PRE_AUTH_FILTER" />
-		<intercept-url pattern="**" access="hasAuthority('AUTH_USER')" /> 
+		<intercept-url pattern="/**" access="isAuthenticated()" /> 
 		<logout delete-cookies="JSESSIONID" />
+		<http-basic/>
 	    <csrf disabled="true" />
     </http>
                             
-	<http auto-config="true" use-expressions="true" pattern="/**">
+ 	<http auto-config="true" use-expressions="true" pattern="/**">
 		<intercept-url pattern="/admin" access="hasAnyRole('ROLE_ADMIN')" />
 	    <intercept-url pattern="/admin/*" access="hasAnyRole('ROLE_ADMIN')" />
 	    <intercept-url pattern="/matchAdmin" access="hasAnyRole('ROLE_ADMIN', 'ROLE_REGULAR')" />
 	    <intercept-url pattern="/matchAdmin/*" access="hasAnyRole('ROLE_ADMIN', 'ROLE_REGULAR')" />  
 	    <logout logout-success-url="/" logout-url="/logout" />
-	 </http> 
-
-	 
+	 </http>  
+ 	 
 	<beans:bean id="authenticationFilter"
         class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter">
         <beans:property name="authenticationManager" ref="authenticationManager" />
         <beans:property name="postOnly" value="false" />
-        <beans:property name="authenticationSuccessHandler" ref="customSuccessHandler" />
     </beans:bean>
-    
-    <beans:bean id="customSuccessHandler"
-        class="fi.ipscResultServer.security.CustomSuccessHandler" />
-	 <jdbc-user-service id="jdbcUserService"
+        
+     <jdbc-user-service id="jdbcUserService"
 	 		data-source-ref="dataSource" 
 	 		users-by-username-query=
 	 			"SELECT USERNAME, PASSWORD, ENABLED FROM USER WHERE USERNAME=?"
 	 		authorities-by-username-query=
 	 			"SELECT USERNAME, ROLE FROM USER WHERE USERNAME=?" /> 
+	
 	<authentication-manager alias="authenticationManager">
 		<authentication-provider user-service-ref="jdbcUserService">
 			<password-encoder hash="bcrypt" />
@@ -47,5 +45,5 @@
 				<user name="admin" password="{noop}pass" authorities="ROLE_ADMIN" />
 			</user-service> 
 		</authentication-provider>
-	</authentication-manager> 
+	</authentication-manager>  
 </beans:beans>
