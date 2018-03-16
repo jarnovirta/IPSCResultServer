@@ -9,10 +9,21 @@
                         
 	<http auto-config="true" use-expressions="true">
 		<intercept-url pattern="/admin" access="hasAnyRole('ROLE_ADMIN')" />
-	    <intercept-url pattern="/admin/*" access="hasAnyRole('ROLE_ADMIN')" /> 
+	    <intercept-url pattern="/admin/*" access="hasAnyRole('ROLE_ADMIN')" />
+	    <intercept-url pattern="/matchAdmin" access="hasAnyRole('ROLE_ADMIN', 'ROLE_REGULAR')" />
+	    <intercept-url pattern="/matchAdmin/*" access="hasAnyRole('ROLE_ADMIN', 'ROLE_REGULAR')" />  
 	    <logout logout-success-url="/" logout-url="/logout" />
 	 </http> 
+	 <jdbc-user-service id="jdbcUserService"
+	 		data-source-ref="dataSource" 
+	 		users-by-username-query=
+	 			"SELECT USERNAME, PASSWORD, ENABLED FROM USER WHERE USERNAME=?"
+	 		authorities-by-username-query=
+	 			"SELECT USERNAME, ROLE FROM USER WHERE USERNAME=?" /> 
 	<authentication-manager>
+		<authentication-provider user-service-ref="jdbcUserService">
+			<password-encoder hash="bcrypt" />
+		</authentication-provider>
 		<authentication-provider>
 			<user-service>
 				<user name="admin" password="{noop}pass" authorities="ROLE_ADMIN" />

@@ -23,9 +23,12 @@
 				<h1>Admin</h1>
 			</div>
 			<br>
-			<%@ include file="/WEB-INF/jsp/admin/matchTable.jsp" %>
-			<hr />
-			<%@ include file="/WEB-INF/jsp/admin/userTable.jsp" %>
+			<%@ include file="/WEB-INF/jsp/adminPages/matchTable.jsp" %>
+			<security:authentication var="authorities" property="principal.authorities" />
+			<c:if test="${authorities == '[ROLE_ADMIN]' }">
+				<hr />
+				<%@ include file="/WEB-INF/jsp/adminPages/userTable.jsp" %>
+			</c:if>
 		</div>
 	</div>
 	<script>
@@ -45,9 +48,7 @@
 		} );
 	
 		
-		function deleteMatch(matchId) {
-			window.location.href = "${baseUrl}admin/deleteMatch/" + matchId;
-		}
+		
 	</script>
 	<%@include file="/WEB-INF/jsp/include/loginLogoutScripts.jsp" %>
 	

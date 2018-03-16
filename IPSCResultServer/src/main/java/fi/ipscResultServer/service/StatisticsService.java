@@ -24,12 +24,13 @@ import fi.ipscResultServer.service.resultDataService.MatchResultDataService;
 public class StatisticsService {
 	
 	@Autowired
-	CompetitorResultDataService competitorResultDataService;
+	private CompetitorResultDataService competitorResultDataService;
 	
 	@Autowired
-	MatchResultDataService matchResultDataService;
+	private MatchResultDataService matchResultDataService;
 	
-	@Autowired CompetitorStatisticsRepository competitorStatisticsRepository;
+	@Autowired 
+	private CompetitorStatisticsRepository competitorStatisticsRepository;
 	
 	final static Logger logger = Logger.getLogger(StatisticsService.class);
 	

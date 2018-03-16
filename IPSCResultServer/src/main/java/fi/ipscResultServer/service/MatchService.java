@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import fi.ipscResultServer.domain.Competitor;
 import fi.ipscResultServer.domain.Match;
+import fi.ipscResultServer.domain.User;
 import fi.ipscResultServer.exception.DatabaseException;
 import fi.ipscResultServer.repository.MatchRepository;
 import fi.ipscResultServer.service.resultDataService.MatchResultDataService;
@@ -20,16 +21,16 @@ public class MatchService {
 	private MatchRepository matchRepository;
 	
 	@Autowired
-	MatchResultDataService matchResultDataService;
+	private MatchResultDataService matchResultDataService;
 	
 	@Autowired
-	StageResultDataService stageResultDataService;
+	private StageResultDataService stageResultDataService;
 	
 	@Autowired
-	StatisticsService statisticsService;
+	private StatisticsService statisticsService;
 	
 	@Autowired
-	ScoreCardService scoreCardService;
+	private ScoreCardService scoreCardService;
 	
 	final static Logger logger = Logger.getLogger(MatchService.class);
 	
@@ -47,10 +48,14 @@ public class MatchService {
 	public List<Match> findAll() {
 		return matchRepository.findAll();
 	}
+	
 	// Returns Match list with only necessary properties set for listing purposes
 	// instead of full instances with a list of Stages etc.
-	public List<Match> getAdminPageMatchList() {
+	public List<Match> getAdminPageFullMatchList() {
 		return matchRepository.getAdminPageMatchList();
+	}
+	public List<Match> getAdminPageMatchListByUser(User user) {
+		return matchRepository.getAdminPageMatchListByUser(user);
 	}
 	public Match getOne(String id) throws DatabaseException {
 		return matchRepository.getOne(id);

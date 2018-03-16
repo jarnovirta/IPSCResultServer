@@ -17,10 +17,10 @@ import fi.ipscResultServer.repository.CompetitorRepository;
 @Service
 public class CompetitorService {
 	@Autowired
-	CompetitorRepository competitorRepository;
+	private CompetitorRepository competitorRepository;
 	
 	@PersistenceContext
-	EntityManager entityManager;
+	private EntityManager entityManager;
 	
 	public List<Competitor> findByMatch(String matchId) throws DatabaseException {
 		List<Competitor> competitors = competitorRepository.findByMatch(matchId);

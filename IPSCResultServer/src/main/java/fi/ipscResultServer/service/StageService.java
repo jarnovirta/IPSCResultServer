@@ -11,7 +11,7 @@ import fi.ipscResultServer.repository.StageRepository;
 public class StageService {
 
 	@Autowired
-	StageRepository stageRepository;
+	private StageRepository stageRepository;
 	
 	public Stage getOne(String id) throws DatabaseException {
 		return stageRepository.getOne(id);

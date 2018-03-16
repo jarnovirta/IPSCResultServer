@@ -15,7 +15,7 @@ import fi.ipscResultServer.repository.ScoreCardRepository;
 @Service
 public class ScoreCardService {
 	@Autowired
-	ScoreCardRepository scoreCardRepository;
+	private ScoreCardRepository scoreCardRepository;
 
 	
 	final static Logger logger = Logger.getLogger(ScoreCardService.class);

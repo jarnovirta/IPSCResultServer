@@ -1,6 +1,6 @@
-<h3>User List</h3>
+<h3>Match List</h3>
 <br>
-<table class="table table-striped table-bordered" id="adminUserListingTable">
+<table class="table table-striped table-bordered" id="adminMatchListingTable">
 	<thead>
 		<tr>
 			<th>
@@ -66,3 +66,10 @@
 		</c:forEach>
 	</tbody>
 </table>
+
+<script>
+	function deleteMatch(matchId) {
+		window.location.href = "${baseUrl}admin/deleteMatch/" + matchId;
+	}
+
+</script>
