@@ -16,6 +16,9 @@
 				Change status
 			</th>
 			<th>
+				Uploaded by
+			</th>
+			<th>
 				Delete match
 			</th>
 		</tr>
@@ -33,9 +36,6 @@
 				</td>
 				<td>
 					<h4 class="adminTableLabel">
-					<c:if test="${match.status eq 'CLOSED' }">
-						<span class="label label-warning">
-					</c:if>
 					<c:if test="${match.status eq 'SCORING' }">
 						<span class="label label-success">
 					</c:if>
@@ -60,6 +60,16 @@
 					<button class="btn btn-default adminTableStatusButton" onclick="statusChange('${match.id}')" type="button">Set</button>
 				</td>
 				<td>
+					<c:choose>
+						<c:when test="${match.uploadedByAdmin == true }">
+							Admin
+						</c:when>
+						<c:otherwise>
+							${match.user.username }
+						</c:otherwise>
+					</c:choose>
+				</td>
+				<td>
 					<button class="btn btn-danger" onclick="deleteMatch('${match.id}')" type="button">Delete</button>
 				</td>
 			</tr> 
@@ -69,7 +79,7 @@
 
 <script>
 	function deleteMatch(matchId) {
-		window.location.href = "${baseUrl}admin/deleteMatch/" + matchId;
+		window.location.href = "${baseUrl}matchAdmin/deleteMatch/" + matchId;
 	}
 
 </script>

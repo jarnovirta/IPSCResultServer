@@ -40,12 +40,15 @@ public class Match implements Serializable {
 	@ManyToOne(cascade = CascadeType.MERGE)
 	private User user;
 	
+	private boolean uploadedByAdmin = false;
+	
+	
 	@JsonProperty("match_name")
 	@Column(nullable = false)
 	private String name;
 	
 	@Enumerated(EnumType.ORDINAL)
-	private MatchStatus status = MatchStatus.CLOSED;
+	private MatchStatus status = MatchStatus.SCORING;
 	
 	
 	@JsonProperty("match_level")
@@ -80,10 +83,12 @@ public class Match implements Serializable {
 
 	public Match() { }
 	
-	public Match(String id, String name, MatchStatus status) { 
+	public Match(String id, String name, MatchStatus status, User user, boolean uploadedByAdmin) { 
 		this.id = id;
 		this.name = name;
 		this.status = status;
+		this.user = user;
+		this.uploadedByAdmin = uploadedByAdmin;
 	}
 	
 	public String getName() {
@@ -177,6 +182,14 @@ public class Match implements Serializable {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public boolean isUploadedByAdmin() {
+		return uploadedByAdmin;
+	}
+
+	public void setUploadedByAdmin(boolean uploadedByAdmin) {
+		this.uploadedByAdmin = uploadedByAdmin;
 	}
 
 }
