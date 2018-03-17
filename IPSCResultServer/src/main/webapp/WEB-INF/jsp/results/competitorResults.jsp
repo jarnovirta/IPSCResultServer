@@ -79,8 +79,15 @@
 					        			<b>Division:</b>
 					        		</td>
 					        		<td>
-					        			<c:url var="url" value="/match/${resultData.match.id}/division/${resultData.competitor.division}" />
-										<a href="${url}"><c:out value="${resultData.competitor.division }" /></a>
+					        			<c:choose>
+											<c:when test="${resultData.match.status eq 'SCORING_ENDED' }">
+					        					<c:url var="url" value="/match/${resultData.match.id}/division/${resultData.competitor.division}" />
+												<a href="${url}"><c:out value="${resultData.competitor.division }" /></a>
+											</c:when>
+											<c:otherwise>
+												${resultData.competitor.division }
+											</c:otherwise>
+										</c:choose>
 					        		</td>
 					        	</tr>
 					        	<tr>
@@ -163,9 +170,11 @@
 						<th>
 							Last updated
 						</th>
-						<th>
-							Rank
-						</th>
+						<c:if test="${resultData.match.status eq 'SCORING_ENDED' }">
+							<th>
+								Rank
+							</th>
+						</c:if>
 					</tr>
 				</thead>
 				<tbody>
@@ -176,8 +185,15 @@
 									${scoreCard.stage.stageNumber }
 								</td>
 								<td>
-									<c:url var="url" value="/match/${resultData.match.id}/stage/${scoreCard.stage.id}/division/${scoreCard.competitor.division }" />
-									<a href="${url}">${scoreCard.stage.name}</a>
+									<c:choose>
+										<c:when test="${resultData.match.status eq 'SCORING_ENDED' }">
+											<c:url var="url" value="/match/${resultData.match.id}/stage/${scoreCard.stage.id}/division/${scoreCard.competitor.division }" />
+											<a href="${url}">${scoreCard.stage.name}</a>
+										</c:when>
+										<c:otherwise>
+											${scoreCard.stage.name}
+										</c:otherwise>
+									</c:choose>
 								</td>
 								<td align="right">
 									<fmt:formatNumber type = "number" minFractionDigits = "2" maxFractionDigits = "2" value="${scoreCard.time }" />
@@ -203,9 +219,11 @@
 								<td align="right">
 									<fmt:formatDate value="${scoreCard.modified.time }" pattern="dd.MM.yyyy 'at' HH:mm:ss" />
 								</td>
-								<td align="right">
-									${scoreCard.stageRank}
-								</td>
+								<c:if test="${resultData.match.status eq 'SCORING_ENDED' }">
+									<td align="right">
+										${scoreCard.stageRank}
+									</td>
+								</c:if>
 							</tr> 
 					</c:forEach>
 				</tbody>

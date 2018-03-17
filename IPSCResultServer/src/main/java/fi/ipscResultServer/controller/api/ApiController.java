@@ -4,8 +4,6 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,16 +35,14 @@ public class ApiController {
 	@RequestMapping(value = "/matches", method = RequestMethod.POST)
 	public ResponseEntity<String> postMatchData(@RequestBody Match match) {
 		logger.info("POST request to /matches");
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		boolean admin = false;
-		for (GrantedAuthority auth : authentication.getAuthorities()) {
-			if (auth.getAuthority().equals("ROLE_ADMIN")) admin = true; 
-		}
+		
+		boolean admin = userService.isCurrentUserAdmin();
+		
 		if (admin == true) {
 			match.setUploadedByAdmin(true);
 		}
 		else {
-			match.setUser(userService.findByUsername(authentication.getName()));
+			match.setUser(userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
 		}
 		
 		for (Stage stage : match.getStages()) {

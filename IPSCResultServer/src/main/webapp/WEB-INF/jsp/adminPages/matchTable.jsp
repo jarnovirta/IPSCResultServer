@@ -10,7 +10,13 @@
 				Match name
 			</th>
 			<th>
+				Date
+			</th>
+			<th>
 				Status
+			</th>
+			<th>
+				Results visible
 			</th>
 			<th>
 				Change status
@@ -35,16 +41,28 @@
 					${match.name }
 				</td>
 				<td>
+					<fmt:formatDate value="${match.date.time}" pattern="dd.MM.yyyy" />
+				</td>
+				<td>
 					<h4 class="adminTableLabel">
+					<c:if test="${match.status eq 'CLOSED' }">
+						<span class="label label-danger">
+						<c:set var="visibility" value="None" />
+					</c:if>
 					<c:if test="${match.status eq 'SCORING' }">
 						<span class="label label-success">
+						<c:set var="visibility" value="Verify list" />
 					</c:if>
 					<c:if test="${match.status eq 'SCORING_ENDED' }">
 						<span class="label label-default">
+						<c:set var="visibility" value="All" />
 					</c:if>
 					<c:out value="${match.status }" />
 					</span>
 					</h4>
+				</td>
+				<td>
+					${visibility }
 				</td>
 				<td>
 					<select id="${match.id }">
@@ -79,7 +97,30 @@
 
 <script>
 	function deleteMatch(matchId) {
-		window.location.href = "${baseUrl}matchAdmin/deleteMatch/" + matchId;
+		bootbox.dialog({
+		  	  message: "Delete match?",
+		  	  title: "Confirm",
+		  	  buttons: {
+		  		cancel: {
+		    	      label: "Cancel",
+		    	      className: "btn-primary",
+		    	      callback: function() {
+		    	        
+		    	      }
+		    	    },
+		    	  confirm: {
+		    	      label: "Delete",
+		    	      className: "btn-danger",
+		    	      callback: function() {
+		    	    	  window.location.href = "${baseUrl}admin/deleteMatch/" + matchId;
+		    	      }
+		    	    },
+		  	  }
+		  	});
 	}
+	function statusChange(matchId) {
+		var status = document.getElementById(matchId).value;	
+		window.location.href = "${baseUrl}admin/match/" + matchId + "/setStatus/" + status;
+ 	}
 
 </script>

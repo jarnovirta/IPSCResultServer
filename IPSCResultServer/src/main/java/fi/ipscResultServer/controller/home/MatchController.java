@@ -1,5 +1,6 @@
 package fi.ipscResultServer.controller.home;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,10 +16,12 @@ import fi.ipscResultServer.service.MatchService;
 @RequestMapping("/match")
 public class MatchController {
 	@Autowired
-	MatchService matchService;
+	private MatchService matchService;
 	
 	@Autowired
-	CompetitorService competitorService;
+	private CompetitorService competitorService;
+	
+	final static Logger logger = Logger.getLogger(MatchController.class);
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public String getMatchMainPage(Model model, @PathVariable("id") String matchId) {

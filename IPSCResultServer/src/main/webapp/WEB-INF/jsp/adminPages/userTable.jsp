@@ -61,7 +61,26 @@
 
 <script>
 	function deleteUser(userId) {
-		window.location.href = "${baseUrl}admin/deleteUser/" + userId;
+		bootbox.dialog({
+		  	  message: "Delete user?",
+		  	  title: "Confirm",
+		  	  buttons: {
+		  		cancel: {
+		    	      label: "Cancel",
+		    	      className: "btn-primary",
+		    	      callback: function() {
+		    	        
+		    	      }
+		    	    },
+		    	  confirm: {
+		    	      label: "Delete",
+		    	      className: "btn-danger",
+		    	      callback: function() {
+		    	    	  window.location.href = "${baseUrl}admin/deleteUser/" + userId;
+		    	      }
+		    	    },
+		  	  }
+		  });
 	}
 
 </script>

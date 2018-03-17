@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import fi.ipscResultServer.domain.Competitor;
 import fi.ipscResultServer.domain.Match;
+import fi.ipscResultServer.domain.MatchStatus;
 import fi.ipscResultServer.domain.User;
 import fi.ipscResultServer.exception.DatabaseException;
 import fi.ipscResultServer.repository.MatchRepository;
@@ -83,5 +84,10 @@ public class MatchService {
 		logger.info("Deleting match");
 		matchRepository.delete(match);
 		logger.info("Match delete done!");
+	}
+	@Transactional
+	public void setMatchStatus(String matchId, MatchStatus newStatus) throws DatabaseException {
+		Match match = getOne(matchId);
+		match.setStatus(newStatus);
 	}
 }

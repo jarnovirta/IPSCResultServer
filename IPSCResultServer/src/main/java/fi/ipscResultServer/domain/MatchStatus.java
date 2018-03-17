@@ -1,7 +1,7 @@
 package fi.ipscResultServer.domain;
 
 public enum MatchStatus {
-	SCORING, SCORING_ENDED;
+	CLOSED, SCORING, SCORING_ENDED;
 	
 	@Override
 	public String toString() {

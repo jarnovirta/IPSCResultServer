@@ -21,83 +21,89 @@
 				<h1>${match.name}</h1>
 			</div>
 			<br><br>
-				<table class="matchMainPageMenuTable">
-					<tr>
-						<td>
-							<label for="verify">Verify list: </label>
-							<select style="width: auto; max-width: 100%" id="verify" 
-								class="form-control">
-								<c:forEach var="competitor" items="${competitors}">
-									<option value="${competitor.id}">${competitor.lastName} ${competitor.firstName} </option>
-								</c:forEach>
-							</select>
-						</td>
-						<td class="matchMainPageSelectButtonCell">
-							<button class="btn btn-large btn-primary" onclick="submitCompetitor()" type="button">Show</button>
-						</td>
-					</tr>
-				</table>
-				
-			<hr />
-			<table class="matchMainPageMenuTable">
-				<tr>
-					<td>
-						<label for="division">Match results: </label>
-							<br>
-							<select style="width: auto; max-width: 100%" id="division" 
-								class="form-control">
-								<c:forEach var="division" items="${match.divisionsWithResults}">
-									<option value="${division}"><c:out value="${division}" /></option>
-								</c:forEach>
-							</select>
-					</td>
-					<td class="matchMainPageSelectButtonCell">
-						<button class="btn btn-large btn-primary" onclick="submitDivision()" type="button">Show</button>
-					</td>
-				</tr>
-			</table>
-			<hr />	
-			<table class="matchMainPageMenuTable">
-				<tr>
-					<td>
-						<label for="stage">Stage results: </label>
-						<br>
-						<select style="width: auto; max-width: 100%" id="stage" 
-							class="form-control">
-							<c:forEach var="stage" items="${match.stages}">
-								<option value="${stage.id}">${stage.name}</option>
-							</c:forEach>
-						</select>
-					</td>
-					<td>
-						<label for="stageDivision">Division: </label>
-						<br>
-						<select style="width: auto; max-width: 100%" id="stageDivision" 
-							class="form-control">
-							<c:forEach var="division" items="${match.divisionsWithResults}">
-								<option value="${division}"><c:out value="${division}" /></option>
-							</c:forEach>
-						</select>
-					</td>
+				<c:if test="${match.status ne 'CLOSED' }">
+					<table class="matchMainPageMenuTable">
+						<tr>
+							<td class="matchMainPageSelectButtonCell">
+								<button class="btn btn-large btn-primary" onclick="submitCompetitor()" type="button">Show</button>
+							</td>
+							<td>
+								<label for="verify">Verify list: </label>
+								<select style="width: auto; max-width: 100%" id="verify" 
+									class="form-control">
+									<c:forEach var="competitor" items="${competitors}">
+										<option value="${competitor.id}">${competitor.lastName} ${competitor.firstName} </option>
+									</c:forEach>
+								</select>
+							</td>
+	
+						</tr>
+					</table>
 					
-					<td class="matchMainPageSelectButtonCell">
-						<button class="btn btn-large btn-primary" onclick="submitStage()" type="button">Show</button>
-					</td>
-				</tr>
-			</table>
-			<hr />
-			
-			<table class="matchMainPageMenuTable">
-				<tr>
-					<td>
-						<b>Competitor statistics:</b>
-					</td>
-					<td class="matchMainPageSelectButtonCell">
-						<button class="btn btn-large btn-primary" onclick="showStatistics()" type="button">Show</button>
-					</td>
-				</tr>
-			</table>
-			<hr />
+					<hr />
+				<c:if test="${match.status eq 'SCORING_ENDED' }">
+					<table class="matchMainPageMenuTable">
+						<tr>
+							<td class="matchMainPageSelectButtonCell">
+								<button class="btn btn-large btn-primary" onclick="submitDivision()" type="button">Show</button>
+							</td>
+							<td>
+								<label for="division">Match results: </label>
+									<br>
+									<select style="width: auto; max-width: 100%" id="division" 
+										class="form-control">
+										<c:forEach var="division" items="${match.divisionsWithResults}">
+											<option value="${division}"><c:out value="${division}" /></option>
+										</c:forEach>
+									</select>
+							</td>
+		
+						</tr>
+					</table>
+					<hr />	
+					<table class="matchMainPageMenuTable">
+						<tr>
+							<td class="matchMainPageSelectButtonCell">
+								<button class="btn btn-large btn-primary" onclick="submitStage()" type="button">Show</button>
+							</td>
+							<td>
+								<label for="stage">Stage results: </label>
+								<br>
+								<select style="width: auto; max-width: 100%" id="stage" 
+									class="form-control">
+									<c:forEach var="stage" items="${match.stages}">
+										<option value="${stage.id}">${stage.name}</option>
+									</c:forEach>
+								</select>
+							</td>
+							<td>
+								<label for="stageDivision">Division: </label>
+								<br>
+								<select style="width: auto; max-width: 100%" id="stageDivision" 
+									class="form-control">
+									<c:forEach var="division" items="${match.divisionsWithResults}">
+										<option value="${division}"><c:out value="${division}" /></option>
+									</c:forEach>
+								</select>
+							</td>
+						</tr>
+					</table>
+					<hr />
+					
+					<table class="matchMainPageMenuTable">
+						<tr>
+							<td class="matchMainPageSelectButtonCell">
+								<button class="btn btn-large btn-primary" onclick="showStatistics()" type="button">Show</button>
+							</td>				
+							<td>
+								<b>Competitor statistics</b>
+							</td>
+		
+						</tr>
+					</table>
+					<hr />
+				</c:if>
+			</c:if>
 		</div>
 	</div>
 	
