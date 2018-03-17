@@ -57,6 +57,7 @@ public class Competitor implements Serializable, Comparable<Competitor> {
 	private List<String> categories;
 	
 	@JsonProperty("sh_ctgs")
+	@Transient
 	private String practiScoreCategoryString;
 		
 	@JsonProperty("sh_cc")
