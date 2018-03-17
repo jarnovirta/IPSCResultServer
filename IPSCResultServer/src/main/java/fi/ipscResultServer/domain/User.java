@@ -30,13 +30,13 @@ public class User implements Serializable {
 	private String username;
 
 	private String password;
-	private String passwordHash;
+	
 	
 	@Enumerated(EnumType.STRING)
 	private UserRole role;
 	private boolean enabled = true;
 	
-	public enum UserRole { ROLE_ADMIN, ROLE_REGULAR; }
+	public enum UserRole { ROLE_ADMIN, ROLE_USER; }
 	
 	public Long getId() {
 		return id;
@@ -81,12 +81,7 @@ public class User implements Serializable {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public String getPasswordHash() {
-		return passwordHash;
-	}
-	public void setPasswordHash(String passwordHash) {
-		this.passwordHash = passwordHash;
-	}
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}

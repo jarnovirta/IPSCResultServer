@@ -53,7 +53,7 @@ public class AdminController {
 	@RequestMapping(value="/addUser", method = RequestMethod.POST)
 	public String saveNewUser(@ModelAttribute("user") User user, Model model) {
 		user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
-		user.setRole(User.UserRole.ROLE_REGULAR);
+		user.setRole(User.UserRole.ROLE_USER);
 		userService.save(user);
 		return getAdminMainPage(model);
 	}
