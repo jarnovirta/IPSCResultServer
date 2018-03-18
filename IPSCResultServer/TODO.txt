@@ -1,19 +1,31 @@
 Tarkista/korjaa tuloslaskusta:
-	- No penalty miss: miten k‰sitell‰‰n?
-	- Testaa Competitor -> IPSCCategory toiminta, mm. kun monta kategoriaa.
-	- tarkista ett‰ DQ huomioidaan ja nollatut staget.
-	- Tarkista ett‰ procedural penalties huomioidaan scorecardin pistelaskussa oikein. Nyt ScoreCard setHitsAndPoints() metodissa
-   		olettamalla ett‰ PractiScoren pointseissa ei ole mukana vaan pit‰‰ v‰hent‰‰.
-	- Tarkista popperien ja taulujen huomioiminen ja non penaltien huomioiminen stagen maksimipistem‰‰r‰n laskemisessa
+	
+
+	
 
 - Onko mahdollista ett‰ sama kilpailija ampuu saman kisan toisessa divisioonassa esim. toisena p‰iv‰n‰? Miten t‰llˆin k‰y practiscoressa? 
 	Onko kilpailijoita kaksi? Pit‰‰ huomioida tuloksia laskettaessa?
 
-- Sulje pois tuloslaskennasta kilpailijat, joilla ei ole pisteytettyj‰ suorituksia lainkaan.
-
-- COMPETITORSTATISTICS-COMPETITORSTATISTICSLINE taulua ei luoda MochaHostissa!
- 	- Miksi vaikka OneToMany? Tee mappedBy? vai joincolumn
- 	
 - Muuta session takaisin kohtuulliseksi minuuttim‰‰r‰ksi, esim. 30.
 
 - Useampi painallus Force Send -> usempaan kertaan tulokset!
+
+- Android sovelluksen sulkeminen: service ei sulkeudu.
+
+- Mik‰ on "Additional penalties?"
+
+- POINTS on nyt taulukoissa osumat miinus penaltyt. Pit‰isikˆ olla ammutut pisteet??
+
+
+TESTIT:
+	- Onko tulokset ja tilastot nyt oikein?
+	- Testaa Competitor -> IPSCCategory toiminta, mm. kun monta kategoriaa.
+	- DQ kilpailija j‰‰ pois?
+	- Non-penalty targets -> ei vaikuta tulokseen?
+	- Samanniminen kilpailija toiseen kertaan?
+	- Walk-in kilpailija
+	- Power factor fail ñ ei toimintoa practiscoressa?
+	- Nollatut staget
+	- Tarkista ett‰ procedural penalties huomioidaan scorecardin pistelaskussa oikein. Nyt ScoreCard setHitsAndPoints() metodissa
+	   		olettamalla ett‰ PractiScoren pointseissa ei ole mukana vaan pit‰‰ v‰hent‰‰.
+	- Tarkista popperien ja taulujen huomioiminen ja non penaltien huomioiminen stagen maksimipistem‰‰r‰n laskemisessa

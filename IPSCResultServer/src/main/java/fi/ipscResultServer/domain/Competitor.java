@@ -30,7 +30,7 @@ public class Competitor implements Serializable, Comparable<Competitor> {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@JsonProperty("sh_uuid")
+	@JsonProperty("sh_uid")
 	@Column(length = 36)
 	private String id;
 	

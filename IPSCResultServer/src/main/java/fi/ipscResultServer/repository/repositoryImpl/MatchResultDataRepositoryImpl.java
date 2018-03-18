@@ -47,20 +47,18 @@ public class MatchResultDataRepositoryImpl implements MatchResultDataRepository 
 		
 	}
 	
-	public MatchResultData findByMatch(String matchId) throws DatabaseException {
-		List<MatchResultData> resultList = new ArrayList<MatchResultData>();
+	public List<MatchResultData> findByMatch(String matchId) throws DatabaseException {
 		try {
 			String queryString = "SELECT m FROM MatchResultData m WHERE m.match.id = :matchId";
 			TypedQuery<MatchResultData> query = entityManager.createQuery(queryString, MatchResultData.class); 
 			query.setParameter("matchId", matchId);
-			resultList = query.getResultList();
-			if (resultList.size() > 0) return resultList.get(0);
+			return query.getResultList();
 		}
 		catch (Exception e) {
 			logger.error(e);
 			throw new DatabaseException(e);
 		}
-		return null;
+
 	}
 		
 	public MatchResultDataLine findMatchResultDataLinesByCompetitor(Competitor competitor) throws DatabaseException {

@@ -95,12 +95,12 @@ public class MatchScoreService {
 				
 				String scoreCardDivision = scoreCard.getCompetitor().getDivision();
 
-				if (!match.getDivisions().contains(scoreCardDivision) && !newIPSCDivisionsWithResults.contains(scoreCardDivision))  {
+				if (!match.getDivisionsWithResults().contains(scoreCardDivision) && !newIPSCDivisionsWithResults.contains(scoreCardDivision))  {
 					newIPSCDivisionsWithResults.add(scoreCardDivision);
 				}
 			}
 			// If match has results for more than one division, add IPSCDivision combined to match for result listing purposes.
-			if (match.getDivisionsWithResults().size() + newIPSCDivisionsWithResults.size() > 1 && !match.getDivisions().contains(Constants.COMBINED_DIVISION)) {
+			if (match.getDivisionsWithResults().size() + newIPSCDivisionsWithResults.size() > 1 && !match.getDivisionsWithResults().contains(Constants.COMBINED_DIVISION)) {
 				match.getDivisionsWithResults().add(Constants.COMBINED_DIVISION);
 			}
 		}
@@ -124,8 +124,12 @@ public class MatchScoreService {
 			
 			// Calculate competitor total points for match and set scored stages count
 			for (Competitor competitor : match.getCompetitors()) {
+				
+				// Skip competitor if not generating a result list for competitor's division
+				// or combined division.
+				if (!division.equals(Constants.COMBINED_DIVISION) && !competitor.getDivision().equals(division)) continue;
 				MatchResultDataLine competitorDataLine = new MatchResultDataLine(competitor, matchResultData);
-				List<StageResultDataLine> stageResultDataLines = stageResultDataService.findStageResultDataLinesByCompetitor(competitor);
+				List<StageResultDataLine> stageResultDataLines = stageResultDataService.findStageResultDataLinesByCompetitorAndDivision(competitor, division);
 				
 				// Exclude competitors with no results for stages (did not show up)
 				if (stageResultDataLines.size() == 0) continue;

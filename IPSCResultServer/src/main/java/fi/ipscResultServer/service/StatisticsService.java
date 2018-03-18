@@ -43,7 +43,7 @@ public class StatisticsService {
 	public void generateCompetitorStatistics(Match match) throws DatabaseException {
 		deleteByMatch(match);	
 				
-		for (String division : match.getDivisions()) {
+		for (String division : match.getDivisionsWithResults()) {
 			logger.info("Generating match statistics for " + division);
 			CompetitorStatistics statistics = new CompetitorStatistics(match, division);
 			List<CompetitorStatisticsLine> lines = new ArrayList<CompetitorStatisticsLine>();

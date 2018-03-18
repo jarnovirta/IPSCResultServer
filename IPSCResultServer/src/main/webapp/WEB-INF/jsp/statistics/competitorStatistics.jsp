@@ -74,7 +74,7 @@
 		        		<td>
 		        			<select style="width: auto; max-width: 100%" id="division" name="division"
 								class="form-control">
-								<c:forEach var="division" items="${statistics.match.divisionsWithResults}">
+								<c:forEach var="division" items="${divisionsWithStatistics}">
 									<c:if test="${selectedDivision eq division}">
 										<option value="${division}" selected><c:out value="${division}" /></option>
 									</c:if>
@@ -146,7 +146,14 @@
 					<c:forEach var="line" items="${statistics.statisticsLines}">
 							<tr>
 								<td align="right">
-									${line.divisionRank}
+									<c:choose>
+										<c:when test="${line.competitor.disqualified == true }">
+											DQ
+										</c:when>
+										<c:otherwise>
+											${line.divisionRank}	
+										</c:otherwise>
+									</c:choose>
 								</td>
 								<td>
 									<c:url var="url" value="/match/${statistics.match.id}/competitor/${line.competitor.id}" />

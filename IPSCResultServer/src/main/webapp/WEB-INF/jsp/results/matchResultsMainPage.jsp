@@ -50,7 +50,7 @@
 							<td>
 								<label for="division">Match results: </label>
 									<br>
-									<select style="width: auto; max-width: 100%" id="division" 
+									<select style="width: auto; max-width: 100%" id="matchDivision" 
 										class="form-control">
 										<c:forEach var="division" items="${match.divisionsWithResults}">
 											<option value="${division}"><c:out value="${division}" /></option>
@@ -112,11 +112,11 @@
 			window.location.href = "${baseUrl}match/${match.id }/competitor/" + $("select#verify").val();
 		}
 		function submitDivision() {
-			window.location.href = "${baseUrl}match/${match.id }/division/" + $("select#division").val();
+			window.location.href = "${baseUrl}match/${match.id }/division/" + $("select#matchDivision").val();
 		}
 		function submitStage() {
 			window.location.href = "${baseUrl}match/${match.id }/stage/" + $("select#stage").val() + "/division/" 
-				+ $("select#division").val();
+				+ $("select#stageDivision").val();
 		}
 		function showStatistics() {
 			window.location.href = "${baseUrl}match/${match.id }/statistics";

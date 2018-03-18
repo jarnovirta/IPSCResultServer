@@ -50,23 +50,26 @@ public class ScoreCard implements Serializable, Comparable<ScoreCard> {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(nullable = false)
 	private Calendar modified;
-
 	
 	@JsonProperty("popm")
 	@Column(nullable = false)
-	private int popperMisses;
+	private int popperMisses = 0;
 	
 	@JsonProperty("poph")
 	@Column(nullable = false)
-	private int popperHits;
+	private int popperHits = 0;
+	
+	@JsonProperty("popns")
+	@Transient
+	private int popperNoshootHits = 0;
 	
 	@JsonProperty("popnpm")
 	@Column(nullable = false)
-	private int popperNonPenaltyMisses;
+	private int popperNonPenaltyMisses = 0;
 	
 	@JsonProperty("rawpts")
 	@Column(nullable = false)
-	private int points;
+	private int points = 0;
 	
 	@JsonProperty("str")
 	private double[] stringTimes;
@@ -79,22 +82,22 @@ public class ScoreCard implements Serializable, Comparable<ScoreCard> {
 	private int[] paperTargetHits;
 	
 	@JsonIgnore
-	private int aHits;
+	private int aHits = 0;
 	
 	@JsonIgnore
-	private int cHits;
+	private int cHits = 0;
 	
 	@JsonIgnore
-	private int dHits;
+	private int dHits = 0;
 	
 	@JsonIgnore
-	private int misses;
+	private int misses = 0;
 	
 	@JsonIgnore
-	private int noshootHits;
+	private int noshootHits = 0;
 	
 	@JsonProperty("proc")
-	private int proceduralPenalties;
+	private int proceduralPenalties = 0;
 	
 	@JsonIgnore
 	@Column(nullable = false)
@@ -157,8 +160,16 @@ public class ScoreCard implements Serializable, Comparable<ScoreCard> {
 
 	public void setPopperNonPenaltyMisses(int popperNonPenaltyMisses) {
 		this.popperNonPenaltyMisses = popperNonPenaltyMisses;
+		
 	}
 
+	public int getPopperNoshootHits() {
+		return popperNoshootHits;
+	}
+	public void setPopperNoshootHits(int popperNoshootHits) {
+		this.popperNoshootHits = popperNoshootHits;
+		this.noshootHits += popperNoshootHits;
+	}
 	public int getPoints() {
 		return points;
 	}
@@ -182,14 +193,9 @@ public class ScoreCard implements Serializable, Comparable<ScoreCard> {
 	
 	public void setHitsAndPoints() {
 		// Count total hits from PractiScore hits data
-		this.aHits = 0;
-		this.cHits = 0;
 		int cHitsBitShift = 8;
-		this.dHits = 0;
 		int dHitsBitShift = 12;
-		this.noshootHits = 0;
 		int noshootHitsBitShift = 16;
-		this.misses = 0;
 		int missesBitShift = 20;
 		
 		int bitMask = 0xF;
@@ -209,7 +215,7 @@ public class ScoreCard implements Serializable, Comparable<ScoreCard> {
 		this.points -= misses * 10;
 		this.points -= proceduralPenalties * 10;
 		
-		if (this.points > 0) this.hitFactor = this.points / this.time;
+		if (this.points >=0 && this.time > 0) this.hitFactor = this.points / this.time;
 		else {
 			this.points = 0;
 			this.hitFactor = 0;

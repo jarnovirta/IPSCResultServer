@@ -41,6 +41,10 @@ public class StageResultDataService {
 			throws DatabaseException {
 		return stageResultDataRepository.findStageResultDataLinesByCompetitor(competitor);
 	}
+	public List<StageResultDataLine> findStageResultDataLinesByCompetitorAndDivision(Competitor competitor, String division) 
+			throws DatabaseException {
+		return stageResultDataRepository.findStageResultDataLinesByCompetitorAndDivision(competitor, division);
+	}
 	@Transactional
 	public void generateStageResultsListing(Stage stage) throws DatabaseException {
 		List<String> divisions = new ArrayList<String>();

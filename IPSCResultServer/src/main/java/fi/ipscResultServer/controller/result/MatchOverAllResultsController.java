@@ -21,6 +21,7 @@ public class MatchOverAllResultsController {
 	public String getDivisionOverAllResultsPage(Model model, @PathVariable("matchId") String matchId, 
 			@PathVariable("division") String division) {
 		try {
+			System.out.println("Division: " + division);
 			model.addAttribute("matchResultData", matchResultDataService.findByMatchAndDivision(matchId, division));
 			model.addAttribute("selectedDivision", division);
 			return "results/matchOverAllResults";

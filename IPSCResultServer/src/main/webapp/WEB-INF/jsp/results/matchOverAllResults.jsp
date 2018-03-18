@@ -159,7 +159,8 @@
 								<c:if test="${dataline.competitor.powerFactor eq  'MAJOR'}">
 									<c:set var="pf" value="+" />
 								</c:if>
-								${fn:substring(dataline.competitor.division, 0, 1)}${pf}			
+								${dataline.competitor.division}${pf }
+								<%-- ${fn:substring(dataline.competitor.division, 0, 1)}${pf} --%>			
 							</td>
 							<td align="center">
 								<c:forEach items = "${dataline.competitor.categories}" var = "category">

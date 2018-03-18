@@ -76,6 +76,21 @@ public class StageResultDataRepositoryImpl implements StageResultDataRepository 
 			throw new DatabaseException(e);
 		}
 	}
+	
+	public List<StageResultDataLine> findStageResultDataLinesByCompetitorAndDivision(Competitor competitor, String division) 
+			throws DatabaseException {
+		try {
+			String queryString = "SELECT s FROM StageResultDataLine s WHERE s.competitor = :competitor AND s.stageResultData.division = :division";
+			TypedQuery<StageResultDataLine> query = entityManager.createQuery(queryString, StageResultDataLine.class);
+			query.setParameter("competitor", competitor);
+			query.setParameter("division", division);
+			return query.getResultList();
+		}
+		catch (Exception e) {
+			logger.error(e);
+			throw new DatabaseException(e);
+		}
+	}
 
 	public void delete(StageResultData data) throws DatabaseException {
 		try {

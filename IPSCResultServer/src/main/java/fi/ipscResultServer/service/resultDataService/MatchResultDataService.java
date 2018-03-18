@@ -1,5 +1,7 @@
 package fi.ipscResultServer.service.resultDataService;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +24,7 @@ public class MatchResultDataService {
 		return matchResultDataRepository.findByMatchAndDivision(matchId, division);
 	}
 	
-	public MatchResultData findByMatch(String matchId) throws DatabaseException {
+	public List<MatchResultData> findByMatch(String matchId) throws DatabaseException {
 		return matchResultDataRepository.findByMatch(matchId);
 	}
 	
@@ -38,7 +40,9 @@ public class MatchResultDataService {
 	}
 	@Transactional
 	public void deleteByMatch(Match match) throws DatabaseException {
-		MatchResultData resultData = findByMatch(match.getId());
-		if (resultData != null) matchResultDataRepository.delete(resultData); 
+		List<MatchResultData> resultDataList = findByMatch(match.getId());
+		for (MatchResultData resultData : resultDataList) {
+			matchResultDataRepository.delete(resultData);
+		}
 	}
 }

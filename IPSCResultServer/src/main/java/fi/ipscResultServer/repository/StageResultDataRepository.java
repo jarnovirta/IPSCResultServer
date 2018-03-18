@@ -15,6 +15,9 @@ public interface StageResultDataRepository {
 	
 	public List<StageResultDataLine> findStageResultDataLinesByCompetitor(Competitor competitor) throws DatabaseException; 
 	
+	public List<StageResultDataLine> findStageResultDataLinesByCompetitorAndDivision(Competitor competitor, String division) 
+			throws DatabaseException;
+	
 	public void delete(StageResultData stageResultData) throws DatabaseException; 
 	
 	public StageResultData save(StageResultData stageResultData) throws DatabaseException;
