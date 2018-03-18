@@ -29,3 +29,4 @@ TESTIT:
 	- Tarkista ett‰ procedural penalties huomioidaan scorecardin pistelaskussa oikein. Nyt ScoreCard setHitsAndPoints() metodissa
 	   		olettamalla ett‰ PractiScoren pointseissa ei ole mukana vaan pit‰‰ v‰hent‰‰.
 	- Tarkista popperien ja taulujen huomioiminen ja non penaltien huomioiminen stagen maksimipistem‰‰r‰n laskemisessa
+	- MITƒ TAPAHTUU ILMAN TULOSDATAA, NULL CHECKIT YM.

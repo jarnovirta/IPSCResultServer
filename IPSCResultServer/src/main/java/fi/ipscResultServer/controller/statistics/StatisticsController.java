@@ -1,5 +1,8 @@
 package fi.ipscResultServer.controller.statistics;
 
+import java.util.List;
+
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,8 +10,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import fi.ipscResultServer.controller.api.ApiController;
 import fi.ipscResultServer.domain.Constants;
 import fi.ipscResultServer.domain.Match;
+import fi.ipscResultServer.domain.statistics.CompetitorStatistics;
 import fi.ipscResultServer.exception.DatabaseException;
 import fi.ipscResultServer.service.MatchService;
 import fi.ipscResultServer.service.StatisticsService;
@@ -23,37 +28,55 @@ public class StatisticsController {
 	@Autowired
 	MatchService matchService;
 	
+	final static Logger logger = Logger.getLogger(StatisticsController.class);
+	
 	@RequestMapping(method = RequestMethod.GET)
 	public String getStatisticsPage(Model model, @PathVariable("matchId") String matchId) {
 		try {
 			Match match = matchService.getOne(matchId);
-			if (match.getDivisionsWithResults() == null || match.getDivisionsWithResults().size() == 0) {
-				model.addAttribute("statistics", null);
-				return "statistics/competitorStatistics";
+			String division = null;
+			if (match.getDivisionsWithResults().contains(Constants.COMBINED_DIVISION)) {
+				division = Constants.COMBINED_DIVISION;
 			}
-			String division;
-			if (match.getDivisionsWithResults().contains(Constants.COMBINED_DIVISION)) division = Constants.COMBINED_DIVISION;
-			else division = match.getDivisionsWithResults().get(0);
-			
-			model.addAttribute("statistics", statisticsService.findCompetitorStatisticsByMatchAndDivision(matchId, division));
-			return "statistics/competitorStatistics";
+			else {
+				if (match.getDivisionsWithResults().size() > 0) {
+					division = match.getDivisionsWithResults().get(0);
+				}
+			}
+			model.addAttribute("match", match);
+			model.addAttribute("division", division);
+			model.addAttribute("statistics", getCompetitorStatistics(match.getId(), division));
 		}
-		// Exception logged in repository
 		catch (DatabaseException e) {
-			return "statistics/competitorStatistics";
+			logger.error(e.getMessage());
 		}
+		return "statistics/competitorStatistics";
 	}
 	
 	@RequestMapping(value="/division/{division}", method = RequestMethod.GET)
 	public String getStatisticsPageForDivision(Model model, @PathVariable("matchId") String matchId, @PathVariable("division") String division) {
 		try {
-			model.addAttribute("statistics", statisticsService.findCompetitorStatisticsByMatchAndDivision(matchId, division));
-			return "statistics/competitorStatistics";
+			model.addAttribute("match", matchService.getOne(matchId));
+			model.addAttribute("statistics", getCompetitorStatistics(matchId, division));
 		}
 		
-		// Exception logged in repository
 		catch (DatabaseException e) {
-			return "statistics/competitorStatistics";
+			logger.error(e.getMessage());
+		}
+		
+		return "statistics/competitorStatistics";
+	}
+	
+	private List<CompetitorStatistics> getCompetitorStatistics(String matchId, String division) {
+		try {
+			if (division == null || division.equals(Constants.COMBINED_DIVISION)) {
+				return statisticsService.findCompetitorStatisticsByMatch(matchId);
+			}
+			else return statisticsService.findCompetitorStatisticsByMatchAndDivision(matchId, division);
+		}
+		catch (DatabaseException e) {
+			logger.error(e.getMessage());
+			return null;
 		}
 	}
 }

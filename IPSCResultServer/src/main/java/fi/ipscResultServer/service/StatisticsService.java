@@ -1,6 +1,5 @@
 package fi.ipscResultServer.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -14,7 +13,6 @@ import fi.ipscResultServer.domain.ScoreCard;
 import fi.ipscResultServer.domain.resultData.CompetitorResultData;
 import fi.ipscResultServer.domain.resultData.MatchResultDataLine;
 import fi.ipscResultServer.domain.statistics.CompetitorStatistics;
-import fi.ipscResultServer.domain.statistics.CompetitorStatisticsLine;
 import fi.ipscResultServer.exception.DatabaseException;
 import fi.ipscResultServer.repository.CompetitorStatisticsRepository;
 import fi.ipscResultServer.service.resultDataService.CompetitorResultDataService;
@@ -34,10 +32,16 @@ public class StatisticsService {
 	
 	final static Logger logger = Logger.getLogger(StatisticsService.class);
 	
-	public CompetitorStatistics findCompetitorStatisticsByMatchAndDivision(String matchId, String division) 
+	public List<CompetitorStatistics> findCompetitorStatisticsByMatchAndDivision(String matchId, String division) 
 		throws DatabaseException {
 		return competitorStatisticsRepository.findCompetitorStatisticsByMatchAndDivision(matchId, division);
 	}
+	
+	public List<CompetitorStatistics> findCompetitorStatisticsByMatch(String matchId) 
+			throws DatabaseException {
+			return competitorStatisticsRepository.findCompetitorStatisticsByMatch(matchId);
+		}
+		
 	
 	@Transactional
 	public void generateCompetitorStatistics(Match match) throws DatabaseException {
@@ -45,13 +49,11 @@ public class StatisticsService {
 				
 		for (String division : match.getDivisionsWithResults()) {
 			logger.info("Generating match statistics for " + division);
-			CompetitorStatistics statistics = new CompetitorStatistics(match, division);
-			List<CompetitorStatisticsLine> lines = new ArrayList<CompetitorStatisticsLine>();
 			
 			// Generate CompetitorStatisticsLine instances for competitors
 			for (Competitor competitor : match.getCompetitors()) {
 				if (!competitor.getDivision().equals(division)) continue;
-				CompetitorStatisticsLine line = new CompetitorStatisticsLine(competitor);
+				CompetitorStatistics line = new CompetitorStatistics(competitor, match);
 				double matchTime = 0.0;
 				int aHits = 0;
 				int cHits = 0;
@@ -94,11 +96,8 @@ public class StatisticsService {
 					line.setDivisionPoints(matchDataLine.getPoints());
 					line.setDivisionScorePercentage(matchDataLine.getScorePercentage());
 				}
-				lines.add(line);
+				competitorStatisticsRepository.save(line);
 			}
-			if (lines.size() == 0) continue; 
-			statistics.setStatisticsLines(lines);
-			competitorStatisticsRepository.save(statistics);
 		}
 	}
 	

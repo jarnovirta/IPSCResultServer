@@ -18,7 +18,7 @@
 			<%@ include file="/WEB-INF/jsp/include/loginLogoutButtons.jsp" %>
 			<ol class="breadcrumb breadcrumb-arrow">
 				<li><a href="${baseUrl }">Home</a></li>
-				<li><a href="${baseUrl }match/${statistics.match.id}">Match</a></li>
+				<li><a href="${baseUrl }match/${match.id}">Match</a></li>
 				<li class="active"><span>Competitor Statistics</span></li>
 			</ol>
 			<div class="page-header">
@@ -27,7 +27,7 @@
 			<br><br>
 			<div class="panel panel-info">
 			  <div class="panel-heading">Match Info</div>
-			  	<div class="panel-body">
+			  <div class="panel-body">
 					    <div class="pageInfoTable">
 					    	<div class="pageInfoTableLeft">
 					        <table>
@@ -36,7 +36,7 @@
 					        			<b>Match:</b>
 					        		</td>
 					        		<td>
-					        			${statistics.match.name}
+					        			${match.name}
 					        		</td>
 					        	</tr>
 					        	<tr>
@@ -44,7 +44,7 @@
 					        			<b>Date:</b>
 					        		</td>
 					        		<td>
-					        			<fmt:formatDate value="${statistics.match.date.time}" pattern="dd.MM.yyyy" />
+					        			<fmt:formatDate value="${match.date.time}" pattern="dd.MM.yyyy" />
 					        		</td>
 					        	</tr>
 					        	
@@ -57,7 +57,7 @@
 					        			<b>Showing statistics for division:</b>
 					        		</td>
 					        		<td>
-					        			<c:out value="${statistics.division}" />
+					        			<c:out value="${division}" />
 					        		</td>
 					        	</tr>
 					        </table>
@@ -74,7 +74,7 @@
 		        		<td>
 		        			<select style="width: auto; max-width: 100%" id="division" name="division"
 								class="form-control">
-								<c:forEach var="division" items="${divisionsWithStatistics}">
+								<c:forEach var="division" items="${match.divisionsWithResults}">
 									<c:if test="${selectedDivision eq division}">
 										<option value="${division}" selected><c:out value="${division}" /></option>
 									</c:if>
@@ -143,7 +143,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<c:forEach var="line" items="${statistics.statisticsLines}">
+					<c:forEach var="line" items="${statistics}">
 							<tr>
 								<td align="right">
 									<c:choose>
@@ -156,7 +156,7 @@
 									</c:choose>
 								</td>
 								<td>
-									<c:url var="url" value="/match/${statistics.match.id}/competitor/${line.competitor.id}" />
+									<c:url var="url" value="/match/${match.id}/competitor/${line.competitor.id}" />
 									<a href="${url}">${line.competitor.firstName} ${line.competitor.lastName} </a>
 								</td>
 								<td align="right">
@@ -202,13 +202,16 @@
 									<c:if test="${line.competitor.powerFactor eq  'MAJOR'}">
 										<c:set var="pf" value="+" />
 									</c:if>
-									<c:url var="url" value="/match/${statistics.match.id}/division/${line.competitor.division}" />
-									<a href="${url}">${fn:substring(line.competitor.division, 0, 1)}${pf} </a>		
+									<c:url var="url" value="/match/${match.id}/division/${line.competitor.division}" />
+									
+									<%-- <a href="${url}">${fn:substring(line.competitor.division, 0, 1)}${pf} </a> --%>		
+									
+									<a href="${url}">${line.competitor.division}${pf} </a>		
 								</td>
 							</tr> 
 						</c:forEach>
 					</tbody>
-			</table>
+			</table> 
 		</div>
 	</div>
 	<script>
@@ -220,7 +223,7 @@
 			});
 		} );
 		function submitDivisionChange() {
-			location.replace("${baseUrl}match/${statistics.match.id }/statistics/division/"+ $("select#division").val());
+			location.replace("${baseUrl}match/${match.id }/statistics/division/"+ $("select#division").val());
 		}
 	</script>
 	<%@include file="/WEB-INF/jsp/include/loginLogoutScripts.jsp" %>

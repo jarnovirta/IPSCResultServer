@@ -13,7 +13,6 @@ import org.springframework.stereotype.Repository;
 
 import fi.ipscResultServer.domain.Match;
 import fi.ipscResultServer.domain.statistics.CompetitorStatistics;
-import fi.ipscResultServer.domain.statistics.CompetitorStatisticsLine;
 import fi.ipscResultServer.repository.CompetitorStatisticsRepository;
 import fi.ipscResultServer.repository.springJPARepository.SpringJPACompetitorStatisticsRepository;
 
@@ -27,19 +26,30 @@ public class CompetitorStatisticsRepositoryImpl implements CompetitorStatisticsR
 	
 	final static Logger logger = Logger.getLogger(CompetitorStatisticsRepositoryImpl.class);
 	
-	public CompetitorStatistics findCompetitorStatisticsByMatchAndDivision(String matchId, String division) {
+	public List<CompetitorStatistics> findCompetitorStatisticsByMatchAndDivision(String matchId, String division) {
 		try {
-			String queryString = "SELECT c FROM CompetitorStatistics c WHERE c.match.id = :matchId AND c.division = :division";
+			String queryString = "SELECT c FROM CompetitorStatistics c WHERE c.match.id = :matchId AND c.competitor.division = :division";
 			TypedQuery<CompetitorStatistics> query = entityManager.createQuery(queryString, CompetitorStatistics.class);
 			query.setParameter("matchId", matchId);
 			query.setParameter("division", division);
 			List<CompetitorStatistics> statisticsList = query.getResultList();
-			
-			if (statisticsList.size() > 0) {
-				CompetitorStatistics statistics = statisticsList.get(0);
-				Collections.sort(statistics.getStatisticsLines());
-				return statistics;
-			}
+			Collections.sort(statisticsList);
+			return statisticsList;
+						
+		} catch (Exception e) {
+			logger.error(e);
+		}
+		return null;
+	}
+	
+	public List<CompetitorStatistics> findCompetitorStatisticsByMatch(String matchId) {
+		try {
+			String queryString = "SELECT c FROM CompetitorStatistics c WHERE c.match.id = :matchId";
+			TypedQuery<CompetitorStatistics> query = entityManager.createQuery(queryString, CompetitorStatistics.class);
+			query.setParameter("matchId", matchId);
+			List<CompetitorStatistics> statisticsList = query.getResultList();
+			Collections.sort(statisticsList);
+			return statisticsList;
 						
 		} catch (Exception e) {
 			logger.error(e);
@@ -65,9 +75,7 @@ public class CompetitorStatisticsRepositoryImpl implements CompetitorStatisticsR
 			List<CompetitorStatistics> statistics = query.setParameter("match", match).getResultList();
 			for (CompetitorStatistics stats : statistics) {
 				stats.setMatch(null);
-				for (CompetitorStatisticsLine line : stats.getStatisticsLines()) {
-					line.setCompetitor(null);
-				}
+				stats.setCompetitor(null);
 				entityManager.remove(stats);
 			}
 		} catch (Exception e) {
