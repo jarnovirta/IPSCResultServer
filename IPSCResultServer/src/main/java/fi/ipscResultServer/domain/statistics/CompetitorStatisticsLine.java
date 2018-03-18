@@ -19,7 +19,7 @@ public class CompetitorStatisticsLine implements Serializable, Comparable<Compet
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.TABLE)
-	private String id;
+	private Long id;
 	
 	@ManyToOne
 	private Competitor competitor;
@@ -61,13 +61,11 @@ public class CompetitorStatisticsLine implements Serializable, Comparable<Compet
 	    if (this.divisionRank < competitorStatisticsLine.getDivisionRank()) return -1;
 	    return 1;
 	}
-	
-	
-	public String getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

@@ -1,4 +1,4 @@
-package fi.ipscResultServer.domain.ResultData;
+package fi.ipscResultServer.domain.resultData;
 
 import java.util.Map;
 

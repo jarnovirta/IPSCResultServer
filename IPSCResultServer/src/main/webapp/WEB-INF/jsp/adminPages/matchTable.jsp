@@ -80,7 +80,7 @@
 				<td>
 					<c:choose>
 						<c:when test="${match.uploadedByAdmin == true }">
-							Admin
+							admin
 						</c:when>
 						<c:otherwise>
 							${match.user.username }

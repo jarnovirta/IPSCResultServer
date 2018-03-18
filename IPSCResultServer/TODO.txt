@@ -11,4 +11,9 @@ Tarkista/korjaa tuloslaskusta:
 
 - Sulje pois tuloslaskennasta kilpailijat, joilla ei ole pisteytettyjä suorituksia lainkaan.
 
-- korjaa c:url tÃ¤gi javascriptiksi (location.pathname)
+- COMPETITORSTATISTICS-COMPETITORSTATISTICSLINE taulua ei luoda MochaHostissa!
+ 	- Miksi vaikka OneToMany? Tee mappedBy? vai joincolumn
+ 	
+- Muuta session takaisin kohtuulliseksi minuuttimääräksi, esim. 30.
+
+- Useampi painallus Force Send -> usempaan kertaan tulokset!

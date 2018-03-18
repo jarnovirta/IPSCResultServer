@@ -6,8 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import fi.ipscResultServer.domain.Competitor;
 import fi.ipscResultServer.domain.Match;
-import fi.ipscResultServer.domain.ResultData.MatchResultData;
-import fi.ipscResultServer.domain.ResultData.MatchResultDataLine;
+import fi.ipscResultServer.domain.resultData.MatchResultData;
+import fi.ipscResultServer.domain.resultData.MatchResultDataLine;
 import fi.ipscResultServer.exception.DatabaseException;
 import fi.ipscResultServer.repository.MatchResultDataRepository;
 

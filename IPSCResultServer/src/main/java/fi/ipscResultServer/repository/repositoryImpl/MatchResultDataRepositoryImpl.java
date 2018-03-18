@@ -12,8 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import fi.ipscResultServer.domain.Competitor;
-import fi.ipscResultServer.domain.ResultData.MatchResultData;
-import fi.ipscResultServer.domain.ResultData.MatchResultDataLine;
+import fi.ipscResultServer.domain.resultData.MatchResultData;
+import fi.ipscResultServer.domain.resultData.MatchResultDataLine;
 import fi.ipscResultServer.exception.DatabaseException;
 import fi.ipscResultServer.repository.MatchResultDataRepository;
 import fi.ipscResultServer.repository.springJPARepository.SpringJPAMatchResultDataRepository;

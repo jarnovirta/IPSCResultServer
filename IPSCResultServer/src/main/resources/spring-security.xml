@@ -40,7 +40,7 @@
 		</authentication-provider>
 		<authentication-provider>
 			<user-service>
-				<user name="Admin" password="{noop}pass" authorities="ROLE_ADMIN" />
+				<user name="admin" password="{noop}pass" authorities="ROLE_ADMIN" />
 			</user-service> 
 		</authentication-provider>
 	</authentication-manager>  

@@ -4,8 +4,8 @@ import java.util.List;
 
 import fi.ipscResultServer.domain.Competitor;
 import fi.ipscResultServer.domain.Stage;
-import fi.ipscResultServer.domain.ResultData.StageResultData;
-import fi.ipscResultServer.domain.ResultData.StageResultDataLine;
+import fi.ipscResultServer.domain.resultData.StageResultData;
+import fi.ipscResultServer.domain.resultData.StageResultDataLine;
 import fi.ipscResultServer.exception.DatabaseException;
 
 public interface StageResultDataRepository {

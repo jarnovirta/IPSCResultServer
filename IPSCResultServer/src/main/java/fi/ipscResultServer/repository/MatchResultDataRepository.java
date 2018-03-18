@@ -1,8 +1,8 @@
 package fi.ipscResultServer.repository;
 
 import fi.ipscResultServer.domain.Competitor;
-import fi.ipscResultServer.domain.ResultData.MatchResultData;
-import fi.ipscResultServer.domain.ResultData.MatchResultDataLine;
+import fi.ipscResultServer.domain.resultData.MatchResultData;
+import fi.ipscResultServer.domain.resultData.MatchResultDataLine;
 import fi.ipscResultServer.exception.DatabaseException;
 
 public interface MatchResultDataRepository {

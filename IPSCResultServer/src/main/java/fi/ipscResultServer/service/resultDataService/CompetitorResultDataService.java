@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import fi.ipscResultServer.domain.ScoreCard;
-import fi.ipscResultServer.domain.ResultData.CompetitorResultData;
+import fi.ipscResultServer.domain.resultData.CompetitorResultData;
 import fi.ipscResultServer.exception.DatabaseException;
 import fi.ipscResultServer.service.CompetitorService;
 import fi.ipscResultServer.service.MatchService;

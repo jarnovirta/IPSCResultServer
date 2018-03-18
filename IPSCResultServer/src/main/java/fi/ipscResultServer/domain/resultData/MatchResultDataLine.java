@@ -1,4 +1,4 @@
-package fi.ipscResultServer.domain.ResultData;
+package fi.ipscResultServer.domain.resultData;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

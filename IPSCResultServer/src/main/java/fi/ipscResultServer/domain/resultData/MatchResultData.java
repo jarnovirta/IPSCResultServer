@@ -1,4 +1,4 @@
-package fi.ipscResultServer.domain.ResultData;
+package fi.ipscResultServer.domain.resultData;
 
 import java.io.Serializable;
 import java.util.List;
@@ -12,10 +12,10 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import fi.ipscResultServer.domain.Stage;
+import fi.ipscResultServer.domain.Match;
 
 @Entity
-public class StageResultData implements Serializable {
+public class MatchResultData implements Serializable {
 	/**
 	 * 
 	 */
@@ -23,21 +23,22 @@ public class StageResultData implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.TABLE)
 	private Long id;
-	
+
 	@ManyToOne
-	private Stage stage;
+	private Match match; 
 	
 	private String division;
+		
+	@OneToMany(mappedBy = "matchResultData", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<MatchResultDataLine> dataLines;
 	
-	@OneToMany(mappedBy = "stageResultData", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<StageResultDataLine> dataLines;
-
-	public StageResultData() { }
+	public MatchResultData() { }
 	
-	public StageResultData(Stage stage, String division) { 
-		this.stage = stage;
+	public MatchResultData(Match match, String division) {
+		this.match = match;
 		this.division = division;
 	}
+	
 	public Long getId() {
 		return id;
 	}
@@ -46,23 +47,23 @@ public class StageResultData implements Serializable {
 		this.id = id;
 	}
 
-	public Stage getStage() {
-		return stage;
+	public Match getMatch() {
+		return match;
 	}
 
-	public void setStage(Stage stage) {
-		this.stage = stage;
+	public void setMatch(Match match) {
+		this.match = match;
 	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 
-	public List<StageResultDataLine> getDataLines() {
+	public List<MatchResultDataLine> getDataLines() {
 		return dataLines;
 	}
 
-	public void setDataLines(List<StageResultDataLine> dataLines) {
+	public void setDataLines(List<MatchResultDataLine> dataLines) {
 		this.dataLines = dataLines;
 	}
 
@@ -73,5 +74,6 @@ public class StageResultData implements Serializable {
 	public void setDivision(String division) {
 		this.division = division;
 	}
+
 	
 }
