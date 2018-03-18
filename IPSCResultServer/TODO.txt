@@ -30,3 +30,5 @@ TESTIT:
 	   		olettamalla että PractiScoren pointseissa ei ole mukana vaan pitää vähentää.
 	- Tarkista popperien ja taulujen huomioiminen ja non penaltien huomioiminen stagen maksimipistemäärän laskemisessa
 	- MITÄ TAPAHTUU ILMAN TULOSDATAA, NULL CHECKIT YM.
+	
+	TARKISTA ETTÄ USEAMPI DATAN AJO EI KASVATA DATAN MÄÄRÄÄ, ELI NUMEROT PYSYVÄT
