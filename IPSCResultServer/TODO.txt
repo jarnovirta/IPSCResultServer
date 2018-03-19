@@ -1,7 +1,7 @@
 Tarkista/korjaa tuloslaskusta:
 	
 - Statistics-taulukko: sum of points heti osumien oikealle. Se on kaikkien osumapisteiden summa ilman penaltyja. Tee myös hover tekstit.
-	
+- Lisää taulukoihin search-toiminto	
 
 - Onko mahdollista että sama kilpailija ampuu saman kisan toisessa divisioonassa esim. toisena päivänä? Miten tällöin käy practiscoressa? 
 	Onko kilpailijoita kaksi? Pitää huomioida tuloksia laskettaessa?
