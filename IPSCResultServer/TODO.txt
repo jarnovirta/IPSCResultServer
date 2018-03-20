@@ -14,7 +14,9 @@ Tarkista/korjaa tuloslaskusta:
 
 - Mikä on "Additional penalties?"
 
-- POINTS on nyt taulukoissa osumat miinus penaltyt. Pitäisikö olla ammutut pisteet??
+- POINTS on nyt taulukoissa osumat miinus penaltyt. Pitäisikö olla ammutut pisteet?? Tee hover.
+
+- Results visible -> results SHOWN.
 
 
 TESTIT:
