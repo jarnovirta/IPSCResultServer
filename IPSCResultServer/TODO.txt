@@ -18,6 +18,8 @@ Tarkista/korjaa tuloslaskusta:
 
 - Results visible -> results SHOWN.
 
+- VARMISTA ETTÄ CLOSED-tilassa ei näy mitään
+
 
 TESTIT:
 	- Onko tulokset ja tilastot nyt oikein?
