@@ -1,20 +1,24 @@
 Tarkista/korjaa tuloslaskusta:
 	
+- Statistics-taulukko: sum of points heti osumien oikealle. Se on kaikkien osumapisteiden summa ilman penaltyja. Tee myÃ¶s hover tekstit.
+- LisÃ¤Ã¤ taulukoihin search-toiminto	
 
-	
+- Onko mahdollista ettÃ¤ sama kilpailija ampuu saman kisan toisessa divisioonassa esim. toisena pÃ¤ivÃ¤nÃ¤? Miten tÃ¤llÃ¶in kÃ¤y practiscoressa? 
+	Onko kilpailijoita kaksi? PitÃ¤Ã¤ huomioida tuloksia laskettaessa?
 
-- Onko mahdollista että sama kilpailija ampuu saman kisan toisessa divisioonassa esim. toisena päivänä? Miten tällöin käy practiscoressa? 
-	Onko kilpailijoita kaksi? Pitää huomioida tuloksia laskettaessa?
-
-- Muuta session takaisin kohtuulliseksi minuuttimääräksi, esim. 30.
+- Muuta session takaisin kohtuulliseksi minuuttimÃ¤Ã¤rÃ¤ksi, esim. 30.
 
 - Useampi painallus Force Send -> usempaan kertaan tulokset!
 
 - Android sovelluksen sulkeminen: service ei sulkeudu.
 
-- Mikä on "Additional penalties?"
+- MikÃ¤ on "Additional penalties?"
 
-- POINTS on nyt taulukoissa osumat miinus penaltyt. Pitäisikö olla ammutut pisteet??
+- POINTS on nyt taulukoissa osumat miinus penaltyt. PitÃ¤isikÃ¶ olla ammutut pisteet?? Tee hover.
+
+- Results visible -> results SHOWN.
+
+- VARMISTA ETTÃ„ CLOSED-tilassa ei nÃ¤y mitÃ¤Ã¤n
 
 - Verify List antaa virheen jos tyhjä kilpailijalista
 
@@ -23,15 +27,15 @@ Tarkista/korjaa tuloslaskusta:
 TESTIT:
 	- Onko tulokset ja tilastot nyt oikein?
 	- Testaa Competitor -> IPSCCategory toiminta, mm. kun monta kategoriaa.
-	- DQ kilpailija jää pois?
+	- DQ kilpailija jÃ¤Ã¤ pois?
 	- Non-penalty targets -> ei vaikuta tulokseen?
 	- Samanniminen kilpailija toiseen kertaan?
 	- Walk-in kilpailija
-	- Power factor fail – ei toimintoa practiscoressa?
+	- Power factor fail â€“ ei toimintoa practiscoressa?
 	- Nollatut staget
-	- Tarkista että procedural penalties huomioidaan scorecardin pistelaskussa oikein. Nyt ScoreCard setHitsAndPoints() metodissa
-	   		olettamalla että PractiScoren pointseissa ei ole mukana vaan pitää vähentää.
-	- Tarkista popperien ja taulujen huomioiminen ja non penaltien huomioiminen stagen maksimipistemäärän laskemisessa
-	- MITÄ TAPAHTUU ILMAN TULOSDATAA, NULL CHECKIT YM.
+	- Tarkista ettÃ¤ procedural penalties huomioidaan scorecardin pistelaskussa oikein. Nyt ScoreCard setHitsAndPoints() metodissa
+	   		olettamalla ettÃ¤ PractiScoren pointseissa ei ole mukana vaan pitÃ¤Ã¤ vÃ¤hentÃ¤Ã¤.
+	- Tarkista popperien ja taulujen huomioiminen ja non penaltien huomioiminen stagen maksimipistemÃ¤Ã¤rÃ¤n laskemisessa
+	- MITÃ„ TAPAHTUU ILMAN TULOSDATAA, NULL CHECKIT YM.
 	
-	TARKISTA ETTÄ USEAMPI DATAN AJO EI KASVATA DATAN MÄÄRÄÄ, ELI NUMEROT PYSYVÄT
+	TARKISTA ETTÃ„ USEAMPI DATAN AJO EI KASVATA DATAN MÃ„Ã„RÃ„Ã„, ELI NUMEROT PYSYVÃ„T
