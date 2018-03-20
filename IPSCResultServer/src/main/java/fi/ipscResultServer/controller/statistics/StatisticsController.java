@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import fi.ipscResultServer.controller.api.ApiController;
 import fi.ipscResultServer.domain.Constants;
 import fi.ipscResultServer.domain.Match;
 import fi.ipscResultServer.domain.statistics.CompetitorStatistics;

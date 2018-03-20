@@ -100,6 +100,10 @@ public class ScoreCardRepositoryImpl implements ScoreCardRepository {
 	}
 	public void deleteInBatch(List<ScoreCard> scoreCards) throws DatabaseException {
 		try {
+			for (ScoreCard card : scoreCards) {
+				System.out.println(card.getId());
+			}
+			
 			springJPAScoreCardRepository.deleteInBatch(scoreCards);
 		} catch (Exception e) {
 			logger.error(e);

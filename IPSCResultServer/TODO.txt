@@ -16,6 +16,9 @@ Tarkista/korjaa tuloslaskusta:
 
 - POINTS on nyt taulukoissa osumat miinus penaltyt. Pitäisikö olla ammutut pisteet??
 
+- Verify List antaa virheen jos tyhjä kilpailijalista
+
+- Estä tulosten lähetys kun closed tai scoring ended.
 
 TESTIT:
 	- Onko tulokset ja tilastot nyt oikein?

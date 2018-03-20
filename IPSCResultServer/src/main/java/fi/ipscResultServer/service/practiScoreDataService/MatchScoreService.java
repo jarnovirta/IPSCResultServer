@@ -69,16 +69,23 @@ public class MatchScoreService {
 		
 		// Delete old match result listing
 		matchResultDataService.deleteByMatch(match);
+		
+		// Delete old stage result listings
+		stageResultDataService.deleteByMatch(match);
+		
+		// Delete old scorecards
+		scoreCardService.deleteByMatch(match);
+		
 						
 		for (StageScore stageScore : matchScore.getStageScores()) {
 			Stage stage = stageService.getOne(stageScore.getStageId());
 			stagesWithNewResults.add(stage);
 			
 			// Delete old stage result listing
-			stageResultDataService.deleteByStage(stage);
 			
-			// Remove old scorecards
-			scoreCardService.deleteInBatch(stageScore.getScoreCards());
+			
+//			// Remove old scorecards
+//			scoreCardService.deleteInBatch(stageScore.getScoreCards());
 						
 			if (match.getDivisionsWithResults() == null) {
 				match.setDivisionsWithResults(new ArrayList<String>());
@@ -90,7 +97,7 @@ public class MatchScoreService {
 				scoreCard.setStageId(stage.getId());
 				scoreCard.setCompetitor(competitorService.getOne(scoreCard.getCompetitorId()));
 				
-				scoreCardService.delete(scoreCard);
+//				scoreCardService.delete(scoreCard);
 				scoreCardService.save(scoreCard);
 				
 				String scoreCardDivision = scoreCard.getCompetitor().getDivision();
