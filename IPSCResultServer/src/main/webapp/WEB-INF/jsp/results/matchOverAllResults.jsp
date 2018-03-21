@@ -65,31 +65,38 @@
 					    </div>
 					  </div>
 				</div>
-		        
-		        <table class="resultsPageDropDownTable">
+		        <table style="width:100%">
 		        	<tr>
 		        		<td>
-		        			<b>Show results for:</b>
-		        		</td>
-		        		<td>
-		        			<select style="width: auto; max-width: 100%" id="division" name="division"
-								class="form-control">
-								<c:forEach var="division" items="${matchResultData.match.divisionsWithResults}">
-									<c:if test="${selectedDivision eq division}">
-										<option value="${division}" selected><c:out value="${division}" /></option>
-									</c:if>
-									<c:if test="${selectedDivision ne division}">
-										<option value="${division}"><c:out value="${division}" /></option>
-									</c:if>
-								</c:forEach>
-							</select>
-		        		</td>
-		        		<td>
-		        			<button class="btn btn-large btn-primary" onclick="submitDivisionChange()" type="button">Show</button>
-		        		</td>
-		        	</tr>
-		        </table>
-				<div class="sortTableHint"><p><i>(Hold shift to sort by several columns)</i></p></div>
+			 		        <table class="resultsPageDropDownTable">
+					        	<tr>
+					        		<td>
+					        			<b>Show results for:</b>
+					        		</td>
+					        		<td>
+					        			<select style="width: auto; max-width: 100%" id="division" name="division"
+											class="form-control">
+											<c:forEach var="division" items="${matchResultData.match.divisionsWithResults}">
+												<c:if test="${selectedDivision eq division}">
+													<option value="${division}" selected><c:out value="${division}" /></option>
+												</c:if>
+												<c:if test="${selectedDivision ne division}">
+													<option value="${division}"><c:out value="${division}" /></option>
+												</c:if>
+											</c:forEach>
+										</select>
+					        		</td>
+					        		<td>
+					        			<button class="btn btn-large btn-primary" onclick="submitDivisionChange()" type="button">Show</button>
+					        		</td>
+					        	</tr>
+					        </table>
+					    </td>
+					    <td align="right" style="vertical-align:bottom">
+							<div class="sortTableHint"><p><i>(Hold shift to sort by several columns)</i></p></div>			
+						</td> 
+					</tr>
+				</table>
 			<table class="table table-striped table-bordered" id="matchResultTable">
 				<thead>
 					<tr>

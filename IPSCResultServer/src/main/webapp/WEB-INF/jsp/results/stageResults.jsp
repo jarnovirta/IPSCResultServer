@@ -83,51 +83,51 @@
 				</div>
 		        
 		        <table style="width:100%">
-		        <tr>
-		        <td>
-		        <table class="resultsPageDropDownTable">
-		        	<tr>
-		        		<td>
-		        			<b>Show results for:</b>
-		        		</td>
-		        	</tr>
-		        	<tr>
-		        		<td>
-		        			<select style="width: auto; max-width: 100%" id="stage" name="stage"
-								class="form-control">
-								<c:forEach var="stage" items="${stageResultData.stage.match.stages}">
-									<c:if test="${stageResultData.stage.name eq stage.name}">
-										<option value="${stage.id}" selected>${stage.name}</option>
-									</c:if>
-									<c:if test="${stageResultData.stage.name ne stage.name}">
-										<option value="${stage.id}">${stage.name}</option>
-									</c:if>
-								</c:forEach>
-							</select>
-		        		</td>
-		        		
-		        		<td>
-		        			<select style="width: auto; max-width: 100%" id="division" name="division" class="form-control">
-								<c:forEach var="division" items="${stageResultData.stage.match.divisionsWithResults}">
-									<c:if test="${selectedDivision eq division}">
-										<option value="${division}" selected><c:out value="${division}" /></option>
-									</c:if>
-									<c:if test="${selectedDivision ne division}">
-										<option value="${division}"><c:out value="${division}" /></option>
-									</c:if>
-								</c:forEach>
-							</select>
-		        		</td>
-		        		<td>
-		        			<button class="btn btn-large btn-primary" onclick="submitStageListingChange()" type="button">Show</button>
-		        		</td>
-		        	</tr>
-		        </table>
-		    </td>
-		    <td align="right" style="vertical-align:bottom">
-				<div class="sortTableHint"><p><i>(Hold shift to sort by several columns)</i></p></div>			
-			</td> 
-			</tr>
+			        <tr>
+			        <td>
+			        <table class="resultsPageDropDownTable">
+			        	<tr>
+			        		<td>
+			        			<b>Show results for:</b>
+			        		</td>
+			        	</tr>
+			        	<tr>
+			        		<td>
+			        			<select style="width: auto; max-width: 100%" id="stage" name="stage"
+									class="form-control">
+									<c:forEach var="stage" items="${stageResultData.stage.match.stages}">
+										<c:if test="${stageResultData.stage.name eq stage.name}">
+											<option value="${stage.id}" selected>${stage.name}</option>
+										</c:if>
+										<c:if test="${stageResultData.stage.name ne stage.name}">
+											<option value="${stage.id}">${stage.name}</option>
+										</c:if>
+									</c:forEach>
+								</select>
+			        		</td>
+			        		
+			        		<td>
+			        			<select style="width: auto; max-width: 100%" id="division" name="division" class="form-control">
+									<c:forEach var="division" items="${stageResultData.stage.match.divisionsWithResults}">
+										<c:if test="${selectedDivision eq division}">
+											<option value="${division}" selected><c:out value="${division}" /></option>
+										</c:if>
+										<c:if test="${selectedDivision ne division}">
+											<option value="${division}"><c:out value="${division}" /></option>
+										</c:if>
+									</c:forEach>
+								</select>
+			        		</td>
+			        		<td>
+			        			<button class="btn btn-large btn-primary" onclick="submitStageListingChange()" type="button">Show</button>
+			        		</td>
+			        	</tr>
+			        </table>
+			    </td>
+			    <td align="right" style="vertical-align:bottom">
+					<div class="sortTableHint"><p><i>(Hold shift to sort by several columns)</i></p></div>			
+				</td> 
+				</tr>
 			</table>
 			
 			<table class="table table-striped table-bordered" id="stageResultTable">
