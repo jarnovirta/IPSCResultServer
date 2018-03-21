@@ -20,9 +20,11 @@ Tarkista/korjaa tuloslaskusta:
 
 - VARMISTA ETTÄ CLOSED-tilassa ei näy mitään
 
-- Verify List antaa virheen jos tyhj� kilpailijalista
+- Verify List antaa virheen jos tyhj� kilpailijalista
 
-- Est� tulosten l�hetys kun closed tai scoring ended.
+- Est� tulosten l�hetys kun closed tai scoring ended.
+
+- Firefoxissa layout jotenkin pielessä, napit liian lähellä toisiaan ym ym. CSS ei toimi oikein? Vai tablet?
 
 TESTIT:
 	- Onko tulokset ja tilastot nyt oikein?
