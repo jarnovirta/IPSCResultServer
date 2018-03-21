@@ -38,12 +38,14 @@
 					<tbody>
 						<c:forEach var="match" items="${matches}">
 							<c:if test="${match.status ne 'CLOSED' }">
-								<td>
-									<a href="${baseUrl}match/${ match.id}">${match.name}</a>
-								</td>
-								<td>
-									<fmt:formatDate value="${match.date.time}" pattern="dd.MM.yyyy" />
-								</td>
+								<tr>
+									<td>
+										<a href="${baseUrl}match/${ match.id}">${match.name}</a>
+									</td>
+									<td>
+										<fmt:formatDate value="${match.date.time}" pattern="dd.MM.yyyy" />
+									</td>
+								</tr>
 							</c:if>
 						</c:forEach>
 					</tbody>
@@ -58,6 +60,7 @@
 			$('#matchTable').DataTable( {
 				paging: true,
 				searching: true,
+				sort: false,
 				info: false
 			});
 		} );
