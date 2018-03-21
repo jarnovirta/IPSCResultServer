@@ -33,12 +33,12 @@ public class AdminController {
 	@RequestMapping(method = RequestMethod.GET)
 	public String getAdminMainPage(Model model) {
 		if (userService.isCurrentUserAdmin()) {
-			model.addAttribute("matchList", matchService.getAdminPageFullMatchList());
+			model.addAttribute("matchList", matchService.getFullMatchList());
 			model.addAttribute("userList", userService.findEnabledUsers());
 		}
 		else {
 			User user = userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
-			model.addAttribute("matchList", matchService.getAdminPageMatchListByUser(user));
+			model.addAttribute("matchList", matchService.getMatchListForUser(user));
 		}
 
 		model.addAttribute("matchStatusList", Arrays.asList(MatchStatus.values()));
@@ -81,7 +81,7 @@ public class AdminController {
 		try {
 			matchService.delete(matchId);
 			
-			model.addAttribute("matchList", matchService.getAdminPageFullMatchList());
+			model.addAttribute("matchList", matchService.getFullMatchList());
 			model.addAttribute("matchStatusList", Arrays.asList(MatchStatus.values()));
 			return getAdminMainPage(model);
 		}

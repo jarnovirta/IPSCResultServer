@@ -13,9 +13,9 @@ public interface MatchRepository {
 	
 	// Returns Match list with only necessary properties set for listing purposes
 	// instead of full instances with a list of Stages etc.
-	public List<Match> getAdminPageMatchList();
+	public List<Match> getFullMatchList();
 	
-	public List<Match> getAdminPageMatchListByUser(User user);
+	public List<Match> getMatchListForUser(User user);
 	
 	public Match getOne(String id) throws DatabaseException;
 	

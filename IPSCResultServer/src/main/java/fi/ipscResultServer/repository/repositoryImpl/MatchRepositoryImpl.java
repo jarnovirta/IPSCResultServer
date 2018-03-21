@@ -43,7 +43,7 @@ public class MatchRepositoryImpl implements MatchRepository {
 		
 	}
 	
-	public List<Match> getAdminPageMatchListByUser(User user) {
+	public List<Match> getMatchListForUser(User user) {
 		try {
 			String queryString = "SELECT NEW fi.ipscResultServer.domain.Match(m.id, m.name, m.date, m.status, m.user, m.uploadedByAdmin) FROM Match m "
 					+ "WHERE m.user = :user ORDER BY m.date DESC";
@@ -57,7 +57,7 @@ public class MatchRepositoryImpl implements MatchRepository {
 	}
 	// Returns Match list with only necessary properties set for listing purposes
 	// instead of full instances with a list of Stages etc.
-	public List<Match> getAdminPageMatchList() {
+	public List<Match> getFullMatchList() {
 		try {
 			String queryString = "SELECT NEW fi.ipscResultServer.domain.Match(m.id, m.name, m.date, m.status, m.user, m.uploadedByAdmin) FROM Match m ORDER BY m.date DESC";
 			TypedQuery<Match> query = entityManager.createQuery(queryString, Match.class);

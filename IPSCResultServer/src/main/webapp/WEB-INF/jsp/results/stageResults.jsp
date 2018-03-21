@@ -10,10 +10,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix = "fn" uri = "http://java.sun.com/jsp/jstl/functions"  %>
 
-
 <body>
 	<c:url var="baseUrl" value="/" />
-
 	<div id="wrap">
 		<div class="container">
 			<%@ include file="/WEB-INF/jsp/include/loginLogoutButtons.jsp" %>
@@ -60,7 +58,6 @@
 					        	</tr>
 					        </table>
 					       </div>
-					       
 					    	<div class="pageInfoTableRight">  
 						        <table>
 						        	<tr>
@@ -68,8 +65,15 @@
 						        			<b>Showing results for division:</b>
 						        		</td>
 						        		<td>
-						        			<c:url var="url" value="/match/${stageResultData.stage.match.id}/division/${stageResultData.division}" />
-											<a href="${url}"><c:out value="${stageResultData.division}" /></a>
+						        			<c:choose>
+						        				<c:when test="${stageResultData.stage.match.status eq 'SCORING_ENDED' }">
+						        					<c:url var="url" value="/match/${stageResultData.stage.match.id}/division/${stageResultData.division}" />
+													<a href="${url}"><c:out value="${stageResultData.division}" /></a>
+						        				</c:when>
+						        				<c:otherwise>
+						        					<c:out value="${stageResultData.division}" />
+						        				</c:otherwise>
+						        			</c:choose>
 						        		</td>
 						        	</tr>
 								</table>
@@ -227,7 +231,7 @@
 		$(document).ready(function() {
 			$('#stageResultTable').DataTable( {
 				paging: false,
-				searching: false,
+				searching: true,
 				info: false
 			});
 		} );
@@ -236,6 +240,6 @@
 					+ $("select#stage").val() + "/division/"+ $("select#division").val());
 		}
 	</script>
-	<%@include file="/WEB-INF/jsp/include/loginLogoutScripts.jsp" %>
-	
+
+<%@include file="/WEB-INF/jsp/include/loginLogoutScripts.jsp" %>
 <jsp:include page="/WEB-INF/jsp/include/footer.jsp" />

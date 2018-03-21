@@ -1,7 +1,8 @@
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 
-<jsp:include page="/WEB-INF/jsp/include/headTag.jsp" />
+<jsp:include page="/WEB-INF/jsp/include/headTagWithDataTablesLinks.jsp" />
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
@@ -20,107 +21,99 @@
 			<div class="page-header">
 				<h1>${match.name}</h1>
 			</div>
-			<br><br>
-				<c:if test="${match.status ne 'CLOSED' }">
-					<table class="matchMainPageMenuTable">
-						<tr>
-							<td class="matchMainPageSelectButtonCell">
-								<button class="btn btn-large btn-primary" onclick="submitCompetitor()" type="button">Show</button>
-							</td>
-							<td>
-								<label for="verify">Verify list: </label>
-								<select style="width: auto; max-width: 100%" id="verify" 
-									class="form-control">
-									<c:forEach var="competitor" items="${competitors}">
-										<option value="${competitor.id}">${competitor.lastName} ${competitor.firstName} </option>
-									</c:forEach>
-								</select>
-							</td>
-	
-						</tr>
-					</table>
-					
-					<hr />
+			<br>
+			<c:if test="${match.status ne 'CLOSED' }">
 				<c:if test="${match.status eq 'SCORING_ENDED' }">
-					<table class="matchMainPageMenuTable">
-						<tr>
-							<td class="matchMainPageSelectButtonCell">
-								<button class="btn btn-large btn-primary" onclick="submitDivision()" type="button">Show</button>
-							</td>
-							<td>
-								<label for="division">Match results: </label>
-									<br>
-									<select style="width: auto; max-width: 100%" id="matchDivision" 
-										class="form-control">
-										<c:forEach var="division" items="${match.divisionsWithResults}">
-											<option value="${division}"><c:out value="${division}" /></option>
-										</c:forEach>
-									</select>
-							</td>
-		
-						</tr>
-					</table>
-					<hr />	
-					<table class="matchMainPageMenuTable">
-						<tr>
-							<td class="matchMainPageSelectButtonCell">
-								<button class="btn btn-large btn-primary" onclick="submitStage()" type="button">Show</button>
-							</td>
-							<td>
-								<label for="stage">Stage results: </label>
-								<br>
-								<select style="width: auto; max-width: 100%" id="stage" 
-									class="form-control">
-									<c:forEach var="stage" items="${match.stages}">
-										<option value="${stage.id}">${stage.name}</option>
-									</c:forEach>
-								</select>
-							</td>
-							<td>
-								<label for="stageDivision">Division: </label>
-								<br>
-								<select style="width: auto; max-width: 100%" id="stageDivision" 
-									class="form-control">
-									<c:forEach var="division" items="${match.divisionsWithResults}">
-										<option value="${division}"><c:out value="${division}" /></option>
-									</c:forEach>
-								</select>
-							</td>
-						</tr>
-					</table>
-					<hr />
+					<a href="${baseUrl}match/${match.id }/statistics" style="text-decoration: none;">
+						<button class="btn btn-large btn-primary" type="button">Competitor Statistics</button>
+					</a>
+					<br><br><br>
+					<h4><b>Match Results:</b></h4>
 					
-					<table class="matchMainPageMenuTable">
-						<tr>
-							<td class="matchMainPageSelectButtonCell">
-								<button class="btn btn-large btn-primary" onclick="showStatistics()" type="button">Show</button>
-							</td>				
-							<td>
-								<b>Competitor statistics</b>
-							</td>
-		
-						</tr>
-					</table>
+					<c:forEach var="division" items="${match.divisionsWithResults }">
+						<a href="${baseUrl}match/${match.id }/division/${division}">
+							${division }
+						</a>
+					</c:forEach>
 					<hr />
 				</c:if>
+				<h4><b>Stage Results:</b></h4>
+				<div style="max-width: 750px">
+					<table class="table table-striped table-bordered" id="stageTable">
+						<thead>
+							<tr>
+								<th>
+									Stage
+								</th>
+								<th>
+									Division
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							<c:forEach var="stage" items="${match.stages}">
+								<tr>
+									<td style="width: 50%">
+										${stage.name}
+									</td>
+									<td style="width: 50%">
+										<c:forEach var="division" items="${match.divisionsWithResults }">
+											<a href="${baseUrl }match/${match.id}/stage/${stage.id}/division/${division }">
+												${division } 
+											</a>
+										</c:forEach>
+									</td>
+								</tr>		
+							</c:forEach>
+						</tbody>
+					</table>
+				</div>
+				<hr />
+
+				<h4><b>Verify List:</b></h4>
+				<div style="max-width: 470px">
+					<table class="table table-striped table-bordered" id="competitorTable">
+						<thead>
+							<tr>
+								<th>
+									Competitor
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							<c:forEach var="competitor" items="${competitors}">
+								<tr>
+									<td style="width: 50%">
+										<a href="${baseUrl}match/${match.id }/competitor/${competitor.id}">
+											${competitor.lastName }, ${competitor.firstName} 
+										</a>
+									</td>
+								</tr>		
+							</c:forEach>
+						</tbody>
+					</table>
+				</div>
+				<hr />
 			</c:if>
 		</div>
 	</div>
 	
 	<script>
-		function submitCompetitor() {
-			window.location.href = "${baseUrl}match/${match.id }/competitor/" + $("select#verify").val();
-		}
-		function submitDivision() {
-			window.location.href = "${baseUrl}match/${match.id }/division/" + $("select#matchDivision").val();
-		}
-		function submitStage() {
-			window.location.href = "${baseUrl}match/${match.id }/stage/" + $("select#stage").val() + "/division/" 
-				+ $("select#stageDivision").val();
-		}
-		function showStatistics() {
-			window.location.href = "${baseUrl}match/${match.id }/statistics";
-		}
+		$(document).ready(function() {
+			$('#stageTable').DataTable( {
+				paging: false,
+				searching: false,
+				sort: false,
+				info: false
+			});
+			$('#competitorTable').DataTable( {
+				paging: false,
+				searching: true,
+				sort: false,
+				info: false
+			});
+		} );
 	</script>
-	<%@include file="/WEB-INF/jsp/include/loginLogoutScripts.jsp" %>
+
+<%@include file="/WEB-INF/jsp/include/loginLogoutScripts.jsp" %>
 <jsp:include page="/WEB-INF/jsp/include/footer.jsp" />

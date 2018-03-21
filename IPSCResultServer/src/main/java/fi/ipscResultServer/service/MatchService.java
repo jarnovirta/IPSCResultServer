@@ -52,11 +52,11 @@ public class MatchService {
 	
 	// Returns Match list with only necessary properties set for listing purposes
 	// instead of full instances with a list of Stages etc.
-	public List<Match> getAdminPageFullMatchList() {
-		return matchRepository.getAdminPageMatchList();
+	public List<Match> getFullMatchList() {
+		return matchRepository.getFullMatchList();
 	}
-	public List<Match> getAdminPageMatchListByUser(User user) {
-		return matchRepository.getAdminPageMatchListByUser(user);
+	public List<Match> getMatchListForUser(User user) {
+		return matchRepository.getMatchListForUser(user);
 	}
 	public Match getOne(String id) throws DatabaseException {
 		return matchRepository.getOne(id);

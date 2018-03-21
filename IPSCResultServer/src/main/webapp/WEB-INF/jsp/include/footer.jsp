@@ -6,7 +6,7 @@
 
 <footer class="footer">
   <div class="container">
-    <span class="text-muted">Practical Shooting Result Service</span>
+    <span class="text-muted">www.hitfactor.fi</span>
   </div>
 </footer>
 

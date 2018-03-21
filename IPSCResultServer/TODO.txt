@@ -24,6 +24,8 @@ Tarkista/korjaa tuloslaskusta:
 
 - Estä tulosten lähetys kun closed tai scoring ended.
 
+- Muuta headtagit niin, että includella yhteiset osat.
+
 TESTIT:
 	- Onko tulokset ja tilastot nyt oikein?
 	- Testaa Competitor -> IPSCCategory toiminta, mm. kun monta kategoriaa.

@@ -62,8 +62,6 @@
 						        	</tr>
 								</table>
 						    </div>							
-							
-							
 					    </div>
 					  </div>
 				</div>
@@ -192,7 +190,7 @@
 		$(document).ready(function() {
 			$('#matchResultTable').DataTable( {
 				paging: false,
-				searching: false,
+				searching: true,
 				info: false
 			});
 		} );
