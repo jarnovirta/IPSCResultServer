@@ -170,11 +170,9 @@
 						<th>
 							Last updated
 						</th>
-						<c:if test="${resultData.match.status eq 'SCORING_ENDED' }">
-							<th>
-								Rank
-							</th>
-						</c:if>
+						<th>
+							Rank
+						</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -219,11 +217,9 @@
 								<td align="right">
 									<fmt:formatDate value="${scoreCard.modified.time }" pattern="dd.MM.yyyy 'at' HH:mm:ss" />
 								</td>
-								<c:if test="${resultData.match.status eq 'SCORING_ENDED' }">
-									<td align="right">
-										${scoreCard.stageRank}
-									</td>
-								</c:if>
+								<td align="right">
+									${scoreCard.stageRank}
+								</td>
 							</tr> 
 					</c:forEach>
 				</tbody>
