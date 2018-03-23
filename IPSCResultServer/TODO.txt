@@ -26,7 +26,9 @@ Tarkista/korjaa tuloslaskusta:
 
 - Firefoxissa layout jotenkin pielessä, napit liian lähellä toisiaan ym ym. CSS ei toimi oikein? Vai tablet?
 
-- Muuta headtagit niin, ett� includella yhteiset osat.
+- Muuta headtagit niin, ett� includella yhteiset osat.
+
+- ORDER BY LOWER(competitor.lastName)
 
 TESTIT:
 	- Onko tulokset ja tilastot nyt oikein?
