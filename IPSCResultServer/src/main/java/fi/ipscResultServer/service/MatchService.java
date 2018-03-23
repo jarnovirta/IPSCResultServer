@@ -51,9 +51,8 @@ public class MatchService {
 				}
 			}
 			
-			for (Competitor deleted : deletedCompetitors) {
-				match.getCompetitors().remove(deleted);
-			}
+			match.getCompetitors().removeAll(deletedCompetitors);
+			
 			savedMatch = matchRepository.save(match);
 		}
 		

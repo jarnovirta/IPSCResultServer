@@ -35,7 +35,10 @@
 						        			<b>Name:</b>
 						        		</td>
 						        		<td>
-						        			<b>${resultData.competitor.firstName } ${resultData.competitor.lastName }</b>
+						        			<c:if test="${resultData.competitor.disqualified eq true }">
+						        				<c:set var="dq" value="(DQ)" />
+						        			</c:if>
+						        			<b>${resultData.competitor.firstName } ${resultData.competitor.lastName } ${dq } </b>
 						        		</td>
 						        	</tr>
 						        	<tr>
@@ -170,9 +173,10 @@
 						<th>
 							Last updated
 						</th>
-						<th>
+						<!-- REMOVED, NEEDS TO BE FIXED. SHOWS RANK IN COMBINED, NOT IN DIVISION -->
+						<!-- <th>
 							Rank
-						</th>
+						</th> -->
 					</tr>
 				</thead>
 				<tbody>
@@ -217,9 +221,9 @@
 								<td align="right">
 									<fmt:formatDate value="${scoreCard.modified.time }" pattern="dd.MM.yyyy 'at' HH:mm:ss" />
 								</td>
-								<td align="right">
+								<!-- <td align="right">
 									${scoreCard.stageRank}
-								</td>
+								</td>-->
 							</tr> 
 					</c:forEach>
 				</tbody>
