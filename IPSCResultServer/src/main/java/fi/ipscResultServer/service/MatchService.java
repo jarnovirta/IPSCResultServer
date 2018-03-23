@@ -1,5 +1,6 @@
 package fi.ipscResultServer.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -37,13 +38,26 @@ public class MatchService {
 	
 	@Transactional
 	public Match save(Match match) throws DatabaseException {
+		Match savedMatch = null;
+		List<Competitor> deletedCompetitors = new ArrayList<Competitor>();
 		if (match != null && match.getCompetitors() != null) {
 			int competitorNumber = 1;
+			
 			for (Competitor competitor : match.getCompetitors()) {
 				competitor.setShooterNumber(competitorNumber++);
+				// Remove deleted competitors
+				if (competitor.isDeleted() == true) {
+					deletedCompetitors.add(competitor);
+				}
 			}
+			
+			for (Competitor deleted : deletedCompetitors) {
+				match.getCompetitors().remove(deleted);
+			}
+			savedMatch = matchRepository.save(match);
 		}
-		return matchRepository.save(match);
+		
+		return savedMatch;
 	}
 	
 	public List<Match> findAll() {

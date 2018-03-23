@@ -28,6 +28,18 @@ Tarkista/korjaa tuloslaskusta:
 
 - Muuta headtagit niin, että includella yhteiset osat.
 
+- Tablet niin että tarkistetaan esim. verify listassa onko scorecard-tietoja ennen kuin rivit ja solut tehdään, jotta ei tule tyhjiä taulukkorivejä
+
+CHRONO STAGE: pitää tehdä palvelimelle!! PractiScoressa "Actual" pf -> voidaan muuttaa chrono stagessa.
+
+LEVEL NÄKYVIIN MATCH LISTIIN EKALLE SIVULLE
+
+- ja prosentit verify listiin (Karilta tarkemmat tiedot)
+
+- !!!! Power Factor: Sub-minor??
+
+
+
 TESTIT:
 	- Onko tulokset ja tilastot nyt oikein?
 	- Testaa Competitor -> IPSCCategory toiminta, mm. kun monta kategoriaa.

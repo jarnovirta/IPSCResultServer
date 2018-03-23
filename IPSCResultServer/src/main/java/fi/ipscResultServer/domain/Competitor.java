@@ -79,6 +79,9 @@ public class Competitor implements Serializable, Comparable<Competitor> {
 	@Column(nullable = false)
 	private Calendar modifiedDate;
 	
+	@JsonProperty("sh_del")
+	private boolean deleted = false; 
+	
 	@JsonProperty("sh_pf")
 	@Transient
 	private String practiScorePowerFactorString;
@@ -245,6 +248,18 @@ public class Competitor implements Serializable, Comparable<Competitor> {
 		for (String category : categoryStrings) {
 			this.categories.add(category);
 		}
+	}
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
+
+	public String getPractiScoreCategoryString() {
+		return practiScoreCategoryString;
 	}
 	
 }
