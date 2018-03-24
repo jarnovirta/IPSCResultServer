@@ -38,7 +38,9 @@ Korjaa aakkosj‰rjestys SQL-haussa niin ett‰ isot/pienet kirjaimet eiv‰t sotke.
 
 - Firefoxissa layout jotenkin pieless√§, napit liian l√§hell√§ toisiaan ym ym. CSS ei toimi oikein? Vai tablet?
 
-- Muuta headtagit niin, ett‰ includella yhteiset osat.
+- Muuta headtagit niin, ettÔøΩ includella yhteiset osat.
+
+- ORDER BY LOWER(competitor.lastName)
 
 - Tablet niin ett‰ tarkistetaan esim. verify listassa onko scorecard-tietoja ennen kuin rivit ja solut tehd‰‰n, jotta ei tule tyhji‰ taulukkorivej‰
 
