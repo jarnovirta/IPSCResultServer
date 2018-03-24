@@ -84,6 +84,7 @@
 							<c:forEach var="competitor" items="${competitors}">
 								<tr>
 									<td style="width: 50%">
+										
 										<a href="${baseUrl}match/${match.id }/competitor/${competitor.id}">
 											${competitor.lastName }, ${competitor.firstName} 
 										</a>

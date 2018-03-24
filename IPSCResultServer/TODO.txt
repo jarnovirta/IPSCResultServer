@@ -1,4 +1,16 @@
 Tarkista/korjaa tuloslaskusta:
+
+HUOMHUOM!!!! Tee URL-encoding linkkeihin, jotta ei ongelmia ääkkösten kanssa, jos walk-in kilpailija!
+- Competitor ID täytyy muuttaa, koska voi nyt olla sama eri kisoissa!! Onko siellä joku uuid, joka on yhdistelmä
+	kilpailijaa ja kisaa. 
+	- Practiscoren ID:t: "sh_uuid":"a4e33b96-42af-4718-abc9-ef5cf22076df","sh_uid":"reimaräty-Standard"
+	- Käytä sh_uuid miten vaan ja sh_uid match.id:n kanssa!!
+	
+
+HUOM! Missään kohdassa ei saa poistaa kilpailijaa pelkän ID:n perusteella, koska voi olla walkin, jolloin se on muotoa TA-ID-divisioona ja voi olla useassa kisassa sama
+-> stageihin ja kilpailijoihin viittaukset kisaan ja kaikki tietokantaoperaatiot niitä käyttäen!!
+
+Korjaa aakkosjärjestys SQL-haussa niin että isot/pienet kirjaimet eivät sotke.
 	
 - Statistics-taulukko: sum of points heti osumien oikealle. Se on kaikkien osumapisteiden summa ilman penaltyja. Tee myÃ¶s hover tekstit.
 - LisÃ¤Ã¤ taulukoihin search-toiminto	
@@ -29,6 +41,8 @@ Tarkista/korjaa tuloslaskusta:
 - Muuta headtagit niin, että includella yhteiset osat.
 
 - Tablet niin että tarkistetaan esim. verify listassa onko scorecard-tietoja ennen kuin rivit ja solut tehdään, jotta ei tule tyhjiä taulukkorivejä
+
+- PractiScore pyöristää eri tavalla. Me leikataan, PS pyöristää pisteet.
 
 CHRONO STAGE: pitää tehdä palvelimelle!! PractiScoressa "Actual" pf -> voidaan muuttaa chrono stagessa.
 
