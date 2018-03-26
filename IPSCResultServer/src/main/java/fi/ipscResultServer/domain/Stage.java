@@ -60,6 +60,8 @@ public class Stage implements Serializable {
 	
 	private int maxPoints;
 	
+	@JsonProperty("stage_deleted")
+	private boolean deleted = false;
 	
 	public String getId() {
 		return id;
@@ -160,5 +162,17 @@ public class Stage implements Serializable {
 			}
 		}
 		this.maxPoints += poppers * 5;
+	}
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
+
+	public void setMaxPoints(int maxPoints) {
+		this.maxPoints = maxPoints;
 	}
 }

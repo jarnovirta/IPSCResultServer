@@ -96,7 +96,7 @@ public class Competitor implements Serializable, Comparable<Competitor> {
 	    final int EQUAL = 0;
 	    
 	    if (this == compareToCompetitor) return EQUAL;
-	    int lastNameComparison = this.lastName.compareTo(compareToCompetitor.getLastName());
+	    int lastNameComparison = this.lastName.toLowerCase().compareTo(compareToCompetitor.getLastName().toLowerCase());
 	    if (lastNameComparison != EQUAL) return lastNameComparison;
 	    return this.firstName.compareTo(compareToCompetitor.getFirstName());
 	}

@@ -182,49 +182,51 @@
 				<tbody>
 					<c:forEach var="stage" items="${resultData.match.stages}">
 						<c:set var="scoreCard" value="${resultData.scoreCards[stage.id] }" />
-							<tr>
-								<td align="right">
-									${scoreCard.stage.stageNumber }
-								</td>
-								<td>
-									<c:choose>
-										<c:when test="${resultData.match.status eq 'SCORING_ENDED' }">
-											<c:url var="url" value="/match/${resultData.match.id}/stage/${scoreCard.stage.id}/division/${scoreCard.competitor.division }" />
-											<a href="${url}">${scoreCard.stage.name}</a>
-										</c:when>
-										<c:otherwise>
-											${scoreCard.stage.name}
-										</c:otherwise>
-									</c:choose>
-								</td>
-								<td align="right">
-									<fmt:formatNumber type = "number" minFractionDigits = "2" maxFractionDigits = "2" value="${scoreCard.time }" />
-								</td>
-								<td align="right">
-									${scoreCard.aHits}
-								</td>
-								<td align="right">
-									${scoreCard.cHits}
-								</td>
-								<td align="right">
-									${scoreCard.dHits}						
-								</td>
-								<td align="right">
-									${scoreCard.misses}
-								</td>
-								<td align="right">
-									${scoreCard.noshootHits}
-								</td>
-								<td align="right">
-									${scoreCard.proceduralPenalties }
-								</td>
-								<td align="right">
-									<fmt:formatDate value="${scoreCard.modified.time }" pattern="dd.MM.yyyy 'at' HH:mm:ss" />
-								</td>
-								<!-- <td align="right">
-									${scoreCard.stageRank}
-								</td>-->
-							</tr> 
+							<c:if test="${not empty scoreCard && scoreCard.stage.deleted ne true }">
+								<tr>
+									<td align="right">
+										${scoreCard.stage.stageNumber }
+									</td>
+									<td>
+										<c:choose>
+											<c:when test="${resultData.match.status eq 'SCORING_ENDED' }">
+												<c:url var="url" value="/match/${resultData.match.id}/stage/${scoreCard.stage.id}/division/${scoreCard.competitor.division }" />
+												<a href="${url}">${scoreCard.stage.name}</a>
+											</c:when>
+											<c:otherwise>
+												${scoreCard.stage.name}
+											</c:otherwise>
+										</c:choose>
+									</td>
+									<td align="right">
+										<fmt:formatNumber type = "number" minFractionDigits = "2" maxFractionDigits = "2" value="${scoreCard.time }" />
+									</td>
+									<td align="right">
+										${scoreCard.aHits}
+									</td>
+									<td align="right">
+										${scoreCard.cHits}
+									</td>
+									<td align="right">
+										${scoreCard.dHits}						
+									</td>
+									<td align="right">
+										${scoreCard.misses}
+									</td>
+									<td align="right">
+										${scoreCard.noshootHits}
+									</td>
+									<td align="right">
+										${scoreCard.proceduralPenalties }
+									</td>
+									<td align="right">
+										<fmt:formatDate value="${scoreCard.modified.time }" pattern="dd.MM.yyyy 'at' HH:mm:ss" />
+									</td>
+									<!-- <td align="right">
+										${scoreCard.stageRank}
+									</td>-->
+								</tr>
+							</c:if> 
 					</c:forEach>
 				</tbody>
 			</table>

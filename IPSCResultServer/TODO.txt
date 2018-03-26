@@ -5,7 +5,14 @@ HUOMHUOM!!!! Tee URL-encoding linkkeihin, jotta ei ongelmia ääkkösten kanssa, jo
 	kilpailijaa ja kisaa. 
 	- Practiscoren ID:t: "sh_uuid":"a4e33b96-42af-4718-abc9-ef5cf22076df","sh_uid":"reimaräty-Standard"
 	- Käytä sh_uuid miten vaan ja sh_uid match.id:n kanssa!!
-	
+	- Mitä practiscore tekee, jos luodaan eri laitteilla sama walkin kilpailija? Tallentaako se monta kertaa saman kilpailijan,
+	 	eri sh_uuid numeroilla?
+- Tee tarkistus, että on IPSC handgun kisa ja hylkää muut.	
+
+DELETOIDUT STAGET:
+- Muuta niin että ei huomioida tuloslaskennassa, varmista ja testaa!
+
+Karin pyytämät verifyn täydennykset.
 
 HUOM! Missään kohdassa ei saa poistaa kilpailijaa pelkän ID:n perusteella, koska voi olla walkin, jolloin se on muotoa TA-ID-divisioona ja voi olla useassa kisassa sama
 -> stageihin ja kilpailijoihin viittaukset kisaan ja kaikki tietokantaoperaatiot niitä käyttäen!!
