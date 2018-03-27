@@ -1,5 +1,7 @@
 Tarkista/korjaa tuloslaskusta:
 
+KORJAA TIMEZONET palvelin. Ohjelmiin UTC!!
+
 HUOMHUOM!!!! Tee URL-encoding linkkeihin, jotta ei ongelmia ääkkösten kanssa, jos walk-in kilpailija!
 - Competitor ID täytyy muuttaa, koska voi nyt olla sama eri kisoissa!! Onko siellä joku uuid, joka on yhdistelmä
 	kilpailijaa ja kisaa. 
@@ -47,11 +49,13 @@ Korjaa aakkosjärjestys SQL-haussa niin että isot/pienet kirjaimet eivät sotke.
 
 - Muuta headtagit niin, ettï¿½ includella yhteiset osat.
 
-- ORDER BY LOWER(competitor.lastName)
+
 
 - Tablet niin että tarkistetaan esim. verify listassa onko scorecard-tietoja ennen kuin rivit ja solut tehdään, jotta ei tule tyhjiä taulukkorivejä
 
 - PractiScore pyöristää eri tavalla. Me leikataan, PS pyöristää pisteet.
+
+- Voiko sen korjata että F5 ei lähetä delete match tms uudelleen?
 
 CHRONO STAGE: pitää tehdä palvelimelle!! PractiScoressa "Actual" pf -> voidaan muuttaa chrono stagessa.
 

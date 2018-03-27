@@ -96,6 +96,7 @@
 			        			<select style="width: auto; max-width: 100%" id="stage" name="stage"
 									class="form-control">
 									<c:forEach var="stage" items="${stageResultData.stage.match.stages}">
+									
 										<c:if test="${stage.deleted ne true }">
 											<c:if test="${stageResultData.stage.name eq stage.name}">
 												<option value="${stage.id}" selected>${stage.name}</option>
@@ -104,6 +105,7 @@
 												<option value="${stage.id}">${stage.name}</option>
 											</c:if>
 										</c:if>
+									
 									</c:forEach>
 								</select>
 			        		</td>
