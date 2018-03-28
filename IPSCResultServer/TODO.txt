@@ -2,83 +2,84 @@ Tarkista/korjaa tuloslaskusta:
 
 KORJAA TIMEZONET palvelin. Ohjelmiin UTC!!
 
-HUOMHUOM!!!! Tee URL-encoding linkkeihin, jotta ei ongelmia ��kk�sten kanssa, jos walk-in kilpailija!
-- Competitor ID t�ytyy muuttaa, koska voi nyt olla sama eri kisoissa!! Onko siell� joku uuid, joka on yhdistelm�
+HUOMHUOM!!!! Tee URL-encoding linkkeihin, jotta ei ongelmia ääkkösten kanssa, jos walk-in kilpailija!
+- Competitor ID täytyy muuttaa, koska voi nyt olla sama eri kisoissa!! Onko siellä joku uuid, joka on yhdistelmä
 	kilpailijaa ja kisaa. 
-	- Practiscoren ID:t: "sh_uuid":"a4e33b96-42af-4718-abc9-ef5cf22076df","sh_uid":"reimar�ty-Standard"
-	- K�yt� sh_uuid miten vaan ja sh_uid match.id:n kanssa!!
-	- Mit� practiscore tekee, jos luodaan eri laitteilla sama walkin kilpailija? Tallentaako se monta kertaa saman kilpailijan,
+	- Practiscoren ID:t: "sh_uuid":"a4e33b96-42af-4718-abc9-ef5cf22076df","sh_uid":"reimaräty-Standard"
+	- Käytä sh_uuid miten vaan ja sh_uid match.id:n kanssa!!
+	- Mitä practiscore tekee, jos luodaan eri laitteilla sama walkin kilpailija? Tallentaako se monta kertaa saman kilpailijan,
 	 	eri sh_uuid numeroilla?
-- Tee tarkistus, ett� on IPSC handgun kisa ja hylk�� muut.	
+- Tee tarkistus, että on IPSC handgun kisa ja hylkää muut.	
 
 DELETOIDUT STAGET:
-- Muuta niin ett� ei huomioida tuloslaskennassa, varmista ja testaa!
+- Muuta niin että ei huomioida tuloslaskennassa, varmista ja testaa!
 
-Karin pyyt�m�t verifyn t�ydennykset.
+Karin pyytämät verifyn täydennykset.
 
-HUOM! Miss��n kohdassa ei saa poistaa kilpailijaa pelk�n ID:n perusteella, koska voi olla walkin, jolloin se on muotoa TA-ID-divisioona ja voi olla useassa kisassa sama
--> stageihin ja kilpailijoihin viittaukset kisaan ja kaikki tietokantaoperaatiot niit� k�ytt�en!!
+HUOM! Missään kohdassa ei saa poistaa kilpailijaa pelkän ID:n perusteella, koska voi olla walkin, jolloin se on muotoa TA-ID-divisioona ja voi olla useassa kisassa sama
+-> stageihin ja kilpailijoihin viittaukset kisaan ja kaikki tietokantaoperaatiot niitä käyttäen!!
 
-Korjaa aakkosj�rjestys SQL-haussa niin ett� isot/pienet kirjaimet eiv�t sotke.
+Korjaa aakkosjärjestys SQL-haussa niin että isot/pienet kirjaimet eivät sotke.
 	
-- Statistics-taulukko: sum of points heti osumien oikealle. Se on kaikkien osumapisteiden summa ilman penaltyja. Tee myös hover tekstit.
-- Lisää taulukoihin search-toiminto	
+- Statistics-taulukko: sum of points heti osumien oikealle. Se on kaikkien osumapisteiden summa ilman penaltyja. Tee myÃ¶s hover tekstit.
+- LisÃ¤Ã¤ taulukoihin search-toiminto	
 
-- Onko mahdollista että sama kilpailija ampuu saman kisan toisessa divisioonassa esim. toisena päivänä? Miten tällöin käy practiscoressa? 
-	Onko kilpailijoita kaksi? Pitää huomioida tuloksia laskettaessa?
+- Onko mahdollista ettÃ¤ sama kilpailija ampuu saman kisan toisessa divisioonassa esim. toisena pÃ¤ivÃ¤nÃ¤? Miten tÃ¤llÃ¶in kÃ¤y practiscoressa? 
+	Onko kilpailijoita kaksi? PitÃ¤Ã¤ huomioida tuloksia laskettaessa?
 
-- Muuta session takaisin kohtuulliseksi minuuttimääräksi, esim. 30.
+- Muuta session takaisin kohtuulliseksi minuuttimÃ¤Ã¤rÃ¤ksi, esim. 30.
 
 - Useampi painallus Force Send -> usempaan kertaan tulokset!
 
 - Android sovelluksen sulkeminen: service ei sulkeudu.
 
-- Mikä on "Additional penalties?"
+- MikÃ¤ on "Additional penalties?"
 
-- POINTS on nyt taulukoissa osumat miinus penaltyt. Pitäisikö olla ammutut pisteet?? Tee hover.
+- POINTS on nyt taulukoissa osumat miinus penaltyt. PitÃ¤isikÃ¶ olla ammutut pisteet?? Tee hover.
 
 - Results visible -> results SHOWN.
 
-- VARMISTA ETTÄ CLOSED-tilassa ei näy mitään
+- VARMISTA ETTÃ„ CLOSED-tilassa ei nÃ¤y mitÃ¤Ã¤n
 
-- Verify List antaa virheen jos tyhj� kilpailijalista
+- Verify List antaa virheen jos tyhjï¿½ kilpailijalista
 
-- Est� tulosten l�hetys kun closed tai scoring ended.
+- Estï¿½ tulosten lï¿½hetys kun closed tai scoring ended.
 
-- Firefoxissa layout jotenkin pielessä, napit liian lähellä toisiaan ym ym. CSS ei toimi oikein? Vai tablet?
+- Firefoxissa layout jotenkin pielessÃ¤, napit liian lÃ¤hellÃ¤ toisiaan ym ym. CSS ei toimi oikein? Vai tablet?
 
-- Muuta headtagit niin, ett� includella yhteiset osat.
+- Muuta headtagit niin, ettï¿½ includella yhteiset osat.
 
 
 
-- Tablet niin ett� tarkistetaan esim. verify listassa onko scorecard-tietoja ennen kuin rivit ja solut tehd��n, jotta ei tule tyhji� taulukkorivej�
+- Tablet niin että tarkistetaan esim. verify listassa onko scorecard-tietoja ennen kuin rivit ja solut tehdään, jotta ei tule tyhjiä taulukkorivejä
 
-- PractiScore py�rist�� eri tavalla. Me leikataan, PS py�rist�� pisteet.
+- PractiScore pyöristää eri tavalla. Me leikataan, PS pyöristää pisteet.
 
-- Voiko sen korjata ett� F5 ei l�het� delete match tms uudelleen?
+- Voiko sen korjata että F5 ei lähetä delete match tms uudelleen?
 
-CHRONO STAGE: pit�� tehd� palvelimelle!! PractiScoressa "Actual" pf -> voidaan muuttaa chrono stagessa.
+CHRONO STAGE: pitää tehdä palvelimelle!! PractiScoressa "Actual" pf -> voidaan muuttaa chrono stagessa.
 
-LEVEL N�KYVIIN MATCH LISTIIN EKALLE SIVULLE
+LEVEL NÄKYVIIN MATCH LISTIIN EKALLE SIVULLE
 
 - ja prosentit verify listiin (Karilta tarkemmat tiedot)
 
 - !!!! Power Factor: Sub-minor??
 
+Saako taulukoihin jonkun highlight row?
 
 
 TESTIT:
 	- Onko tulokset ja tilastot nyt oikein?
 	- Testaa Competitor -> IPSCCategory toiminta, mm. kun monta kategoriaa.
-	- DQ kilpailija jää pois?
+	- DQ kilpailija jÃ¤Ã¤ pois?
 	- Non-penalty targets -> ei vaikuta tulokseen?
 	- Samanniminen kilpailija toiseen kertaan?
 	- Walk-in kilpailija
-	- Power factor fail – ei toimintoa practiscoressa?
+	- Power factor fail â€“ ei toimintoa practiscoressa?
 	- Nollatut staget
-	- Tarkista että procedural penalties huomioidaan scorecardin pistelaskussa oikein. Nyt ScoreCard setHitsAndPoints() metodissa
-	   		olettamalla että PractiScoren pointseissa ei ole mukana vaan pitää vähentää.
-	- Tarkista popperien ja taulujen huomioiminen ja non penaltien huomioiminen stagen maksimipistemäärän laskemisessa
-	- MITÄ TAPAHTUU ILMAN TULOSDATAA, NULL CHECKIT YM.
+	- Tarkista ettÃ¤ procedural penalties huomioidaan scorecardin pistelaskussa oikein. Nyt ScoreCard setHitsAndPoints() metodissa
+	   		olettamalla ettÃ¤ PractiScoren pointseissa ei ole mukana vaan pitÃ¤Ã¤ vÃ¤hentÃ¤Ã¤.
+	- Tarkista popperien ja taulujen huomioiminen ja non penaltien huomioiminen stagen maksimipistemÃ¤Ã¤rÃ¤n laskemisessa
+	- MITÃ„ TAPAHTUU ILMAN TULOSDATAA, NULL CHECKIT YM.
 	
-	TARKISTA ETTÄ USEAMPI DATAN AJO EI KASVATA DATAN MÄÄRÄÄ, ELI NUMEROT PYSYVÄT
+	TARKISTA ETTÃ„ USEAMPI DATAN AJO EI KASVATA DATAN MÃ„Ã„RÃ„Ã„, ELI NUMEROT PYSYVÃ„T
