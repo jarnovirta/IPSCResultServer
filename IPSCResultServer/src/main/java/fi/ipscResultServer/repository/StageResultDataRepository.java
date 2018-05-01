@@ -9,7 +9,7 @@ import fi.ipscResultServer.domain.resultData.StageResultDataLine;
 import fi.ipscResultServer.exception.DatabaseException;
 
 public interface StageResultDataRepository {
-	public StageResultData findByStageAndDivision(String stageId, String division) throws DatabaseException;
+	public StageResultData findByStageAndDivision(Long stageId, String division) throws DatabaseException;
 	
 	public List<StageResultData> findByStage(Stage stage) throws DatabaseException;
 	

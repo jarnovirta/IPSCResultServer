@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import fi.ipscResultServer.exception.DatabaseException;
+import fi.ipscResultServer.service.CompetitorService;
+import fi.ipscResultServer.service.MatchService;
 import fi.ipscResultServer.service.resultDataService.CompetitorResultDataService;
 
 @Controller
@@ -16,11 +18,18 @@ public class CompetitorResultsController {
 	@Autowired
 	CompetitorResultDataService competitorResultDataService;
 	
+	@Autowired
+	CompetitorService competitorService;
+	
+	@Autowired
+	MatchService matchService;
+	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public String getCompetitorResultsPage(Model model, @PathVariable("id") String competitorId, 
-			@PathVariable("matchId") String matchId) {
+	public String getCompetitorResultsPage(Model model, @PathVariable("id") Long competitorId, 
+			@PathVariable("matchId") Long matchId) {
 		try {
-			model.addAttribute("resultData", competitorResultDataService.findByCompetitorAndMatch(competitorId, matchId));
+			model.addAttribute("resultData", competitorResultDataService.findByCompetitorAndMatch(
+					competitorService.getOne(competitorId), matchService.getOne(matchId)));
 			return "results/competitorResults";
 		}
 		// Exception logged in repository

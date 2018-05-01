@@ -8,6 +8,8 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -30,9 +32,14 @@ public class Competitor implements Serializable, Comparable<Competitor> {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private Long id;
+	
+	private Match match;
+	
 	@JsonProperty("sh_uid")
 	@Column(length = 36)
-	private String id;
+	private String practiScoreId;
 	
 	@JsonProperty("sh_num")
 	@Column(nullable = false)
@@ -101,14 +108,40 @@ public class Competitor implements Serializable, Comparable<Competitor> {
 	    return this.firstName.compareTo(compareToCompetitor.getFirstName());
 	}
 
-	public String getId() {
+
+
+	public Long getId() {
 		return id;
 	}
 
 
-	public void setId(String id) {
+
+	public void setId(Long id) {
 		this.id = id;
 	}
+
+
+
+	public String getPractiScoreId() {
+		return practiScoreId;
+	}
+
+
+
+	public void setPractiScoreId(String practiScoreId) {
+		this.practiScoreId = practiScoreId;
+	}
+
+	public Match getMatch() {
+		return match;
+	}
+
+
+
+	public void setMatch(Match match) {
+		this.match = match;
+	}
+
 
 
 	public int getShooterNumber() {

@@ -29,12 +29,12 @@ public class ScoreCard implements Serializable, Comparable<ScoreCard> {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.TABLE)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
 	@JsonProperty("shtr")
 	@Column(nullable = false, length = 36)
-	private String competitorId;
+	private String competitorPractiScoreId;
 	
 	@ManyToOne
 	@JoinColumn(nullable = false)
@@ -121,13 +121,16 @@ public class ScoreCard implements Serializable, Comparable<ScoreCard> {
 	    if (this == compareToScoreCard) return EQUAL;
 	    return new Double(compareToScoreCard.getHitFactor()).compareTo(new Double(this.hitFactor));
 	}
-	public String getShooterId() {
-		return competitorId;
+
+	public String getCompetitorPractiScoreId() {
+		return competitorPractiScoreId;
 	}
 
-	public void setShooterId(String shooterId) {
-		this.competitorId = shooterId;
+
+	public void setCompetitorPractiScoreId(String competitorPractiScoreId) {
+		this.competitorPractiScoreId = competitorPractiScoreId;
 	}
+
 
 	public Calendar getModified() {
 		return modified;
@@ -288,14 +291,6 @@ public class ScoreCard implements Serializable, Comparable<ScoreCard> {
 
 	public void setStageScore(StageScore stageScore) {
 		this.stageScore = stageScore;
-	}
-
-	public String getCompetitorId() {
-		return competitorId;
-	}
-
-	public void setCompetitorId(String competitorId) {
-		this.competitorId = competitorId;
 	}
 
 	public Competitor getCompetitor() {

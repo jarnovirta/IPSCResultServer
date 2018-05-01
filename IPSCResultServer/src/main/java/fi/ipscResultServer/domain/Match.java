@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -33,9 +35,12 @@ public class Match implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private Long id;
+	
 	@JsonProperty("match_id")
 	@Column(length = 36)
-	private String id;
+	private String practiScoreId;
 	
 	@ManyToOne(cascade = CascadeType.MERGE)
 	private User user;
@@ -83,7 +88,7 @@ public class Match implements Serializable {
 
 	public Match() { }
 	
-	public Match(String id, String name, Calendar date, MatchStatus status, User user, boolean uploadedByAdmin) { 
+	public Match(Long id, String name, Calendar date, MatchStatus status, User user, boolean uploadedByAdmin) { 
 		this.id = id;
 		this.name = name;
 		this.status = status;
@@ -142,12 +147,20 @@ public class Match implements Serializable {
 		this.competitors = competitors;
 	}
 
-	public String getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getPractiScoreId() {
+		return practiScoreId;
+	}
+
+	public void setPractiScoreId(String practiScoreId) {
+		this.practiScoreId = practiScoreId;
 	}
 
 	public static long getSerialversionuid() {

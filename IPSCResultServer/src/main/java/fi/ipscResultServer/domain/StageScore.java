@@ -14,7 +14,7 @@ public class StageScore implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@JsonProperty("stage_uuid")
-	private String stageId;	
+	private String stagePractiScoreId;	
 	
 	@JsonProperty("stage_number")
 	private int stageNumber;
@@ -26,12 +26,13 @@ public class StageScore implements Serializable {
 	
 	private MatchScore matchScore;
 
-	public String getStageId() {
-		return stageId;
+
+	public String getStagePractiScoreId() {
+		return stagePractiScoreId;
 	}
 
-	public void setStageId(String stageId) {
-		this.stageId = stageId;
+	public void setStagePractiScoreId(String stagePractiScoreId) {
+		this.stagePractiScoreId = stagePractiScoreId;
 	}
 
 	public static long getSerialversionuid() {

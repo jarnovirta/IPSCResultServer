@@ -68,7 +68,7 @@ public class MatchRepositoryImpl implements MatchRepository {
 			return null;
 	}
 	
-	public Match getOne(String id) throws DatabaseException {
+	public Match getOne(Long id) throws DatabaseException {
 		try {
 			return springJPAMatchRepository.getOne(id);
 		}
@@ -76,6 +76,17 @@ public class MatchRepositoryImpl implements MatchRepository {
 			logger.error(e);
 			throw new DatabaseException(e);
 		}
+	}
+	
+	public Match findByPractiScoreId(String practiScoreId) {
+		try {
+			String queryString = "SELECT m FROM Match m WHERE m.practiScoreId = :practiScoreId";
+			TypedQuery<Match> query = entityManager.createQuery(queryString, Match.class);
+			return query.setParameter("practiScoreId", practiScoreId).getSingleResult();
+			} catch (Exception e) {
+				logger.error(e);
+			}
+			return null;
 	}
 	
 	public void delete(Match match) throws DatabaseException {

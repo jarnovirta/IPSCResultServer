@@ -82,3 +82,5 @@ TESTIT:
 	- MITÄ TAPAHTUU ILMAN TULOSDATAA, NULL CHECKIT YM.
 	
 	TARKISTA ETTÄ USEAMPI DATAN AJO EI KASVATA DATAN MÄÄRÄÄ, ELI NUMEROT PYSYVÄT
+	
+	URL:ss� lopun / aiheuttaa 500 The request was rejected because the URL was not normalized virheen

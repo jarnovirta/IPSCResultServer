@@ -22,7 +22,7 @@ public class CompetitorService {
 	@PersistenceContext
 	private EntityManager entityManager;
 	
-	public List<Competitor> findByMatch(String matchId) throws DatabaseException {
+	public List<Competitor> findByMatch(Long matchId) throws DatabaseException {
 		List<Competitor> competitors = competitorRepository.findByMatch(matchId);
 		Collections.sort(competitors);
 		return competitors;
@@ -33,7 +33,11 @@ public class CompetitorService {
 		return competitorRepository.save(competitor);
 	}
 	
-	public Competitor getOne(String id) throws DatabaseException {
+	public Competitor getOne(Long id) throws DatabaseException {
 		return competitorRepository.getOne(id);
+	}
+	
+	public Competitor findByPractiScoreReferences(String practiScoreMatchId, String practiScoreCompetitorId) {
+		return competitorRepository.findByPractiScoreReferences(practiScoreMatchId, practiScoreCompetitorId);
 	}
 }

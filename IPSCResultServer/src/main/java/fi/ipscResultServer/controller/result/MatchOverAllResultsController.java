@@ -18,7 +18,7 @@ public class MatchOverAllResultsController {
 	MatchResultDataService matchResultDataService;
 	
 	@RequestMapping(value="/division/{division}", method = RequestMethod.GET)
-	public String getDivisionOverAllResultsPage(Model model, @PathVariable("matchId") String matchId, 
+	public String getDivisionOverAllResultsPage(Model model, @PathVariable("matchId") Long matchId, 
 			@PathVariable("division") String division) {
 		try {
 			System.out.println("Division: " + division);
@@ -33,7 +33,7 @@ public class MatchOverAllResultsController {
 	}
 	
 	@RequestMapping(value="/division", method = RequestMethod.GET)
-	public String getCombinedOverAllResultsPage(Model model, @PathVariable("matchId") String matchId) {
+	public String getCombinedOverAllResultsPage(Model model, @PathVariable("matchId") Long matchId) {
 		try {
 			String division = Constants.COMBINED_DIVISION;
 			model.addAttribute("matchResultData", matchResultDataService.findByMatchAndDivision(matchId, division));

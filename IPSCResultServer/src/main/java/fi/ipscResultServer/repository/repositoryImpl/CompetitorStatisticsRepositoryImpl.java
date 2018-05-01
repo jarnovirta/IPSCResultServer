@@ -26,7 +26,7 @@ public class CompetitorStatisticsRepositoryImpl implements CompetitorStatisticsR
 	
 	final static Logger logger = Logger.getLogger(CompetitorStatisticsRepositoryImpl.class);
 	
-	public List<CompetitorStatistics> findCompetitorStatisticsByMatchAndDivision(String matchId, String division) {
+	public List<CompetitorStatistics> findCompetitorStatisticsByMatchAndDivision(Long matchId, String division) {
 		try {
 			String queryString = "SELECT c FROM CompetitorStatistics c WHERE c.match.id = :matchId AND c.competitor.division = :division";
 			TypedQuery<CompetitorStatistics> query = entityManager.createQuery(queryString, CompetitorStatistics.class);
@@ -42,7 +42,7 @@ public class CompetitorStatisticsRepositoryImpl implements CompetitorStatisticsR
 		return null;
 	}
 	
-	public List<CompetitorStatistics> findCompetitorStatisticsByMatch(String matchId) {
+	public List<CompetitorStatistics> findCompetitorStatisticsByMatch(Long matchId) {
 		try {
 			String queryString = "SELECT c FROM CompetitorStatistics c WHERE c.match.id = :matchId";
 			TypedQuery<CompetitorStatistics> query = entityManager.createQuery(queryString, CompetitorStatistics.class);

@@ -13,7 +13,11 @@ public class StageService {
 	@Autowired
 	private StageRepository stageRepository;
 	
-	public Stage getOne(String id) throws DatabaseException {
+	public Stage getOne(Long id) throws DatabaseException {
 		return stageRepository.getOne(id);
+	}
+	
+	public Stage findByPractiScoreId(String practiScoreMatchId, String practiScoreStageId) throws DatabaseException {
+		return stageRepository.findByPractiScoreId(practiScoreMatchId,  practiScoreStageId);
 	}
 }

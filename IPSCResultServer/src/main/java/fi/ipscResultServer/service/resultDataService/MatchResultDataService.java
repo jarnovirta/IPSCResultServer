@@ -19,13 +19,13 @@ public class MatchResultDataService {
 	@Autowired
 	MatchResultDataRepository matchResultDataRepository;
 		
-	public MatchResultData findByMatchAndDivision(String matchId, String division) 
+	public MatchResultData findByMatchAndDivision(Long matchId, String division) 
 			throws DatabaseException {
 		return matchResultDataRepository.findByMatchAndDivision(matchId, division);
 	}
 	
-	public List<MatchResultData> findByMatch(String matchId) throws DatabaseException {
-		return matchResultDataRepository.findByMatch(matchId);
+	public List<MatchResultData> findByMatch(Match match) throws DatabaseException {
+		return matchResultDataRepository.find(match);
 	}
 	
 	public MatchResultDataLine findMatchResultDataLinesByCompetitor(Competitor competitor) 
@@ -40,7 +40,7 @@ public class MatchResultDataService {
 	}
 	@Transactional
 	public void deleteByMatch(Match match) throws DatabaseException {
-		List<MatchResultData> resultDataList = findByMatch(match.getId());
+		List<MatchResultData> resultDataList = findByMatch(match);
 		for (MatchResultData resultData : resultDataList) {
 			matchResultDataRepository.delete(resultData);
 		}

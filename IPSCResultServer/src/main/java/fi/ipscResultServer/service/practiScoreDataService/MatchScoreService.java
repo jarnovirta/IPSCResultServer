@@ -62,7 +62,7 @@ public class MatchScoreService {
 		
 		if (matchScore == null) return; 
 		
-		Match match = matchService.getOne(matchScore.getMatchId());
+		Match match = matchService.findByPractiScoreId(matchScore.getMatchId());
 		if (match.getDivisions() == null) match.setDivisions(new ArrayList<String>());
 		
 		List<Stage> stagesWithNewResults = new ArrayList<Stage>();
@@ -78,7 +78,7 @@ public class MatchScoreService {
 		
 						
 		for (StageScore stageScore : matchScore.getStageScores()) {
-			Stage stage = stageService.getOne(stageScore.getStageId());
+			Stage stage = stageService.findByPractiScoreId(matchScore.getMatchId(), stageScore.getStagePractiScoreId());
 			stagesWithNewResults.add(stage);
 						
 			if (match.getDivisionsWithResults() == null) {
@@ -86,13 +86,12 @@ public class MatchScoreService {
 			}
 			List<String> newIPSCDivisionsWithResults = new ArrayList<String>();
 			for (ScoreCard scoreCard : stageScore.getScoreCards()) {
-				Competitor competitor = competitorService.getOne(scoreCard.getCompetitorId());
+				Competitor competitor = competitorService.findByPractiScoreReferences(match.getPractiScoreId(), scoreCard.getCompetitorPractiScoreId());
 				// Skip scorecards for deleted competitors (PractiScore keeps deleted competitor information)
 				if (competitor == null) continue;
 				scoreCard.setCompetitor(competitor);
 				scoreCard.setHitsAndPoints();
 				scoreCard.setStage(stage);
-				scoreCard.setStageId(stage.getId());
 								
 				scoreCardService.save(scoreCard);
 				

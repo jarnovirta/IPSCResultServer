@@ -27,7 +27,7 @@ public class StageResultsController {
 
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public String getStageResultsPage(Model model, @PathVariable("id") String stageId) {
+	public String getStageResultsPage(Model model, @PathVariable("id") Long stageId) {
 		try {
 			Stage stage = stageService.getOne(stageId);
 			List<String> availableDivisions = new ArrayList<String>();
@@ -56,7 +56,7 @@ public class StageResultsController {
 	}
 	
 	@RequestMapping(value = "/{id}/division/{division}", method = RequestMethod.GET)
-	public String getStageResultsPageForDivision(Model model, @PathVariable("id") String stageId, 
+	public String getStageResultsPageForDivision(Model model, @PathVariable("id") Long stageId, 
 			@PathVariable("division") String division) {
 		try {
 			model.addAttribute("stageResultData", stageResultDataService.findByStageAndDivision(stageId, division));

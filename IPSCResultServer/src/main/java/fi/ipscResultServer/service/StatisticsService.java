@@ -32,12 +32,12 @@ public class StatisticsService {
 	
 	final static Logger logger = Logger.getLogger(StatisticsService.class);
 	
-	public List<CompetitorStatistics> findCompetitorStatisticsByMatchAndDivision(String matchId, String division) 
+	public List<CompetitorStatistics> findCompetitorStatisticsByMatchAndDivision(Long matchId, String division) 
 		throws DatabaseException {
 		return competitorStatisticsRepository.findCompetitorStatisticsByMatchAndDivision(matchId, division);
 	}
 	
-	public List<CompetitorStatistics> findCompetitorStatisticsByMatch(String matchId) 
+	public List<CompetitorStatistics> findCompetitorStatisticsByMatch(Long matchId) 
 			throws DatabaseException {
 			return competitorStatisticsRepository.findCompetitorStatisticsByMatch(matchId);
 		}
@@ -62,7 +62,7 @@ public class StatisticsService {
 				int proceduralPenalties = 0;
 				int noShootHits = 0;
 				int sumOfPoints = 0;
-				CompetitorResultData competitorResultData = competitorResultDataService.findByCompetitorAndMatch(competitor.getId(), match.getId());
+				CompetitorResultData competitorResultData = competitorResultDataService.findByCompetitorAndMatch(competitor, match);
 				
 				// Exclude competitors with no score card data. Will not be shown at all in statistics listing.
 				if (competitorResultData.getScoreCards() == null || competitorResultData.getScoreCards().size() == 0) continue; 

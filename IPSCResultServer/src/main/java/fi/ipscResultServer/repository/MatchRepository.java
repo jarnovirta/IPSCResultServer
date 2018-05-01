@@ -17,7 +17,9 @@ public interface MatchRepository {
 	
 	public List<Match> getMatchListForUser(User user);
 	
-	public Match getOne(String id) throws DatabaseException;
+	public Match getOne(Long id) throws DatabaseException;
+	
+	public Match findByPractiScoreId(String practiScoreId);
 	
 	public void delete(Match match) throws DatabaseException;
 	

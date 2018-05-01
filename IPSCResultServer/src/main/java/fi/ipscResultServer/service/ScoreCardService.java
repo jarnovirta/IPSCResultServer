@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import fi.ipscResultServer.domain.Competitor;
 import fi.ipscResultServer.domain.Match;
 import fi.ipscResultServer.domain.ScoreCard;
+import fi.ipscResultServer.domain.Stage;
 import fi.ipscResultServer.exception.DatabaseException;
 import fi.ipscResultServer.repository.ScoreCardRepository;
 
@@ -28,19 +30,19 @@ public class ScoreCardService {
 	public ScoreCard findByCompetitorAndStage(String competitorId, String stageId) throws DatabaseException  {
 		return scoreCardRepository.findByCompetitorAndStage(competitorId, stageId);
 	}
-	public List<ScoreCard> findByCompetitorAndMatch(String competitorId, String matchId) throws DatabaseException {
-		return scoreCardRepository.findByCompetitorAndMatch(competitorId, matchId);		
+	public List<ScoreCard> findByCompetitorAndMatch(Competitor competitor, Match match) throws DatabaseException {
+		return scoreCardRepository.findByCompetitorAndMatch(competitor, match);		
 	}
 	@Transactional
 	public void deleteInBatch(List<ScoreCard> scoreCards) throws DatabaseException {
 		scoreCardRepository.deleteInBatch(scoreCards);
 	}
 	
-	public List<ScoreCard> findByStageAndDivision(String stageId, String division) throws DatabaseException {
-		return scoreCardRepository.findByStageAndDivision(stageId, division);
+	public List<ScoreCard> findByStageAndDivision(Stage stage, String division) throws DatabaseException {
+		return scoreCardRepository.findByStageAndDivision(stage, division);
 	}
 	
-	public List<ScoreCard> findByStage(String stageId) throws DatabaseException {
+	public List<ScoreCard> findByStage(Long stageId) throws DatabaseException {
 		return scoreCardRepository.findByStage(stageId);
 	}
 	

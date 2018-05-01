@@ -7,6 +7,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import fi.ipscResultServer.domain.Competitor;
+import fi.ipscResultServer.domain.Match;
 import fi.ipscResultServer.domain.ScoreCard;
 import fi.ipscResultServer.domain.resultData.CompetitorResultData;
 import fi.ipscResultServer.exception.DatabaseException;
@@ -26,18 +28,18 @@ public class CompetitorResultDataService {
 	@Autowired
 	MatchService matchService;
 	
-	public CompetitorResultData findByCompetitorAndMatch(String competitorId, String matchId) 
+	public CompetitorResultData findByCompetitorAndMatch(Competitor competitor, Match match) 
 			throws DatabaseException {
-		List<ScoreCard> cards = scoreCardService.findByCompetitorAndMatch(competitorId, matchId);
-		Map<String, ScoreCard> scoreCards = new HashMap<String, ScoreCard>();
+		List<ScoreCard> cards = scoreCardService.findByCompetitorAndMatch(competitor, match);
+		Map<Long, ScoreCard> scoreCards = new HashMap<Long, ScoreCard>();
 		for (ScoreCard card : cards) {
 			scoreCards.put(card.getStage().getId(), card);
 		}
 
 		CompetitorResultData resultData = new CompetitorResultData();
 		resultData.setScoreCards(scoreCards);
-		resultData.setCompetitor(competitorService.getOne(competitorId));
-		resultData.setMatch(matchService.getOne(matchId));
+		resultData.setCompetitor(competitorService.getOne(competitor.getId()));
+		resultData.setMatch(matchService.getOne(match.getId()));
 		
 		return resultData;
 	}

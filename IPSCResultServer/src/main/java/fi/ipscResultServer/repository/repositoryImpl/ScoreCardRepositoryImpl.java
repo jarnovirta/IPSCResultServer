@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import fi.ipscResultServer.domain.Competitor;
 import fi.ipscResultServer.domain.Match;
 import fi.ipscResultServer.domain.ScoreCard;
 import fi.ipscResultServer.domain.Stage;
@@ -41,12 +42,12 @@ public class ScoreCardRepositoryImpl implements ScoreCardRepository {
 	}
 	
 	
-	public List<ScoreCard> findByStageAndDivision(String stageId, String division) 
+	public List<ScoreCard> findByStageAndDivision(Stage stage, String division) 
 			throws DatabaseException {
 		try {
-			String queryString = "SELECT s FROM ScoreCard s WHERE s.stage.id = :stageId AND s.competitor.division = :division";
+			String queryString = "SELECT s FROM ScoreCard s WHERE s.stage = :stage AND s.competitor.division = :division";
 			TypedQuery<ScoreCard> query = entityManager.createQuery(queryString, ScoreCard.class);
-			query.setParameter("stageId", stageId);
+			query.setParameter("stage", stage);
 			query.setParameter("division", division);
 			return query.getResultList();
 			
@@ -56,7 +57,7 @@ public class ScoreCardRepositoryImpl implements ScoreCardRepository {
 		}
 	}
 	
-	public List<ScoreCard> findByStage(String stageId) throws DatabaseException {
+	public List<ScoreCard> findByStage(Long stageId) throws DatabaseException {
 		try {
 			String queryString = "SELECT s FROM ScoreCard s WHERE s.stage.id = :stageId";
 			TypedQuery<ScoreCard> query = entityManager.createQuery(queryString, ScoreCard.class);
@@ -84,13 +85,14 @@ public class ScoreCardRepositoryImpl implements ScoreCardRepository {
 			throw new DatabaseException(e);
 		}
 	}
-	public List<ScoreCard> findByCompetitorAndMatch(String competitorId, String matchId) 
+	
+	public List<ScoreCard> findByCompetitorAndMatch(Competitor competitor, Match match) 
 			throws DatabaseException {
 		try {
-			String queryString = "SELECT s FROM ScoreCard s WHERE s.competitor.id = :competitorId AND s.stage.match.id = :matchId";
+			String queryString = "SELECT s FROM ScoreCard s WHERE s.competitor = :competitor AND s.stage.match = :match";
 			TypedQuery<ScoreCard> query = entityManager.createQuery(queryString, ScoreCard.class);
-			query.setParameter("competitorId", competitorId);
-			query.setParameter("matchId", matchId);
+			query.setParameter("competitor", competitor);
+			query.setParameter("match", match);
 			return query.getResultList();
 			
 		} catch (Exception e) {
@@ -143,4 +145,7 @@ public class ScoreCardRepositoryImpl implements ScoreCardRepository {
 			throw new DatabaseException(e);
 		}
 	}
+
+
+	
 }

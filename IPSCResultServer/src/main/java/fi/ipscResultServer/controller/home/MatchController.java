@@ -24,7 +24,7 @@ public class MatchController {
 	final static Logger logger = Logger.getLogger(MatchController.class);
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public String getMatchMainPage(Model model, @PathVariable("id") String matchId) {
+	public String getMatchMainPage(Model model, @PathVariable("id") Long matchId) {
 		try {
 			model.addAttribute("match", matchService.getOne(matchId));
 			model.addAttribute("competitors", competitorService.findByMatch(matchId));

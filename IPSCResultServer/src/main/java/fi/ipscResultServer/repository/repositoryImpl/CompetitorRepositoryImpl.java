@@ -25,7 +25,7 @@ public class CompetitorRepositoryImpl implements CompetitorRepository {
 	
 	final static Logger logger = Logger.getLogger(MatchRepositoryImpl.class);
 	
-	public List<Competitor> findByMatch(String matchId) {
+	public List<Competitor> findByMatch(Long matchId) {
 		try {
 			String queryString = "SELECT m.competitors FROM Match m WHERE m.id = :matchId";
 			TypedQuery<Competitor> query = entityManager.createQuery(queryString, Competitor.class);
@@ -36,10 +36,23 @@ public class CompetitorRepositoryImpl implements CompetitorRepository {
 			}
 			return null;
 	}
-	public Competitor getOne(String id) {
+	public Competitor getOne(Long id) {
 		return springJPACompetitorRepository.getOne(id);
 	}
 	
+	public Competitor findByPractiScoreReferences(String practiScoreMatchId, String practiScoreCompetitorId) {
+		try {
+			String queryString = "SELECT c FROM Competitor c WHERE c.match.practiScoreId = :practiScoreMatchId"
+					+ " AND c.practiScoreId = :practiScoreCompetitorId";
+			TypedQuery<Competitor> query = entityManager.createQuery(queryString, Competitor.class);
+			query.setParameter("practiScoreMatchId", practiScoreMatchId);
+			query.setParameter("practiScoreCompetitorId", practiScoreCompetitorId);
+			return query.getSingleResult();
+			} catch (Exception e) {
+				logger.error(e);
+			}
+			return null;
+	}
 	public Competitor save(Competitor competitor) {
 		return springJPACompetitorRepository.save(competitor);
 	}

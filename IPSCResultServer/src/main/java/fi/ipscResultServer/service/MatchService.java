@@ -38,12 +38,16 @@ public class MatchService {
 	
 	@Transactional
 	public Match save(Match match) throws DatabaseException {
+		
+		Match oldMatch = matchRepository.findByPractiScoreId(match.getPractiScoreId());
+		if (oldMatch != null) delete(oldMatch.getId());
 		Match savedMatch = null;
 		List<Competitor> deletedCompetitors = new ArrayList<Competitor>();
 		if (match != null && match.getCompetitors() != null) {
 			int competitorNumber = 1;
 			
 			for (Competitor competitor : match.getCompetitors()) {
+				competitor.setMatch(match);
 				competitor.setShooterNumber(competitorNumber++);
 				// Remove deleted competitors
 				if (competitor.isDeleted() == true) {
@@ -71,12 +75,16 @@ public class MatchService {
 	public List<Match> getMatchListForUser(User user) {
 		return matchRepository.getMatchListForUser(user);
 	}
-	public Match getOne(String id) throws DatabaseException {
+	public Match getOne(Long id) throws DatabaseException {
 		return matchRepository.getOne(id);
 	}
 	
+	public Match findByPractiScoreId(String practiScoreId) throws DatabaseException {
+		return matchRepository.findByPractiScoreId(practiScoreId);
+	}
+	
 	@Transactional
-	public void delete(String matchId) throws DatabaseException {
+	public void delete(Long matchId) throws DatabaseException {
 		Match match = getOne(matchId);
 		
 		logger.info("Deleting statistics");
@@ -99,7 +107,7 @@ public class MatchService {
 		logger.info("Match delete done!");
 	}
 	@Transactional
-	public void setMatchStatus(String matchId, MatchStatus newStatus) throws DatabaseException {
+	public void setMatchStatus(Long matchId, MatchStatus newStatus) throws DatabaseException {
 		Match match = getOne(matchId);
 		match.setStatus(newStatus);
 	}

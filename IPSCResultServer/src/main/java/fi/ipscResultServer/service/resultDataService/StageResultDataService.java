@@ -28,7 +28,7 @@ public class StageResultDataService {
 	@Autowired
 	ScoreCardService scoreCardService;
 	
-	public StageResultData findByStageAndDivision(String stageId, String division) 
+	public StageResultData findByStageAndDivision(Long stageId, String division) 
 			throws DatabaseException {
 		return stageResultDataRepository.findByStageAndDivision(stageId, division);
 	}
@@ -65,7 +65,7 @@ public class StageResultDataService {
 					scoreCards = scoreCardService.findByStage(stage.getId());
 				}
 			}
-			else scoreCards = scoreCardService.findByStageAndDivision(stage.getId(), division);
+			else scoreCards = scoreCardService.findByStageAndDivision(stage, division);
 			Collections.sort(scoreCards);
 			
 			double topHitFactor = -1.0;

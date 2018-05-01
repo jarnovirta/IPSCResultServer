@@ -2,8 +2,8 @@ package fi.ipscResultServer.repository.springJPARepository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import fi.ipscResultServer.domain.Match;
+import fi.ipscResultServer.domain.Stage;
 
-public interface SpringJPAMatchRepository extends JpaRepository<Match, Long>{
+public interface SpringJPAStageRepository extends JpaRepository<Stage, Long>{
 
 }

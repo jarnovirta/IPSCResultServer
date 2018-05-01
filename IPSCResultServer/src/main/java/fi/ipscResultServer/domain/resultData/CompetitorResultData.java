@@ -13,13 +13,13 @@ public class CompetitorResultData {
 	private Competitor competitor;
 	
 	// ScoreCard instances mapped to Stage id's
-	private Map<String, ScoreCard> scoreCards; 
+	private Map<Long, ScoreCard> scoreCards; 
 
-	public Map<String, ScoreCard> getScoreCards() {
+	public Map<Long, ScoreCard> getScoreCards() {
 		return scoreCards;
 	}
 
-	public void setScoreCards(Map<String, ScoreCard> scoreCards) {
+	public void setScoreCards(Map<Long, ScoreCard> scoreCards) {
 		this.scoreCards = scoreCards;
 	}
 

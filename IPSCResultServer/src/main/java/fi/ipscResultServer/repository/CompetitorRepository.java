@@ -7,7 +7,11 @@ import fi.ipscResultServer.domain.Competitor;
 public interface CompetitorRepository {
 	public Competitor save(Competitor competitor);
 	
-	public Competitor getOne(String id);
+	public Competitor getOne(Long id);
 	
-	public List<Competitor> findByMatch(String matchId);
+	public Competitor findByPractiScoreReferences(String practiScoreMatchId, String practiScoreCompetitorId);
+	
+	public List<Competitor> findByMatch(Long matchId);
+	
+	
 }

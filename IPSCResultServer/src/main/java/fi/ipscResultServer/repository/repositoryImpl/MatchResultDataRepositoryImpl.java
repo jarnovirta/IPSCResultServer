@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import fi.ipscResultServer.domain.Competitor;
+import fi.ipscResultServer.domain.Match;
 import fi.ipscResultServer.domain.resultData.MatchResultData;
 import fi.ipscResultServer.domain.resultData.MatchResultDataLine;
 import fi.ipscResultServer.exception.DatabaseException;
@@ -27,7 +28,7 @@ public class MatchResultDataRepositoryImpl implements MatchResultDataRepository 
 	
 	final static Logger logger = Logger.getLogger(MatchResultDataRepositoryImpl.class);
 	
-	public MatchResultData findByMatchAndDivision(String matchId, String division) throws DatabaseException {
+	public MatchResultData findByMatchAndDivision(Long matchId, String division) throws DatabaseException {
 		try {
 			String queryString = "SELECT m FROM MatchResultData m WHERE m.match.id = :matchId AND m.division = :division";
 			TypedQuery<MatchResultData> query = entityManager.createQuery(queryString, MatchResultData.class);
@@ -46,11 +47,11 @@ public class MatchResultDataRepositoryImpl implements MatchResultDataRepository 
 		
 	}
 	
-	public List<MatchResultData> findByMatch(String matchId) throws DatabaseException {
+	public List<MatchResultData> find(Match match) throws DatabaseException {
 		try {
-			String queryString = "SELECT m FROM MatchResultData m WHERE m.match.id = :matchId";
+			String queryString = "SELECT m FROM MatchResultData m WHERE m.match = :match";
 			TypedQuery<MatchResultData> query = entityManager.createQuery(queryString, MatchResultData.class); 
-			query.setParameter("matchId", matchId);
+			query.setParameter("match", match);
 			return query.getResultList();
 		}
 		catch (Exception e) {

@@ -28,7 +28,7 @@ public class StageResultDataRepositoryImpl implements StageResultDataRepository 
 	
 	final static Logger logger = Logger.getLogger(StageResultDataRepositoryImpl.class);
 	
-	public StageResultData findByStageAndDivision(String stageId, String division) 
+	public StageResultData findByStageAndDivision(Long stageId, String division) 
 			throws DatabaseException {
 		StageResultData resultData = new StageResultData();
 		try {

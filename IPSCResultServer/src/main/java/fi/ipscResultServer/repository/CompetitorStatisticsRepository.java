@@ -6,9 +6,9 @@ import fi.ipscResultServer.domain.Match;
 import fi.ipscResultServer.domain.statistics.CompetitorStatistics;
 
 public interface CompetitorStatisticsRepository {
-	public List<CompetitorStatistics> findCompetitorStatisticsByMatchAndDivision(String matchId, String division);
+	public List<CompetitorStatistics> findCompetitorStatisticsByMatchAndDivision(Long matchId, String division);
 	
-	public List<CompetitorStatistics> findCompetitorStatisticsByMatch(String matchId);
+	public List<CompetitorStatistics> findCompetitorStatisticsByMatch(Long matchId);
 	
 	public CompetitorStatistics save(CompetitorStatistics competitorStatistics);
 	

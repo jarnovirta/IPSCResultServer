@@ -64,7 +64,7 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value="/match/{matchId}/setStatus/{status}", method = RequestMethod.GET)
-	public String setMatchStatus(@PathVariable("matchId") String matchId, 
+	public String setMatchStatus(@PathVariable("matchId") Long matchId, 
 			@PathVariable("status") MatchStatus status, Model model) {
 		try {
 			matchService.setMatchStatus(matchId, status);
@@ -77,7 +77,7 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value="/deleteMatch/{matchId}", method = RequestMethod.GET)
-	public String deleteMatch(@PathVariable("matchId") String matchId, Model model) {
+	public String deleteMatch(@PathVariable("matchId") Long matchId, Model model) {
 		try {
 			matchService.delete(matchId);
 			
