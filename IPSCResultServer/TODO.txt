@@ -74,13 +74,11 @@ TESTIT:
 	- Non-penalty targets -> ei vaikuta tulokseen?
 	- Samanniminen kilpailija toiseen kertaan?
 	- Walk-in kilpailija
-	- Power factor fail – ei toimintoa practiscoressa?
+	- Power factor fail â€“ ei toimintoa practiscoressa?
 	- Nollatut staget
-	- Tarkista että procedural penalties huomioidaan scorecardin pistelaskussa oikein. Nyt ScoreCard setHitsAndPoints() metodissa
-	   		olettamalla että PractiScoren pointseissa ei ole mukana vaan pitää vähentää.
-	- Tarkista popperien ja taulujen huomioiminen ja non penaltien huomioiminen stagen maksimipistemäärän laskemisessa
-	- MITÄ TAPAHTUU ILMAN TULOSDATAA, NULL CHECKIT YM.
+	- Tarkista ettÃ¤ procedural penalties huomioidaan scorecardin pistelaskussa oikein. Nyt ScoreCard setHitsAndPoints() metodissa
+	   		olettamalla ettÃ¤ PractiScoren pointseissa ei ole mukana vaan pitÃ¤Ã¤ vÃ¤hentÃ¤Ã¤.
+	- Tarkista popperien ja taulujen huomioiminen ja non penaltien huomioiminen stagen maksimipistemÃ¤Ã¤rÃ¤n laskemisessa
+	- MITÃ„ TAPAHTUU ILMAN TULOSDATAA, NULL CHECKIT YM.
 	
 	TARKISTA ETTÄ USEAMPI DATAN AJO EI KASVATA DATAN MÄÄRÄÄ, ELI NUMEROT PYSYVÄT
-	
-	URL:ss� lopun / aiheuttaa 500 The request was rejected because the URL was not normalized virheen
