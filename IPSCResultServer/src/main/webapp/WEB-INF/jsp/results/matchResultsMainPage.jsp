@@ -22,7 +22,11 @@
 				<h1>${match.name}</h1>
 			</div>
 			<br>
-			<c:if test="${match.status ne 'CLOSED' }">
+			<c:choose>
+				<c:when test="${match.status eq 'CLOSED'}">
+					<h3>Match is closed.</h3>
+				</c:when>
+			<c:otherwise>
 				<c:if test="${match.status eq 'SCORING_ENDED' }">
 					<a href="${baseUrl}match/${match.id }/statistics" style="text-decoration: none;">
 						<button class="btn btn-large btn-primary" type="button">Competitor Statistics</button>
@@ -97,26 +101,28 @@
 					</table>
 				</div>
 				<hr />
-			</c:if>
-		</div>
+			
+			</c:otherwise>
+		</c:choose>
 	</div>
+</div>
 	
-	<script>
-		$(document).ready(function() {
-			$('#stageTable').DataTable( {
-				paging: false,
-				searching: false,
-				sort: false,
-				info: false
-			});
-			$('#competitorTable').DataTable( {
-				paging: false,
-				searching: true,
-				sort: false,
-				info: false
-			});
-		} );
-	</script>
+<script>
+	$(document).ready(function() {
+		$('#stageTable').DataTable( {
+			paging: false,
+			searching: false,
+			sort: false,
+			info: false
+		});
+		$('#competitorTable').DataTable( {
+			paging: false,
+			searching: true,
+			sort: false,
+			info: false
+		});
+	} );
+</script>
 
 <%@include file="/WEB-INF/jsp/include/loginLogoutScripts.jsp" %>
 <jsp:include page="/WEB-INF/jsp/include/footer.jsp" />

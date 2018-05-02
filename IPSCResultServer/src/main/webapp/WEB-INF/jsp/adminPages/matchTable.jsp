@@ -16,7 +16,7 @@
 				Status
 			</th>
 			<th>
-				Results visible
+				Results shown
 			</th>
 			<th>
 				Change status

@@ -1,25 +1,15 @@
 Tarkista/korjaa tuloslaskusta:
 
 KORJAA TIMEZONET palvelin. Ohjelmiin UTC!!
-
-HUOMHUOM!!!! Tee URL-encoding linkkeihin, jotta ei ongelmia ääkkösten kanssa, jos walk-in kilpailija!
-- Competitor ID täytyy muuttaa, koska voi nyt olla sama eri kisoissa!! Onko siellä joku uuid, joka on yhdistelmä
-	kilpailijaa ja kisaa. 
-	- Practiscoren ID:t: "sh_uuid":"a4e33b96-42af-4718-abc9-ef5cf22076df","sh_uid":"reimaräty-Standard"
-	- Käytä sh_uuid miten vaan ja sh_uid match.id:n kanssa!!
-	- Mitä practiscore tekee, jos luodaan eri laitteilla sama walkin kilpailija? Tallentaako se monta kertaa saman kilpailijan,
+- Kilpailijat ja staget: haut aina practiscore id:n ja kisa-id:n perusteella!
+- Mitä practiscore tekee, jos luodaan eri laitteilla sama walkin kilpailija? Tallentaako se monta kertaa saman kilpailijan,
 	 	eri sh_uuid numeroilla?
 - Tee tarkistus, että on IPSC handgun kisa ja hylkää muut.	
 
-DELETOIDUT STAGET:
-- Muuta niin että ei huomioida tuloslaskennassa, varmista ja testaa!
 
-Karin pyytämät verifyn täydennykset.
+- DELETOIDUT STAGET:Muuta niin että ei huomioida tuloslaskennassa, varmista ja testaa!
 
-HUOM! Missään kohdassa ei saa poistaa kilpailijaa pelkän ID:n perusteella, koska voi olla walkin, jolloin se on muotoa TA-ID-divisioona ja voi olla useassa kisassa sama
--> stageihin ja kilpailijoihin viittaukset kisaan ja kaikki tietokantaoperaatiot niitä käyttäen!!
-
-Korjaa aakkosjärjestys SQL-haussa niin että isot/pienet kirjaimet eivät sotke.
+- Karin pyytämät verifyn täydennykset.
 	
 - Statistics-taulukko: sum of points heti osumien oikealle. Se on kaikkien osumapisteiden summa ilman penaltyja. Tee myÃ¶s hover tekstit.
 - LisÃ¤Ã¤ taulukoihin search-toiminto	
@@ -27,19 +17,13 @@ Korjaa aakkosjärjestys SQL-haussa niin että isot/pienet kirjaimet eivät sotke.
 - Onko mahdollista ettÃ¤ sama kilpailija ampuu saman kisan toisessa divisioonassa esim. toisena pÃ¤ivÃ¤nÃ¤? Miten tÃ¤llÃ¶in kÃ¤y practiscoressa? 
 	Onko kilpailijoita kaksi? PitÃ¤Ã¤ huomioida tuloksia laskettaessa?
 
-- Muuta session takaisin kohtuulliseksi minuuttimÃ¤Ã¤rÃ¤ksi, esim. 30.
+- Deleted stagen huomiointi?
 
-- Useampi painallus Force Send -> usempaan kertaan tulokset!
-
-- Android sovelluksen sulkeminen: service ei sulkeudu.
-
-- MikÃ¤ on "Additional penalties?"
-
-- POINTS on nyt taulukoissa osumat miinus penaltyt. PitÃ¤isikÃ¶ olla ammutut pisteet?? Tee hover.
-
-- Results visible -> results SHOWN.
+- Hoida Additional penalties kuntoon
 
 - VARMISTA ETTÃ„ CLOSED-tilassa ei nÃ¤y mitÃ¤Ã¤n
+
+- Korjaa stage rank verify listassa: näyttää combined, ei divisioona. Poista comment out verify-listan JSP:stä.
 
 - Verify List antaa virheen jos tyhjï¿½ kilpailijalista
 
@@ -50,12 +34,11 @@ Korjaa aakkosjärjestys SQL-haussa niin että isot/pienet kirjaimet eivät sotke.
 - Muuta headtagit niin, ettï¿½ includella yhteiset osat.
 
 
-
 - Tablet niin että tarkistetaan esim. verify listassa onko scorecard-tietoja ennen kuin rivit ja solut tehdään, jotta ei tule tyhjiä taulukkorivejä
 
 - PractiScore pyöristää eri tavalla. Me leikataan, PS pyöristää pisteet.
 
-- Voiko sen korjata että F5 ei lähetä delete match tms uudelleen?
+- Voiko url:t korjata että F5 ei lähetä delete match tms uudelleen? 
 
 CHRONO STAGE: pitää tehdä palvelimelle!! PractiScoressa "Actual" pf -> voidaan muuttaa chrono stagessa.
 
