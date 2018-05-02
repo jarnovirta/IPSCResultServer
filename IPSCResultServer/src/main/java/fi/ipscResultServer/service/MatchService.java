@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import fi.ipscResultServer.domain.Competitor;
 import fi.ipscResultServer.domain.Match;
 import fi.ipscResultServer.domain.MatchStatus;
+import fi.ipscResultServer.domain.Stage;
 import fi.ipscResultServer.domain.User;
 import fi.ipscResultServer.exception.DatabaseException;
 import fi.ipscResultServer.repository.MatchRepository;
@@ -42,21 +43,32 @@ public class MatchService {
 		Match oldMatch = matchRepository.findByPractiScoreId(match.getPractiScoreId());
 		if (oldMatch != null) delete(oldMatch.getId());
 		Match savedMatch = null;
-		List<Competitor> deletedCompetitors = new ArrayList<Competitor>();
-		if (match != null && match.getCompetitors() != null) {
-			int competitorNumber = 1;
-			
-			for (Competitor competitor : match.getCompetitors()) {
-				competitor.setMatch(match);
-				competitor.setShooterNumber(competitorNumber++);
-				// Remove deleted competitors
-				if (competitor.isDeleted() == true) {
-					deletedCompetitors.add(competitor);
+		
+		if (match != null) {
+			if (match.getCompetitors() != null) {
+				List<Competitor> deletedCompetitors = new ArrayList<Competitor>();
+				int competitorNumber = 1;
+				
+				for (Competitor competitor : match.getCompetitors()) {
+					competitor.setMatch(match);
+					competitor.setShooterNumber(competitorNumber++);
+					// Remove deleted competitors
+					if (competitor.isDeleted() == true) {
+						deletedCompetitors.add(competitor);
+					}
 				}
+				
+				match.getCompetitors().removeAll(deletedCompetitors);
 			}
-			
-			match.getCompetitors().removeAll(deletedCompetitors);
-			
+			if (match.getStages() != null) {
+				List<Stage> deletedStages = new ArrayList<Stage>();
+				for (Stage stage : match.getStages()) {
+					if (stage.isDeleted() == true) {
+						deletedStages.add(stage);
+					}
+				}
+				match.getStages().removeAll(deletedStages);
+			}
 			savedMatch = matchRepository.save(match);
 		}
 		

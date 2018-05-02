@@ -15,13 +15,7 @@
 
 - Hoida Additional penalties kuntoon
 
-- Muuta headtagit niin, ettï¿½ includella yhteiset osat.
-
-
-
-
-
-LEVEL NÄKYVIIN MATCH LISTIIN EKALLE SIVULLE
+- LEVEL NÄKYVIIN MATCH LISTIIN EKALLE SIVULLE
 
 - ja prosentit verify listiin (Karilta tarkemmat tiedot)
 
@@ -29,6 +23,8 @@ LEVEL NÄKYVIIN MATCH LISTIIN EKALLE SIVULLE
 
 
 EI KIIREELLISET:
+
+- Muuta headtagit niin, ettï¿½ includella yhteiset osat.
 - Korjaa stage rank verify listassa: näyttää combined, ei divisioona. Poista comment out verify-listan JSP:stä.
 - Verify List antaa virheen jos tyhjï¿½ kilpailijalista
 - Tablet niin että tarkistetaan esim. verify listassa onko scorecard-tietoja ennen kuin rivit ja solut tehdään, jotta ei tule tyhjiä taulukkorivejä
@@ -39,5 +35,6 @@ EI KIIREELLISET:
 TESTIT:
 	- API vastaus kun lähetetään tulosdataa olemassa olevaan kisaan ja kisan status ei ole "Scoring". Pitäisi vastata virheellä
 	- Power factor fail Ã¢â‚¬â€œ ei toimintoa practiscoressa?
+	- testaa että deleted stage ei huomioida.
 	
 	

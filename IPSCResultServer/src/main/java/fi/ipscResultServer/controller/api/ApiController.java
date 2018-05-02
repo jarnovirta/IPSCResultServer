@@ -68,6 +68,10 @@ public class ApiController {
 	public ResponseEntity<String> postScoreData(@RequestBody MatchScore matchScore) {
 		logger.info("POST request to /matches/matchId/scores");
 		try {
+			Match dbMatch = matchService.findByPractiScoreId(matchScore.getMatchId());
+			if (dbMatch != null && dbMatch.getStatus() != MatchStatus.SCORING) {
+				return new ResponseEntity<String>("Scoring not open for match", null, HttpStatus.BAD_REQUEST);
+			}
 			matchScoreService.save(matchScore);
 			return new ResponseEntity<String>("Result data saved", null, HttpStatus.OK);
 		}
