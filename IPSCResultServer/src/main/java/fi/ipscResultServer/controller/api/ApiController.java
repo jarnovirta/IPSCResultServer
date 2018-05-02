@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import fi.ipscResultServer.domain.Match;
 import fi.ipscResultServer.domain.MatchScore;
+import fi.ipscResultServer.domain.MatchStatus;
 import fi.ipscResultServer.domain.Stage;
 import fi.ipscResultServer.exception.DatabaseException;
 import fi.ipscResultServer.service.MatchService;
@@ -35,8 +36,12 @@ public class ApiController {
 	@RequestMapping(value = "/matches", method = RequestMethod.POST)
 	public ResponseEntity<String> postMatchData(@RequestBody Match match) {
 		logger.info("POST request to /matches");
-		
 		boolean admin = userService.isCurrentUserAdmin();
+		try {
+			Match dbMatch = matchService.findByPractiScoreId(match.getPractiScoreId());
+			if (dbMatch != null && dbMatch.getStatus() != MatchStatus.SCORING) {
+				return new ResponseEntity<String>("Scoring not open for match", null, HttpStatus.BAD_REQUEST);
+			}
 		
 		if (admin == true) {
 			match.setUploadedByAdmin(true);
@@ -48,7 +53,7 @@ public class ApiController {
 		for (Stage stage : match.getStages()) {
 			stage.setMatch(match);
 		}
-		try {
+		
 			matchService.save(match);
 			return new ResponseEntity<String>("Match data saved", null, HttpStatus.OK);
 			

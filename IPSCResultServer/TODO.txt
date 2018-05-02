@@ -1,18 +1,12 @@
-Tarkista/korjaa tuloslaskusta:
 
-KORJAA TIMEZONET palvelin. Ohjelmiin UTC!!
 - Kilpailijat ja staget: haut aina practiscore id:n ja kisa-id:n perusteella!
+
 - Mitä practiscore tekee, jos luodaan eri laitteilla sama walkin kilpailija? Tallentaako se monta kertaa saman kilpailijan,
 	 	eri sh_uuid numeroilla?
-- Tee tarkistus, että on IPSC handgun kisa ja hylkää muut.	
-
 
 - DELETOIDUT STAGET:Muuta niin että ei huomioida tuloslaskennassa, varmista ja testaa!
 
 - Karin pyytämät verifyn täydennykset.
-	
-- Statistics-taulukko: sum of points heti osumien oikealle. Se on kaikkien osumapisteiden summa ilman penaltyja. Tee myÃ¶s hover tekstit.
-- LisÃ¤Ã¤ taulukoihin search-toiminto	
 
 - Onko mahdollista ettÃ¤ sama kilpailija ampuu saman kisan toisessa divisioonassa esim. toisena pÃ¤ivÃ¤nÃ¤? Miten tÃ¤llÃ¶in kÃ¤y practiscoressa? 
 	Onko kilpailijoita kaksi? PitÃ¤Ã¤ huomioida tuloksia laskettaessa?
@@ -21,26 +15,11 @@ KORJAA TIMEZONET palvelin. Ohjelmiin UTC!!
 
 - Hoida Additional penalties kuntoon
 
-- VARMISTA ETTÃ„ CLOSED-tilassa ei nÃ¤y mitÃ¤Ã¤n
-
-- Korjaa stage rank verify listassa: näyttää combined, ei divisioona. Poista comment out verify-listan JSP:stä.
-
-- Verify List antaa virheen jos tyhjï¿½ kilpailijalista
-
-- Estï¿½ tulosten lï¿½hetys kun closed tai scoring ended.
-
-- Firefoxissa layout jotenkin pielessÃ¤, napit liian lÃ¤hellÃ¤ toisiaan ym ym. CSS ei toimi oikein? Vai tablet?
-
 - Muuta headtagit niin, ettï¿½ includella yhteiset osat.
 
 
-- Tablet niin että tarkistetaan esim. verify listassa onko scorecard-tietoja ennen kuin rivit ja solut tehdään, jotta ei tule tyhjiä taulukkorivejä
 
-- PractiScore pyöristää eri tavalla. Me leikataan, PS pyöristää pisteet.
 
-- Voiko url:t korjata että F5 ei lähetä delete match tms uudelleen? 
-
-CHRONO STAGE: pitää tehdä palvelimelle!! PractiScoressa "Actual" pf -> voidaan muuttaa chrono stagessa.
 
 LEVEL NÄKYVIIN MATCH LISTIIN EKALLE SIVULLE
 
@@ -49,19 +28,16 @@ LEVEL NÄKYVIIN MATCH LISTIIN EKALLE SIVULLE
 - !!!! Power Factor: Sub-minor??
 
 
-
+EI KIIREELLISET:
+- Korjaa stage rank verify listassa: näyttää combined, ei divisioona. Poista comment out verify-listan JSP:stä.
+- Verify List antaa virheen jos tyhjï¿½ kilpailijalista
+- Tablet niin että tarkistetaan esim. verify listassa onko scorecard-tietoja ennen kuin rivit ja solut tehdään, jotta ei tule tyhjiä taulukkorivejä
+- Chrono stage: pitää tehdä palvelimelle!! PractiScoressa "Actual" pf -> voidaan muuttaa chrono stagessa.
+- Timezone palvelimelle ja koodiin
+- Firefoxissa layout jotenkin pielessÃ¤, napit liian lÃ¤hellÃ¤ toisiaan ym ym. CSS ei toimi oikein? Vai tablet?
+- - Voiko url:t korjata että F5 ei lähetä delete match tms uudelleen? 
 TESTIT:
-	- Onko tulokset ja tilastot nyt oikein?
-	- Testaa Competitor -> IPSCCategory toiminta, mm. kun monta kategoriaa.
-	- DQ kilpailija jÃ¤Ã¤ pois?
-	- Non-penalty targets -> ei vaikuta tulokseen?
-	- Samanniminen kilpailija toiseen kertaan?
-	- Walk-in kilpailija
+	- API vastaus kun lähetetään tulosdataa olemassa olevaan kisaan ja kisan status ei ole "Scoring". Pitäisi vastata virheellä
 	- Power factor fail Ã¢â‚¬â€œ ei toimintoa practiscoressa?
-	- Nollatut staget
-	- Tarkista ettÃƒÂ¤ procedural penalties huomioidaan scorecardin pistelaskussa oikein. Nyt ScoreCard setHitsAndPoints() metodissa
-	   		olettamalla ettÃƒÂ¤ PractiScoren pointseissa ei ole mukana vaan pitÃƒÂ¤ÃƒÂ¤ vÃƒÂ¤hentÃƒÂ¤ÃƒÂ¤.
-	- Tarkista popperien ja taulujen huomioiminen ja non penaltien huomioiminen stagen maksimipistemÃƒÂ¤ÃƒÂ¤rÃƒÂ¤n laskemisessa
-	- MITÃƒâ€ TAPAHTUU ILMAN TULOSDATAA, NULL CHECKIT YM.
 	
-	TARKISTA ETTÃ„ USEAMPI DATAN AJO EI KASVATA DATAN MÃ„Ã„RÃ„Ã„, ELI NUMEROT PYSYVÃ„T
+	
