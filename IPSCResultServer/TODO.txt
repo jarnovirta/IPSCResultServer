@@ -1,14 +1,14 @@
-
+TOIMIIKO REFRESH JOS VÄLISSÄ UUDET TULOSTIEDOT?
 - Kilpailijat ja staget: haut aina practiscore id:n ja kisa-id:n perusteella!
 
-- Karin pyyt�m�t verifyn t�ydennykset.
+- Karin pyytämät verifyn täydennykset.
 
-- Onko mahdollista että sama kilpailija ampuu saman kisan toisessa divisioonassa esim. toisena päivänä? Miten tällöin käy practiscoressa? 
-	Onko kilpailijoita kaksi? Pitää huomioida tuloksia laskettaessa?
+- Onko mahdollista ettÃ¤ sama kilpailija ampuu saman kisan toisessa divisioonassa esim. toisena pÃ¤ivÃ¤nÃ¤? Miten tÃ¤llÃ¶in kÃ¤y practiscoressa? 
+	Onko kilpailijoita kaksi? PitÃ¤Ã¤ huomioida tuloksia laskettaessa?
 
 - Hoida Additional penalties kuntoon
 
-- LEVEL N�KYVIIN MATCH LISTIIN EKALLE SIVULLE
+- LEVEL NÄKYVIIN MATCH LISTIIN EKALLE SIVULLE
 
 - ja prosentit verify listiin (Karilta tarkemmat tiedot)
 
@@ -17,20 +17,20 @@
 
 EI KIIREELLISET:
 
-- Muuta headtagit niin, ett� includella yhteiset osat.
-- Korjaa stage rank verify listassa: n�ytt�� combined, ei divisioona. Poista comment out verify-listan JSP:st�.
-- Verify List antaa virheen jos tyhj� kilpailijalista
-- Tablet niin ett� tarkistetaan esim. verify listassa onko scorecard-tietoja ennen kuin rivit ja solut tehd��n, jotta ei tule tyhji� taulukkorivej�
-- Chrono stage: pit�� tehd� palvelimelle!! PractiScoressa "Actual" pf -> voidaan muuttaa chrono stagessa.
+- Muuta headtagit niin, ettï¿½ includella yhteiset osat.
+- Korjaa stage rank verify listassa: näyttää combined, ei divisioona. Poista comment out verify-listan JSP:stä.
+- Verify List antaa virheen jos tyhjï¿½ kilpailijalista
+- Tablet niin että tarkistetaan esim. verify listassa onko scorecard-tietoja ennen kuin rivit ja solut tehdään, jotta ei tule tyhjiä taulukkorivejä
+- Chrono stage: pitää tehdä palvelimelle!! PractiScoressa "Actual" pf -> voidaan muuttaa chrono stagessa.
 - Timezone palvelimelle ja koodiin
-- Firefoxissa layout jotenkin pielessä, napit liian lähellä toisiaan ym ym. CSS ei toimi oikein? Vai tablet?
-- - Voiko url:t korjata ett� F5 ei l�het� delete match tms uudelleen? 
-- Tulosten divisioonaj�rjestys heittelee -> combined tulee mihin vaan milloinkin
+- Firefoxissa layout jotenkin pielessÃ¤, napit liian lÃ¤hellÃ¤ toisiaan ym ym. CSS ei toimi oikein? Vai tablet?
+- - Voiko url:t korjata että F5 ei lähetä delete match tms uudelleen? 
+- Tulosten divisioonajärjestys heittelee -> combined tulee mihin vaan milloinkin
 TESTIT:
-	- API vastaus kun l�hetet��n tulosdataa olemassa olevaan kisaan ja kisan status ei ole "Scoring". Pit�isi vastata virheell�
-	- Power factor fail â€“ ei toimintoa practiscoressa?
-	- testaa ett� deleted stage ei huomioida miss��n, eik� koodimuutos aiheuta virheit�.
-	- Mit� practiscore tekee, jos luodaan eri laitteilla sama walkin kilpailija? Tallentaako se monta kertaa saman kilpailijan,
+	- API vastaus kun lähetetään tulosdataa olemassa olevaan kisaan ja kisan status ei ole "Scoring". Pitäisi vastata virheellä
+	- Power factor fail Ã¢â‚¬â€œ ei toimintoa practiscoressa?
+	- testaa että deleted stage ei huomioida missään, eikä koodimuutos aiheuta virheitä.
+	- Mitä practiscore tekee, jos luodaan eri laitteilla sama walkin kilpailija? Tallentaako se monta kertaa saman kilpailijan,
 	 	eri sh_uuid numeroilla?
-	 - Testaa ett� kopioitu stage ei aiheuta ongelmaa (sis�somotus ja bonusstage kantaan)
+	 - Testaa että kopioitu stage ei aiheuta ongelmaa (sisäsomotus ja bonusstage kantaan)
 	
