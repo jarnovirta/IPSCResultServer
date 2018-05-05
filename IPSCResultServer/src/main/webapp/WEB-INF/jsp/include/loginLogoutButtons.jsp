@@ -1,3 +1,5 @@
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %> 
+<%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form"%>
 <div style="float:right">
 	<security:authorize var="loggedIn" access="isAuthenticated()" />
 	<sf:form action="${pageContext.request.contextPath}/logout" method="POST" id="logoutForm">

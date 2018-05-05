@@ -1,36 +1,40 @@
-<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-
-<jsp:include page="/WEB-INF/jsp/include/headTagWithDataTablesLinks.jsp" />
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form"%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %> 
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix = "fn" uri = "http://java.sun.com/jsp/jstl/functions" %>
 
-<body>
-	<c:url var="baseUrl" value="/" />
-	<div id="wrap">
-		<div class="container">
-			<%@ include file="/WEB-INF/jsp/include/loginLogoutButtons.jsp" %>
-			<ol class="breadcrumb breadcrumb-arrow">
-				<li><a href="${baseUrl }">Home</a></li>
-				<li class="active"><span>Admin</span></li>
-			</ol>
-			<div class="page-header">
-				<h1>Admin</h1>
+<html>
+	<head>
+		<jsp:include page="/WEB-INF/jsp/include/headTag.jsp" />
+		<jsp:include page="/WEB-INF/jsp/include/dataTablesHeadTagLinks.jsp" />
+	</head>
+	
+	<body>
+		<c:url var="baseUrl" value="/" />
+		<div id="wrap">
+			<div class="container">
+				<%@ include file="/WEB-INF/jsp/include/loginLogoutButtons.jsp" %>
+				<ol class="breadcrumb breadcrumb-arrow">
+					<li><a href="${baseUrl }">Home</a></li>
+					<li class="active"><span>Admin</span></li>
+				</ol>
+				<div class="page-header">
+					<h1>Admin</h1>
+				</div>
+				<br>
+				<%@ include file="/WEB-INF/jsp/adminPages/matchTable.jsp" %>
+				<security:authentication var="authorities" property="principal.authorities" />
+				<c:if test="${authorities == '[ROLE_ADMIN]' }">
+					<hr />
+					<%@ include file="/WEB-INF/jsp/adminPages/userTable.jsp" %>
+				</c:if>
 			</div>
-			<br>
-			<%@ include file="/WEB-INF/jsp/adminPages/matchTable.jsp" %>
-			<security:authentication var="authorities" property="principal.authorities" />
-			<c:if test="${authorities == '[ROLE_ADMIN]' }">
-				<hr />
-				<%@ include file="/WEB-INF/jsp/adminPages/userTable.jsp" %>
-			</c:if>
 		</div>
-	</div>
+			
+	<jsp:include page="/WEB-INF/jsp/include/footer.jsp" />
+	</body>
 	<script>
 		$(document).ready(function() {
 			$('#adminMatchListingTable').DataTable( {
@@ -51,5 +55,4 @@
 		
 	</script>
 	<%@include file="/WEB-INF/jsp/include/loginLogoutScripts.jsp" %>
-	
-<jsp:include page="/WEB-INF/jsp/include/footer.jsp" />
+</html>
