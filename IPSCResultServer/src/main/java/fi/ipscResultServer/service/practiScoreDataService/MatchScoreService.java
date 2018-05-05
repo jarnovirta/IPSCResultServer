@@ -61,22 +61,17 @@ public class MatchScoreService {
 		logger.info("SAVING MATCH RESULT DATA...");
 		
 		if (matchScore == null) return; 
-		
 		Match match = matchService.findByPractiScoreId(matchScore.getMatchId());
 		if (match.getDivisions() == null) match.setDivisions(new ArrayList<String>());
 		
 		List<Stage> stagesWithNewResults = new ArrayList<Stage>();
-		
 		// Delete old match result listing
 		matchResultDataService.deleteByMatch(match);
-		
 		// Delete old stage result listings
 		stageResultDataService.deleteByMatch(match);
-		
 		// Delete old scorecards
 		scoreCardService.deleteByMatch(match);
-		
-						
+								
 		for (StageScore stageScore : matchScore.getStageScores()) {
 			Stage stage = stageService.findByPractiScoreId(matchScore.getMatchId(), stageScore.getStagePractiScoreId());
 			// Skip results for deleted stages

@@ -56,6 +56,7 @@
 						</thead>
 						<tbody>
 							<c:forEach var="stage" items="${match.stages}">
+								
 								<c:if test="${stage.deleted ne true }">
 										<tr>
 											<td style="width: 50%">

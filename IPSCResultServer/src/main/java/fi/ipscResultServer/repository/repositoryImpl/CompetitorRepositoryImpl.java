@@ -37,7 +37,13 @@ public class CompetitorRepositoryImpl implements CompetitorRepository {
 			return null;
 	}
 	public Competitor getOne(Long id) {
-		return springJPACompetitorRepository.getOne(id);
+		try {
+			return springJPACompetitorRepository.getOne(id);
+		}
+		catch (Exception e) {
+			logger.error(e);
+			return null;
+		}
 	}
 	
 	public Competitor findByPractiScoreReferences(String practiScoreMatchId, String practiScoreCompetitorId) {
@@ -47,13 +53,21 @@ public class CompetitorRepositoryImpl implements CompetitorRepository {
 			TypedQuery<Competitor> query = entityManager.createQuery(queryString, Competitor.class);
 			query.setParameter("practiScoreMatchId", practiScoreMatchId);
 			query.setParameter("practiScoreCompetitorId", practiScoreCompetitorId);
-			return query.getSingleResult();
+			List<Competitor> competitors = query.getResultList();
+			if (competitors.size() > 0) return competitors.get(0);
+			return null;
 			} catch (Exception e) {
 				logger.error(e);
 			}
 			return null;
 	}
 	public Competitor save(Competitor competitor) {
-		return springJPACompetitorRepository.save(competitor);
+		try {
+			return springJPACompetitorRepository.save(competitor);
+		}
+		catch (Exception e) {
+			logger.error(e);
+			return null;
+		}
 	}
 }

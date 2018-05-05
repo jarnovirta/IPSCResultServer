@@ -39,7 +39,13 @@ public class MatchRepositoryImpl implements MatchRepository {
 	
 	
 	public List<Match> findAll() {
-		return springJPAMatchRepository.findAll();
+		try {
+			return springJPAMatchRepository.findAll();
+		}
+		catch (Exception e) {
+			logger.error(e); 
+			return null;
+		}
 		
 	}
 	
@@ -82,7 +88,9 @@ public class MatchRepositoryImpl implements MatchRepository {
 		try {
 			String queryString = "SELECT m FROM Match m WHERE m.practiScoreId = :practiScoreId";
 			TypedQuery<Match> query = entityManager.createQuery(queryString, Match.class);
-			return query.setParameter("practiScoreId", practiScoreId).getSingleResult();
+			List<Match> matches = query.setParameter("practiScoreId", practiScoreId).getResultList();
+			if (matches.size() > 0) return matches.get(0);
+			return null;
 			} catch (Exception e) {
 				logger.error(e);
 			}

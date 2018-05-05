@@ -1,17 +1,10 @@
 
 - Kilpailijat ja staget: haut aina practiscore id:n ja kisa-id:n perusteella!
 
-- Mit‰ practiscore tekee, jos luodaan eri laitteilla sama walkin kilpailija? Tallentaako se monta kertaa saman kilpailijan,
-	 	eri sh_uuid numeroilla?
-
-- DELETOIDUT STAGET:Muuta niin ett‰ ei huomioida tuloslaskennassa, varmista ja testaa!
-
 - Karin pyyt‰m‰t verifyn t‰ydennykset.
 
 - Onko mahdollista ett√§ sama kilpailija ampuu saman kisan toisessa divisioonassa esim. toisena p√§iv√§n√§? Miten t√§ll√∂in k√§y practiscoressa? 
 	Onko kilpailijoita kaksi? Pit√§√§ huomioida tuloksia laskettaessa?
-
-- Deleted stagen huomiointi?
 
 - Hoida Additional penalties kuntoon
 
@@ -32,9 +25,12 @@ EI KIIREELLISET:
 - Timezone palvelimelle ja koodiin
 - Firefoxissa layout jotenkin pieless√§, napit liian l√§hell√§ toisiaan ym ym. CSS ei toimi oikein? Vai tablet?
 - - Voiko url:t korjata ett‰ F5 ei l‰het‰ delete match tms uudelleen? 
+- Tulosten divisioonaj‰rjestys heittelee -> combined tulee mihin vaan milloinkin
 TESTIT:
 	- API vastaus kun l‰hetet‰‰n tulosdataa olemassa olevaan kisaan ja kisan status ei ole "Scoring". Pit‰isi vastata virheell‰
 	- Power factor fail √¢‚Ç¨‚Äú ei toimintoa practiscoressa?
-	- testaa ett‰ deleted stage ei huomioida.
-	
+	- testaa ett‰ deleted stage ei huomioida miss‰‰n, eik‰ koodimuutos aiheuta virheit‰.
+	- Mit‰ practiscore tekee, jos luodaan eri laitteilla sama walkin kilpailija? Tallentaako se monta kertaa saman kilpailijan,
+	 	eri sh_uuid numeroilla?
+	 - Testaa ett‰ kopioitu stage ei aiheuta ongelmaa (sis‰somotus ja bonusstage kantaan)
 	

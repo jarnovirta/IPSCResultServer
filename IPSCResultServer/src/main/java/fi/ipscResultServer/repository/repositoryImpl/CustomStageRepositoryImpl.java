@@ -1,5 +1,7 @@
 package fi.ipscResultServer.repository.repositoryImpl;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -25,7 +27,13 @@ public class CustomStageRepositoryImpl implements StageRepository {
 	final static Logger logger = Logger.getLogger(MatchScoreService.class);
 	
 	public Stage getOne(Long id) {
-		return springStageRepository.getOne(id);
+		try {
+			return springStageRepository.getOne(id);
+		}
+		catch (Exception e) {
+			logger.error(e);
+			return null;
+		}
 	}
 	
 	public Stage findByPractiScoreId(String practiScoreMatchId, String practiScoreStageId) {
@@ -35,7 +43,9 @@ public class CustomStageRepositoryImpl implements StageRepository {
 			TypedQuery<Stage> query = entityManager.createQuery(queryString, Stage.class);
 			query.setParameter("practiScoreMatchId", practiScoreMatchId);
 			query.setParameter("practiScoreStageId", practiScoreStageId);
-			return query.getSingleResult();
+			List<Stage> stages = query.getResultList();
+			if (stages.size() > 0) return stages.get(0);
+			return null;
 		} 
 		catch (Exception e) {
 			logger.error(e);
