@@ -20,7 +20,7 @@
 					<%@ include file="/WEB-INF/jsp/include/loginLogoutButtons.jsp" %>
 					<ol class="breadcrumb breadcrumb-arrow">
 						<li><a href="${baseUrl }">Home</a></li>
-						<li><a href="${baseUrl }match/${matchResultData.match.id}">Match</a></li>
+						<li><a href="${baseUrl }match/${matchResultData.match.practiScoreId}">Match</a></li>
 						<li class="active"><span>Match Results</span></li>
 					</ol>
 					<div class="page-header">
@@ -153,7 +153,7 @@
 												${dataline.rank}
 											</td>
 											<td>
-												<c:url var="url" value="/match/${dataline.matchResultData.match.id}/competitor/${dataline.competitor.id}" />
+												<c:url var="url" value="/match/${dataline.matchResultData.match.practiScoreId}/competitor/${dataline.competitor.practiScoreId}" />
 												<a href="${url }">${dataline.competitor.firstName }</a> 
 											</td>
 											<td>
@@ -216,7 +216,7 @@
 			});
 		} );
 		function submitDivisionChange() {
-				location.replace("${baseUrl}match/${matchResultData.match.id }/division/"+ $("select#division").val());
+				location.replace("${baseUrl}match/${matchResultData.match.practiScoreId }/division/"+ $("select#division").val());
 		}
 	
 	</script>

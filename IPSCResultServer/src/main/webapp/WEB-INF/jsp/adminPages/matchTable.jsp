@@ -88,7 +88,7 @@
 					</c:choose>
 				</td>
 				<td>
-					<button class="btn btn-danger" onclick="deleteMatch('${match.id}')" type="button">Delete</button>
+					<button class="btn btn-danger" onclick="deleteMatch('${match.id}', '${match.name }')" type="button">Delete</button>
 				</td>
 			</tr> 
 		</c:forEach>
@@ -96,9 +96,9 @@
 </table>
 
 <script>
-	function deleteMatch(matchId) {
+	function deleteMatch(matchId, matchName) {
 		bootbox.dialog({
-		  	  message: "Delete match?",
+		  	  message: "Delete " + matchName + "?",
 		  	  title: "Confirm",
 		  	  buttons: {
 		  		cancel: {

@@ -17,7 +17,7 @@ import fi.ipscResultServer.service.StageService;
 import fi.ipscResultServer.service.resultDataService.StageResultDataService;
 
 @Controller
-@RequestMapping("/match/{matchId}/stage")
+@RequestMapping("/match/{practiScoreMatchId}/stage")
 public class StageResultsController {
 	@Autowired
 	StageResultDataService stageResultDataService;
@@ -26,10 +26,11 @@ public class StageResultsController {
 	StageService stageService;
 
 	
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public String getStageResultsPage(Model model, @PathVariable("id") Long stageId) {
+	@RequestMapping(value = "/{practiScoreStageId}", method = RequestMethod.GET)
+	public String getStageResultsPage(Model model, @PathVariable("practiScoreMatchId") String practiScoreMatchId, 
+			@PathVariable("practiScoreStageId") String practiScoreStageId) {
 		try {
-			Stage stage = stageService.getOne(stageId);
+			Stage stage = stageService.findByPractiScoreId(practiScoreMatchId, practiScoreStageId);
 			List<String> availableDivisions = new ArrayList<String>();
 			if (stage.getMatch().getDivisionsWithResults() != null) {
 				for (String division : stage.getMatch().getDivisionsWithResults()) {
@@ -44,8 +45,8 @@ public class StageResultsController {
 			String division;
 			if (availableDivisions.contains(Constants.COMBINED_DIVISION)) division = Constants.COMBINED_DIVISION;
 			else division = availableDivisions.get(0);
-					
-			model.addAttribute("stageResultData", stageResultDataService.findByStageAndDivision(stageId, division));
+				
+			model.addAttribute("stageResultData", stageResultDataService.findByStageAndDivision(stage.getId(), division));
 			model.addAttribute("selectedDivision", division);
 			return "results/stageResults";
 		}
@@ -55,11 +56,13 @@ public class StageResultsController {
 		}
 	}
 	
-	@RequestMapping(value = "/{id}/division/{division}", method = RequestMethod.GET)
-	public String getStageResultsPageForDivision(Model model, @PathVariable("id") Long stageId, 
-			@PathVariable("division") String division) {
+	@RequestMapping(value = "/{practiScoreStageId}/division/{division}", method = RequestMethod.GET)
+	public String getStageResultsPageForDivision(Model model, @PathVariable("practiScoreMatchId") String practiScoreMatchId,
+			@PathVariable("practiScoreStageId") String practiScoreStageId, @PathVariable("division") String division) {
 		try {
-			model.addAttribute("stageResultData", stageResultDataService.findByStageAndDivision(stageId, division));
+			Stage stage =  stageService.findByPractiScoreId(practiScoreMatchId, practiScoreStageId);
+			model.addAttribute("stageResultData", 
+					stageResultDataService.findByStageAndDivision(stage.getId(), division));
 			model.addAttribute("selectedDivision", division);
 			return "results/stageResults";
 		}

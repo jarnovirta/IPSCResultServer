@@ -16,7 +16,7 @@
 				<%@ include file="/WEB-INF/jsp/include/loginLogoutButtons.jsp" %>
 				<ol class="breadcrumb breadcrumb-arrow">
 					<li><a href="${baseUrl }">Home</a></li>
-					<li><a href="${baseUrl }match/${resultData.match.id}">Match</a></li>
+					<li><a href="${baseUrl }match/${resultData.match.practiScoreId}">Match</a></li>
 					<li class="active"><span>Verify List</span></li>
 				</ol>
 				<div class="page-header">
@@ -84,7 +84,7 @@
 						        		<td>
 						        			<c:choose>
 												<c:when test="${resultData.match.status eq 'SCORING_ENDED' }">
-						        					<c:url var="url" value="/match/${resultData.match.id}/division/${resultData.competitor.division}" />
+						        					<c:url var="url" value="/match/${resultData.match.practiScoreId}/division/${resultData.competitor.division}" />
 													<a href="${url}"><c:out value="${resultData.competitor.division }" /></a>
 												</c:when>
 												<c:otherwise>
@@ -196,7 +196,7 @@
 													<td>
 														<c:choose>
 															<c:when test="${resultData.match.status eq 'SCORING_ENDED' }">
-																<c:url var="url" value="/match/${resultData.match.id}/stage/${scoreCard.stage.id}/division/${scoreCard.competitor.division }" />
+																<c:url var="url" value="/match/${resultData.match.practiScoreId}/stage/${scoreCard.stage.practiScoreId}/division/${scoreCard.competitor.division }" />
 																<a href="${url}">${scoreCard.stage.name}</a>
 															</c:when>
 															<c:otherwise>

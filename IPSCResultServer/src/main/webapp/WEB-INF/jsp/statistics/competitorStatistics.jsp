@@ -20,7 +20,7 @@
 				<%@ include file="/WEB-INF/jsp/include/loginLogoutButtons.jsp" %>
 				<ol class="breadcrumb breadcrumb-arrow">
 					<li><a href="${baseUrl }">Home</a></li>
-					<li><a href="${baseUrl }match/${match.id}">Match</a></li>
+					<li><a href="${baseUrl }match/${match.practiScoreId}">Match</a></li>
 					<li class="active"><span>Competitor Statistics</span></li>
 				</ol>
 				<div class="page-header">
@@ -178,7 +178,7 @@
 													</c:choose>
 												</td>
 												<td>
-													<c:url var="url" value="/match/${match.id}/competitor/${line.competitor.id}" />
+													<c:url var="url" value="/match/${match.practiScoreId}/competitor/${line.competitor.practiScoreId}" />
 													<a href="${url}">${line.competitor.firstName} ${line.competitor.lastName} </a>
 												</td>
 												<td align="right">
@@ -224,7 +224,7 @@
 													<c:if test="${line.competitor.powerFactor eq  'MAJOR'}">
 														<c:set var="pf" value="+" />
 													</c:if>
-													<c:url var="url" value="/match/${match.id}/division/${line.competitor.division}" />
+													<c:url var="url" value="/match/${match.practiScoreId}/division/${line.competitor.division}" />
 													
 													<%-- <a href="${url}">${fn:substring(line.competitor.division, 0, 1)}${pf} </a> --%>		
 													
@@ -250,7 +250,7 @@
 			});
 		} );
 		function submitDivisionChange() {
-			location.replace("${baseUrl}match/${match.id }/statistics/division/"+ $("select#division").val());
+			location.replace("${baseUrl}match/${match.practiScoreId }/statistics/division/"+ $("select#division").val());
 		}
 	</script>
 	

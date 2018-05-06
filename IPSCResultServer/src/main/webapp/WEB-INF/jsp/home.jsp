@@ -40,7 +40,7 @@
 								<c:if test="${match.status ne 'CLOSED' }">
 									<tr>
 										<td>
-											<a href="${baseUrl}match/${ match.id}">${match.name}</a>
+											<a href="${baseUrl}match/${ match.practiScoreId}">${match.name}</a>
 										</td>
 										<td>
 											<fmt:formatDate value="${match.date.time}" pattern="dd.MM.yyyy" />

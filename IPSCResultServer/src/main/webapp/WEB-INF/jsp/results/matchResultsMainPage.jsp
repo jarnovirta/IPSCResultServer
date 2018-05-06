@@ -28,14 +28,14 @@
 					</c:when>
 					<c:otherwise>
 						<c:if test="${match.status eq 'SCORING_ENDED' }">
-							<a href="${baseUrl}match/${match.id }/statistics" style="text-decoration: none;">
+							<a href="${baseUrl}match/${match.practiScoreId }/statistics" style="text-decoration: none;">
 								<button class="btn btn-large btn-primary" type="button">Competitor Statistics</button>
 							</a>
 							<br><br><br>
 							<h4><b>Match Results:</b></h4>
 							
 							<c:forEach var="division" items="${match.divisionsWithResults }">
-								<a href="${baseUrl}match/${match.id }/division/${division}">
+								<a href="${baseUrl}match/${match.practiScoreId }/division/${division}">
 									${division }
 								</a>
 							</c:forEach>
@@ -62,7 +62,7 @@
 											</td>
 											<td style="width: 50%">
 												<c:forEach var="division" items="${match.divisionsWithResults }">
-													<a href="${baseUrl }match/${match.id}/stage/${stage.id}/division/${division }">
+													<a href="${baseUrl }match/${match.practiScoreId}/stage/${stage.practiScoreId}/division/${division }">
 														${division } 
 													</a>
 												</c:forEach>
@@ -88,7 +88,7 @@
 									<c:forEach var="competitor" items="${competitors}">
 										<tr>
 											<td style="width: 50%">
-												<a href="${baseUrl}match/${match.id }/competitor/${competitor.id}">
+												<a href="${baseUrl}match/${match.practiScoreId }/competitor/${competitor.practiScoreId}">
 													${competitor.lastName }, ${competitor.firstName} 
 												</a>
 											</td>

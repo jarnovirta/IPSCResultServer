@@ -20,7 +20,7 @@
 				<%@ include file="/WEB-INF/jsp/include/loginLogoutButtons.jsp" %>
 				<ol class="breadcrumb breadcrumb-arrow">
 					<li><a href="${baseUrl }">Home</a></li>
-					<li><a href="${baseUrl }match/${stageResultData.stage.match.id}">Match</a></li>
+					<li><a href="${baseUrl }match/${stageResultData.stage.match.practiScoreId}">Match</a></li>
 					<li class="active"><span>Stage Results</span></li>
 				</ol>
 			
@@ -70,7 +70,7 @@
 							        		<td>
 							        			<c:choose>
 							        				<c:when test="${stageResultData.stage.match.status eq 'SCORING_ENDED' }">
-							        					<c:url var="url" value="/match/${stageResultData.stage.match.id}/division/${stageResultData.division}" />
+							        					<c:url var="url" value="/match/${stageResultData.stage.match.practiScoreId}/division/${stageResultData.division}" />
 														<a href="${url}"><c:out value="${stageResultData.division}" /></a>
 							        				</c:when>
 							        				<c:otherwise>
@@ -106,10 +106,10 @@
 												<c:forEach var="stage" items="${stageResultData.stage.match.stages}">
 												
 													<c:if test="${stageResultData.stage.name eq stage.name}">
-														<option value="${stage.id}" selected>${stage.name}</option>
+														<option value="${stage.practiScoreId}" selected>${stage.name}</option>
 													</c:if>
 													<c:if test="${stageResultData.stage.name ne stage.name}">
-														<option value="${stage.id}">${stage.name}</option>
+														<option value="${stage.practiScoreId}">${stage.name}</option>
 													</c:if>
 												</c:forEach>
 											</select>
@@ -187,7 +187,7 @@
 											${dataline.stageRank}
 										</td>
 										<td align="left">
-											<c:url var="url" value="/match/${dataline.stageResultData.stage.match.id}/competitor/${dataline.competitor.id}" />
+											<c:url var="url" value="/match/${dataline.stageResultData.stage.match.practiScoreId}/competitor/${dataline.competitor.practiScoreId}" />
 											<a href="${url }">${dataline.competitor.firstName }</a>
 										</td>
 										<td align="left">
@@ -249,7 +249,7 @@
 			});
 		} );
 		function submitStageListingChange() {
-			location.replace("${baseUrl}match/${stageResultData.stage.match.id }/stage/" 
+			location.replace("${baseUrl}match/${stageResultData.stage.match.practiScoreId }/stage/" 
 					+ $("select#stage").val() + "/division/"+ $("select#division").val());
 		}
 	</script>

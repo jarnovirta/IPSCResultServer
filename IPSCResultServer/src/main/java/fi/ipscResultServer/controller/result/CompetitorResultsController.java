@@ -13,7 +13,7 @@ import fi.ipscResultServer.service.MatchService;
 import fi.ipscResultServer.service.resultDataService.CompetitorResultDataService;
 
 @Controller
-@RequestMapping("/match/{matchId}/competitor")
+@RequestMapping("/match/{practiScoreMatchId}/competitor")
 public class CompetitorResultsController {
 	@Autowired
 	CompetitorResultDataService competitorResultDataService;
@@ -24,12 +24,13 @@ public class CompetitorResultsController {
 	@Autowired
 	MatchService matchService;
 	
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public String getCompetitorResultsPage(Model model, @PathVariable("id") Long competitorId, 
-			@PathVariable("matchId") Long matchId) {
+	@RequestMapping(value = "/{practiScoreCompetitorId}", method = RequestMethod.GET)
+	public String getCompetitorResultsPage(Model model, @PathVariable("practiScoreCompetitorId") String practiScoreCompetitorId, 
+			@PathVariable("practiScoreMatchId") String practiScoreMatchId) {
 		try {
 			model.addAttribute("resultData", competitorResultDataService.findByCompetitorAndMatch(
-					competitorService.getOne(competitorId), matchService.getOne(matchId)));
+					competitorService.findByPractiScoreReferences(practiScoreMatchId, practiScoreCompetitorId), 
+					matchService.findByPractiScoreId(practiScoreMatchId)));
 			return "results/competitorResults";
 		}
 		// Exception logged in repository

@@ -50,7 +50,7 @@
 					${user.email}
 				</td>
 				<td>
-					<button class="btn btn-danger" onclick="deleteUser('${user.id}')" type="button">Delete</button>
+					<button class="btn btn-danger" onclick="deleteUser('${user.id}', '${user.username }')" type="button">Delete</button>
 				</td>
 			</tr> 
 		</c:forEach>
@@ -60,9 +60,9 @@
 <a style="text-decoration: none;" href="<c:url value='/' />admin/addUser"><button class="btn btn-primary" type="button">Add a user</button></a>
 
 <script>
-	function deleteUser(userId) {
+	function deleteUser(userId, username) {
 		bootbox.dialog({
-		  	  message: "Delete user?",
+		  	  message: "Delete " + username + "?",
 		  	  title: "Confirm",
 		  	  buttons: {
 		  		cancel: {

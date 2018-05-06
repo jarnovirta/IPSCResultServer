@@ -9,6 +9,7 @@
 	<head>
 		<jsp:include page="/WEB-INF/jsp/include/headTag.jsp" />
 		<jsp:include page="/WEB-INF/jsp/include/dataTablesHeadTagLinks.jsp" />
+		<jsp:include page="/WEB-INF/jsp/include/headTagBootboxLinks.jsp" />
 	</head>
 	
 	<body>

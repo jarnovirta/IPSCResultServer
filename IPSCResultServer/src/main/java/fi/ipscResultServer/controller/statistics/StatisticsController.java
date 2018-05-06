@@ -18,7 +18,7 @@ import fi.ipscResultServer.service.MatchService;
 import fi.ipscResultServer.service.StatisticsService;
 
 @Controller
-@RequestMapping("/match/{matchId}/statistics")
+@RequestMapping("/match/{practiScoreMatchId}/statistics")
 public class StatisticsController {
 
 	@Autowired
@@ -30,9 +30,9 @@ public class StatisticsController {
 	final static Logger logger = Logger.getLogger(StatisticsController.class);
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public String getStatisticsPage(Model model, @PathVariable("matchId") Long matchId) {
+	public String getStatisticsPage(Model model, @PathVariable("practiScoreMatchId") String practiScoreMatchId) {
 		try {
-			Match match = matchService.getOne(matchId);
+			Match match = matchService.findByPractiScoreId(practiScoreMatchId);
 			String division = null;
 			if (match.getDivisionsWithResults().contains(Constants.COMBINED_DIVISION)) {
 				division = Constants.COMBINED_DIVISION;
@@ -53,8 +53,10 @@ public class StatisticsController {
 	}
 	
 	@RequestMapping(value="/division/{division}", method = RequestMethod.GET)
-	public String getStatisticsPageForDivision(Model model, @PathVariable("matchId") Long matchId, @PathVariable("division") String division) {
+	public String getStatisticsPageForDivision(Model model, @PathVariable("practiScoreMatchId") String practiScoreMatchId, 
+			@PathVariable("division") String division) {
 		try {
+			Long matchId = matchService.findByPractiScoreId(practiScoreMatchId).getId();
 			model.addAttribute("match", matchService.getOne(matchId));
 			model.addAttribute("statistics", getCompetitorStatistics(matchId, division));
 		}
