@@ -55,7 +55,6 @@ public class ApiController {
 		}
 		
 			matchService.save(match);
-			System.out.println("Sending response for match data saved");
 			return new ResponseEntity<String>("Match data saved", null, HttpStatus.OK);
 			
 		}
