@@ -56,21 +56,18 @@
 								</thead>
 								<tbody>
 									<c:forEach var="stage" items="${match.stages}">
-										
-										<c:if test="${stage.deleted ne true }">
-												<tr>
-													<td style="width: 50%">
-														${stage.name}
-													</td>
-													<td style="width: 50%">
-														<c:forEach var="division" items="${match.divisionsWithResults }">
-															<a href="${baseUrl }match/${match.id}/stage/${stage.id}/division/${division }">
-																${division } 
-															</a>
-														</c:forEach>
-													</td>
-												</tr>
-										</c:if>		
+										<tr>
+											<td style="width: 50%">
+												${stage.name}
+											</td>
+											<td style="width: 50%">
+												<c:forEach var="division" items="${match.divisionsWithResults }">
+													<a href="${baseUrl }match/${match.id}/stage/${stage.id}/division/${division }">
+														${division } 
+													</a>
+												</c:forEach>
+											</td>
+										</tr>
 									</c:forEach>
 								</tbody>
 							</table>
@@ -91,7 +88,6 @@
 									<c:forEach var="competitor" items="${competitors}">
 										<tr>
 											<td style="width: 50%">
-												
 												<a href="${baseUrl}match/${match.id }/competitor/${competitor.id}">
 													${competitor.lastName }, ${competitor.firstName} 
 												</a>

@@ -188,9 +188,7 @@
 								<c:forEach var="stage" items="${resultData.match.stages}">
 									
 										<c:set var="scoreCard" value="${resultData.scoreCards[stage.id] }" />
-										
-											<c:if test="${not empty scoreCard && scoreCard.stage.deleted ne true }">
-											
+											<c:if test="${not empty scoreCard  }">
 												<tr>
 													<td align="right">
 														${scoreCard.stage.stageNumber }
@@ -234,7 +232,6 @@
 														${scoreCard.stageRank}
 													</td>-->
 												</tr>
-											
 										</c:if>
 								</c:forEach>
 							</tbody>
