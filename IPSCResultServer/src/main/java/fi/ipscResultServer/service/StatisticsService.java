@@ -85,7 +85,7 @@ public class StatisticsService {
 				line.setSumOfPoints(sumOfPoints);
 				line.setMatchTime(matchTime);
 				
-				int totalShots = aHits + cHits + dHits + misses;
+				int totalShots = aHits + cHits + dHits + misses + noShootHits;
 				line.setaHitPercentage((double) aHits / (double) totalShots * 100.0);
 				
 				// Get following data from competitor's MatchResultDataLine instance: position within division results,

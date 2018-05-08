@@ -33,4 +33,4 @@ TESTIT:
 	- Mit√§ practiscore tekee, jos luodaan eri laitteilla sama walkin kilpailija? Tallentaako se monta kertaa saman kilpailijan,
 	 	eri sh_uuid numeroilla?
 	 - Testaa ett√§ kopioitu stage ei aiheuta ongelmaa (sis√§somotus ja bonusstage kantaan)
-	
+	- Testaa viel‰ ett‰ kaikki toimii jos Competitor practiScoreId on "reima-r‰ty" tms. ‰‰kkˆsill‰.

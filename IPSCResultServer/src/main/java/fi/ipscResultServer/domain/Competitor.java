@@ -41,6 +41,10 @@ public class Competitor implements Serializable, Comparable<Competitor> {
 	@Column(length = 36)
 	private String practiScoreId;
 	
+	// Competitor's practiScoreId as URL encoded string
+	// for use in web page paths
+	private String urlEncodedPractiScoreId;
+	
 	@JsonProperty("sh_num")
 	@Column(nullable = false)
 	private int shooterNumber;
@@ -107,8 +111,6 @@ public class Competitor implements Serializable, Comparable<Competitor> {
 	    if (lastNameComparison != EQUAL) return lastNameComparison;
 	    return this.firstName.compareTo(compareToCompetitor.getFirstName());
 	}
-
-
 
 	public Long getId() {
 		return id;
@@ -294,5 +296,15 @@ public class Competitor implements Serializable, Comparable<Competitor> {
 	public String getPractiScoreCategoryString() {
 		return practiScoreCategoryString;
 	}
+
+	public String getUrlEncodedPractiScoreId() {
+		return urlEncodedPractiScoreId;
+	}
+
+	public void setUrlEncodedPractiScoreId(String urlEncodedPractiScoreId) {
+		this.urlEncodedPractiScoreId = urlEncodedPractiScoreId;
+	}
+
+
 	
 }

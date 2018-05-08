@@ -153,7 +153,7 @@
 												${dataline.rank}
 											</td>
 											<td>
-												<c:url var="url" value="/match/${dataline.matchResultData.match.practiScoreId}/competitor/${dataline.competitor.practiScoreId}" />
+												<c:url var="url" value="/match/${dataline.matchResultData.match.practiScoreId}/competitor/${dataline.competitor.urlEncodedPractiScoreId}" />
 												<a href="${url }">${dataline.competitor.firstName }</a> 
 											</td>
 											<td>

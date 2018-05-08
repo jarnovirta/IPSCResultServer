@@ -4,6 +4,7 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+
 <html>
 	<head>
 		<jsp:include page="/WEB-INF/jsp/include/headTag.jsp" />
@@ -88,7 +89,7 @@
 									<c:forEach var="competitor" items="${competitors}">
 										<tr>
 											<td style="width: 50%">
-												<a href="${baseUrl}match/${match.practiScoreId }/competitor/${competitor.practiScoreId}">
+												<a href="${baseUrl}match/${match.practiScoreId }/competitor/${competitor.urlEncodedPractiScoreId}">
 													${competitor.lastName }, ${competitor.firstName} 
 												</a>
 											</td>

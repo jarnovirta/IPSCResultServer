@@ -35,6 +35,9 @@ public class MatchService {
 	@Autowired
 	private ScoreCardService scoreCardService;
 	
+	@Autowired
+	private CompetitorService competitorService;
+	
 	final static Logger logger = Logger.getLogger(MatchService.class);
 	
 	@Transactional
@@ -46,13 +49,13 @@ public class MatchService {
 		System.out.println(match == null);
 		if (match != null) {
 			if (match.getCompetitors() != null) {
-				System.out.println("Handling competitors");
 				List<Competitor> deletedCompetitors = new ArrayList<Competitor>();
 				int competitorNumber = 1;
 				
 				for (Competitor competitor : match.getCompetitors()) {
 					competitor.setMatch(match);
 					competitor.setShooterNumber(competitorNumber++);
+					competitorService.setEncodedURL(competitor);
 					// Remove deleted competitors
 					if (competitor.isDeleted() == true) {
 						deletedCompetitors.add(competitor);
@@ -62,7 +65,6 @@ public class MatchService {
 				match.getCompetitors().removeAll(deletedCompetitors);
 			}
 			if (match.getStages() != null) {
-				System.out.println("Handling stages");
 				List<Stage> deletedStages = new ArrayList<Stage>();
 				for (Stage stage : match.getStages()) {
 					if (stage.isDeleted() == true) {
@@ -73,7 +75,6 @@ public class MatchService {
 			}
 			System.out.println("Saving match");
 			savedMatch = matchRepository.save(match);
-			System.out.println("Null " + savedMatch == null);
 		}
 		
 		return savedMatch;
