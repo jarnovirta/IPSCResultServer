@@ -16,7 +16,7 @@
 				<%@ include file="/WEB-INF/jsp/include/loginLogoutButtons.jsp" %>
 				<ol class="breadcrumb breadcrumb-arrow">
 					<li><a href="${baseUrl }">Home</a></li>
-					<li><a href="${baseUrl }match/${resultData.match.id}">Match</a></li>
+					<li><a href="${baseUrl }match/${resultData.match.practiScoreId}">Match</a></li>
 					<li class="active"><span>Verify List</span></li>
 				</ol>
 				<div class="page-header">
@@ -84,7 +84,7 @@
 						        		<td>
 						        			<c:choose>
 												<c:when test="${resultData.match.status eq 'SCORING_ENDED' }">
-						        					<c:url var="url" value="/match/${resultData.match.id}/division/${resultData.competitor.division}" />
+						        					<c:url var="url" value="/match/${resultData.match.practiScoreId}/division/${resultData.competitor.division}" />
 													<a href="${url}"><c:out value="${resultData.competitor.division }" /></a>
 												</c:when>
 												<c:otherwise>
@@ -154,9 +154,7 @@
 									<th>
 										Stage Name
 									</th>
-									<th>
-										Time
-									</th>
+
 									<th>
 										A
 									</th>
@@ -174,6 +172,15 @@
 									</th>
 									<th>
 										Proc.
+									</th>
+									<th>
+										Points
+									</th>
+									<th>
+										Time
+									</th>
+									<th>
+										HF
 									</th>
 									<th>
 										Last updated
@@ -196,7 +203,7 @@
 													<td>
 														<c:choose>
 															<c:when test="${resultData.match.status eq 'SCORING_ENDED' }">
-																<c:url var="url" value="/match/${resultData.match.id}/stage/${scoreCard.stage.id}/division/${scoreCard.competitor.division }" />
+																<c:url var="url" value="/match/${resultData.match.practiScoreId}/stage/${scoreCard.stage.practiScoreId}/division/${scoreCard.competitor.division }" />
 																<a href="${url}">${scoreCard.stage.name}</a>
 															</c:when>
 															<c:otherwise>
@@ -204,9 +211,7 @@
 															</c:otherwise>
 														</c:choose>
 													</td>
-													<td align="right">
-														<fmt:formatNumber type = "number" minFractionDigits = "2" maxFractionDigits = "2" value="${scoreCard.time }" />
-													</td>
+
 													<td align="right">
 														${scoreCard.aHits}
 													</td>
@@ -226,6 +231,16 @@
 														${scoreCard.proceduralPenalties }
 													</td>
 													<td align="right">
+														${scoreCard.points }
+													</td>
+													<td align="right">
+														<fmt:formatNumber type = "number" minFractionDigits = "2" maxFractionDigits = "2" value="${scoreCard.time }" />
+													</td>
+													<td align="right">
+														<fmt:formatNumber type = "number" minFractionDigits = "4" maxFractionDigits = "4" value="${scoreCard.hitFactor }" />
+													</td>
+													
+													<td align="right">
 														<fmt:formatDate value="${scoreCard.modified.time }" pattern="dd.MM.yyyy 'at' HH:mm:ss" />
 													</td>
 													<!-- <td align="right">
@@ -234,6 +249,66 @@
 												</tr>
 										</c:if>
 								</c:forEach>
+								<tr>
+									<td />
+									<td align="right" style="font-weight:bold">
+										Total:
+									</td>
+									<td align="right">
+										${resultData.aHitsSum}
+									</td>
+										
+									<td align="right">
+										${resultData.cHitsSum}
+									</td>
+									<td align="right">
+										${resultData.dHitsSum}
+									</td>
+									<td align="right">
+										${resultData.missSum}
+									</td>
+									<td align="right">
+										${resultData.noshootHitsSum}
+									</td>
+									<td align="right">
+										${resultData.proceduralPenaltiesSum}
+									</td>
+									<td align="right">
+										${resultData.pointsSum}
+									</td>									
+									<td align="right">
+										<fmt:formatNumber type = "number" minFractionDigits = "2" maxFractionDigits = "2" value="${resultData.totalTime}" />
+										
+									</td>
+									
+									<td />
+									<td />
+								</tr>
+								<tr>
+									<td />
+									<td />
+									<td align="right">
+										<fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${resultData.aHitsPercentage }" />%
+									</td>
+							 		<td align="right">
+										<fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${resultData.cHitsPercentage }" />%
+									</td>
+									<td align="right">
+										<fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${resultData.dHitsPercentage }" />%
+									</td>
+									<td align="right">
+										<fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${resultData.missPercentage }" />%
+									</td>
+									<td align="right">
+										<fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${resultData.noshootPercentage }" />%
+									</td>
+									<td />
+									<td />
+									<td />
+									<td align="right">
+										Avg: <fmt:formatNumber type="number" minFractionDigits="4" maxFractionDigits="4" value="${resultData.hitFactorAverage }" />
+									</td>
+								</tr>															
 							</tbody>
 						</table>
 					</c:otherwise>

@@ -40,6 +40,7 @@ public class CompetitorResultDataService {
 		resultData.setScoreCards(scoreCards);
 		resultData.setCompetitor(competitorService.getOne(competitor.getId()));
 		resultData.setMatch(matchService.getOne(match.getId()));
+		resultData.setStatistics();
 		
 		return resultData;
 	}
