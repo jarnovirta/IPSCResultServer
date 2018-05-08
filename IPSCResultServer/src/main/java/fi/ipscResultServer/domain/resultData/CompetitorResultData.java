@@ -85,6 +85,7 @@ public class CompetitorResultData {
 	}
 
 	public void setStatistics() {
+		
 		aHitsSum = 0;
 		cHitsSum = 0;
 		dHitsSum = 0;

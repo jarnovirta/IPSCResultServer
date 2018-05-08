@@ -277,7 +277,8 @@
 										${resultData.pointsSum}
 									</td>									
 									<td align="right">
-										${resultData.totalTime}
+										<fmt:formatNumber type = "number" minFractionDigits = "2" maxFractionDigits = "2" value="${resultData.totalTime}" />
+										
 									</td>
 									
 									<td />
