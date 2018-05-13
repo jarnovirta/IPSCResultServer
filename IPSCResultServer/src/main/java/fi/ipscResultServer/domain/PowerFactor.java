@@ -1,7 +1,7 @@
 package fi.ipscResultServer.domain;
 
 public enum PowerFactor {
-	MINOR, MAJOR;
+	MAJOR, MINOR, SUBMINOR;
 	
 	@Override
 	public String toString() {

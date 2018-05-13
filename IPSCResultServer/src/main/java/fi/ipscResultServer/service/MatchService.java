@@ -43,10 +43,8 @@ public class MatchService {
 		Match oldMatch = matchRepository.findByPractiScoreId(match.getPractiScoreId());
 		if (oldMatch != null) delete(oldMatch.getId());
 		Match savedMatch = null;
-		System.out.println(match == null);
 		if (match != null) {
 			if (match.getCompetitors() != null) {
-				System.out.println("Handling competitors");
 				List<Competitor> deletedCompetitors = new ArrayList<Competitor>();
 				int competitorNumber = 1;
 				
@@ -62,18 +60,18 @@ public class MatchService {
 				match.getCompetitors().removeAll(deletedCompetitors);
 			}
 			if (match.getStages() != null) {
-				System.out.println("Handling stages");
-				List<Stage> deletedStages = new ArrayList<Stage>();
+				List<Stage> removeStages = new ArrayList<Stage>();
 				for (Stage stage : match.getStages()) {
-					if (stage.isDeleted() == true) {
-						deletedStages.add(stage);
+					
+					if (stage.isDeleted() == true || (stage.getScoreType() != null && stage.getScoreType().equals("Chrono"))) {
+						System.out.println("Removing " + stage.getName());
+						removeStages.add(stage);
 					}
 				}
-				match.getStages().removeAll(deletedStages);
+				match.getStages().removeAll(removeStages);
 			}
-			System.out.println("Saving match");
 			savedMatch = matchRepository.save(match);
-			System.out.println("Null " + savedMatch == null);
+			
 		}
 		
 		return savedMatch;

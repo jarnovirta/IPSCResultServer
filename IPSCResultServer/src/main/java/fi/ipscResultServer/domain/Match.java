@@ -75,6 +75,7 @@ public class Match implements Serializable {
 	private List<String> divisions;
 	
 	@ElementCollection
+	@OrderColumn
 	private List<String> divisionsWithResults;
 		
 	@JsonProperty("match_stages")

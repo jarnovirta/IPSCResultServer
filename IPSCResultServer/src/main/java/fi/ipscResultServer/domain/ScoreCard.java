@@ -206,6 +206,7 @@ public class ScoreCard implements Serializable, Comparable<ScoreCard> {
 		
 		int bitMask = 0xF;
 
+		
 		for (int hits : paperTargetHits) {
 			this.aHits += hits & bitMask;
 			this.cHits += (hits >> cHitsBitShift) & bitMask;
@@ -222,7 +223,10 @@ public class ScoreCard implements Serializable, Comparable<ScoreCard> {
 		this.points -= proceduralPenalties * 10;
 		this.points -= additionalPenalties;
 		
-		if (this.points >=0 && this.time > 0) this.hitFactor = this.points / this.time;
+		if (this.points >=0 && this.time > 0 && competitor.getPowerFactor() != null 
+				&& !competitor.getPowerFactor().equals("SUBMINOR")) {
+			this.hitFactor = this.points / this.time;
+		}
 		else {
 			this.points = 0;
 			this.hitFactor = 0;

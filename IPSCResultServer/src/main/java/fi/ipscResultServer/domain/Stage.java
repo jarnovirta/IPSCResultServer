@@ -45,6 +45,10 @@ public class Stage implements Serializable {
 	@Column(nullable = false)
 	private String name;
 	
+	@JsonProperty("stage_scoretype")
+	@Transient
+	private String scoreType;
+	
 	@JsonProperty("stage_number")
 	@Column(nullable = false)
 	private int stageNumber;
@@ -95,6 +99,14 @@ public class Stage implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public String getScoreType() {
+		return scoreType;
+	}
+
+	public void setScoreType(String scoreType) {
+		this.scoreType = scoreType;
 	}
 
 	public int getStageNumber() {
@@ -164,4 +176,5 @@ public class Stage implements Serializable {
 	public void setMaxPoints(int maxPoints) {
 		this.maxPoints = maxPoints;
 	}
+	
 }

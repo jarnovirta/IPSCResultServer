@@ -75,6 +75,7 @@ public class StageResultDataService {
 				
 				// Discard results for DQ'ed competitor
 				if (scoreCard.getCompetitor().isDisqualified()) continue;
+				
 				if (rank == 1) topHitFactor = scoreCard.getHitFactor();
 				StageResultDataLine resultDataLine = new StageResultDataLine();
 				resultDataLine.setStageRank(rank);

@@ -84,7 +84,7 @@
 						        		<td>
 						        			<c:choose>
 												<c:when test="${resultData.match.status eq 'SCORING_ENDED' }">
-						        					<c:url var="url" value="/match/${resultData.match.practiScoreId}/division/${resultData.competitor.division}" />
+						        					<c:url var="url" value="/match/${resultData.match.id}/division/${resultData.competitor.division}" />
 													<a href="${url}"><c:out value="${resultData.competitor.division }" /></a>
 												</c:when>
 												<c:otherwise>
