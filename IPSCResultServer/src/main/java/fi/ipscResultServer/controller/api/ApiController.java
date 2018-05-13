@@ -35,7 +35,7 @@ public class ApiController {
 	
 	@RequestMapping(value = "/matches", method = RequestMethod.POST)
 	public ResponseEntity<String> postMatchData(@RequestBody Match match) {
-		logger.info("POST request to /matches");
+		logger.info("POST request to /matches " + match.getPractiScoreId());
 		boolean admin = userService.isCurrentUserAdmin();
 		try {
 			Match dbMatch = matchService.findByPractiScoreId(match.getPractiScoreId());
@@ -43,20 +43,21 @@ public class ApiController {
 				return new ResponseEntity<String>("Scoring not open for match", null, HttpStatus.BAD_REQUEST);
 			}
 		
-		if (admin == true) {
-			match.setUploadedByAdmin(true);
-		}
-		else {
-			match.setUser(userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
-		}
-		
-		for (Stage stage : match.getStages()) {
-			stage.setMatch(match);
-		}
-		
-			matchService.save(match);
-			return new ResponseEntity<String>("Match data saved", null, HttpStatus.OK);
+			if (admin == true) {
+				match.setUploadedByAdmin(true);
+			}
+			else {
+				match.setUser(userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
+			}
 			
+			for (Stage stage : match.getStages()) {
+				stage.setMatch(match);
+			}
+			
+				matchService.save(match);
+				logger.info("Responding with ok from api/matches");
+				return new ResponseEntity<String>("Match data saved", null, HttpStatus.OK);
+				
 		}
 		catch (DatabaseException e) {
 			logger.info("Responding to API request with status code 500 - Internal Server Error");
@@ -64,15 +65,16 @@ public class ApiController {
 		}
 	}
 
-	@RequestMapping(value = "/matches/matchId/scores", method = RequestMethod.POST)
+	@RequestMapping(value = "/scores", method = RequestMethod.POST)
 	public ResponseEntity<String> postScoreData(@RequestBody MatchScore matchScore) {
-		logger.info("POST request to /matches/matchId/scores");
+		logger.info("POST request to //scores");
 		try {
 			Match dbMatch = matchService.findByPractiScoreId(matchScore.getMatchId());
 			if (dbMatch != null && dbMatch.getStatus() != MatchStatus.SCORING) {
 				return new ResponseEntity<String>("Scoring not open for match", null, HttpStatus.BAD_REQUEST);
 			}
 			matchScoreService.save(matchScore);
+			logger.info("Responding with ok from api/scores");
 			return new ResponseEntity<String>("Result data saved", null, HttpStatus.OK);
 		}
 		catch (DatabaseException e) {

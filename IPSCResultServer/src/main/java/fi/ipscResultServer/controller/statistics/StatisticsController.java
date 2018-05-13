@@ -42,9 +42,15 @@ public class StatisticsController {
 					division = match.getDivisionsWithResults().get(0);
 				}
 			}
+			List<CompetitorStatistics> competitorStatistics = getCompetitorStatistics(match.getId(), division);
+			boolean additionalPenaltiesColumn = false;
+			for (CompetitorStatistics stats : competitorStatistics) {
+				if (stats.getAdditionalPenalties() > 0) additionalPenaltiesColumn = true;
+			}
 			model.addAttribute("match", match);
 			model.addAttribute("division", division);
-			model.addAttribute("statistics", getCompetitorStatistics(match.getId(), division));
+			model.addAttribute("statistics", competitorStatistics);
+			model.addAttribute("additionalPenaltiesColumn", additionalPenaltiesColumn);
 		}
 		catch (DatabaseException e) {
 			logger.error(e.getMessage());

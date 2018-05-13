@@ -156,6 +156,11 @@
 										<th>
 											Proc
 										</th>
+										<c:if test="${additionalPenaltiesColumn == true }">
+											<th>
+												Add. pen.
+											</th>
+										</c:if>
 										<th>
 											Sum of Pts
 										</th>
@@ -214,6 +219,11 @@
 												<td align="right">
 													${line.proceduralPenalties}
 												</td>
+												<c:if test="${additionalPenaltiesColumn == true }">
+													<td align="right">
+														${line.additionalPenalties}
+													</td>
+												</c:if>
 												<td align="right">
 													${line.sumOfPoints }
 												</td>

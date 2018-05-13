@@ -99,6 +99,9 @@ public class ScoreCard implements Serializable, Comparable<ScoreCard> {
 	@JsonProperty("proc")
 	private int proceduralPenalties = 0;
 	
+	@JsonProperty("apen")
+	private int additionalPenalties = 0;
+	
 	@JsonIgnore
 	@Column(nullable = false)
 	private double hitFactor;
@@ -217,6 +220,7 @@ public class ScoreCard implements Serializable, Comparable<ScoreCard> {
 		this.points -= noshootHits * 10;
 		this.points -= misses * 10;
 		this.points -= proceduralPenalties * 10;
+		this.points -= additionalPenalties;
 		
 		if (this.points >=0 && this.time > 0) this.hitFactor = this.points / this.time;
 		else {
@@ -363,6 +367,14 @@ public class ScoreCard implements Serializable, Comparable<ScoreCard> {
 
 	public void setTime(double time) {
 		this.time = time;
+	}
+
+	public int getAdditionalPenalties() {
+		return additionalPenalties;
+	}
+
+	public void setAdditionalPenalties(int additionalPenalties) {
+		this.additionalPenalties = additionalPenalties;
 	}
 
 }

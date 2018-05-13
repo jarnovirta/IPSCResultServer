@@ -60,6 +60,7 @@ public class StatisticsService {
 				int dHits = 0;
 				int misses = 0;
 				int proceduralPenalties = 0;
+				int additionalPenalties = 0;
 				int noShootHits = 0;
 				int sumOfPoints = 0;
 				CompetitorResultData competitorResultData = competitorResultDataService.findByCompetitorAndMatch(competitor, match);
@@ -72,6 +73,7 @@ public class StatisticsService {
 					dHits += card.getdHits();
 					misses += card.getMisses();
 					proceduralPenalties += card.getProceduralPenalties();
+					additionalPenalties += card.getAdditionalPenalties();
 					noShootHits += card.getNoshootHits();
 					sumOfPoints += card.getPoints();
 					matchTime += card.getTime();
@@ -81,6 +83,7 @@ public class StatisticsService {
 				line.setdHits(dHits);
 				line.setMisses(misses);
 				line.setProceduralPenalties(proceduralPenalties);
+				line.setAdditionalPenalties(additionalPenalties);
 				line.setNoShootHits(noShootHits);
 				line.setSumOfPoints(sumOfPoints);
 				line.setMatchTime(matchTime);

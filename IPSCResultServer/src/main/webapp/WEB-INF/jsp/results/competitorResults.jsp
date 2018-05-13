@@ -16,7 +16,7 @@
 				<%@ include file="/WEB-INF/jsp/include/loginLogoutButtons.jsp" %>
 				<ol class="breadcrumb breadcrumb-arrow">
 					<li><a href="${baseUrl }">Home</a></li>
-					<li><a href="${baseUrl }match/${resultData.match.practiScoreId}">Match</a></li>
+					<li><a href="${baseUrl }match/${resultData.match.id}">Match</a></li>
 					<li class="active"><span>Verify List</span></li>
 				</ol>
 				<div class="page-header">
@@ -173,6 +173,11 @@
 									<th>
 										Proc.
 									</th>
+									<c:if test="${additionalPenaltiesColumn == true }">
+										<th>
+											Add. penalties
+										</th>
+									</c:if>
 									<th>
 										Points
 									</th>
@@ -230,6 +235,11 @@
 													<td align="right">
 														${scoreCard.proceduralPenalties }
 													</td>
+													<c:if test="${additionalPenaltiesColumn == true }">
+														<td align="right">
+															${scoreCard.additionalPenalties }
+														</td>
+													</c:if>
 													<td align="right">
 														${scoreCard.points }
 													</td>

@@ -43,6 +43,8 @@ public class CompetitorStatistics implements Serializable, Comparable<Competitor
 	
 	private int proceduralPenalties;
 	
+	private int additionalPenalties;
+	
 	private int noShootHits;
 	
 	private int sumOfPoints;
@@ -189,6 +191,14 @@ public class CompetitorStatistics implements Serializable, Comparable<Competitor
 
 	public void setDivisionScorePercentage(double divisionScorePercentage) {
 		this.divisionScorePercentage = divisionScorePercentage;
+	}
+
+	public int getAdditionalPenalties() {
+		return additionalPenalties;
+	}
+
+	public void setAdditionalPenalties(int additionalPenalties) {
+		this.additionalPenalties = additionalPenalties;
 	}
 
 }
