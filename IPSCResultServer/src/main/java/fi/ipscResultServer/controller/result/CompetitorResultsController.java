@@ -48,7 +48,6 @@ public class CompetitorResultsController {
 			
 			List<ScoreCard> cards = new ArrayList<ScoreCard>();
 			for (Stage stage : match.getStages()) {
-				System.out.println(stage.getName());
 				ScoreCard card = resultData.getScoreCards().get(stage.getId());
 				if (card != null) {
 					cards.add(card);

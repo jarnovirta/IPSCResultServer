@@ -310,9 +310,7 @@
 									<td align="right">
 										<fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${resultData.missPercentage }" />%
 									</td>
-									<td align="right">
-										<fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${resultData.noshootPercentage }" />%
-									</td>
+									<td />
 									<td />
 									<td />
 									<td />

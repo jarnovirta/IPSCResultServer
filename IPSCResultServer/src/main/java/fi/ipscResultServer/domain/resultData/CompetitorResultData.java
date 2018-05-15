@@ -44,9 +44,6 @@ public class CompetitorResultData {
 	@Transient
 	private int noshootHitsSum;
 	
-	@Transient
-	private double noshootPercentage;
-	
 	@Transient 
 	private int pointsSum; 
 	
@@ -114,7 +111,6 @@ public class CompetitorResultData {
 		cHitsPercentage = (double) cHitsSum / (double) totalShots * 100.0;
 		dHitsPercentage = (double) dHitsSum / (double) totalShots * 100.0;
 		missPercentage = (double) missSum / (double) totalShots * 100.0;
-		noshootPercentage = (double) noshootHitsSum / (double) totalShots * 100.0;
 		if (scoreCards.size() > 0) hitFactorAverage = hitFactorSum / scoreCards.size();
 	}
 	public int getaHitsSum() {
@@ -153,10 +149,6 @@ public class CompetitorResultData {
 		return noshootHitsSum;
 	}
 
-	public double getNoshootPercentage() {
-		return noshootPercentage;
-	}
-
 	public double getHitFactorAverage() {
 		return hitFactorAverage;
 	}
@@ -176,5 +168,4 @@ public class CompetitorResultData {
 	public double getHitFactorSum() {
 		return hitFactorSum;
 	}
-
 }
