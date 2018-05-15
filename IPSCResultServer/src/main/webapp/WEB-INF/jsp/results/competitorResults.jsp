@@ -209,7 +209,7 @@
 													<td>
 														<c:choose>
 															<c:when test="${resultData.match.status eq 'SCORING_ENDED' }">
-																<c:url var="url" value="/match/${resultData.match.practiScoreId}/stage/${scoreCard.stage.practiScoreId}/division/${scoreCard.competitor.division }" />
+																<c:url var="url" value="/match/${resultData.match.id}/stage/${scoreCard.stage.id}/division/${scoreCard.competitor.division }" />
 																<a href="${url}">${scoreCard.stage.name}</a>
 															</c:when>
 															<c:otherwise>
@@ -353,24 +353,36 @@
 											${line.scoreCard.stage.stageNumber }
 										</td>
 										<td>
-											${line.scoreCard.stage.name }
+											<c:url var="url" value="/match/${resultData.match.id}/stage/${line.scoreCard.stage.id}/division/${scoreCard.competitor.division }" />
+											<a href="${url}">${line.scoreCard.stage.name }</a>
 										</td>
 										<td align="right">
-											
 											${line.scoreCard.stage.maxPoints } (${line.stageValuePercentage}%)
 										</td>
 										<td align="right">
 											<fmt:formatNumber type = "number" minFractionDigits = "2" maxFractionDigits = "2" value="${line.scoreCard.time }" />
 										</td>
-										<td align="right">
-											${line.aTime }
-										</td>
-										<td>
-											C=${line.cCost }, 
-											D=${line.dCost },
-											NS=${line.proceduralPenaltyAndNoShootCost },
-											Miss=${line.missCost }
-										</td>
+										<c:choose>
+											<c:when test="${line.scoreCard.hitFactor gt 0}">
+												<td align="right">
+													${line.aTime }
+												</td>
+												<td>
+													C=${line.cCost }, 
+													D=${line.dCost },
+													NS=${line.proceduralPenaltyAndNoShootCost },
+													Miss=${line.missCost }
+												</td>
+											</c:when>
+											<c:otherwise>
+												<td align="right">
+													-
+												</td>
+												<td>
+													-
+												</td>
+											</c:otherwise>
+										</c:choose>
 									</tr>
 								</c:forEach>
 							</tbody>

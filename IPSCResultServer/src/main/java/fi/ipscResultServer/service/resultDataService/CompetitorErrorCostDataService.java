@@ -49,29 +49,30 @@ public class CompetitorErrorCostDataService {
 	
 	public static class ErrorCostTableLine {
 		private ScoreCard scoreCard;
-		private double stageValuePercentage;
-		private double aTime;
-		private double cCost;
-		private double dCost;
-		private double proceduralPenaltyAndNoShootCost;
-		private double missCost;
+		private int stageValuePercentage;
+		private double aTime = -1;
+		private double cCost = -1;
+		private double dCost = -1;
+		private double proceduralPenaltyAndNoShootCost = -1;
+		private double missCost = -1;
 		
 		private ErrorCostTableLine(ScoreCard scoreCard) {
 			this.scoreCard = scoreCard;
-			stageValuePercentage = DataFormatUtils.round((double) scoreCard.getStage().getMaxPoints() / (double) matchTotalPoints * 100, 0); 
-			aTime = DataFormatUtils.round(scoreCard.getStage().getMaxPoints() / scoreCard.getHitFactor(), 2);
-			cCost = DataFormatUtils.round(cHitPointLoss / scoreCard.getHitFactor(), 2);
-			dCost = DataFormatUtils.round(dHitPointLoss / scoreCard.getHitFactor(), 2);
-			proceduralPenaltyAndNoShootCost = DataFormatUtils.round(proceduralAndNoShootPointLoss / scoreCard.getHitFactor(), 2);
-			missCost = DataFormatUtils.round(missPointLoss / scoreCard.getHitFactor(), 2);
-			
+			stageValuePercentage = new Double(DataFormatUtils.round((double) scoreCard.getStage().getMaxPoints() / (double) matchTotalPoints * 100, 0)).intValue();
+			if (scoreCard.getHitFactor() > 0) {
+				aTime = DataFormatUtils.round(scoreCard.getStage().getMaxPoints() / scoreCard.getHitFactor(), 2);
+				cCost = DataFormatUtils.round(cHitPointLoss / scoreCard.getHitFactor(), 2);
+				dCost = DataFormatUtils.round(dHitPointLoss / scoreCard.getHitFactor(), 2);
+				proceduralPenaltyAndNoShootCost = DataFormatUtils.round(proceduralAndNoShootPointLoss / scoreCard.getHitFactor(), 2);
+				missCost = DataFormatUtils.round(missPointLoss / scoreCard.getHitFactor(), 2);
+			}
 		}
 
 		public ScoreCard getScoreCard() {
 			return scoreCard;
 		}
 
-		public double getStageValuePercentage() {
+		public int getStageValuePercentage() {
 			return stageValuePercentage;
 		}
 
@@ -95,5 +96,4 @@ public class CompetitorErrorCostDataService {
 			return missCost;
 		}
 	}
-
 }
