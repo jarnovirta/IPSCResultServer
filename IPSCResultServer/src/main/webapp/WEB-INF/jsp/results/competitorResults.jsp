@@ -20,7 +20,7 @@
 					<li class="active"><span>Verify List</span></li>
 				</ol>
 				<div class="page-header">
-					<h1>Verify List</h1>
+					<h1>Competitor Results</h1>
 				</div>
 				<br><br>
 				
@@ -142,6 +142,7 @@
 				</div>
 	
 				<br>
+				<h3>Verify List</h3>
 				<c:choose>
 					<c:when test="${resultData.match.status eq 'CLOSED'}">
 						<h3>Match is closed</h3>
@@ -288,10 +289,10 @@
 									</td>									
 									<td align="right">
 										<fmt:formatNumber type = "number" minFractionDigits = "2" maxFractionDigits = "2" value="${resultData.totalTime}" />
-										
 									</td>
-									
-									<td />
+									<td align="right">
+										<fmt:formatNumber type = "number" minFractionDigits = "4" maxFractionDigits = "4" value="${resultData.hitFactorSum}" />
+									</td>
 									<td />
 								</tr>
 								<tr>
@@ -319,6 +320,61 @@
 										Avg: <fmt:formatNumber type="number" minFractionDigits="4" maxFractionDigits="4" value="${resultData.hitFactorAverage }" />
 									</td>
 								</tr>															
+							</tbody>
+						</table>
+						<br>
+						<h3>Error Cost Analysis</h3>
+						<table class="table table-striped table-bordered" id="competitorResultTable">
+							<thead>
+								<tr>
+									<th>
+										Stage #
+									</th>
+									<th>
+										Stage Name
+									</th>
+									
+									<th>
+										Value
+									</th>
+									<th>
+										Time
+									</th>
+									<th>
+										A-Time
+									</th>
+									<th>
+										Error cost
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								<c:forEach var="line" items="${errorCostDataLines}">
+									<tr>
+										<td align="right">
+											${line.scoreCard.stage.stageNumber }
+										</td>
+										<td>
+											${line.scoreCard.stage.name }
+										</td>
+										<td align="right">
+											
+											${line.scoreCard.stage.maxPoints } (${line.stageValuePercentage}%)
+										</td>
+										<td align="right">
+											<fmt:formatNumber type = "number" minFractionDigits = "2" maxFractionDigits = "2" value="${line.scoreCard.time }" />
+										</td>
+										<td align="right">
+											${line.aTime }
+										</td>
+										<td>
+											C=${line.cCost }, 
+											D=${line.dCost },
+											NS=${line.proceduralPenaltyAndNoShootCost },
+											Miss=${line.missCost }
+										</td>
+									</tr>
+								</c:forEach>
 							</tbody>
 						</table>
 					</c:otherwise>

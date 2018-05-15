@@ -55,6 +55,9 @@ public class CompetitorResultData {
 	
 	@Transient
 	private double totalTime; 
+	
+	@Transient
+	private double hitFactorSum;
 		
 	@Transient
 	private double hitFactorAverage;
@@ -94,7 +97,7 @@ public class CompetitorResultData {
 		totalTime = 0.0;
 		proceduralPenaltiesSum = 0;
 		pointsSum = 0;
-		double totalHitfactor = 0;
+		hitFactorSum = 0;
 		for (ScoreCard card : scoreCards.values()) {
 			aHitsSum += card.getaHits();
 			cHitsSum += card.getcHits();
@@ -103,7 +106,7 @@ public class CompetitorResultData {
 			pointsSum += card.getPoints();
 			noshootHitsSum += card.getNoshootHits();
 			totalTime += card.getTime();
-			totalHitfactor += card.getHitFactor();
+			hitFactorSum += card.getHitFactor();
 		}
 		int totalShots = aHitsSum + cHitsSum + dHitsSum + missSum + noshootHitsSum;
 		if (totalShots == 0) return;
@@ -112,7 +115,7 @@ public class CompetitorResultData {
 		dHitsPercentage = (double) dHitsSum / (double) totalShots * 100.0;
 		missPercentage = (double) missSum / (double) totalShots * 100.0;
 		noshootPercentage = (double) noshootHitsSum / (double) totalShots * 100.0;
-		if (scoreCards.size() > 0) hitFactorAverage = totalHitfactor / scoreCards.size();
+		if (scoreCards.size() > 0) hitFactorAverage = hitFactorSum / scoreCards.size();
 	}
 	public int getaHitsSum() {
 		return aHitsSum;
@@ -168,6 +171,10 @@ public class CompetitorResultData {
 
 	public double getTotalTime() {
 		return totalTime;
+	}
+
+	public double getHitFactorSum() {
+		return hitFactorSum;
 	}
 
 }
