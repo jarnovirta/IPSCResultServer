@@ -21,6 +21,21 @@ body{
     padding-bottom: 50px;
 }
 
+.row {
+    display: flex;
+}
+
+.leftColumn {
+	float: left;
+	margin-right: 20px;
+    width: 750px;
+}
+
+.rightColumn {
+	float: right;
+    width: 310px;
+}
+
 .breadcrumb-arrow {
     height: 36px;
     padding: 0;

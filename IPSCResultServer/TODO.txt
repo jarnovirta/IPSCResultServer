@@ -1,3 +1,6 @@
+CHARTS: http://www.jscharts.com/examples#pie-charts
+DFP esimerkkivideo: https://www.youtube.com/watch?v=OAJ7r4-Rsrw
+
 TOIMIIKO REFRESH JOS VÄLISSÄ UUDET TULOSTIEDOT?
 - Kilpailijat ja staget: haut aina practiscore id:n ja kisa-id:n perusteella!
 

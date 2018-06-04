@@ -14,47 +14,58 @@
 		
 		<div id="wrap">
 			<div class="container">
+				<div style="margin-bottom: 15px">
+					<img src="<c:url value='/resources/images/cesar_billboard.png' />" />
+				</div>
 				<%@ include file="/WEB-INF/jsp/include/loginLogoutButtons.jsp" %>
 				<ol class="breadcrumb breadcrumb-arrow">
 					<li class="active"><span>Home</span></li>
 				</ol>
+				
 				<div class="page-header">
 					<h1>Result Service</h1>
 				</div>
 				<br>
 				<br>
-				<div style="max-width: 750px">
-					<table class="table table-striped table-bordered" id="matchTable">
-						<thead>
-							<tr>
-								<th>
-									Match
-								</th>
-								<th>
-									Date
-								</th>
-							</tr>
-						</thead>
-						
-						<tbody>
-							<c:forEach var="match" items="${matches}">
-								<c:if test="${match.status ne 'CLOSED' }">
-									<tr>
-										<td>
-											<a href="${baseUrl}match/${ match.id}">${match.name}</a>
-										</td>
-										<td>
-											<fmt:formatDate value="${match.date.time}" pattern="dd.MM.yyyy" />
-										</td>
-									</tr>
-								</c:if>
-							</c:forEach>
-						</tbody>
-					</table>
+					<div class="container row">
+						<div class="leftColumn">	
+							<div style="max-width: 750px;">
+								<table class="table table-striped table-bordered" id="matchTable">
+									<thead>
+										<tr>
+											<th>
+												Match
+											</th>
+											<th>
+												Date
+											</th>
+										</tr>
+									</thead>
+									
+									<tbody>
+										<c:forEach var="match" items="${matches}">
+											<c:if test="${match.status ne 'CLOSED' }">
+												<tr>
+													<td>
+														<a href="${baseUrl}match/${ match.id}">${match.name}</a>
+													</td>
+													<td>
+														<fmt:formatDate value="${match.date.time}" pattern="dd.MM.yyyy" />
+													</td>
+												</tr>
+											</c:if>
+										</c:forEach>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					
+					<div class="rightColumn">
+						<img align="right" style="margin-bottom: 15px; margin-right: 0; padding-right:0" src="<c:url value='/resources/images/cesar_medium_rectangle.png' />" />
+						<img align="right"  style="margin-bottom: 15px; margin-right: 0; padding-right:0" src="<c:url value='/resources/images/cesar_medium_rectangle.png' />" />
+					</div>
 				</div>
 			</div>
-		</div>
-
 		<jsp:include page="/WEB-INF/jsp/include/footer.jsp" />
 		
 	</body>
