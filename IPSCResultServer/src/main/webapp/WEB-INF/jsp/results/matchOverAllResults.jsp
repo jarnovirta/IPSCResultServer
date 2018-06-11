@@ -17,10 +17,15 @@
 			<c:url var="baseUrl" value="/" />
 			<div id="wrap">
 				<div class="container">
+					<%@ include file="/WEB-INF/jsp/include/pageTopAdZone.jsp" %>
 					<%@ include file="/WEB-INF/jsp/include/loginLogoutButtons.jsp" %>
 					<ol class="breadcrumb breadcrumb-arrow">
-						<li><a href="${baseUrl }">Home</a></li>
-						<li><a href="${baseUrl }match/${matchResultData.match.id}">Match</a></li>
+						<li><a href="<c:url value='/' />">Home</a></li>
+						<c:url var="matchPageUrl" value="/matchMainPage">
+							<c:param name="matchId" value="${matchResultData.match.id}" />
+						</c:url>
+						<li><a href="${matchPageUrl}">Match</a></li>
+						
 						<li class="active"><span>Match Results</span></li>
 					</ol>
 					<div class="page-header">
@@ -153,8 +158,11 @@
 												${dataline.rank}
 											</td>
 											<td>
-												<c:url var="url" value="/match/${dataline.matchResultData.match.id}/competitor/${dataline.competitor.id}" />
-												<a href="${url }">${dataline.competitor.firstName }</a> 
+												<c:url var="competitorResultsUrl" value="/competitorResults">
+													<c:param name="matchId" value="${dataline.matchResultData.match.id}" />
+													<c:param name="competitorId" value="${dataline.competitor.id}" />
+												</c:url>
+												<a href="${competitorResultsUrl }">${dataline.competitor.firstName }</a> 
 											</td>
 											<td>
 												<a href="${url }">${dataline.competitor.lastName }</a> 
@@ -205,7 +213,9 @@
 				<br>
 			</div>
 		</div>
+		<%@ include file="/WEB-INF/jsp/include/pageBottomAdZone.jsp" %>
 	</body>
+	
 	<jsp:include page="/WEB-INF/jsp/include/footer.jsp" />
 	<script>
 		$(document).ready(function() {
@@ -216,7 +226,8 @@
 			});
 		} );
 		function submitDivisionChange() {
-				location.replace("${baseUrl}match/${matchResultData.match.id }/division/"+ $("select#division").val());
+			var url = "${baseUrl}matchResults?matchId=${matchResultData.match.id }&division=" + $("select#division").val();
+			location.replace(url);
 		}
 	
 	</script>

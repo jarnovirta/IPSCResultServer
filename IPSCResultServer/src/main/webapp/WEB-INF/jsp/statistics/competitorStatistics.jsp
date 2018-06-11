@@ -11,16 +11,18 @@
 		<jsp:include page="/WEB-INF/jsp/include/headTag.jsp" />
 		<jsp:include page="/WEB-INF/jsp/include/dataTablesHeadTagLinks.jsp" />
 	</head>
-
-		
 	<body>
 		<c:url var="baseUrl" value="/" />
 		<div id="wrap">
 			<div class="container">
+				<%@ include file="/WEB-INF/jsp/include/pageTopAdZone.jsp" %>
 				<%@ include file="/WEB-INF/jsp/include/loginLogoutButtons.jsp" %>
 				<ol class="breadcrumb breadcrumb-arrow">
-					<li><a href="${baseUrl }">Home</a></li>
-					<li><a href="${baseUrl }match/${match.id}">Match</a></li>
+					<li><a href="<c:url value='/' />">Home</a></li>
+					<c:url var="matchPageUrl" value="/matchMainPage">
+						<c:param name="matchId" value="${match.id }" />
+					</c:url>
+					<li><a href="${matchPageUrl}">Match</a></li>
 					<li class="active"><span>Competitor Statistics</span></li>
 				</ol>
 				<div class="page-header">
@@ -49,7 +51,6 @@
 						        			<fmt:formatDate value="${match.date.time}" pattern="dd.MM.yyyy" />
 						        		</td>
 						        	</tr>
-						        	
 								</table>
 								</div>
 								<div class="pageInfoTableRight">   
@@ -59,12 +60,22 @@
 						        			<b>Showing statistics for division:</b>
 						        		</td>
 						        		<td>
-						        			<c:out value="${division}" />
+						        			<c:choose>
+						        				<c:when test="${match.status eq 'SCORING_ENDED' }">
+					        						<c:url var="matchResultsUrl" value="/matchResults" >
+						        						<c:param name="matchId" value="${match.id}" />
+						        						<c:param name="division" value="${division}" />
+						        					</c:url>
+									        		<a href="${matchResultsUrl}"><c:out value="${division}" /></a>
+									        	</c:when>
+						        				<c:otherwise>
+						        					<c:out value="${division}" />
+						        				</c:otherwise>
+							        		</c:choose>
 						        		</td>
 						        	</tr>
 						        </table>
 						       	</div>
-								
 						    </div>
 						  </div>
 					</div>
@@ -183,8 +194,11 @@
 													</c:choose>
 												</td>
 												<td>
-													<c:url var="url" value="/match/${match.id}/competitor/${line.competitor.id}" />
-													<a href="${url}">${line.competitor.firstName} ${line.competitor.lastName} </a>
+													<c:url var="competitorResultsUrl" value="/competitorResults" >
+														<c:param name="matchId" value="${match.id }" />
+														<c:param name="competitorId" value="${line.competitor.id }" />
+													</c:url>
+													<a href="${competitorResultsUrl}">${line.competitor.firstName} ${line.competitor.lastName} </a>
 												</td>
 												<td align="right">
 													${line.competitor.shooterNumber }
@@ -234,11 +248,12 @@
 													<c:if test="${line.competitor.powerFactor eq  'MAJOR'}">
 														<c:set var="pf" value="+" />
 													</c:if>
-													<c:url var="url" value="/match/${match.id}/division/${line.competitor.division}" />
-													
+													<c:url var="matchResultsUrl" value="matchResults">
+														<c:param name="matchId" value="${match.id}" />
+														<c:param name="division" value="${line.competitor.division}" />
+													</c:url> 
 													<%-- <a href="${url}">${fn:substring(line.competitor.division, 0, 1)}${pf} </a> --%>		
-													
-													<a href="${url}">${line.competitor.division}${pf} </a>		
+													<a href="${matchResultsUrl}">${line.competitor.division}${pf} </a>		
 												</td>
 											</tr> 
 										</c:forEach>
@@ -248,6 +263,7 @@
 				</c:choose>
 			</div>
 		</div>
+		<%@ include file="/WEB-INF/jsp/include/pageBottomAdZone.jsp" %>
 	</body>
 	<jsp:include page="/WEB-INF/jsp/include/footer.jsp" />
 	
@@ -260,7 +276,8 @@
 			});
 		} );
 		function submitDivisionChange() {
-			location.replace("${baseUrl}match/${match.id }/statistics/division/"+ $("select#division").val());
+			var url = "${baseUrl}statistics?matchId=${match.id }&division=" + $("select#division").val();
+			location.replace(url);
 		}
 	</script>
 	

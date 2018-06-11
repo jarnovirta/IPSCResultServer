@@ -28,12 +28,12 @@ body{
 .leftColumn {
 	float: left;
 	margin-right: 20px;
-    width: 750px;
+    
 }
 
 .rightColumn {
 	float: right;
-    width: 310px;
+    width: 170px;
 }
 
 .breadcrumb-arrow {

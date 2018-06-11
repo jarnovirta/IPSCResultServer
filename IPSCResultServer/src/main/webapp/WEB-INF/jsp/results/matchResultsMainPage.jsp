@@ -10,12 +10,12 @@
 		<jsp:include page="/WEB-INF/jsp/include/dataTablesHeadTagLinks.jsp" />
 	</head>
 	<body>
-		<c:url var="baseUrl" value="/" />
 		<div id="wrap">
 			<div class="container">
+				<%@ include file="/WEB-INF/jsp/include/pageTopAdZone.jsp" %>
 				<%@ include file="/WEB-INF/jsp/include/loginLogoutButtons.jsp" %>
 			    <ol class="breadcrumb breadcrumb-arrow">
-					<li><a href="${baseUrl }">Home</a></li>
+					<li><a href="<c:url value='/' />">Home</a></li>
 					<li class="active"><span>Match</span></li>
 				</ol>
 				<div class="page-header">
@@ -28,14 +28,21 @@
 					</c:when>
 					<c:otherwise>
 						<c:if test="${match.status eq 'SCORING_ENDED' }">
-							<a href="${baseUrl}match/${match.id }/statistics" style="text-decoration: none;">
+							<c:url var="statisticsUrl" value="/statistics">
+								<c:param name="matchId" value="${match.id }" />
+							</c:url>
+							<a href="${statisticsUrl }">
 								<button class="btn btn-large btn-primary" type="button">Competitor Statistics</button>
 							</a>
 							<br><br><br>
 							<h4><b>Match Results:</b></h4>
 							
 							<c:forEach var="division" items="${match.divisionsWithResults }">
-								<a href="${baseUrl}match/${match.id }/division/${division}">
+								<c:url var="matchResultsUrl" value="/matchResults">
+									<c:param name="matchId" value="${match.id }" />
+									<c:param name="division" value="${division }" />
+								</c:url>
+								<a href="${matchResultsUrl}">
 									${division }
 								</a>
 							</c:forEach>
@@ -62,7 +69,12 @@
 											</td>
 											<td style="width: 50%">
 												<c:forEach var="division" items="${match.divisionsWithResults }">
-													<a href="${baseUrl }match/${match.id}/stage/${stage.id}/division/${division }">
+													<c:url var="stageResultsUrl" value="/stageResults">
+														<c:param name="matchId" value="${match.id }" />
+														<c:param name="stageId" value="${stage.id }" />
+														<c:param name="division" value="${division }" />
+													</c:url>
+													<a href="${stageResultsUrl}">
 														${division } 
 													</a>
 												</c:forEach>
@@ -88,7 +100,11 @@
 									<c:forEach var="competitor" items="${competitors}">
 										<tr>
 											<td style="width: 50%">
-												<a href="${baseUrl}match/${match.id }/competitor/${competitor.id}">
+												<c:url var="competitorResultsUrl" value="/competitorResults">
+													<c:param name = "competitorId" value = "${competitor.id }"/>
+													<c:param name = "matchId" value = "${match.id }"/>
+												</c:url>
+												<a href="${competitorResultsUrl}">
 													${competitor.lastName }, ${competitor.firstName} 
 												</a>
 											</td>
@@ -102,6 +118,7 @@
 				</c:choose>
 			</div>
 		</div>
+		<%@ include file="/WEB-INF/jsp/include/pageBottomAdZone.jsp" %>
 	</body>
 	<jsp:include page="/WEB-INF/jsp/include/footer.jsp" />
 	<script>

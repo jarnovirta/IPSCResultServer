@@ -88,9 +88,10 @@ public class Match implements Serializable {
 
 	public Match() { }
 	
-	public Match(Long id, String name, Calendar date, MatchStatus status, User user, boolean uploadedByAdmin) { 
+	public Match(Long id, String name, String level, Calendar date, MatchStatus status, User user, boolean uploadedByAdmin) { 
 		this.id = id;
 		this.name = name;
+		this.level = level;
 		this.status = status;
 		this.date = date;
 		this.user = user;

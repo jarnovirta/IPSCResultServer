@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import fi.ipscResultServer.domain.Constants;
 import fi.ipscResultServer.domain.Match;
@@ -18,7 +19,7 @@ import fi.ipscResultServer.service.MatchService;
 import fi.ipscResultServer.service.StatisticsService;
 
 @Controller
-@RequestMapping("/match/{matchId}/statistics")
+@RequestMapping("/statistics")
 public class StatisticsController {
 
 	@Autowired
@@ -30,16 +31,18 @@ public class StatisticsController {
 	final static Logger logger = Logger.getLogger(StatisticsController.class);
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public String getStatisticsPage(Model model, @PathVariable("matchId") Long matchId) {
+	public String getStatisticsPage(Model model, @RequestParam("matchId") Long matchId,
+			@RequestParam(value="division", required = false) String division) {
 		try {
 			Match match = matchService.getOne(matchId);
-			String division = null;
-			if (match.getDivisionsWithResults().contains(Constants.COMBINED_DIVISION)) {
-				division = Constants.COMBINED_DIVISION;
-			}
-			else {
-				if (match.getDivisionsWithResults().size() > 0) {
-					division = match.getDivisionsWithResults().get(0);
+			if (division == null) {
+				if (match.getDivisionsWithResults().contains(Constants.COMBINED_DIVISION)) {
+					division = Constants.COMBINED_DIVISION;
+				}
+				else {
+					if (match.getDivisionsWithResults().size() > 0) {
+						division = match.getDivisionsWithResults().get(0);
+					}
 				}
 			}
 			List<CompetitorStatistics> competitorStatistics = getCompetitorStatistics(match.getId(), division);
@@ -57,20 +60,20 @@ public class StatisticsController {
 		}
 		return "statistics/competitorStatistics";
 	}
-	
-	@RequestMapping(value="/division/{division}", method = RequestMethod.GET)
-	public String getStatisticsPageForDivision(Model model, @PathVariable("matchId") Long matchId, @PathVariable("division") String division) {
-		try {
-			model.addAttribute("match", matchService.getOne(matchId));
-			model.addAttribute("statistics", getCompetitorStatistics(matchId, division));
-		}
-		
-		catch (DatabaseException e) {
-			logger.error(e.getMessage());
-		}
-		
-		return "statistics/competitorStatistics";
-	}
+//	
+//	@RequestMapping(value="/division/{division}", method = RequestMethod.GET)
+//	public String getStatisticsPageForDivision(Model model, @PathVariable("matchId") Long matchId, @PathVariable("division") String division) {
+//		try {
+//			model.addAttribute("match", matchService.getOne(matchId));
+//			model.addAttribute("statistics", getCompetitorStatistics(matchId, division));
+//		}
+//		
+//		catch (DatabaseException e) {
+//			logger.error(e.getMessage());
+//		}
+//		
+//		return "statistics/competitorStatistics";
+//	}
 	
 	private List<CompetitorStatistics> getCompetitorStatistics(Long matchId, String division) {
 		try {

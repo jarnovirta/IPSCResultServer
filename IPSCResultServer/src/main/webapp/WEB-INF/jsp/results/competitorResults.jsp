@@ -10,13 +10,16 @@
 	</head>
 		
 	<body>
-		<c:url var="baseUrl" value="/" />
 		<div id="wrap">
 			<div class="container">
+				<%@ include file="/WEB-INF/jsp/include/pageTopAdZone.jsp" %>
 				<%@ include file="/WEB-INF/jsp/include/loginLogoutButtons.jsp" %>
 				<ol class="breadcrumb breadcrumb-arrow">
-					<li><a href="${baseUrl }">Home</a></li>
-					<li><a href="${baseUrl }match/${resultData.match.id}">Match</a></li>
+					<li><a href="<c:url value='/' />">Home</a></li>
+					<c:url var="matchPageUrl" value="/matchMainPage">
+						<c:param name="matchId" value="${resultData.match.id }" />
+					</c:url>
+					<li><a href="${matchPageUrl}">Match</a></li>
 					<li class="active"><span>Verify List</span></li>
 				</ol>
 				<div class="page-header">
@@ -84,8 +87,11 @@
 						        		<td>
 						        			<c:choose>
 												<c:when test="${resultData.match.status eq 'SCORING_ENDED' }">
-						        					<c:url var="url" value="/match/${resultData.match.id}/division/${resultData.competitor.division}" />
-													<a href="${url}"><c:out value="${resultData.competitor.division }" /></a>
+						        					<c:url var="matchResultsUrl" value="/matchResults">
+						        						<c:param name="matchId" value="${resultData.match.id}" />
+						        						<c:param name="division" value="${resultData.competitor.division }" />
+						        					</c:url> 
+						        					<a href="${matchResultsUrl}"><c:out value="${resultData.competitor.division }" /></a>
 												</c:when>
 												<c:otherwise>
 													${resultData.competitor.division }
@@ -199,7 +205,6 @@
 							</thead>
 							<tbody>
 								<c:forEach var="stage" items="${resultData.match.stages}">
-									
 										<c:set var="scoreCard" value="${resultData.scoreCards[stage.id] }" />
 											<c:if test="${not empty scoreCard  }">
 												<tr>
@@ -209,8 +214,12 @@
 													<td>
 														<c:choose>
 															<c:when test="${resultData.match.status eq 'SCORING_ENDED' }">
-																<c:url var="url" value="/match/${resultData.match.id}/stage/${scoreCard.stage.id}/division/${scoreCard.competitor.division }" />
-																<a href="${url}">${scoreCard.stage.name}</a>
+																<c:url var="stageResultsUrl" value="/stageResults" >
+																	<c:param name="matchId" value="${scoreCard.stage.match.id}" />
+																	<c:param name="stageId" value="${scoreCard.stage.id}" />
+																	<c:param name="division" value="${scoreCard.competitor.division }" />
+																</c:url>
+																<a href="${stageResultsUrl}">${scoreCard.stage.name}</a>
 															</c:when>
 															<c:otherwise>
 																${scoreCard.stage.name}
@@ -317,6 +326,7 @@
 									<td align="right">
 										Avg: <fmt:formatNumber type="number" minFractionDigits="4" maxFractionDigits="4" value="${resultData.hitFactorAverage }" />
 									</td>
+									<td />
 								</tr>															
 							</tbody>
 						</table>
@@ -353,8 +363,12 @@
 											${line.scoreCard.stage.stageNumber }
 										</td>
 										<td>
-											<c:url var="url" value="/match/${resultData.match.id}/stage/${line.scoreCard.stage.id}/division/${scoreCard.competitor.division }" />
-											<a href="${url}">${line.scoreCard.stage.name }</a>
+											<c:url var="stageResultsUrl" value="/stageResults" >
+												<c:param name="matchId" value="${line.scoreCard.stage.match.id}" />
+												<c:param name="stageId" value="${line.scoreCard.stage.id}" />
+												<c:param name="division" value="${line.scoreCard.competitor.division }" />
+											</c:url>
+											<a href="${stageResultsUrl}">${line.scoreCard.stage.name }</a>
 										</td>
 										<td align="right">
 											${line.scoreCard.stage.maxPoints } (${line.stageValuePercentage}%)
@@ -391,10 +405,10 @@
 				</c:choose>
 			</div>
 		</div>
+		<%@ include file="/WEB-INF/jsp/include/pageBottomAdZone.jsp" %>
 	</body>
+	
 	<jsp:include page="/WEB-INF/jsp/include/footer.jsp" />
 	
 	<%@include file="/WEB-INF/jsp/include/loginLogoutScripts.jsp" %>
 </html>
-
-
