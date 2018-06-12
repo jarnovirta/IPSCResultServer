@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import fi.ipscResultServer.domain.Match;
 import fi.ipscResultServer.exception.DatabaseException;
 import fi.ipscResultServer.service.CompetitorService;
 import fi.ipscResultServer.service.MatchService;
@@ -24,10 +25,11 @@ public class MatchController {
 	final static Logger logger = Logger.getLogger(MatchController.class);
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public String getMatchMainPage(Model model, @RequestParam("matchId") Long matchId) {
+	public String getMatchMainPage(Model model, @RequestParam("matchId") String matchId) {
 		try {
-			model.addAttribute("match", matchService.getOne(matchId));
-			model.addAttribute("competitors", competitorService.findByMatch(matchId));
+			Match match = matchService.findByPractiScoreId(matchId);
+			model.addAttribute("match", match);
+			model.addAttribute("competitors", competitorService.findByMatch(match.getId()));
 			return "results/matchResultsMainPage";
 		}
 		// Exception logged in repository

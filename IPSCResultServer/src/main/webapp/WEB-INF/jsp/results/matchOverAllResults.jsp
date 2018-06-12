@@ -22,7 +22,7 @@
 					<ol class="breadcrumb breadcrumb-arrow">
 						<li><a href="<c:url value='/' />">Home</a></li>
 						<c:url var="matchPageUrl" value="/matchMainPage">
-							<c:param name="matchId" value="${matchResultData.match.id}" />
+							<c:param name="matchId" value="${matchResultData.match.practiScoreId}" />
 						</c:url>
 						<li><a href="${matchPageUrl}">Match</a></li>
 						
@@ -159,8 +159,8 @@
 											</td>
 											<td>
 												<c:url var="competitorResultsUrl" value="/competitorResults">
-													<c:param name="matchId" value="${dataline.matchResultData.match.id}" />
-													<c:param name="competitorId" value="${dataline.competitor.id}" />
+													<c:param name="matchId" value="${dataline.matchResultData.match.practiScoreId}" />
+													<c:param name="competitorId" value="${dataline.competitor.practiScoreId}" />
 												</c:url>
 												<a href="${competitorResultsUrl }">${dataline.competitor.firstName }</a> 
 											</td>
@@ -226,7 +226,7 @@
 			});
 		} );
 		function submitDivisionChange() {
-			var url = "${baseUrl}matchResults?matchId=${matchResultData.match.id }&division=" + $("select#division").val();
+			var url = "${baseUrl}matchResults?matchId=${matchResultData.match.practiScoreId }&division=" + $("select#division").val();
 			location.replace(url);
 		}
 	

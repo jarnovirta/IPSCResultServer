@@ -47,7 +47,7 @@
 										<tr>
 											<td>
 												<c:url var="matchMainPageUrl" value="/matchMainPage" >
-													<c:param name="matchId" value="${ match.id}" />
+													<c:param name="matchId" value="${ match.practiScoreId}" />
 												</c:url>
 												<a href="${matchMainPageUrl}">${match.name}</a>
 											</td>

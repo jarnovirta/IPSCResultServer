@@ -65,17 +65,22 @@
 					${visibility }
 				</td>
 				<td>
-					<select id="${match.id }">
-						<c:forEach items="${matchStatusList }" var="status">
-							<c:if test="${match.status eq  status}">
-								<option value="${status }" selected><c:out value="${status }" /></option>
-							</c:if>
-							<c:if test="${match.status ne  status}">
-								<option value="${status }"><c:out value="${status }" /></option>
-							</c:if>
-						</c:forEach>
-					</select>
-					<button class="btn btn-default adminTableStatusButton" onclick="statusChange('${match.id}')" type="button">Set</button>
+					<form action="<c:url value='/admin/setMatchStatus' />" method="POST">
+						
+						<select name="status">
+							<c:forEach items="${matchStatusList }" var="status">
+								<c:if test="${match.status eq  status}">
+									<option value="${status }" selected><c:out value="${status }" /></option>
+								</c:if>
+								<c:if test="${match.status ne  status}">
+									<option value="${status }"><c:out value="${status }" /></option>
+								</c:if>
+							</c:forEach>
+							<input type="hidden" name="matchId" value="${match.id }" />
+						</select>
+						<button class="btn btn-default adminTableStatusButton" type="submit">Set</button>	
+					</form>
+					
 				</td>
 				<td>
 					<c:choose>
@@ -105,18 +110,18 @@
 		    	      label: "Cancel",
 		    	      className: "btn-primary",
 		    	      callback: function() {
-		    	        
 		    	      }
 		    	    },
 		    	  confirm: {
 		    	      label: "Delete",
 		    	      className: "btn-danger",
 		    	      callback: function() {
-		    	    	  window.location.href = "${baseUrl}admin/deleteMatch/" + matchId;
+		    	    	  $.post("${baseUrl}admin/deleteMatch", {matchId: matchId});
+		    	    	  window.location.href = "${baseUrl}admin";
+		    	    	  }
 		    	      }
 		    	    },
-		  	  }
-		  	});
+		  	  });
 	}
 	function statusChange(matchId) {
 		var status = document.getElementById(matchId).value;	

@@ -21,7 +21,7 @@
 				<ol class="breadcrumb breadcrumb-arrow">
 					<li><a href="<c:url value='/' />">Home</a></li>
 					<c:url var="matchPageUrl" value="/matchMainPage">
-						<c:param name="matchId" value="${stageResultData.stage.match.id }" />
+						<c:param name="matchId" value="${stageResultData.stage.match.practiScoreId }" />
 					</c:url>
 					<li><a href="${matchPageUrl}">Match</a></li>
 					<li class="active"><span>Stage Results</span></li>
@@ -74,7 +74,7 @@
 							        			<c:choose>
 							        				<c:when test="${stageResultData.stage.match.status eq 'SCORING_ENDED' }">
 							        					<c:url var="matchResultsUrl" value="/matchResults" >
-							        						<c:param name="matchId" value="${stageResultData.stage.match.id}" />
+							        						<c:param name="matchId" value="${stageResultData.stage.match.practiScoreId}" />
 							        						<c:param name="division" value="${stageResultData.division}" />
 							        					</c:url>
 							        					
@@ -115,10 +115,10 @@
 															<c:forEach var="stage" items="${stageResultData.stage.match.stages}">
 															
 																<c:if test="${stageResultData.stage.name eq stage.name}">
-																	<option value="${stage.id}" selected>${stage.name}</option>
+																	<option value="${stage.practiScoreId}" selected>${stage.name}</option>
 																</c:if>
 																<c:if test="${stageResultData.stage.name ne stage.name}">
-																	<option value="${stage.id}">${stage.name}</option>
+																	<option value="${stage.practiScoreId}">${stage.name}</option>
 																</c:if>
 															</c:forEach>
 														</select>
@@ -197,8 +197,8 @@
 														</td>
 														<td align="left">
 															<c:url var="competitorResultsUrl" value="/competitorResults/" >
-																<c:param name="matchId" value="${dataline.stageResultData.stage.match.id}" />
-																<c:param name="competitorId" value="${dataline.competitor.id}" />
+																<c:param name="matchId" value="${dataline.stageResultData.stage.match.practiScoreId}" />
+																<c:param name="competitorId" value="${dataline.competitor.practiScoreId}" />
 															</c:url>
 															<a href="${competitorResultsUrl }">${dataline.competitor.firstName }</a>
 														</td>
@@ -273,7 +273,7 @@
 		} );
 		function submitStageListingChange() {
 			
-			var url = "${baseUrl}stageResults?matchId=${stageResultData.stage.match.id }&stageId=" 
+			var url = "${baseUrl}stageResults?matchId=${stageResultData.stage.match.practiScoreId }&stageId=" 
 					+ $("select#stage").val() + "&division="+ $("select#division").val();
 			location.replace(url);
 

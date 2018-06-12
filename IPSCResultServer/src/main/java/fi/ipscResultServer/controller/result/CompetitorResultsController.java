@@ -34,12 +34,11 @@ public class CompetitorResultsController {
 	MatchService matchService;
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public String getCompetitorResultsPage(Model model, @RequestParam("competitorId") Long competitorId, 
-			@RequestParam("matchId") Long matchId) {
-		
+	public String getCompetitorResultsPage(Model model, @RequestParam("competitorId") String competitorId, 
+			@RequestParam("matchId") String matchId) {
 		try { 
-			Match match = matchService.getOne(matchId);
-			Competitor competitor = competitorService.getOne(competitorId);
+			Match match = matchService.findByPractiScoreId(matchId);
+			Competitor competitor = competitorService.findByPractiScoreReferences(matchId, competitorId);
 			CompetitorResultData resultData = competitorResultDataService.findByCompetitorAndMatch(competitor, match);
 			boolean additionalPenaltiesColumn = false;
 			for (ScoreCard card : resultData.getScoreCards().values()) {
@@ -57,11 +56,11 @@ public class CompetitorResultsController {
 			model.addAttribute("resultData", resultData);
 			model.addAttribute("additionalPenaltiesColumn", additionalPenaltiesColumn);
 			model.addAttribute("errorCostDataLines", CompetitorErrorCostDataService.getErrorCostTableLines(match, competitor, cards));
-			return "results/competitorResults";
+			
 		}
 //		 Exception logged in repository
-		catch (DatabaseException e) {
-			return "results/competitorResults";
-		}
+		catch (DatabaseException e) { }
+		
+		return "results/competitorResults";
 	}
 }

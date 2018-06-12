@@ -51,7 +51,7 @@ public class MatchRepositoryImpl implements MatchRepository {
 	
 	public List<Match> getMatchListForUser(User user) {
 		try {
-			String queryString = "SELECT NEW fi.ipscResultServer.domain.Match(m.id, m.name, m.date, m.status, m.user, m.uploadedByAdmin) FROM Match m "
+			String queryString = "SELECT NEW fi.ipscResultServer.domain.Match(m.id, m.practiScoreId, m.name, m.date, m.status, m.user, m.uploadedByAdmin) FROM Match m "
 					+ "WHERE m.user = :user ORDER BY m.date DESC";
 			TypedQuery<Match> query = entityManager.createQuery(queryString, Match.class);
 			return query.setParameter("user", user).getResultList();
@@ -65,7 +65,7 @@ public class MatchRepositoryImpl implements MatchRepository {
 	// instead of full instances with a list of Stages etc.
 	public List<Match> getFullMatchList() {
 		try {
-			String queryString = "SELECT NEW fi.ipscResultServer.domain.Match(m.id, m.name, m.level, m.date, m.status, m.user, m.uploadedByAdmin) FROM Match m ORDER BY m.date DESC";
+			String queryString = "SELECT NEW fi.ipscResultServer.domain.Match(m.id, m.practiScoreId, m.name, m.level, m.date, m.status, m.user, m.uploadedByAdmin) FROM Match m ORDER BY m.date DESC";
 			TypedQuery<Match> query = entityManager.createQuery(queryString, Match.class);
 			return query.getResultList();
 			} catch (Exception e) {

@@ -19,6 +19,7 @@
 		<intercept-url pattern="/admin" access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')" />
 	    <intercept-url pattern="/admin/*" access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')" />
 	    <logout logout-success-url="/" logout-url="/logout" />
+	    <csrf disabled="true" />
 	 </http>  
  	 
 	<beans:bean id="authenticationFilter"

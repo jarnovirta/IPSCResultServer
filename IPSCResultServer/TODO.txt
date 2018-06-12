@@ -29,6 +29,7 @@ EI KIIREELLISET:
 - Firefoxissa layout jotenkin pieless√É¬§, napit liian l√É¬§hell√É¬§ toisiaan ym ym. CSS ei toimi oikein? Vai tablet?
 - - Voiko url:t korjata ett√§ F5 ei l√§het√§ delete match tms uudelleen? 
 - Tulosten divisioonaj√§rjestys heittelee -> combined tulee mihin vaan milloinkin
+- Lis‰‰ edit user
 
 - Korjaa virheviestit datan l‰hetyksen aikana, niin ett‰ n‰ytt‰‰ palvelimen viestin. Nyt vain virhekoodi.
 TESTIT:

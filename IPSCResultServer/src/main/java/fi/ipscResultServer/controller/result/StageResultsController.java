@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import fi.ipscResultServer.domain.Stage;
 import fi.ipscResultServer.exception.DatabaseException;
 import fi.ipscResultServer.service.StageService;
 import fi.ipscResultServer.service.resultDataService.StageResultDataService;
@@ -21,7 +22,8 @@ public class StageResultsController {
 	StageService stageService;
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public String getStageResultsPage(Model model, @RequestParam("stageId") Long stageId, 
+	public String getStageResultsPage(Model model, @RequestParam("matchId") String matchId, 
+			@RequestParam("stageId") String stageId, 
 			@RequestParam("division") String division) {
 		try {
 //			Stage stage = stageService.getOne(stageId);
@@ -41,8 +43,8 @@ public class StageResultsController {
 //				if (availableDivisions.contains(Constants.COMBINED_DIVISION)) division = Constants.COMBINED_DIVISION;
 //				else division = availableDivisions.get(0);
 //			}
-					
-			model.addAttribute("stageResultData", stageResultDataService.findByStageAndDivision(stageId, division));
+			Stage stage = stageService.findByPractiScoreId(matchId, stageId);
+			model.addAttribute("stageResultData", stageResultDataService.findByStageAndDivision(stage.getId(), division));
 			model.addAttribute("selectedDivision", division);
 			return "results/stageResults";
 		}

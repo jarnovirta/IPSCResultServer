@@ -6,7 +6,6 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,10 +30,10 @@ public class StatisticsController {
 	final static Logger logger = Logger.getLogger(StatisticsController.class);
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public String getStatisticsPage(Model model, @RequestParam("matchId") Long matchId,
+	public String getStatisticsPage(Model model, @RequestParam("matchId") String matchId,
 			@RequestParam(value="division", required = false) String division) {
 		try {
-			Match match = matchService.getOne(matchId);
+			Match match = matchService.findByPractiScoreId(matchId);
 			if (division == null) {
 				if (match.getDivisionsWithResults().contains(Constants.COMBINED_DIVISION)) {
 					division = Constants.COMBINED_DIVISION;

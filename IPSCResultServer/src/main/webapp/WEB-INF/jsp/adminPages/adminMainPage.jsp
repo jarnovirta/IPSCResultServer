@@ -17,7 +17,7 @@
 			<div class="container">
 				<%@ include file="/WEB-INF/jsp/include/loginLogoutButtons.jsp" %>
 				<ol class="breadcrumb breadcrumb-arrow">
-					<li><a href="${baseUrl }">Home</a></li>
+					<li><a href="<c:url value='/' />">Home</a></li>
 					<li class="active"><span>Admin</span></li>
 				</ol>
 				<div class="page-header">
@@ -50,9 +50,6 @@
 				ordering: false
 			});
 		} );
-	
-		
-		
 	</script>
 	<%@include file="/WEB-INF/jsp/include/loginLogoutScripts.jsp" %>
 </html>

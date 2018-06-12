@@ -17,7 +17,7 @@
 				<ol class="breadcrumb breadcrumb-arrow">
 					<li><a href="<c:url value='/' />">Home</a></li>
 					<c:url var="matchPageUrl" value="/matchMainPage">
-						<c:param name="matchId" value="${resultData.match.id }" />
+						<c:param name="matchId" value="${resultData.match.practiScoreId }" />
 					</c:url>
 					<li><a href="${matchPageUrl}">Match</a></li>
 					<li class="active"><span>Verify List</span></li>
@@ -88,7 +88,7 @@
 						        			<c:choose>
 												<c:when test="${resultData.match.status eq 'SCORING_ENDED' }">
 						        					<c:url var="matchResultsUrl" value="/matchResults">
-						        						<c:param name="matchId" value="${resultData.match.id}" />
+						        						<c:param name="matchId" value="${resultData.match.practiScoreId}" />
 						        						<c:param name="division" value="${resultData.competitor.division }" />
 						        					</c:url> 
 						        					<a href="${matchResultsUrl}"><c:out value="${resultData.competitor.division }" /></a>
@@ -205,7 +205,7 @@
 							</thead>
 							<tbody>
 								<c:forEach var="stage" items="${resultData.match.stages}">
-										<c:set var="scoreCard" value="${resultData.scoreCards[stage.id] }" />
+										<c:set var="scoreCard" value="${resultData.scoreCards[stage.practiScoreId] }" />
 											<c:if test="${not empty scoreCard  }">
 												<tr>
 													<td align="right">
@@ -215,8 +215,8 @@
 														<c:choose>
 															<c:when test="${resultData.match.status eq 'SCORING_ENDED' }">
 																<c:url var="stageResultsUrl" value="/stageResults" >
-																	<c:param name="matchId" value="${scoreCard.stage.match.id}" />
-																	<c:param name="stageId" value="${scoreCard.stage.id}" />
+																	<c:param name="matchId" value="${scoreCard.stage.match.practiScoreId}" />
+																	<c:param name="stageId" value="${scoreCard.stage.practiScoreId}" />
 																	<c:param name="division" value="${scoreCard.competitor.division }" />
 																</c:url>
 																<a href="${stageResultsUrl}">${scoreCard.stage.name}</a>
@@ -364,8 +364,8 @@
 										</td>
 										<td>
 											<c:url var="stageResultsUrl" value="/stageResults" >
-												<c:param name="matchId" value="${line.scoreCard.stage.match.id}" />
-												<c:param name="stageId" value="${line.scoreCard.stage.id}" />
+												<c:param name="matchId" value="${line.scoreCard.stage.match.practiScoreId}" />
+												<c:param name="stageId" value="${line.scoreCard.stage.practiScoreId}" />
 												<c:param name="division" value="${line.scoreCard.competitor.division }" />
 											</c:url>
 											<a href="${stageResultsUrl}">${line.scoreCard.stage.name }</a>

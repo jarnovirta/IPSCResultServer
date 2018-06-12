@@ -64,16 +64,13 @@ public class MatchService {
 				for (Stage stage : match.getStages()) {
 					
 					if (stage.isDeleted() == true || (stage.getScoreType() != null && stage.getScoreType().equals("Chrono"))) {
-						System.out.println("Removing " + stage.getName());
 						removeStages.add(stage);
 					}
 				}
 				match.getStages().removeAll(removeStages);
 			}
 			savedMatch = matchRepository.save(match);
-			
 		}
-		
 		return savedMatch;
 	}
 	
@@ -83,9 +80,11 @@ public class MatchService {
 	
 	// Returns Match list with only necessary properties set for listing purposes
 	// instead of full instances with a list of Stages etc.
+	@Transactional
 	public List<Match> getFullMatchList() {
 		return matchRepository.getFullMatchList();
 	}
+	@Transactional
 	public List<Match> getMatchListForUser(User user) {
 		return matchRepository.getMatchListForUser(user);
 	}
@@ -101,24 +100,19 @@ public class MatchService {
 	public void delete(Long matchId) throws DatabaseException {
 		Match match = getOne(matchId);
 		
-		logger.info("Deleting statistics");
 		// Delete statistics for match
 		statisticsService.deleteByMatch(match);
 		
 		// Delete stage and match result data
-		logger.info("Deleting stage result data");
 		stageResultDataService.deleteByMatch(match);
-		logger.info("Deleting match result data");
 		matchResultDataService.deleteByMatch(match);
 		
 		// Delete score cards
-		logger.info("Deleting score cards");
 		scoreCardService.deleteByMatch(match);
 		
 		// Delete match
-		logger.info("Deleting match");
 		matchRepository.delete(match);
-		logger.info("Match delete done!");
+	
 	}
 	@Transactional
 	public void setMatchStatus(Long matchId, MatchStatus newStatus) throws DatabaseException {

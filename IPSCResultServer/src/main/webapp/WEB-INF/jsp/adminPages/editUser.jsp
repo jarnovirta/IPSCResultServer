@@ -12,21 +12,19 @@
 	</head>
 
 	<body>
-		<c:url var="baseUrl" value="/" />
 		<div id="wrap">
 			<div class="container">
 				<%@ include file="/WEB-INF/jsp/include/loginLogoutButtons.jsp" %>
 				<ol class="breadcrumb breadcrumb-arrow">
-					<li><a href="${baseUrl }">Home</a></li>
-					<li><a href="${baseUrl }admin">Admin</a></li>
+					<li><a href="<c:url value='/' />">Home</a></li>
+					<li><a href="<c:url value='/admin' />">Admin</a></li>
 					<li class="active"><span>Add user</span></li>
 				</ol>
 				<div class="page-header">
 					<h1>Add a User</h1>
 				</div>
 				<br>
-	
-				<sf:form id="editUserForm" modelAttribute="user" method="post">
+				<sf:form id="editUserForm" modelAttribute="user" method="POST">
 	
 					<label for="username">First name: </label>
 					<br>

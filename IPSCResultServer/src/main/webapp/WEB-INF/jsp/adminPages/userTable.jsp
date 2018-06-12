@@ -22,7 +22,7 @@
 				Email
 			</th>
 			<th>
-				Delete user
+				Edit/Delete
 			</th>
 		</tr>
 	</thead>
@@ -50,14 +50,22 @@
 					${user.email}
 				</td>
 				<td>
-					<button class="btn btn-danger" onclick="deleteUser('${user.id}')" type="button">Delete</button>
+					
+					<form action="admin/editUser" method="GET">
+						<input type="hidden" name="userId" value="${user.id }" />
+						<div class="btn-group">
+							<button class="btn btn-default" type="submit">Edit</button>
+							<button class="btn btn-danger" onclick="deleteUser('${user.id}')" type="button">Delete</button>
+						</div>
+					</form>
+					
 				</td>
 			</tr> 
 		</c:forEach>
 	</tbody>
 </table>
 
-<a style="text-decoration: none;" href="<c:url value='/' />admin/addUser"><button class="btn btn-primary" type="button">Add a user</button></a>
+<a style="text-decoration: none;" href="<c:url value='/' />admin/editUser"><button class="btn btn-primary" type="button">Add a user</button></a>
 
 <script>
 	function deleteUser(userId) {
@@ -76,7 +84,8 @@
 		    	      label: "Delete",
 		    	      className: "btn-danger",
 		    	      callback: function() {
-		    	    	  window.location.href = "${baseUrl}admin/deleteUser/" + userId;
+		    	    	  $.post("${baseUrl}admin/deleteUser", {userId: userId});
+		    	    	  window.location.href = "${baseUrl}admin";
 		    	      }
 		    	    },
 		  	  }

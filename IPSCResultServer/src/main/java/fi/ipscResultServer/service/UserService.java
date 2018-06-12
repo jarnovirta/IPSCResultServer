@@ -23,6 +23,10 @@ public class UserService {
 		return userRepository.save(user);
 	}
 	
+	public User getOne(Long id) {
+		return userRepository.getOne(id);
+	}
+	@Transactional
 	public List<User> findEnabledUsers() {
 		return userRepository.findActiveUsers();
 	}

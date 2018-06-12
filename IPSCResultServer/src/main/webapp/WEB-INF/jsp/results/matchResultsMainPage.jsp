@@ -29,7 +29,7 @@
 					<c:otherwise>
 						<c:if test="${match.status eq 'SCORING_ENDED' }">
 							<c:url var="statisticsUrl" value="/statistics">
-								<c:param name="matchId" value="${match.id }" />
+								<c:param name="matchId" value="${match.practiScoreId }" />
 							</c:url>
 							<a href="${statisticsUrl }">
 								<button class="btn btn-large btn-primary" type="button">Competitor Statistics</button>
@@ -39,7 +39,7 @@
 							
 							<c:forEach var="division" items="${match.divisionsWithResults }">
 								<c:url var="matchResultsUrl" value="/matchResults">
-									<c:param name="matchId" value="${match.id }" />
+									<c:param name="matchId" value="${match.practiScoreId }" />
 									<c:param name="division" value="${division }" />
 								</c:url>
 								<a href="${matchResultsUrl}">
@@ -70,8 +70,8 @@
 											<td style="width: 50%">
 												<c:forEach var="division" items="${match.divisionsWithResults }">
 													<c:url var="stageResultsUrl" value="/stageResults">
-														<c:param name="matchId" value="${match.id }" />
-														<c:param name="stageId" value="${stage.id }" />
+														<c:param name="matchId" value="${match.practiScoreId }" />
+														<c:param name="stageId" value="${stage.practiScoreId }" />
 														<c:param name="division" value="${division }" />
 													</c:url>
 													<a href="${stageResultsUrl}">
@@ -101,8 +101,8 @@
 										<tr>
 											<td style="width: 50%">
 												<c:url var="competitorResultsUrl" value="/competitorResults">
-													<c:param name = "competitorId" value = "${competitor.id }"/>
-													<c:param name = "matchId" value = "${match.id }"/>
+													<c:param name = "competitorId" value = "${competitor.practiScoreId }"/>
+													<c:param name = "matchId" value = "${match.practiScoreId }"/>
 												</c:url>
 												<a href="${competitorResultsUrl}">
 													${competitor.lastName }, ${competitor.firstName} 

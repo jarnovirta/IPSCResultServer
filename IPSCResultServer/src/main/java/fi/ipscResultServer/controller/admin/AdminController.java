@@ -9,9 +9,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import fi.ipscResultServer.domain.MatchStatus;
 import fi.ipscResultServer.domain.User;
@@ -21,6 +22,7 @@ import fi.ipscResultServer.service.UserService;
 
 @Controller
 @RequestMapping("/admin")
+@SessionAttributes("user")
 public class AdminController {
 	@Autowired
 	private MatchService matchService;
@@ -40,54 +42,58 @@ public class AdminController {
 			User user = userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
 			model.addAttribute("matchList", matchService.getMatchListForUser(user));
 		}
-
 		model.addAttribute("matchStatusList", Arrays.asList(MatchStatus.values()));
 		return "adminPages/adminMainPage";
 	}
 	
-	@RequestMapping(value="/addUser", method = RequestMethod.GET)
-	public String getAddUserPage(Model model) {
-		model.addAttribute("user", new User());
+	@RequestMapping(value="/editUser", method = RequestMethod.GET)
+	public String getAddUserPage(@RequestParam(value="userId", required = false) Long userId, Model model) {
+		
+		User user = new User();
+		if (userId != null) {
+			user = userService.getOne(userId);
+			
+		}
+		model.addAttribute("user", user);
 		return "adminPages/editUser";
 	}
-	@RequestMapping(value="/addUser", method = RequestMethod.POST)
+	@RequestMapping(value="/editUser", method = RequestMethod.POST)
 	public String saveNewUser(@ModelAttribute("user") User user, Model model) {
 		user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
 		user.setRole(User.UserRole.ROLE_USER);
 		userService.save(user);
-		return getAdminMainPage(model);
+		return "redirect:/admin";
 	}
-	@RequestMapping(value="/deleteUser/{userId}", method = RequestMethod.GET)
-	public String deleteUser(@PathVariable("userId") Long userId, Model model) {
+	@RequestMapping(value="/deleteUser", method = RequestMethod.POST)
+	public String deleteUser(@RequestParam("userId") Long userId, Model model) {
 		userService.setEnabled(userId, false);
-		return getAdminMainPage(model);
+		return "redirect:/admin";
 	}
 	
-	@RequestMapping(value="/match/{matchId}/setStatus/{status}", method = RequestMethod.GET)
-	public String setMatchStatus(@PathVariable("matchId") Long matchId, 
-			@PathVariable("status") MatchStatus status, Model model) {
+	@RequestMapping(value="/setMatchStatus", method = RequestMethod.POST)
+	public String setMatchStatus(@RequestParam("matchId") Long matchId, 
+			@RequestParam("status") MatchStatus status, Model model) {
 		try {
 			matchService.setMatchStatus(matchId, status);
 		}
 		catch (Exception e) {
 			logger.error(e.getMessage());
 		}
-		
-		return getAdminMainPage(model);
+		return "redirect:/admin";
 	}
 	
-	@RequestMapping(value="/deleteMatch/{matchId}", method = RequestMethod.GET)
-	public String deleteMatch(@PathVariable("matchId") Long matchId, Model model) {
+	@RequestMapping(value="/deleteMatch", method = RequestMethod.POST)
+	public String deleteMatch(@RequestParam("matchId") Long matchId, Model model) {
+
 		try {
 			matchService.delete(matchId);
-			
 			model.addAttribute("matchList", matchService.getFullMatchList());
 			model.addAttribute("matchStatusList", Arrays.asList(MatchStatus.values()));
-			return getAdminMainPage(model);
 		}
 		catch (DatabaseException e) {
 			logger.error(e.getMessage());
-			return getAdminMainPage(model);
+			
 		}
+		return "redirect:/admin";
 	}
 }

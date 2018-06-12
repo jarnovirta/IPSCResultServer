@@ -20,7 +20,7 @@
 				<ol class="breadcrumb breadcrumb-arrow">
 					<li><a href="<c:url value='/' />">Home</a></li>
 					<c:url var="matchPageUrl" value="/matchMainPage">
-						<c:param name="matchId" value="${match.id }" />
+						<c:param name="matchId" value="${match.practiScoreId }" />
 					</c:url>
 					<li><a href="${matchPageUrl}">Match</a></li>
 					<li class="active"><span>Competitor Statistics</span></li>
@@ -63,7 +63,7 @@
 						        			<c:choose>
 						        				<c:when test="${match.status eq 'SCORING_ENDED' }">
 					        						<c:url var="matchResultsUrl" value="/matchResults" >
-						        						<c:param name="matchId" value="${match.id}" />
+						        						<c:param name="matchId" value="${match.practiScoreId}" />
 						        						<c:param name="division" value="${division}" />
 						        					</c:url>
 									        		<a href="${matchResultsUrl}"><c:out value="${division}" /></a>
@@ -195,8 +195,8 @@
 												</td>
 												<td>
 													<c:url var="competitorResultsUrl" value="/competitorResults" >
-														<c:param name="matchId" value="${match.id }" />
-														<c:param name="competitorId" value="${line.competitor.id }" />
+														<c:param name="matchId" value="${match.practiScoreId }" />
+														<c:param name="competitorId" value="${line.competitor.practiScoreId }" />
 													</c:url>
 													<a href="${competitorResultsUrl}">${line.competitor.firstName} ${line.competitor.lastName} </a>
 												</td>
@@ -249,7 +249,7 @@
 														<c:set var="pf" value="+" />
 													</c:if>
 													<c:url var="matchResultsUrl" value="matchResults">
-														<c:param name="matchId" value="${match.id}" />
+														<c:param name="matchId" value="${match.practiScoreId}" />
 														<c:param name="division" value="${line.competitor.division}" />
 													</c:url> 
 													<%-- <a href="${url}">${fn:substring(line.competitor.division, 0, 1)}${pf} </a> --%>		
@@ -276,11 +276,10 @@
 			});
 		} );
 		function submitDivisionChange() {
-			var url = "${baseUrl}statistics?matchId=${match.id }&division=" + $("select#division").val();
+			var url = "${baseUrl}statistics?matchId=${match.practiScoreId }&division=" + $("select#division").val();
 			location.replace(url);
 		}
 	</script>
-	
 	<%@include file="/WEB-INF/jsp/include/loginLogoutScripts.jsp" %>
 </html>
 
