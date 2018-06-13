@@ -194,9 +194,9 @@
 													</c:choose>
 												</td>
 												<td>
-													<c:url var="competitorResultsUrl" value="/competitorResults" >
-														<c:param name="matchId" value="${match.practiScoreId }" />
-														<c:param name="competitorId" value="${line.competitor.practiScoreId }" />
+													<c:url var="competitorResultsUrl" value="/competitorResults">
+														<c:param name="matchId" value="${match.practiScoreId}" />
+														<c:param name="competitorId" value="${line.competitor.practiScoreId}" />
 													</c:url>
 													<a href="${competitorResultsUrl}">${line.competitor.firstName} ${line.competitor.lastName} </a>
 												</td>

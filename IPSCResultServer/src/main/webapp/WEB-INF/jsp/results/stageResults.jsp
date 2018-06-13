@@ -196,7 +196,7 @@
 															${dataline.stageRank}
 														</td>
 														<td align="left">
-															<c:url var="competitorResultsUrl" value="/competitorResults/" >
+															<c:url var="competitorResultsUrl" value="/competitorResults">
 																<c:param name="matchId" value="${dataline.stageResultData.stage.match.practiScoreId}" />
 																<c:param name="competitorId" value="${dataline.competitor.practiScoreId}" />
 															</c:url>

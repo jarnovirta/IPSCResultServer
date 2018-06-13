@@ -162,10 +162,11 @@
 													<c:param name="matchId" value="${dataline.matchResultData.match.practiScoreId}" />
 													<c:param name="competitorId" value="${dataline.competitor.practiScoreId}" />
 												</c:url>
+
 												<a href="${competitorResultsUrl }">${dataline.competitor.firstName }</a> 
 											</td>
 											<td>
-												<a href="${url }">${dataline.competitor.lastName }</a> 
+												<a href="${competitorResultsUrl }">${dataline.competitor.lastName }</a> 
 											</td>
 											<td align="right">
 												${dataline.competitor.shooterNumber}

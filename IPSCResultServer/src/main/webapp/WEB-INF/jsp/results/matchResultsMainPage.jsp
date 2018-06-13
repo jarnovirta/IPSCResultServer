@@ -21,6 +21,7 @@
 				<div class="page-header">
 					<h1>${match.name}</h1>
 				</div>
+
 				<br>
 				<c:choose>
 					<c:when test="${match.status eq 'CLOSED'}">
@@ -100,12 +101,10 @@
 									<c:forEach var="competitor" items="${competitors}">
 										<tr>
 											<td style="width: 50%">
-												
-												<%	fi.ipscResultServer.domain.Competitor comp = (fi.ipscResultServer.domain.Competitor) pageContext.getAttribute("competitor");
-													pageContext.setAttribute("competitorEncodedId", java.net.URLEncoder.encode(comp.getPractiScoreId(), "UTF-8")); 
-												%>
-												<c:url var="baseUrl" value="/" />
-												<c:set var="competitorResultsUrl" value="${baseUrl }competitorResults?matchId=${match.practiScoreId }&competitorId=${competitorEncodedId }" />
+												<c:url var="competitorResultsUrl" value="/competitorResults">
+													<c:param name="matchId" value="${match.practiScoreId}" />
+													<c:param name="competitorId" value="${competitor.practiScoreId}" />
+												</c:url>
 												<a href="${competitorResultsUrl}">
 													${competitor.lastName }, ${competitor.firstName} 
 												</a>
