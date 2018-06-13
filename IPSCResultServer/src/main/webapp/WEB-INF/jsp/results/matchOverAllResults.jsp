@@ -231,5 +231,4 @@
 		}
 	
 	</script>
-	<%@include file="/WEB-INF/jsp/include/loginLogoutScripts.jsp" %>
 </html>    

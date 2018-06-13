@@ -64,7 +64,6 @@
 		
 	<jsp:include page="/WEB-INF/jsp/include/footer.jsp" />
 	
-	<%@include file="/WEB-INF/jsp/include/loginLogoutScripts.jsp" %>
 </html>
 
 	

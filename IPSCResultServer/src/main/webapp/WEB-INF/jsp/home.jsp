@@ -81,4 +81,3 @@
 	</script>
 	
 </html>
-<%@include file="/WEB-INF/jsp/include/loginLogoutScripts.jsp" %>

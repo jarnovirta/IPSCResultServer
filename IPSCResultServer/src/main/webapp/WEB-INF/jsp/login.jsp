@@ -15,7 +15,7 @@
 			<div class="container">
 				<c:url var="baseUrl" value="/" />
 				<ol class="breadcrumb breadcrumb-arrow">
-					<li><a href="${baseUrl }">Home</a></li>
+					<li><a href="/">Home</a></li>
 					<li class="active"><span>Login</span></li>
 				</ol>
 	
