@@ -1,5 +1,6 @@
 package fi.ipscResultServer.controller.result;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,9 +38,12 @@ public class CompetitorResultsController {
 	public String getCompetitorResultsPage(Model model, @RequestParam("competitorId") String competitorId, 
 			@RequestParam("matchId") String matchId) {
 		try { 
+			System.out.println("COMPETITOR: " + competitorId);
+			
 			Match match = matchService.findByPractiScoreId(matchId);
 			Competitor competitor = competitorService.findByPractiScoreReferences(matchId, competitorId);
 			CompetitorResultData resultData = competitorResultDataService.findByCompetitorAndMatch(competitor, match);
+			System.out.println("Scorecards:" + resultData.getScoreCards().size());
 			boolean additionalPenaltiesColumn = false;
 			for (ScoreCard card : resultData.getScoreCards().values()) {
 				if (card.getAdditionalPenalties() > 0) additionalPenaltiesColumn = true;

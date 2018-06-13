@@ -205,7 +205,7 @@
 							</thead>
 							<tbody>
 								<c:forEach var="stage" items="${resultData.match.stages}">
-										<c:set var="scoreCard" value="${resultData.scoreCards[stage.practiScoreId] }" />
+										<c:set var="scoreCard" value="${resultData.scoreCards[stage.id] }" />
 											<c:if test="${not empty scoreCard  }">
 												<tr>
 													<td align="right">
