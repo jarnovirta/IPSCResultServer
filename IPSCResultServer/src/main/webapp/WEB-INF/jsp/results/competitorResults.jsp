@@ -12,7 +12,7 @@
 	<body>
 		<div id="wrap">
 			<div class="container">
-				<%@ include file="/WEB-INF/jsp/include/pageTopAdZone.jsp" %>
+				<%-- <%@ include file="/WEB-INF/jsp/include/pageTopAdZone.jsp" %> --%>
 				<%@ include file="/WEB-INF/jsp/include/loginLogoutButtons.jsp" %>
 				<ol class="breadcrumb breadcrumb-arrow">
 					<li><a href="<c:url value='/' />">Home</a></li>
@@ -405,8 +405,8 @@
 				</c:choose>
 			</div>
 		</div>
-		<%@ include file="/WEB-INF/jsp/include/pageBottomAdZone.jsp" %>
+		<%-- <%@ include file="/WEB-INF/jsp/include/pageBottomAdZone.jsp" %> --%>
+		
+		<jsp:include page="/WEB-INF/jsp/include/footer.jsp" />
 	</body>
-	
-	<jsp:include page="/WEB-INF/jsp/include/footer.jsp" />
 </html>

@@ -16,7 +16,7 @@
 	<body>
 		<div id="wrap">
 			<div class="container">
-				<%@ include file="/WEB-INF/jsp/include/pageTopAdZone.jsp" %>
+				<%-- <%@ include file="/WEB-INF/jsp/include/pageTopAdZone.jsp" %> --%>
 				<%@ include file="/WEB-INF/jsp/include/loginLogoutButtons.jsp" %>
 				<ol class="breadcrumb breadcrumb-arrow">
 					<li><a href="<c:url value='/' />">Home</a></li>
@@ -91,14 +91,14 @@
 						  </div>
 					</div>
 					</div>
-					<div class="container row">
+					<!-- <div class="container row"> -->
 				        <c:choose>
 							<c:when test="${stageResultData.stage.match.status eq 'CLOSED'}">
 									<h3>Match is closed.</h3>
 							</c:when>
 							<c:otherwise>
 							
-								<div class="leftColumn" style="position: relative;">
+								<!-- <div class="leftColumn" style="position: relative;"> -->
 								        <table style="width:100%">
 									        <tr>
 									        <td>
@@ -245,40 +245,44 @@
 												</c:forEach>
 											</tbody>
 										</table>
-									</div>
+								<!-- 	</div> -->
 							</c:otherwise>
 					</c:choose>
-			<div class="rightColumn">
+<%-- 			<div class="rightColumn">
 				<%@ include file="/WEB-INF/jsp/include/rightAdZone.jsp" %>
-			</div>
+			</div> --%>
 		</div>
-		<div class="container row">
+<%-- 		<div class="container row">
 			<div class="leftColumn">
 						<%@ include file="/WEB-INF/jsp/include/pageBottomAdZone.jsp" %> 
 			</div>
 			
-		</div>
-	</div>
+		</div> --%>
+	<!-- </div> -->
 </div>
-	</body>
-	<jsp:include page="/WEB-INF/jsp/include/footer.jsp" />
-	
-	<script>
-		$(document).ready(function() {
-			$('#stageResultTable').DataTable( {
-				paging: false,
-				searching: true,
-				info: false
-			});
-		} );
-		function submitStageListingChange() {
-			
-			var url = "${baseUrl}stageResults?matchId=${stageResultData.stage.match.practiScoreId }&stageId=" 
-					+ $("select#stage").val() + "&division="+ $("select#division").val();
-			location.replace(url);
 
-		}
-	</script>
+
+<jsp:include page="/WEB-INF/jsp/include/footer.jsp" />
+
+<script>
+	$(document).ready(function() {
+		$('#stageResultTable').DataTable( {
+			paging: false,
+			searching: true,
+			info: false
+		});
+	} );
+	function submitStageListingChange() {
+		
+		var url = "${baseUrl}stageResults?matchId=${stageResultData.stage.match.practiScoreId }&stageId=" 
+				+ $("select#stage").val() + "&division="+ $("select#division").val();
+		location.replace(url);
+
+	}
+</script>
+
+
+</body>
 </html>
 	
 

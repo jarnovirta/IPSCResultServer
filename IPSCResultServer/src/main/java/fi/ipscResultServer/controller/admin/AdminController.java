@@ -52,6 +52,7 @@ public class AdminController {
 		User user = new User();
 		if (userId != null) {
 			user = userService.getOne(userId);
+			user.setPassword(null);
 			
 		}
 		model.addAttribute("user", user);
@@ -59,7 +60,11 @@ public class AdminController {
 	}
 	@RequestMapping(value="/editUser", method = RequestMethod.POST)
 	public String saveNewUser(@ModelAttribute("user") User user, Model model) {
-		user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+		if ((user.getPassword() == null || user.getPassword().length() < 1) && user.getId() != null) {
+			User existingUser = userService.getOne(user.getId());
+			user.setPassword(existingUser.getPassword());
+		}
+		else user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
 		user.setRole(User.UserRole.ROLE_USER);
 		userService.save(user);
 		return "redirect:/admin";

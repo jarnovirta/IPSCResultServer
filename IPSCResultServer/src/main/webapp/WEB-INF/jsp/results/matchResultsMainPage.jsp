@@ -12,7 +12,7 @@
 	<body>
 		<div id="wrap">
 			<div class="container">
-				<%@ include file="/WEB-INF/jsp/include/pageTopAdZone.jsp" %>
+				<%-- <%@ include file="/WEB-INF/jsp/include/pageTopAdZone.jsp" %> --%>
 				<%@ include file="/WEB-INF/jsp/include/loginLogoutButtons.jsp" %>
 			    <ol class="breadcrumb breadcrumb-arrow">
 					<li><a href="<c:url value='/' />">Home</a></li>
@@ -118,26 +118,26 @@
 				</c:choose>
 			</div>
 		</div>
-		<%@ include file="/WEB-INF/jsp/include/pageBottomAdZone.jsp" %>
+		<%-- <%@ include file="/WEB-INF/jsp/include/pageBottomAdZone.jsp" %> --%>
+		
+		<jsp:include page="/WEB-INF/jsp/include/footer.jsp" />
+		<script>
+			$(document).ready(function() {
+				$('#stageTable').DataTable( {
+					paging: false,
+					searching: false,
+					sort: false,
+					info: false
+				});
+				$('#competitorTable').DataTable( {
+					paging: false,
+					searching: true,
+					sort: false,
+					info: false
+				});
+			} );
+		</script>
 	</body>
-	<jsp:include page="/WEB-INF/jsp/include/footer.jsp" />
-	<script>
-		$(document).ready(function() {
-			$('#stageTable').DataTable( {
-				paging: false,
-				searching: false,
-				sort: false,
-				info: false
-			});
-			$('#competitorTable').DataTable( {
-				paging: false,
-				searching: true,
-				sort: false,
-				info: false
-			});
-		} );
-	</script>
-	
 </html>
 	
 

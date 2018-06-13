@@ -51,12 +51,20 @@
 					*<sf:input type="text" autocomplete="off" style="width: 15em; max-width: 100%" id="userName" path="username" value="${user.username}" /> 
 					<br><br>
 					
-					<label for="password">Password: </label>
+					<c:if test="${user.username eq null }">
+						<label for="password">Password: </label>
+					</c:if>
+					<c:if test="${user.username ne null }">
+						<label for="password">Edit password (leave empty to keep current password): </label>
+					</c:if>
 					<br>
 					*<sf:input type="text" autocomplete="off" style="width: 15em; max-width: 100%" id="password" path="password" value="${user.password}" />
 					<br><br>
 					
-					<button class="btn btn-primary" type="submit">Save user</button>
+					<div class="btn-group">
+						<button class="btn btn-primary" type="submit">Save user</button>
+						<a style="text-decoration: none" href="<c:url value='/admin' />"><button class="btn btn-default">Cancel</button></a> 
+					</div>
 				</sf:form>
 			</div>
 		</div>
