@@ -51,7 +51,7 @@
 					</c:if>
 					<c:if test="${match.status eq 'SCORING' }">
 						<span class="label label-success">
-						<c:set var="visibility" value="Verify list" />
+						<c:set var="visibility" value="Verify, stage results" />
 					</c:if>
 					<c:if test="${match.status eq 'SCORING_ENDED' }">
 						<span class="label label-default">

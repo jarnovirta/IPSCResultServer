@@ -67,7 +67,7 @@ public class ApiController {
 
 	@RequestMapping(value = "/scores", method = RequestMethod.POST)
 	public ResponseEntity<String> postScoreData(@RequestBody MatchScore matchScore) {
-		logger.info("POST request to //scores");
+		logger.info("POST request to /scores");
 		try {
 			Match dbMatch = matchService.findByPractiScoreId(matchScore.getMatchId());
 			if (dbMatch != null && dbMatch.getStatus() != MatchStatus.SCORING) {
