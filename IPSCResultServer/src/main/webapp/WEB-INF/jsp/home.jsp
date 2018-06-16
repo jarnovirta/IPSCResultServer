@@ -24,7 +24,6 @@
 				</div>
 				<br>
 				<br>
-					
 					<div style="max-width: 750px;">
 						<table class="table table-striped table-bordered" id="matchTable">
 							<thead>

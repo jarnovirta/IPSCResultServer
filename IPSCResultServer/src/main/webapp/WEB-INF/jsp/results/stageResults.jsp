@@ -147,7 +147,7 @@
 										</td> 
 										</tr>
 									</table>
-									
+									<div class="table-responsive">
 										<table class="table table-striped table-bordered" id="stageResultTable">
 											<thead>
 												<tr>
@@ -245,6 +245,7 @@
 												</c:forEach>
 											</tbody>
 										</table>
+									</div>
 								<!-- 	</div> -->
 							</c:otherwise>
 					</c:choose>
