@@ -1,4 +1,5 @@
 CHARTS: http://www.jscharts.com/examples#pie-charts
+Muuta tietojen lähetys niin, että koko tiedosto lähetetään. Jää talteen eikä tarvitse aina androidia päivittää.
 DFP esimerkkivideo: https://www.youtube.com/watch?v=OAJ7r4-Rsrw
 
 DELETE MATCH: sivu ei p�ivity.
@@ -33,7 +34,7 @@ EI KIIREELLISET:
 - Tulosten divisioonajärjestys heittelee -> combined tulee mihin vaan milloinkin
 - Lis�� edit user
 
-- Korjaa virheviestit datan l�hetyksen aikana, niin ett� n�ytt�� palvelimen viestin. Nyt vain virhekoodi.
+- Korjaa virheviestit datan l�hetyksen aikana, niin ett� n�ytt�� palvelimen viestin. Nyt vain virhekoodi.
 TESTIT:
 	- API vastaus kun lähetetään tulosdataa olemassa olevaan kisaan ja kisan status ei ole "Scoring". Pitäisi vastata virheellä
 	- Power factor fail Ã¢â‚¬â€œ ei toimintoa practiscoressa?
