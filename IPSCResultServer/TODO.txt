@@ -2,7 +2,8 @@ CHARTS: http://www.jscharts.com/examples#pie-charts
 Muuta tietojen lähetys niin, että koko tiedosto lähetetään. Jää talteen eikä tarvitse aina androidia päivittää.
 DFP esimerkkivideo: https://www.youtube.com/watch?v=OAJ7r4-Rsrw
 
-DELETE MATCH: sivu ei p�ivity.
+Competitor statistics: Show statistics for division: ei näytä sen hetkistä divisioonaa
+DELETE MATCH: sivu ei p�ivity.
 
 TOIMIIKO REFRESH JOS VÄLISSÄ UUDET TULOSTIEDOT?
 - Kilpailijat ja staget: haut aina practiscore id:n ja kisa-id:n perusteella!
@@ -32,7 +33,7 @@ EI KIIREELLISET:
 - Firefoxissa layout jotenkin pielessÃ¤, napit liian lÃ¤hellÃ¤ toisiaan ym ym. CSS ei toimi oikein? Vai tablet?
 - - Voiko url:t korjata että F5 ei lähetä delete match tms uudelleen? 
 - Tulosten divisioonajärjestys heittelee -> combined tulee mihin vaan milloinkin
-- Lis�� edit user
+- Lis�� edit user
 
 - Korjaa virheviestit datan l�hetyksen aikana, niin ett� n�ytt�� palvelimen viestin. Nyt vain virhekoodi.
 TESTIT:
