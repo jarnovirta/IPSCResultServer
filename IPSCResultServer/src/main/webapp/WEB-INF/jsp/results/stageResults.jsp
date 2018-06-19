@@ -35,61 +35,55 @@
 				<div class="panel panel-info">
 				  <div class="panel-heading">Stage Information</div>
 				  	<div class="panel-body">
-						    <div class="pageInfoTable">
-						    	<div class="pageInfoTableLeft">
-						        <table>
-						        	<tr>
-						        		<td>
-						        			<b>Stage name:</b>
-						        		</td>
-						        		<td>
-						        			${stageResultData.stage.name}
-						        		</td>
-						        	</tr>
-						        	<tr>
-						        		<td>
-						        			<b>Stage number:</b>
-						        		</td>
-						        		<td>
-						        			${stageResultData.stage.stageNumber}
-						        		</td>
-						        	</tr>					        	
+						        <table class="oneColumnPageInfo">
 						        	<tr>
 						        		<td>
 						        			<b>Match:</b>
 						        		</td>
 						        		<td>
-						        			${stageResultData.stage.match.name}
+						        			<b>${stageResultData.stage.match.name}</b>
 						        		</td>
 						        	</tr>
+						        	<tr>
+						        		<td>
+						        			<b>Stage:</b>
+						        		</td>
+						        		<td>
+						        			<select id="stage" name="stage" class="form-control">
+												<c:forEach var="stage" items="${stageResultData.stage.match.stages}">
+													<c:set var="stageListItem" value="${stage.stageNumber } - ${stage.name }" />
+													<c:if test="${stageResultData.stage.name eq stage.name}">
+														<option value="${stage.practiScoreId}" selected>${stageListItem}</option>
+													</c:if>
+													<c:if test="${stageResultData.stage.name ne stage.name}">
+														<option value="${stage.practiScoreId}">${stageListItem}</option>
+													</c:if>
+												</c:forEach>
+											</select>
+						        		</td>
+						        	</tr>
+						        	<tr>
+						        		<td>
+						        			<b>Division:</b>
+						        		</td>
+						        		<td>
+						        			<div class="form-inline">
+								        		<select id="division" name="division" class="form-control">
+													<c:forEach var="division" items="${stageResultData.stage.match.divisionsWithResults}">
+														<c:if test="${param.division eq division}">
+															<option value="${division}" selected><c:out value="${division}" /></option>
+														</c:if>
+														<c:if test="${param.division ne division}">
+															<option value="${division}"><c:out value="${division}" /></option>
+														</c:if>
+													</c:forEach>
+												</select>
+												<button class="btn btn-large btn-default" onclick="submitStageListingChange()" type="button">Show</button>
+											</div>
+										</td>
+						        	</tr>					        	
 						        </table>
-						       </div>
-						    	<div class="pageInfoTableRight">  
-							        <table>
-							        	<tr>
-							        		<td>
-							        			<b>Showing results for division:</b>
-							        		</td>
-							        		<td>
-							        			<c:choose>
-							        				<c:when test="${stageResultData.stage.match.status eq 'SCORING_ENDED' }">
-							        					<c:url var="divisionResultsUrl" value="/divisionResults" >
-							        						<c:param name="matchId" value="${stageResultData.stage.match.practiScoreId}" />
-							        						<c:param name="division" value="${stageResultData.division}" />
-							        					</c:url>
-							        					
-							        					<a href="${divisionResultsUrl}"><c:out value="${stageResultData.division}" /></a>
-							        				</c:when>
-							        				<c:otherwise>
-							        					<c:out value="${stageResultData.division}" />
-							        				</c:otherwise>
-							        			</c:choose>
-							        		</td>
-							        	</tr>
-									</table>
-							    </div>
-						  </div>
-					</div>
+						</div>
 					</div>
 					<!-- <div class="container row"> -->
 				        <c:choose>
@@ -99,53 +93,7 @@
 							<c:otherwise>
 							
 								<!-- <div class="leftColumn" style="position: relative;"> -->
-								        <table style="width:100%">
-									        <tr>
-									        <td>
-									        <table class="resultsPageDropDownTable">
-									        	<tr>
-									        		<td>
-									        			<b>Show results for:</b>
-									        		</td>
-									        	</tr>
-									        	<tr>
-									        		<td>
-									        			<select style="width: auto; max-width: 100%" id="stage" name="stage"
-															class="form-control">
-															<c:forEach var="stage" items="${stageResultData.stage.match.stages}">
-																<c:if test="${stageResultData.stage.name eq stage.name}">
-																	<option value="${stage.practiScoreId}" selected>${stage.name}</option>
-																</c:if>
-																<c:if test="${stageResultData.stage.name ne stage.name}">
-																	<option value="${stage.practiScoreId}">${stage.name}</option>
-																</c:if>
-															</c:forEach>
-														</select>
-									        		</td>
-									        		
-									        		<td>
-									        			<select style="width: auto; max-width: 100%" id="division" name="division" class="form-control">
-															<c:forEach var="division" items="${stageResultData.stage.match.divisionsWithResults}">
-																<c:if test="${param.division eq division}">
-																	<option value="${division}" selected><c:out value="${division}" /></option>
-																</c:if>
-																<c:if test="${param.division ne division}">
-																	<option value="${division}"><c:out value="${division}" /></option>
-																</c:if>
-															</c:forEach>
-														</select>
-									        		</td>
-									        		<td>
-									        			<button class="btn btn-large btn-primary" onclick="submitStageListingChange()" type="button">Show</button>
-									        		</td>
-									        	</tr>
-									        </table>
-									    </td>
-									    <td align="right" style="vertical-align:bottom">
-											<div class="sortTableHint"><p><i>(Hold shift to sort by several columns)</i></p></div>			
-										</td> 
-										</tr>
-									</table>
+								
 									<div class="table-responsive">
 										<table class="table table-striped table-bordered" id="stageResultTable">
 											<thead>

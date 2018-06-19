@@ -31,74 +31,32 @@
 				<br><br>
 				<div class="panel panel-info">
 				  <div class="panel-heading">Match Info</div>
-				  <div class="panel-body">
-						    <div class="pageInfoTable">
-						    	<div class="pageInfoTableLeft">
-						        <table>
-						        	<tr>
-						        		<td>
-						        			<b>Match:</b>
-						        		</td>
-						        		<td>
-						        			${match.name}
-						        		</td>
-						        	</tr>
-						        	<tr>
-						        		<td>
-						        			<b>Date:</b>
-						        		</td>
-						        		<td>
-						        			<fmt:formatDate value="${match.date.time}" pattern="dd.MM.yyyy" />
-						        		</td>
-						        	</tr>
-								</table>
-								</div>
-								<div class="pageInfoTableRight">   
-						       	<table>
-						       		<tr>
-						        		<td>
-						        			<b>Showing statistics for division:</b>
-						        		</td>
-						        		<td>
-						        			<c:choose>
-						        				<c:when test="${match.status eq 'SCORING_ENDED' }">
-					        						<c:url var="divisionResultsUrl" value="/divisionResults" >
-						        						<c:param name="matchId" value="${match.practiScoreId}" />
-						        						<c:param name="division" value="${division}" />
-						        					</c:url>
-									        		<a href="${divisionResultsUrl}"><c:out value="${division}" /></a>
-									        	</c:when>
-						        				<c:otherwise>
-						        					<c:out value="${division}" />
-						        				</c:otherwise>
-							        		</c:choose>
-						        		</td>
-						        	</tr>
-						        </table>
-						       	</div>
-						    </div>
-						  </div>
-					</div>
-					<c:choose>
-						<c:when test="${match.status eq 'CLOSED'}">
-							<h3>Match is closed.</h3>
-						</c:when>
-						<c:when test="${match.status eq 'SCORING'}">
-							<h3>Scoring has not ended. Statistics not shown.</h3>
-						</c:when>
-						<c:otherwise>
-							<table style="width:100%">
-								<tr>
-									<td>
-							
-								        <table class="resultsPageDropDownTable">
-								        	<tr>
-								        		<td>
-								        			<b>Show statistics for division:</b>
-								        		</td>
-								        		<td>
-								        			<select style="width: auto; max-width: 100%" id="division" name="division"
-														class="form-control">
+					  <div class="panel-body">
+							    <div class="oneColumnPageInfo">
+							        <table>
+							        	<tr>
+							        		<td>
+							        			<b>Match:</b>
+							        		</td>
+							        		<td>
+							        			<b>${match.name}</b>
+							        		</td>
+							        	</tr>
+							        	<tr>
+							        		<td>
+							        			<b>Date:</b>
+							        		</td>
+							        		<td>
+							        			<fmt:formatDate value="${match.date.time}" pattern="dd.MM.yyyy" />
+							        		</td>
+							        	</tr>
+							        	<tr>
+							        		<td>
+							        			<b>Division:</b>
+							        		</td>
+							        		<td>
+								        		<div class="form-inline">
+									        		<select id="division" name="division" class="form-control">
 														<c:forEach var="division" items="${match.divisionsWithResults}">
 															<c:if test="${param.division eq division}">
 																<option value="${division}" selected><c:out value="${division}" /></option>
@@ -108,22 +66,22 @@
 															</c:if>
 														</c:forEach>
 													</select>
-								        		</td>
-								        		<td>
-								        			<button class="btn btn-large btn-primary" onclick="submitDivisionChange()" type="button">Show</button>
-								        		</td>
-								        	
-								        		<td>
-								        		
-								        		</td>
-								        	</tr>
-								        </table>
-					        		</td>
-					        		<td align="right" style="vertical-align:bottom">
-										<div class="sortTableHint"><p><i>(Hold shift to sort by several columns)</i></p></div>
-									</td>
-								</tr>
-							</table>
+													<button class="btn btn-large btn-default" onclick="submitDivisionChange()" type="button">Show</button>
+												</div>
+											</td>
+							        	</tr>
+									</table>
+							  </div>
+							</div>
+						</div>
+					<c:choose>
+						<c:when test="${match.status eq 'CLOSED'}">
+							<h3>Match is closed.</h3>
+						</c:when>
+						<c:when test="${match.status eq 'SCORING'}">
+							<h3>Scoring has not ended. Statistics not shown.</h3>
+						</c:when>
+						<c:otherwise>
 							<div class="table-responsive">
 								<table class="table table-striped table-bordered" id="statisticsTable">
 									<thead>

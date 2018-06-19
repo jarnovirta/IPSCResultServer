@@ -1,9 +1,11 @@
 @CHARSET "ISO-8859-1";
-.pageInfoTable { width:100%; overflow:hidden; }
-.pageInfoTable table { border-collapse: separate;border-spacing: 10px; }
+.twoColumnPageInfo { width:100%; overflow:hidden; }
+.twoColumnPageInfo table { border-collapse: separate;border-spacing: 10px; }
 
 .pageInfoTableLeft { float:left; width:50%; }
 .pageInfoTableRight { float:right; width:50%;  }
+
+.oneColumnPageInfo td { padding: 10px 10px 0 0}
 
 .resultsPageDropDownTable { padding-left: 15px; overflow:hidden; float:left; border-collapse: separate;border-spacing: 10px;  }
  

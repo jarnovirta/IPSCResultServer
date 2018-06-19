@@ -30,7 +30,7 @@
 				<div class="panel panel-info">
 				  <div class="panel-heading">Competitor Information</div>
 				  	<div class="panel-body">
-						    <div class="pageInfoTable">
+						    <div class="twoColumnPageInfo">
 						    	<div class="pageInfoTableLeft">
 							        <table>
 							        	<tr>
@@ -148,12 +148,13 @@
 				</div>
 	
 				<br>
-				<h3>Verify List</h3>
 				<c:choose>
 					<c:when test="${resultData.match.status eq 'CLOSED'}">
-						<h3>Match is closed</h3>
+						<h3>Match is closed.</h3>
 					</c:when>
 					<c:otherwise>
+						<h3>Verify List</h3>
+
 						<div class="table-responsive">
 							<table class="table table-striped table-bordered" id="competitorResultTable">
 								<thead>

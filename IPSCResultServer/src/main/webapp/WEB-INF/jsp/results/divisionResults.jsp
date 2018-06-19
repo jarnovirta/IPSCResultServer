@@ -35,9 +35,8 @@
 					<div class="panel panel-info">
 					  <div class="panel-heading">Match Information</div>
 					  	<div class="panel-body">
-							    <div class="pageInfoTable">
-							    	<div class="pageInfoTableLeft">
-							        <table>
+							    <div class="oneColumnPageInfo">
+							    	<table>
 							        	<tr>
 							        		<td>
 							        			<b>Match:</b>
@@ -54,24 +53,38 @@
 							        			<fmt:formatDate value="${matchResultData.match.date.time}" pattern="dd.MM.yyyy" />
 							        		</td>
 							        	</tr>
+							        	<tr>
+							        		<td>
+							        			<b>Division:</b>
+							        		</td>
+							        		<td>
+							        			<div class="form-inline">
+								        			<select id="division" name="division"
+															class="form-control">
+															<c:forEach var="division" items="${matchResultData.match.divisionsWithResults}">
+																<c:if test="${param.division eq division}">
+																	<option value="${division}" selected><c:out value="${division}" /></option>
+																</c:if>
+																<c:if test="${param.division ne division}">
+																	<option value="${division}"><c:out value="${division}" /></option>
+																</c:if>
+															</c:forEach>
+													</select>
+													<button class="btn btn-large btn-default" onclick="submitDivisionChange()" type="button">Show</button>
+												</div>
+							        		</td>
+							        	</tr>
+							        	<tr>
+							        		<td />
+							        		<td>
+							        			
+							        		</td>
+							        	</tr>
 									</table>
 									</div>
-									
-									<div class="pageInfoTableRight"> 
-								        <table>
-								        	<tr>
-								        		<td>
-								        			<b>Showing results for division:</b>
-								        		</td>
-								        		<td>
-								        			<c:out value="${matchResultData.division}" />
-								        		</td>
-								        	</tr>
-										</table>
-								    </div>							
 							    </div>
 							  </div>
-						</div>
+						
 						<c:choose>
 						<c:when test="${matchResultData.match.status eq 'CLOSED'}">
 							<h3>Match is closed.</h3>
@@ -80,38 +93,6 @@
 							<h3>Scoring has not ended. Results not shown.</h3>
 						</c:when>
 						<c:otherwise>
-					        <table style="width:100%">
-					        	<tr>
-					        		<td>
-						 		        <table class="resultsPageDropDownTable">
-								        	<tr>
-								        		<td>
-								        			<b>Show results for:</b>
-								        		</td>
-								        		<td>
-								        			<select style="width: auto; max-width: 100%" id="division" name="division"
-														class="form-control">
-														<c:forEach var="division" items="${matchResultData.match.divisionsWithResults}">
-															<c:if test="${param.division eq division}">
-																<option value="${division}" selected><c:out value="${division}" /></option>
-															</c:if>
-															<c:if test="${param.division ne division}">
-																<option value="${division}"><c:out value="${division}" /></option>
-															</c:if>
-														</c:forEach>
-													</select>
-								        		</td>
-								        		<td>
-								        			<button class="btn btn-large btn-primary" onclick="submitDivisionChange()" type="button">Show</button>
-								        		</td>
-								        	</tr>
-								        </table>
-								    </td>
-								    <td align="right" style="vertical-align:bottom">
-										<div class="sortTableHint"><p><i>(Hold shift to sort by several columns)</i></p></div>			
-									</td> 
-								</tr>
-							</table>
 							<div class="table-responsive">
 								<table class="table table-striped table-bordered" id="matchResultTable">
 									<thead>
