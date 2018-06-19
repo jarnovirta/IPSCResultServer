@@ -11,12 +11,26 @@
 		<jsp:include page="/WEB-INF/jsp/include/headTag.jsp" />
 		<jsp:include page="/WEB-INF/jsp/include/dataTablesHeadTagLinks.jsp" />
 	</head>
-
-	
 	<body>
+		<c:if test="${sessionScope.adtest.adTest eq true}">
+			<div class="advertis-right">
+				<a href="https://www.youtube.com/watch?v=pm-sWFKlu7w">
+					<img src="<c:url value='/resources/images/cesar_wide_skyscraper.png' />" />
+				</a>
+			</div>
+		</c:if>
 		<div id="wrap">
-			<div class="container">
-				<%-- <%@ include file="/WEB-INF/jsp/include/pageTopAdZone.jsp" %> --%>
+			
+			<c:if test="${sessionScope.adtest.adTest eq true}">
+				<c:set var="divClass" value="container sideAdZonePageContainer" />
+			</c:if>
+			<c:if test="${sessionScope.adtest.adTest ne true}">
+				<c:set var="divClass" value="container" />
+			</c:if>
+				<div class="${divClass }">
+				<c:if test="${sessionScope.adtest.adTest eq true}">
+					<%@ include file="/WEB-INF/jsp/include/pageTopAdZone.jsp" %>
+				</c:if>
 				<%@ include file="/WEB-INF/jsp/include/loginLogoutButtons.jsp" %>
 				<ol class="breadcrumb breadcrumb-arrow">
 					<li><a href="<c:url value='/' />">Home</a></li>
@@ -85,15 +99,11 @@
 						        </table>
 						</div>
 					</div>
-					<!-- <div class="container row"> -->
-				        <c:choose>
+					    <c:choose>
 							<c:when test="${stageResultData.stage.match.status eq 'CLOSED'}">
 									<h3>Match is closed.</h3>
 							</c:when>
 							<c:otherwise>
-							
-								<!-- <div class="leftColumn" style="position: relative;"> -->
-								
 									<div class="table-responsive">
 										<table class="table table-striped table-bordered" id="stageResultTable">
 											<thead>
@@ -191,24 +201,16 @@
 													</tr> 
 												</c:forEach>
 											</tbody>
+											
 										</table>
 									</div>
-								<!-- 	</div> -->
-							</c:otherwise>
-					</c:choose>
-<%-- 			<div class="rightColumn">
-				<%@ include file="/WEB-INF/jsp/include/rightAdZone.jsp" %>
-			</div> --%>
-		</div>
-<%-- 		<div class="container row">
-			<div class="leftColumn">
-						<%@ include file="/WEB-INF/jsp/include/pageBottomAdZone.jsp" %> 
-			</div>
-			
-		</div> --%>
-	<!-- </div> -->
-</div>
-
+					</c:otherwise>
+				</c:choose>
+				<c:if test="${sessionScope.adtest.adTest eq true}">
+					<%@ include file="/WEB-INF/jsp/include/pageBottomAdZone.jsp" %>
+				</c:if> 
+ 		</div>
+	 </div> 
 
 <jsp:include page="/WEB-INF/jsp/include/footer.jsp" />
 

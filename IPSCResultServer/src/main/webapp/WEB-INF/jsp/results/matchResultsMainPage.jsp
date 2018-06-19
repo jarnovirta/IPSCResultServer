@@ -4,6 +4,10 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+<!-- *** REMOVE AFTER AD TESTS: -->
+<!-- *** 						--> 
+<%@ page session="true" %>
+
 <html>
 	<head>
 		<jsp:include page="/WEB-INF/jsp/include/headTag.jsp" />
@@ -12,8 +16,11 @@
 	<body>
 		<div id="wrap">
 			<div class="container">
-				<%@ include file="/WEB-INF/jsp/include/pageTopAdZone.jsp" %>
+				<c:if test="${sessionScope.adtest.adTest eq true}">
+					<%@ include file="/WEB-INF/jsp/include/pageTopAdZone.jsp" %>
+				</c:if>
 				<%@ include file="/WEB-INF/jsp/include/loginLogoutButtons.jsp" %>
+				
 			    <ol class="breadcrumb breadcrumb-arrow">
 					<li><a href="<c:url value='/' />">Home</a></li>
 					<li class="active"><span>Match</span></li>
@@ -119,8 +126,9 @@
 				</c:choose>
 			</div>
 		</div>
-		<%@ include file="/WEB-INF/jsp/include/pageBottomAdZone.jsp" %>
-		
+		<c:if test="${sessionScope.adtest.adTest eq true}">
+			<%@ include file="/WEB-INF/jsp/include/pageBottomAdZone.jsp" %>
+		</c:if>
 	<jsp:include page="/WEB-INF/jsp/include/footer.jsp" />
 	<script>
 		$(document).ready(function() {
