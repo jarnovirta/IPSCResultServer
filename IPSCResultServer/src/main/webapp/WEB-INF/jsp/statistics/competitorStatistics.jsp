@@ -62,11 +62,11 @@
 						        		<td>
 						        			<c:choose>
 						        				<c:when test="${match.status eq 'SCORING_ENDED' }">
-					        						<c:url var="matchResultsUrl" value="/matchResults" >
+					        						<c:url var="divisionResultsUrl" value="/divisionResults" >
 						        						<c:param name="matchId" value="${match.practiScoreId}" />
 						        						<c:param name="division" value="${division}" />
 						        					</c:url>
-									        		<a href="${matchResultsUrl}"><c:out value="${division}" /></a>
+									        		<a href="${divisionResultsUrl}"><c:out value="${division}" /></a>
 									        	</c:when>
 						        				<c:otherwise>
 						        					<c:out value="${division}" />
@@ -100,10 +100,10 @@
 								        			<select style="width: auto; max-width: 100%" id="division" name="division"
 														class="form-control">
 														<c:forEach var="division" items="${match.divisionsWithResults}">
-															<c:if test="${selectedDivision eq division}">
+															<c:if test="${param.division eq division}">
 																<option value="${division}" selected><c:out value="${division}" /></option>
 															</c:if>
-															<c:if test="${selectedDivision ne division}">
+															<c:if test="${param.division ne division}">
 																<option value="${division}"><c:out value="${division}" /></option>
 															</c:if>
 														</c:forEach>
@@ -273,7 +273,7 @@
 			$('#statisticsTable').DataTable( {
 				paging: false,
 				searching: true,
-				info: false
+				info: false, 
 			});
 		} );
 		function submitDivisionChange() {

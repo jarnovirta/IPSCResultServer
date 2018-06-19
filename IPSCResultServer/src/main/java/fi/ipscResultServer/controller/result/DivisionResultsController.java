@@ -13,8 +13,8 @@ import fi.ipscResultServer.service.MatchService;
 import fi.ipscResultServer.service.resultDataService.MatchResultDataService;
 
 @Controller
-@RequestMapping("/matchResults")
-public class MatchOverAllResultsController {
+@RequestMapping("/divisionResults")
+public class DivisionResultsController {
 	@Autowired
 	MatchResultDataService matchResultDataService;
 	
@@ -25,15 +25,13 @@ public class MatchOverAllResultsController {
 	public String getDivisionOverAllResultsPage(Model model, @RequestParam("matchId") String matchId, 
 			@RequestParam("division") String division) {
 		try {
-//			if (division == null) division = Constants.COMBINED_DIVISION;
 			Match match = matchService.findByPractiScoreId(matchId);
 			model.addAttribute("matchResultData", matchResultDataService.findByMatchAndDivision(match.getId(), division));
-			model.addAttribute("selectedDivision", division);
-			return "results/matchOverAllResults";
+			return "results/divisionResults";
 		}
 		// Exception logged in repository
 		catch (DatabaseException e) {
-			return "results/matchOverAllResults";
+			return "results/divisionResults";
 		}
 	}
 }

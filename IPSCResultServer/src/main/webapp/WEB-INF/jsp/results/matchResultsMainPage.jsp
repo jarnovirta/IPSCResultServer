@@ -39,11 +39,11 @@
 							<h4><b>Match Results:</b></h4>
 							
 							<c:forEach var="division" items="${match.divisionsWithResults }">
-								<c:url var="matchResultsUrl" value="/matchResults">
+								<c:url var="divisionResultsUrl" value="/divisionResults">
 									<c:param name="matchId" value="${match.practiScoreId }" />
 									<c:param name="division" value="${division }" />
 								</c:url>
-								<a href="${matchResultsUrl}">
+								<a href="${divisionResultsUrl}">
 									${division }
 								</a>
 							</c:forEach>

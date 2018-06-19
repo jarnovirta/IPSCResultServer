@@ -73,12 +73,12 @@
 							        		<td>
 							        			<c:choose>
 							        				<c:when test="${stageResultData.stage.match.status eq 'SCORING_ENDED' }">
-							        					<c:url var="matchResultsUrl" value="/matchResults" >
+							        					<c:url var="divisionResultsUrl" value="/divisionResults" >
 							        						<c:param name="matchId" value="${stageResultData.stage.match.practiScoreId}" />
 							        						<c:param name="division" value="${stageResultData.division}" />
 							        					</c:url>
 							        					
-							        					<a href="${matchResultsUrl}"><c:out value="${stageResultData.division}" /></a>
+							        					<a href="${divisionResultsUrl}"><c:out value="${stageResultData.division}" /></a>
 							        				</c:when>
 							        				<c:otherwise>
 							        					<c:out value="${stageResultData.division}" />
@@ -113,7 +113,6 @@
 									        			<select style="width: auto; max-width: 100%" id="stage" name="stage"
 															class="form-control">
 															<c:forEach var="stage" items="${stageResultData.stage.match.stages}">
-															
 																<c:if test="${stageResultData.stage.name eq stage.name}">
 																	<option value="${stage.practiScoreId}" selected>${stage.name}</option>
 																</c:if>
@@ -127,10 +126,10 @@
 									        		<td>
 									        			<select style="width: auto; max-width: 100%" id="division" name="division" class="form-control">
 															<c:forEach var="division" items="${stageResultData.stage.match.divisionsWithResults}">
-																<c:if test="${selectedDivision eq division}">
+																<c:if test="${param.division eq division}">
 																	<option value="${division}" selected><c:out value="${division}" /></option>
 																</c:if>
-																<c:if test="${selectedDivision ne division}">
+																<c:if test="${param.division ne division}">
 																	<option value="${division}"><c:out value="${division}" /></option>
 																</c:if>
 															</c:forEach>

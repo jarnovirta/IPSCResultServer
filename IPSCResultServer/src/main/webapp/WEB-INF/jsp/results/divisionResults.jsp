@@ -92,10 +92,10 @@
 								        			<select style="width: auto; max-width: 100%" id="division" name="division"
 														class="form-control">
 														<c:forEach var="division" items="${matchResultData.match.divisionsWithResults}">
-															<c:if test="${selectedDivision eq division}">
+															<c:if test="${param.division eq division}">
 																<option value="${division}" selected><c:out value="${division}" /></option>
 															</c:if>
-															<c:if test="${selectedDivision ne division}">
+															<c:if test="${param.division ne division}">
 																<option value="${division}"><c:out value="${division}" /></option>
 															</c:if>
 														</c:forEach>
@@ -228,7 +228,7 @@
 			});
 		} );
 		function submitDivisionChange() {
-			var url = "${baseUrl}matchResults?matchId=${matchResultData.match.practiScoreId }&division=" + $("select#division").val();
+			var url = "${baseUrl}divisionResults?matchId=${matchResultData.match.practiScoreId }&division=" + $("select#division").val();
 			location.replace(url);
 		}
 	
