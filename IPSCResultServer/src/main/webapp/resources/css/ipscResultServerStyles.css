@@ -165,7 +165,7 @@ body{
 }
 
 @media (min-width: 769px) {
-	.container {
+	.sideAdZonePageContainer {
 		width: 720px;
 	} 
 	.sideAdZonePageLeftHeaderColumn {
@@ -174,7 +174,7 @@ body{
 } 
 
 @media (min-width: 900px) {
-	.container {
+	.sideAdZonePageContainer {
 		width: 851px;
 	} 
 	.sideAdZonePageLeftHeaderColumn {
@@ -183,7 +183,7 @@ body{
 }
 
 @media (min-width: 992px) {
-	.container {
+	.sideAdZonePageContainer {
 		width: 943px;
 	} 
 	.sideAdZonePageLeftHeaderColumn {
@@ -191,7 +191,7 @@ body{
   }
 }
 @media (min-width: 1100px) {
-	.container {
+	.sideAdZonePageContainer {
 		width: 1051px;
 	} 
 	.sideAdZonePageLeftHeaderColumn {
@@ -199,7 +199,7 @@ body{
   }
 }
 @media (min-width: 1200px) {
-	.container {
+	.sideAdZonePageContainer {
 		width: 1151px;
 	} 
 	.sideAdZonePageLeftHeaderColumn {

@@ -12,41 +12,48 @@
 		<jsp:include page="/WEB-INF/jsp/include/dataTablesHeadTagLinks.jsp" />
 	</head>
 	<body>
-<%-- 		<c:if test="${sessionScope.adtest.adTest eq true}">
-			<div class="advertis-right">
-				<a href="https://www.youtube.com/watch?v=pm-sWFKlu7w">
-					<img src="<c:url value='/resources/images/cesar_wide_skyscraper.png' />" />
-				</a>
-			</div>
-		</c:if> --%>
-		<div id="wrap">
-			<%-- <c:set var="divClass" value="container sideAdZonePageLeftHeaderColumn" />
-			<c:set var="divClass" value="container" /> --%>
-			<%-- <div class="${divClass }"> --%>
-			<div class="container">
+	<div id="wrap">
+		<c:if test="${sessionScope.adtest.adTest eq true}">
+			<c:set var="divClass" value="container sideAdZonePageContainer" />
+		</c:if>
+		<c:if test="${sessionScope.adtest.adTest ne true}">
+			<c:set var="divClass" value="container" />
+		</c:if>
+		
+		<div class="${divClass }">
+			<c:if test="${sessionScope.adtest.adTest eq true}">
 				<div class="sideAdZonePageLeftHeaderColumn">
+			</c:if>
+				<c:if test="${sessionScope.adtest.adTest eq true}">
 					<%@ include file="/WEB-INF/jsp/include/pageTopAdZone.jsp" %>
-					<%@ include file="/WEB-INF/jsp/include/loginLogoutButtons.jsp" %>
-					<ol class="breadcrumb breadcrumb-arrow">
-						<li><a href="<c:url value='/' />">Home</a></li>
-						<c:url var="matchPageUrl" value="/matchMainPage">
-							<c:param name="matchId" value="${stageResultData.stage.match.practiScoreId }" />
-						</c:url>
-						<li><a href="${matchPageUrl}">Match</a></li>
-						<li class="active"><span>Stage Results</span></li>
-					</ol>
-					<%@ include file="/WEB-INF/jsp/results/stageResultsPageHeader.jsp" %>
+				</c:if>
+				<%@ include file="/WEB-INF/jsp/include/loginLogoutButtons.jsp" %>
+				<ol class="breadcrumb breadcrumb-arrow">
+					<li><a href="<c:url value='/' />">Home</a></li>
+					<c:url var="matchPageUrl" value="/matchMainPage">
+						<c:param name="matchId" value="${stageResultData.stage.match.practiScoreId }" />
+					</c:url>
+					<li><a href="${matchPageUrl}">Match</a></li>
+					<li class="active"><span>Stage Results</span></li>
+				</ol>
+				<%@ include file="/WEB-INF/jsp/results/stageResultsPageHeader.jsp" %>
+			<c:if test="${sessionScope.adtest.adTest eq true}">
 				</div>
+			</c:if>
+			<c:if test="${sessionScope.adtest.adTest eq true}">
 				<div class="advertis-right" style="float: right; width=100%; ">
 	 					<img src="<c:url value='/resources/images/cesar_wide_skyscraper.png' />" />
 	 			</div>
-	 			<br>
-	 				<div style="clear:both"
-	 					<%@ include file="/WEB-INF/jsp/results/stageResultsTable.jsp" %>
-	 				</div>
-					<%@ include file="/WEB-INF/jsp/include/pageBottomAdZone.jsp" %>
+	 		</c:if>
+			
+			<div style="clear:both"
+				<%@ include file="/WEB-INF/jsp/results/stageResultsTable.jsp" %>
 			</div>
- 		</div>
+			<c:if test="${sessionScope.adtest.adTest eq true}">
+				<%@ include file="/WEB-INF/jsp/include/pageBottomAdZone.jsp" %>
+			</c:if>
+		</div>
+	</div>
 <jsp:include page="/WEB-INF/jsp/include/footer.jsp" />
 
 <script>
