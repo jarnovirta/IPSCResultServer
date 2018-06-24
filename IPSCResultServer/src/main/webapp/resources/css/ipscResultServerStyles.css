@@ -135,7 +135,7 @@ body{
 }
 
 
-.advertis-left {
+/* .advertis-left {
 	left: 50%;
 	margin-left: -1050px;
 	position: fixed;
@@ -143,16 +143,20 @@ body{
 	top: 0;
 	width: 500px;
 }
+*/
 .advertis-right {
-	left: 50%;
-	margin-left: 570px;
-	position: fixed;
-	top: 0;
-	margin-top: 50px;
-	width: 170px;
+	/* margin-left: 30px; */
+	width: 165px;
+	
 }
 /* Responsive Styles */
 /* from: https://www.bootply.com/110193 */
+
+.sideAdZonePageLeftHeaderColumn {
+		float:left;
+		
+	}
+	
 
 @media (max-width: 768px) {
 	.advertis-right {
@@ -161,56 +165,46 @@ body{
 }
 
 @media (min-width: 769px) {
-  .sideAdZonePageContainer {
-    width: 550px;
-    margin-left: 50px;
-    
+	.container {
+		width: 720px;
+	} 
+	.sideAdZonePageLeftHeaderColumn {
+    width: 500px;
   }
-  .advertis-right {
-		margin-left: 210px;
-	}
-}
+} 
 
 @media (min-width: 900px) {
-  .sideAdZonePageContainer {
-    width: 680px;
-    margin-left: 50px;
-    
+	.container {
+		width: 851px;
+	} 
+	.sideAdZonePageLeftHeaderColumn {
+    width: 631px;
   }
-    .advertis-right {
-		margin-left: 280px;
-	}
 }
 
 @media (min-width: 992px) {
-  .sideAdZonePageContainer {
-    width: 760px;
-    margin-left: 50px;
-    
+	.container {
+		width: 943px;
+	} 
+	.sideAdZonePageLeftHeaderColumn {
+    width: 723px;
   }
-  .advertis-right {
-		margin-left: 330px;
-	}
 }
 @media (min-width: 1100px) {
-  .sideAdZonePageContainer {
-    width: 720px;
-    margin-left: auto;
-    
+	.container {
+		width: 1051px;
+	} 
+	.sideAdZonePageLeftHeaderColumn {
+    width: 831px;
   }
-   .advertis-right {
-		margin-left: 380px;
-	}
 }
 @media (min-width: 1200px) {
-  .sideAdZonePageContainer {
-    width: 720px;
-    margin-left: auto;
-    
+	.container {
+		width: 1151px;
+	} 
+	.sideAdZonePageLeftHeaderColumn {
+    width: 931px;
   }
-   .advertis-right {
-		margin-left: 410px;
-	}
 }
 
 
