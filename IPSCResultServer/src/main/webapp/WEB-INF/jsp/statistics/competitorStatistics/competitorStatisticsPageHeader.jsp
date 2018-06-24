@@ -31,12 +31,14 @@
 				        		<div class="form-inline">
 					        		<select id="division" name="division" class="form-control">
 										<c:forEach var="division" items="${match.divisionsWithResults}">
-											<c:if test="${param.division eq division}">
-												<option value="${division}" selected><c:out value="${division}" /></option>
-											</c:if>
-											<c:if test="${param.division ne division}">
-												<option value="${division}"><c:out value="${division}" /></option>
-											</c:if>
+											<c:choose>
+												<c:when test="${param.division eq division || (param.division eq null && division eq 'Combined') }">
+													<option value="${division}" selected><c:out value="${division}" /></option>
+												</c:when>
+												<c:otherwise>
+													<option value="${division}"><c:out value="${division}" /></option>
+												</c:otherwise>
+											</c:choose>
 										</c:forEach>
 									</select>
 									<button class="btn btn-large btn-default" onclick="submitDivisionChange()" type="button">Show</button>
