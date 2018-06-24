@@ -36,7 +36,7 @@
 					<li><a href="${matchPageUrl}">Match</a></li>
 					<li class="active"><span>Stage Results</span></li>
 				</ol>
-				<%@ include file="/WEB-INF/jsp/results/stageResultsPageHeader.jsp" %>
+				<%@ include file="/WEB-INF/jsp/results/stageResults/stageResultsPageHeader.jsp" %>
 			<c:if test="${sessionScope.adtest.adTest eq true}">
 				</div>
 			</c:if>
@@ -47,7 +47,7 @@
 	 		</c:if>
 			
 			<div style="clear:both"
-				<%@ include file="/WEB-INF/jsp/results/stageResultsTable.jsp" %>
+				<%@ include file="/WEB-INF/jsp/results/stageResults/stageResultsTable.jsp" %>
 			</div>
 			<c:if test="${sessionScope.adtest.adTest eq true}">
 				<%@ include file="/WEB-INF/jsp/include/pageBottomAdZone.jsp" %>

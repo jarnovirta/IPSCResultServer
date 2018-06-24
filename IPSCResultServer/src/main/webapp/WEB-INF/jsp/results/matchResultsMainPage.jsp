@@ -124,11 +124,12 @@
 						<hr />
 					</c:otherwise>
 				</c:choose>
+				<c:if test="${sessionScope.adtest.adTest eq true}">
+					<%@ include file="/WEB-INF/jsp/include/pageBottomAdZone.jsp" %>
+				</c:if>
 			</div>
 		</div>
-		<c:if test="${sessionScope.adtest.adTest eq true}">
-			<%@ include file="/WEB-INF/jsp/include/pageBottomAdZone.jsp" %>
-		</c:if>
+		
 	<jsp:include page="/WEB-INF/jsp/include/footer.jsp" />
 	<script>
 		$(document).ready(function() {

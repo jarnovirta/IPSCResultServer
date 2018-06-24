@@ -57,22 +57,8 @@ public class StatisticsController {
 		catch (DatabaseException e) {
 			logger.error(e.getMessage());
 		}
-		return "statistics/competitorStatistics";
+		return "statistics/competitorStatistics/competitorStatisticsPage";
 	}
-//	
-//	@RequestMapping(value="/division/{division}", method = RequestMethod.GET)
-//	public String getStatisticsPageForDivision(Model model, @PathVariable("matchId") Long matchId, @PathVariable("division") String division) {
-//		try {
-//			model.addAttribute("match", matchService.getOne(matchId));
-//			model.addAttribute("statistics", getCompetitorStatistics(matchId, division));
-//		}
-//		
-//		catch (DatabaseException e) {
-//			logger.error(e.getMessage());
-//		}
-//		
-//		return "statistics/competitorStatistics";
-//	}
 	
 	private List<CompetitorStatistics> getCompetitorStatistics(Long matchId, String division) {
 		try {

@@ -27,11 +27,11 @@ public class DivisionResultsController {
 		try {
 			Match match = matchService.findByPractiScoreId(matchId);
 			model.addAttribute("matchResultData", matchResultDataService.findByMatchAndDivision(match.getId(), division));
-			return "results/divisionResults";
+			return "results/divisionResults/divisionResultsPage";
 		}
 		// Exception logged in repository
 		catch (DatabaseException e) {
-			return "results/divisionResults";
+			return "results/divisionResults/divisionResultsPage";
 		}
 	}
 }

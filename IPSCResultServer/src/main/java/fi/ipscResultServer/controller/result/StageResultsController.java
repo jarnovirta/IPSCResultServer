@@ -29,11 +29,11 @@ public class StageResultsController {
 
 			Stage stage = stageService.findByPractiScoreId(matchId, stageId);
 			model.addAttribute("stageResultData", stageResultDataService.findByStageAndDivision(stage.getId(), division));
-			return "results/stageResults";
+			return "results/stageResults/stageResultsPage";
 		}
 		// Exception logged in repository
 		catch (DatabaseException e) {
-			return "results/stageResults";
+			return "results/stageResults/stageResultsPage";
 		}
 	}
 }

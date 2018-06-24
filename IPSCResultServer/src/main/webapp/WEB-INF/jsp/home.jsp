@@ -13,12 +13,19 @@
 	<body>
 		<div id="wrap">
 			<div class="container">
-				<%-- <%@ include file="/WEB-INF/jsp/include/pageTopAdZone.jsp" %> --%>
-				
+				<c:if test="${sessionScope.adtest.adTest eq true}">
+					<%@ include file="/WEB-INF/jsp/include/pageTopAdZone.jsp" %>
+				</c:if>
 				<%@ include file="/WEB-INF/jsp/include/loginLogoutButtons.jsp" %>
 				<ol class="breadcrumb breadcrumb-arrow">
 					<li class="active"><span>Home</span></li>
 				</ol>
+				<c:if test="${sessionScope.adtest.adTest eq true}">
+					<div class="alert alert-info">
+						Demo ads are visible.
+					</div>
+				</c:if>
+				 
 				
 				<div class="page-header">
 					<h1>Result Service</h1>
@@ -64,7 +71,9 @@
 						</table>
 					</div>
 		</div>
-		<%-- <%@ include file="/WEB-INF/jsp/include/pageBottomAdZone.jsp" %>		 --%>			
+		<c:if test="${sessionScope.adtest.adTest eq true}">
+			<%@ include file="/WEB-INF/jsp/include/pageBottomAdZone.jsp" %>	
+		</c:if>			
 		<jsp:include page="/WEB-INF/jsp/include/footer.jsp" />
 		
 	</body>

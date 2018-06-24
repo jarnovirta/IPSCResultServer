@@ -62,6 +62,6 @@ public class CompetitorResultsController {
 //		 Exception logged in repository
 		catch (DatabaseException e) { }
 		
-		return "results/competitorResults";
+		return "results/competitorResults/competitorResultsPage";
 	}
 }
