@@ -26,7 +26,7 @@ public class StageResultsController {
 			@RequestParam("stageId") String stageId, 
 			@RequestParam("division") String division) {
 		try {
-
+			
 			Stage stage = stageService.findByPractiScoreId(matchId, stageId);
 			model.addAttribute("stageResultData", stageResultDataService.findByStageAndDivision(stage.getId(), division));
 			return "results/stageResults/stageResultsPage";

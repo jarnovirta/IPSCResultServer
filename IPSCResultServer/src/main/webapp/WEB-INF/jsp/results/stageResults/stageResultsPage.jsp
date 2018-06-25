@@ -56,21 +56,24 @@
 	</div>
 <jsp:include page="/WEB-INF/jsp/include/footer.jsp" />
 
+<c:url var="nextPageUrl" value="/live">
+	<c:param name="matchId" value="${stageResultData.stage.match.practiScoreId }" />
+	<c:param name="previousStagePractiScoreId" value="${stageResultData.stage.practiScoreId }" />
+	<c:param name="previousDivision" value="${stageResultData.division }" />
+	
+</c:url>
+
 <script>
 	$(document).ready(function() {
-		$('#stageResultTable').DataTable( {
+		$('#stageResultTable').dataTable( {
 			paging: false,
 			searching: true,
 			info: false
 		});
-	} );
-	function submitStageListingChange() {
+			
 		
-		var url = "${baseUrl}stageResults?matchId=${stageResultData.stage.match.practiScoreId }&stageId=" 
-				+ $("select#stage").val() + "&division="+ $("select#division").val();
-		location.replace(url);
+	} );
 
-	}
 </script>
 
 
