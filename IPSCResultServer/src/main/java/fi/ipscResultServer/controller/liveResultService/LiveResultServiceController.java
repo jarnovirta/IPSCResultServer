@@ -15,6 +15,7 @@ import fi.ipscResultServer.controller.result.StageResultsController;
 import fi.ipscResultServer.domain.Constants;
 import fi.ipscResultServer.domain.Match;
 import fi.ipscResultServer.domain.Stage;
+import fi.ipscResultServer.domain.resultData.StageResultData;
 import fi.ipscResultServer.exception.DatabaseException;
 import fi.ipscResultServer.service.MatchService;
 
@@ -53,9 +54,20 @@ public class LiveResultServiceController {
 		
 		try {
 			
+			model.addAttribute("config", liveResultServiceConfig);
+			
 			// Determine next stage and division to show in live result service view
 			Match match = matchService.findByPractiScoreId(matchId);
 			List<String> divisions = match.getDivisionsWithResults();
+			
+			if (divisions == null || divisions.size() == 0) {
+				StageResultData data = new StageResultData();
+				Stage stage = new Stage();
+				stage.setMatch(match);
+				data.setStage(stage);
+				model.addAttribute("stageResultData", data);
+				return "results/liveResultService/liveResultsPage";
+			}
 			divisions.remove(Constants.COMBINED_DIVISION);
 			String nextStagePractiScoreId = previousStagePractiScoreId;
 			String nextDivision;
@@ -71,8 +83,6 @@ public class LiveResultServiceController {
 				}
 			}
 			stageResultsController.getStageResultsPage(model, matchId, nextStagePractiScoreId, nextDivision);
-			
-			model.addAttribute("config", liveResultServiceConfig);
 			return "results/liveResultService/liveResultsPage";
 		}
 		// Exception logged in repository

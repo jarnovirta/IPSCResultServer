@@ -31,16 +31,30 @@
 					        			<b>Division:</b>
 					        		</td>
 					        		<td>
-					        			${stageResultData.division}
+					        			<c:choose>
+					        				<c:when test="${empty stageResultData.division}">
+					        					--
+					        				</c:when>
+					        				<c:otherwise>
+					        					${stageResultData.division}
+					        				</c:otherwise>
+					        			</c:choose>
 									</td>
-					        		
 					        	</tr>
 					        	<tr>
 					        		<td>
 					        			<b>Stage:</b>
 					        		</td>
 					        		<td>
-					        			${stageResultData.stage.stageNumber } - ${stageResultData.stage.name}
+					        			
+					        			<c:choose>
+					        				<c:when test="${empty stageResultData.stage.name}">
+					        					--
+					        				</c:when>
+					        				<c:otherwise>
+					        					${stageResultData.stage.stageNumber } - ${stageResultData.stage.name}
+					        				</c:otherwise>
+					        			</c:choose>
 					        		</td>
 					        	</tr>					        	
 					        </table>
