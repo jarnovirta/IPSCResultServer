@@ -17,9 +17,6 @@
 								Last Name
 							</th>
 							<th>
-								CompNr
-							</th>
-							<th>
 								Points
 							</th>
 							<th>
@@ -36,9 +33,6 @@
 							</th>
 							<th>
 								Cat
-							</th>
-							<th>
-								Reg
 							</th>
 							<th>
 								Div
@@ -62,9 +56,6 @@
 									<a href="${competitorResultsUrl }">${dataline.competitor.lastName }</a>
 								</td>
 								<td align="right">
-									${dataline.competitor.shooterNumber }
-								</td>
-								<td align="right">
 									${dataline.scoreCard.points}
 								</td>
 								<td align="right">
@@ -83,9 +74,6 @@
 									<c:forEach items = "${dataline.competitor.categories}" var = "category">
 											${category}
 									</c:forEach>
-								</td>
-								<td align="left">
-									${dataline.competitor.country }
 								</td>
 								<td align="center">
 									<c:if test="${dataline.competitor.powerFactor eq  'MINOR'}">

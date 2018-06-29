@@ -12,9 +12,6 @@
 					Last Name
 				</th>
 				<th>
-					CompNr
-				</th>
-				<th>
 					Points
 				</th>
 				<th>
@@ -25,9 +22,6 @@
 				</th>
 				<th>
 					Cat
-				</th>
-				<th>
-					Region
 				</th>
 				<th>
 					Team
@@ -55,9 +49,6 @@
 						<a href="${competitorResultsUrl }">${dataline.competitor.lastName }</a> 
 					</td>
 					<td align="right">
-						${dataline.competitor.shooterNumber}
-					</td>
-					<td align="right">
 						<fmt:formatNumber type = "number" minFractionDigits = "4" maxFractionDigits = "4" value="${dataline.points }" />
 					</td>
 					<td align="right">
@@ -77,9 +68,6 @@
 						<c:forEach items = "${dataline.competitor.categories}" var = "category">
 							${category }
 						</c:forEach>
-					</td>
-					<td>
-						${dataline.competitor.country }
 					</td>
 					<td>
 						<c:set var="team" value="${dataline.competitor.team }" />

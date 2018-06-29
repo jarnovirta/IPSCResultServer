@@ -42,7 +42,6 @@ public class LiveResultServiceController {
 			@ModelAttribute("liveResultServiceConfig") LiveResultServiceConfig config) {
 		
 		liveResultServiceConfig = config; 
-		
 		return "redirect:/live/nextPage?matchId=" + config.getMatchPractiScoreId();
 	}		
 			
@@ -54,12 +53,13 @@ public class LiveResultServiceController {
 		
 		try {
 			
+			// Pass configuration info to JavaScript code (rows per page in result table and page change interval)
 			model.addAttribute("config", liveResultServiceConfig);
 			
-			// Determine next stage and division to show in live result service view
 			Match match = matchService.findByPractiScoreId(matchId);
 			List<String> divisions = match.getDivisionsWithResults();
 			
+			// If no result data exists, set empty data instance and show empty result table
 			if (divisions == null || divisions.size() == 0) {
 				StageResultData data = new StageResultData();
 				Stage stage = new Stage();
@@ -68,18 +68,20 @@ public class LiveResultServiceController {
 				model.addAttribute("stageResultData", data);
 				return "results/liveResultService/liveResultsPage";
 			}
+			// Determine next stage and division to show in live result service view
 			divisions.remove(Constants.COMBINED_DIVISION);
-			String nextStagePractiScoreId = previousStagePractiScoreId;
-			String nextDivision;
-			if (previousDivision == null) {
+			String nextStagePractiScoreId = null;
+			String nextDivision = previousDivision;
+			if (previousStagePractiScoreId == null) {
 				nextStagePractiScoreId = match.getStages().get(0).getPractiScoreId();
 				nextDivision = divisions.get(0);
 			}
 			else {
-				nextDivision = getNextDivision(match, divisions, previousDivision);
-				if (nextDivision == null) {
-					nextStagePractiScoreId = getNextStagePractiScoreId(match, previousStagePractiScoreId);
-					nextDivision = divisions.get(0);
+				nextStagePractiScoreId = getNextStagePractiScoreId(match, previousStagePractiScoreId);
+				
+				if (nextStagePractiScoreId == null) {
+					nextStagePractiScoreId = match.getStages().get(0).getPractiScoreId();
+					nextDivision = getNextDivision(match, divisions, previousDivision);
 				}
 			}
 			stageResultsController.getStageResultsPage(model, matchId, nextStagePractiScoreId, nextDivision);
@@ -92,7 +94,7 @@ public class LiveResultServiceController {
 	}
 	private String getNextDivision(Match match, List<String> divisions, String previousDivision) {
 		int divisionIndex = divisions.indexOf(previousDivision);
-		if (divisionIndex + 1 == divisions.size()) return null;
+		if (divisionIndex + 1 == divisions.size()) return divisions.get(0);
 		else return divisions.get(divisionIndex + 1);
 	}
 	private String getNextStagePractiScoreId(Match match, String previousStagePractiScoreId) {
@@ -101,7 +103,7 @@ public class LiveResultServiceController {
 			if (stage.getPractiScoreId().equals(previousStagePractiScoreId)) break;
 			stageIndex++;
 		}
-		if (match.getStages().size() == stageIndex + 1) return match.getStages().get(0).getPractiScoreId();
+		if (stageIndex + 1 == match.getStages().size()) return null;
 		return match.getStages().get(stageIndex + 1).getPractiScoreId();
 	}
 }

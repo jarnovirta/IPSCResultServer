@@ -11,56 +11,13 @@
 		<jsp:include page="/WEB-INF/jsp/include/headTag.jsp" />
 		<jsp:include page="/WEB-INF/jsp/include/dataTablesHeadTagLinks.jsp" />
 	</head>
-	<body>
+	<body class="liveResultService">
 	<div id="wrap">
 		<div class="container">
-			<div class="panel panel-info">
-				 <div class="panel-heading">Live Result Service</div>
-				  	<div class="panel-body">
-						        <table class="oneColumnPageInfo">
-						        	<tr>
-						        		<td>
-						        			<b>Match:</b>
-						        		</td>
-						        		<td>
-						        			<b>${stageResultData.stage.match.name}</b>
-					        		</td>
-					        	</tr>
-					        	<tr>
-					        		<td>
-					        			<b>Division:</b>
-					        		</td>
-					        		<td>
-					        			<c:choose>
-					        				<c:when test="${empty stageResultData.division}">
-					        					--
-					        				</c:when>
-					        				<c:otherwise>
-					        					${stageResultData.division}
-					        				</c:otherwise>
-					        			</c:choose>
-									</td>
-					        	</tr>
-					        	<tr>
-					        		<td>
-					        			<b>Stage:</b>
-					        		</td>
-					        		<td>
-					        			
-					        			<c:choose>
-					        				<c:when test="${empty stageResultData.stage.name}">
-					        					--
-					        				</c:when>
-					        				<c:otherwise>
-					        					${stageResultData.stage.stageNumber } - ${stageResultData.stage.name}
-					        				</c:otherwise>
-					        			</c:choose>
-					        		</td>
-					        	</tr>					        	
-					        </table>
-					</div>
-				</div>
-			<%@ include file="/WEB-INF/jsp/results/stageResults/stageResultsTable.jsp" %>
+			<%@ include file="/WEB-INF/jsp/results/liveResultService/liveResultServicePageHeader.jsp" %>
+			<div class="liveResultServiceResultsTable">
+				<%@ include file="/WEB-INF/jsp/results/stageResults/stageResultsTable.jsp" %>
+			</div>
 		</div>
 	</div>
 <jsp:include page="/WEB-INF/jsp/include/footer.jsp" />
@@ -98,7 +55,7 @@
 				
 	} );
 
-</script>
+</script>  
 
 
 </body>

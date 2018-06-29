@@ -15,7 +15,7 @@
 			<div class="container">
 			
 				<c:if test="${sessionScope.adtest.adTest eq true}">
-					<%@ include file="/WEB-INF/jsp/include/pageTopAdZone.jsp" %>
+					<%@ include file="/WEB-INF/jsp/adZones/pageTopAdZone.jsp" %>
 				</c:if>
 				<%@ include file="/WEB-INF/jsp/include/loginLogoutButtons.jsp" %>
 				<ol class="breadcrumb breadcrumb-arrow">
@@ -74,7 +74,7 @@
 					</div>
 					<c:if test="${sessionScope.adtest.adTest eq true}">
 						<div style="align: center; margin-top: 80px; margin-left: auto; margin-right:auto">
-							<%@ include file="/WEB-INF/jsp/include/pageBottomAdZone.jsp" %>
+							<%@ include file="/WEB-INF/jsp/adZones/pageBottomAdZone.jsp" %>
 						</div>	
 					</c:if>
 			</div>
