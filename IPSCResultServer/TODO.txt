@@ -1,6 +1,8 @@
 CHARTS: http://www.jscharts.com/examples#pie-charts
 Muuta tietojen l√§hetys niin, ett√§ koko tiedosto l√§hetet√§√§n. J√§√§ talteen eik√§ tarvitse aina androidia p√§ivitt√§√§.
 
+IPSC ALIAS: Merkkijonoksi????
+
 Testaa ett‰ lis‰tt‰ess‰ ekat tulokset tulospalvelu alkaa n‰ytt‰‰ sivua oikein.
 
 
