@@ -23,7 +23,7 @@
 				</ol>
 				<c:if test="${sessionScope.adtest.adTest eq true}">
 					<div class="alert alert-info">
-						Demo ads are visible.
+						Demo ads are visible. Go to hitfactor.fi/adtest/clear to remove.
 					</div>
 				</c:if>
 				 

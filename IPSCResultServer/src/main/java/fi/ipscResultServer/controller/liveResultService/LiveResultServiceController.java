@@ -29,6 +29,9 @@ public class LiveResultServiceController {
 	@Autowired
 	private MatchService matchService;
 	
+	
+	// TODO: Ei voi olla instanssimuuttujana, muuttuu muuten aina kaikille,
+	// pit‰‰ olla session attribute
 	private LiveResultServiceConfig liveResultServiceConfig;
 		
 	@RequestMapping(method = RequestMethod.GET)
