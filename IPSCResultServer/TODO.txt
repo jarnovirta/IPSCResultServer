@@ -1,4 +1,5 @@
-CHARTS: http://www.jscharts.com/examples#pie-charts
+TEE CHARTS HAKU AJAX-pohjaiseksi
+
 Muuta tietojen lähetys niin, että koko tiedosto lähetetään. Jää talteen eikä tarvitse aina androidia päivittää.
 
 IPSC ALIAS: Merkkijonoksi????

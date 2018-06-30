@@ -28,14 +28,16 @@ public class CompetitorResultDataService {
 	@Autowired
 	MatchService matchService;
 	
-	public CompetitorResultData findByCompetitorAndMatch(Competitor competitor, Match match) 
+	public CompetitorResultData findByCompetitorAndMatchPractiScoreIds(String competitorPractiScoreId, String matchPractiScoreId) 
 			throws DatabaseException {
-		List<ScoreCard> cards = scoreCardService.findByCompetitorAndMatch(competitor, match);
+		List<ScoreCard> cards = scoreCardService.findByCompetitorAndMatchPractiScoreIds(competitorPractiScoreId, matchPractiScoreId);
 		Map<Long, ScoreCard> scoreCards = new HashMap<Long, ScoreCard>();
 		for (ScoreCard card : cards) {
 			scoreCards.put(card.getStage().getId(), card);
 		}
 
+		Competitor competitor = competitorService.findByPractiScoreReferences(matchPractiScoreId, competitorPractiScoreId);
+		Match match = matchService.findByPractiScoreId(matchPractiScoreId);
 		CompetitorResultData resultData = new CompetitorResultData();
 		resultData.setScoreCards(scoreCards);
 		resultData.setCompetitor(competitorService.getOne(competitor.getId()));

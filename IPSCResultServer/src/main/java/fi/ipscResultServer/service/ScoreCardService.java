@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import fi.ipscResultServer.domain.Competitor;
 import fi.ipscResultServer.domain.Match;
 import fi.ipscResultServer.domain.ScoreCard;
 import fi.ipscResultServer.domain.Stage;
@@ -30,8 +29,9 @@ public class ScoreCardService {
 	public ScoreCard findByCompetitorAndStage(String competitorId, String stageId) throws DatabaseException  {
 		return scoreCardRepository.findByCompetitorAndStage(competitorId, stageId);
 	}
-	public List<ScoreCard> findByCompetitorAndMatch(Competitor competitor, Match match) throws DatabaseException {
-		return scoreCardRepository.findByCompetitorAndMatch(competitor, match);		
+	public List<ScoreCard> findByCompetitorAndMatchPractiScoreIds(String competitorPractiScoreId, 
+			String matchPractiScoreId) throws DatabaseException {
+		return scoreCardRepository.findByCompetitorAndMatchPractiScoreIds(competitorPractiScoreId, matchPractiScoreId);		
 	}
 	@Transactional
 	public void deleteInBatch(List<ScoreCard> scoreCards) throws DatabaseException {

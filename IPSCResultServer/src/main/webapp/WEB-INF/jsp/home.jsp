@@ -13,7 +13,6 @@
 	<body>
 		<div id="wrap">
 			<div class="container">
-				<a href="<c:url value='/matchAnalysis' />">Match analysis</a>
 				<c:if test="${sessionScope.adtest.adTest eq true}">
 					<%@ include file="/WEB-INF/jsp/adZones/pageTopAdZone.jsp" %>
 				</c:if>
@@ -26,7 +25,6 @@
 						Demo ads are visible. Go to hitfactor.fi/adtest/clear to remove.
 					</div>
 				</c:if>
-				 
 				
 				<div class="page-header">
 					<h1>Result Service</h1>

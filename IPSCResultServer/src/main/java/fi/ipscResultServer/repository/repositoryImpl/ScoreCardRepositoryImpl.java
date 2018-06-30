@@ -12,7 +12,6 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import fi.ipscResultServer.domain.Competitor;
 import fi.ipscResultServer.domain.Match;
 import fi.ipscResultServer.domain.ScoreCard;
 import fi.ipscResultServer.domain.Stage;
@@ -86,13 +85,14 @@ public class ScoreCardRepositoryImpl implements ScoreCardRepository {
 		}
 	}
 	
-	public List<ScoreCard> findByCompetitorAndMatch(Competitor competitor, Match match) 
+	public List<ScoreCard> findByCompetitorAndMatchPractiScoreIds(String competitorPractiScoreId, String matchPractiScoreId) 
 			throws DatabaseException {
 		try {
-			String queryString = "SELECT s FROM ScoreCard s WHERE s.competitor = :competitor AND s.stage.match = :match";
+			String queryString = "SELECT s FROM ScoreCard s WHERE s.competitor.practiScoreId = :competitorPractiScoreId "
+					+ "AND s.stage.match.practiScoreId = :matchPractiScoreId";
 			TypedQuery<ScoreCard> query = entityManager.createQuery(queryString, ScoreCard.class);
-			query.setParameter("competitor", competitor);
-			query.setParameter("match", match);
+			query.setParameter("competitorPractiScoreId", competitorPractiScoreId);
+			query.setParameter("matchPractiScoreId", matchPractiScoreId);
 			return query.getResultList();
 			
 		} catch (Exception e) {

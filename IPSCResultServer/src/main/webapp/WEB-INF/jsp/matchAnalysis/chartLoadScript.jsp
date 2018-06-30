@@ -12,12 +12,14 @@
 		drawTimeByStageChart();
 	}
 	function drawAccuracyPieChart() {
+        
 		var data = google.visualization.arrayToDataTable([
 			['Hit zone', 'Hits'],
-			['A',     11],
-			['C',      5],
-			['D',  2],
-			['Miss', 2],
+	        ['A', Number('${competitorResultData.aHitsSum }')],
+	        ['C', Number('${competitorResultData.cHitsSum }')],
+	        ['D', Number('${competitorResultData.dHitsSum }')],
+	        ['Miss', Number('${competitorResultData.missSum }')],
+	        ['NS', Number('${competitorResultData.noshootHitsSum }')]
 		]);
 		var options = {
 			title: 'Accuracy'

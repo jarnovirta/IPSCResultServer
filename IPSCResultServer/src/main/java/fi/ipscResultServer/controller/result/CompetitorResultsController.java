@@ -40,7 +40,7 @@ public class CompetitorResultsController {
 			
 			Match match = matchService.findByPractiScoreId(matchId);
 			Competitor competitor = competitorService.findByPractiScoreReferences(matchId, competitorId);
-			CompetitorResultData resultData = competitorResultDataService.findByCompetitorAndMatch(competitor, match);
+			CompetitorResultData resultData = competitorResultDataService.findByCompetitorAndMatchPractiScoreIds(competitorId, matchId);
 			boolean additionalPenaltiesColumn = false;
 			for (ScoreCard card : resultData.getScoreCards().values()) {
 				if (card.getAdditionalPenalties() > 0) additionalPenaltiesColumn = true;
