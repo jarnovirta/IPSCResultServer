@@ -13,7 +13,7 @@
 	<body>
 		<div id="wrap">
 			<div class="container">
-			
+				<a href="<c:url value='/matchAnalysis' />">Match analysis</a>
 				<c:if test="${sessionScope.adtest.adTest eq true}">
 					<%@ include file="/WEB-INF/jsp/adZones/pageTopAdZone.jsp" %>
 				</c:if>

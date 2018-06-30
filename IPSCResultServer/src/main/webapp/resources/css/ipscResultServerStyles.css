@@ -47,6 +47,45 @@
 .adminTableLabel { margin-top:0 }
 
 .adminTableStatusButton { margin-left: 15px}
+
+.matchAnalysisHitsTable table {
+    border-collapse: collapse;
+    margin-left:auto; 
+    margin-right:auto;
+}
+
+.matchAnalysisHitsTable table, th, td {
+    border: 1px solid black;
+}
+.matchAnalysisHitsTable th, td {
+    width: 50px;
+    padding: 5px;
+    
+}
+.matchAnalysisHitsTable th {
+    text-align: center
+    
+}
+.matchAnalysisHitsTable td {
+    text-align: right
+    
+}
+
+
+
+.matchAnalysisHitsTable .leftTableColumn {
+	width: 70px;
+    text-align: left; 
+    
+}
+.matchAnalysisHitsTable .rightTableColumn {
+    width: 50px;
+    text-align: right;
+        
+}
+
+
+
 body{
     padding-top: 50px;   
     padding-bottom: 50px;
