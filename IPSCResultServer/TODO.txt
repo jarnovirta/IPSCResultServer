@@ -1,7 +1,7 @@
 TEE CHARTS HAKU AJAX-pohjaiseksi
 
 
-
+Tarkista kuinka paljon dataa l�hetet��n JSONilla match analysis sivulle -> liikaa esim. match -> competitor tavaraa?
 Muuta tietojen lähetys niin, että koko tiedosto lähetetään. Jää talteen eikä tarvitse aina androidia päivittää.
 
 IPSC ALIAS: Merkkijonoksi????

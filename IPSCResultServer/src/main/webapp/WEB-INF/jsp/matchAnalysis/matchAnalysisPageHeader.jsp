@@ -1,10 +1,10 @@
 <div class="page-header">
-	<h1>Stage Results</h1>
+	<h1>Match Analysis</h1>
 </div>
 <br><br>
 
 <div class="panel panel-info">
-  <div class="panel-heading">Match Analysis for ${competitorResultData.competitor.firstName } ${competitorResultData.competitor.lastName }</div>
+  <div class="panel-heading">Match Analysis for <span id="pageHeadingCompetitorName"></span></div>
   	<div class="panel-body">
 		        <table class="oneColumnPageInfo">
 		        	<tr>
@@ -20,35 +20,19 @@
 	        			<b>Competitor:</b>
 	        		</td>
 	        		<td>
-	        			<select id="competitor" name="competitor" class="form-control">
-							<c:forEach var="competitor" items="${competitorResultData.match.competitors}">
-								<c:set var="competitorListItem" value="${competitor.firstName} ${competitor.lastName }" />
-								<c:if test="${competitorResultData.competitor.practiScoreId eq competitor.practiScoreId}">
-									<option value="${competitor.practiScoreId}" selected>${competitorListItem}</option>
-								</c:if>
-								<c:if test="${competitorResultData.competitor.practiScoreId ne competitor.practiScoreId}">
-									<option value="${competitor.practiScoreId}">${competitorListItem}</option>
-								</c:if>
-							</c:forEach>
-						</select>
-	        		</td>
+	        			<select id="competitor" name="competitorId" class="form-control"></select>
+
+        			</td>
 	        	</tr>
 	        	<tr>
 	        		<td>
 	        			<b>Compare to:</b>
 	        		</td>
 	        		<td>
-	        			<select id="competitor" name="competitor" class="form-control">
-							<c:forEach var="competitor" items="${competitorResultData.match.competitors}">
-								<c:set var="competitorListItem" value="${competitor.firstName} ${competitor.lastName }" />
-								<c:if test="${competitorResultData.competitor.practiScoreId eq competitor.practiScoreId}">
-									<option value="${competitor.practiScoreId}" selected>${competitorListItem}</option>
-								</c:if>
-								<c:if test="${competitorResultData.competitor.practiScoreId ne competitor.practiScoreId}">
-									<option value="${competitor.practiScoreId}">${competitorListItem}</option>
-								</c:if>
-							</c:forEach>
-						</select>
+	        			<div class="form-inline">
+		        			<select id="compareToCompetitor" name="compareToCompetitorId" class="form-control" ></select>
+							<button class="btn btn-large btn-default" onclick="submitCompetitorsChange()" type="button">Show</button>
+						</div>
 	        		</td>
 	        	</tr>	        		 		        	
 	        </table>

@@ -47,22 +47,13 @@ public class MatchAnalysisController {
 			
 			CompetitorResultData resultData = 
 					competitorResultDataService.findByCompetitorAndMatchPractiScoreIds(competitorPractiScoreId, matchPractiScoreId);
-			
-			Competitor competitor = competitorService.findByPractiScoreReferences(matchPractiScoreId, competitorPractiScoreId);
 			Match match = matchService.findByPractiScoreId(matchPractiScoreId);
-			CompetitorResultData competitorResultData = 
-					competitorResultDataService.findByCompetitorAndMatchPractiScoreIds(competitorPractiScoreId, matchPractiScoreId);
-			List<ScoreCard> cards = new ArrayList<ScoreCard>();
-			for (Stage stage : match.getStages()) {
-				ScoreCard card = competitorResultData.getScoreCards().get(stage.getId());
-				if (card != null) {
-					cards.add(card);
-				}
-			}
+			
 			model.addAttribute("competitorResultData", resultData);
 			model.addAttribute("matchId", matchPractiScoreId);
 			model.addAttribute("competitorId", competitorPractiScoreId);
-			model.addAttribute("errorCostDataLines", CompetitorErrorCostDataService.getErrorCostTableLines(match, competitor, cards));
+			model.addAttribute("compareToCompetitorId", match.getCompetitors().get(0).getPractiScoreId());
+			
 		}
 //		 Exception logged in repository
 		catch (DatabaseException e) {
@@ -72,9 +63,17 @@ public class MatchAnalysisController {
 		return "matchAnalysis/matchAnalysisPage";
 	}
 	@RequestMapping(value="/data", method = RequestMethod.GET)
-	public @ResponseBody MatchAnalysisData getMatchAnalysisData(@RequestParam("matchId") String matchPractiScoreId, 
-			@RequestParam("competitorId") String competitorPractiScoreId) {
-		
+	public @ResponseBody MatchAnalysisData[] getMatchAnalysisData(@RequestParam("matchId") String matchPractiScoreId, 
+			@RequestParam("competitorId") String competitorPractiScoreId,
+			@RequestParam("compareToCompetitorId") String compareToCompetitorId) {
+			
+			MatchAnalysisData competitorMatchAnalysisData = getCompetitorMatchAnalysisData(competitorPractiScoreId, matchPractiScoreId);
+			MatchAnalysisData compareToCompetitorMatchAnalysisData = getCompetitorMatchAnalysisData(compareToCompetitorId, matchPractiScoreId);
+			MatchAnalysisData[] response = { competitorMatchAnalysisData, compareToCompetitorMatchAnalysisData };
+			return response;
+	}
+	
+	private MatchAnalysisData getCompetitorMatchAnalysisData(String competitorPractiScoreId, String matchPractiScoreId) {
 		try {
 			CompetitorResultData competitorResultData = 
 					competitorResultDataService.findByCompetitorAndMatchPractiScoreIds(competitorPractiScoreId, matchPractiScoreId);
@@ -84,16 +83,27 @@ public class MatchAnalysisController {
 			
 			List<StageResultDataLine> stageResultDataLines = stageResultDataService.findStageResultDataLinesByCompetitor(competitor);
 			
-//			Remove circular references before stringifying to JSON
+			// Remove circular references before stringifying to JSON
 			for (StageResultDataLine line : stageResultDataLines) {
 				line.getCompetitor().setMatch(null);
 				line.setStageResultData(null);
 				line.getScoreCard().getStage().setMatch(null);
 			}
 			
-			return new MatchAnalysisData(competitorResultData, stageResultDataLines);
+			// Get error cost table lines
+			Match match = matchService.findByPractiScoreId(matchPractiScoreId);
+			List<ScoreCard> cards = new ArrayList<ScoreCard>();
+			for (Stage stage : match.getStages()) {
+				ScoreCard card = competitorResultData.getScoreCards().get(stage.getId());
+				if (card != null) {
+					cards.add(card);
+				}
+			}
+			
+			List<ErrorCostTableLine> errorCostTableLines = CompetitorErrorCostDataService.getErrorCostTableLines(match, competitor, cards);
+			return new MatchAnalysisData(competitorResultData, stageResultDataLines, errorCostTableLines);
 		}
-//		 Exception logged in repository
+		//	 Exception logged in repository
 		catch (DatabaseException e) {
 			return null;
 		}

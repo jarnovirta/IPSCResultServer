@@ -39,15 +39,13 @@
 					<li class="active"><span>Analysis</span></li>
 				</ol>
 				
-				<div class="page-header">
-					<h1>Match Analysis</h1>
-				</div>
-				
 				<%@ include file="/WEB-INF/jsp/matchAnalysis/matchAnalysisPageHeader.jsp" %>
 							
 				<div id="competitorAccuracyChart"></div>
 				
-				<%@ include file="/WEB-INF/jsp/matchAnalysis/hitsTable.jsp" %>
+				<div class="table-responsive">
+					<table id="hitsTable" class="table table-striped table-bordered" width="100%"></table>
+				</div>
 				<br><br>
 				
 				<h3>Stage Results</h3>
@@ -56,7 +54,10 @@
 				</div>
 				<br><br>
 				
-				<%@ include file="/WEB-INF/jsp/results/competitorResults/errorCostAnalysisTable.jsp" %>
+				<h3>Error Cost Analysis</h3>
+				<div class="table-responsive">
+					<table id="errorCostAnalysisTable" class="table table-striped table-bordered" width="100%"></table>
+				</div>
 				<br><br>
 				
 				<div id="percentByStageChart"></div>
