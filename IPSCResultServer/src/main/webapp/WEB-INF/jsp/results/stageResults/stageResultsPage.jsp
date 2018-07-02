@@ -13,6 +13,7 @@
 	</head>
 	<body>
 	<div id="wrap">
+		<c:url var="baseUrl" value="/" />
 		<c:if test="${sessionScope.adtest.adTest eq true}">
 			<c:set var="divClass" value="container sideAdZonePageContainer" />
 		</c:if>
@@ -25,7 +26,7 @@
 				<div class="sideAdZonePageLeftHeaderColumn">
 			</c:if>
 				<c:if test="${sessionScope.adtest.adTest eq true}">
-					<%@ include file="/WEB-INF/jsp/include/pageTopAdZone.jsp" %>
+					<%@ include file="/WEB-INF/jsp/adZones/pageTopAdZone.jsp" %>
 				</c:if>
 				<%@ include file="/WEB-INF/jsp/include/loginLogoutButtons.jsp" %>
 				<ol class="breadcrumb breadcrumb-arrow">
@@ -50,7 +51,7 @@
 				<%@ include file="/WEB-INF/jsp/results/stageResults/stageResultsTable.jsp" %>
 			</div>
 			<c:if test="${sessionScope.adtest.adTest eq true}">
-				<%@ include file="/WEB-INF/jsp/include/pageBottomAdZone.jsp" %>
+				<%@ include file="/WEB-INF/jsp/adZones/pageBottomAdZone.jsp" %>
 			</c:if>
 		</div>
 	</div>
@@ -73,6 +74,11 @@
 			
 		
 	} );
+	
+	function submitStageListingChange() {
+		var url = "${baseUrl}stageResults?stageId=" + $("select#stage").val() + "&matchId=${stageResultData.stage.match.practiScoreId}&division=" + $("select#division").val();
+		location.replace(url);
+	}
 
 </script>
 

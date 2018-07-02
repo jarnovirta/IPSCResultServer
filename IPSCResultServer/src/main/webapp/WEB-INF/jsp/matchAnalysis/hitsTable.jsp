@@ -1,5 +1,5 @@
 <div class="matchAnalysisHitsTable">
-	<table>
+	<table class="matchAnalysisHitsTable">
 		<thead>
 			<th>
 				A

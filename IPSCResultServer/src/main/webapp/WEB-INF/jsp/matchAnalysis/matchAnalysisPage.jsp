@@ -8,19 +8,26 @@
 
 <html>
 	<head>
+		<!-- Common page head tag contents -->
 		<jsp:include page="/WEB-INF/jsp/include/headTag.jsp" />
-		<%-- <jsp:include page="/WEB-INF/jsp/include/dataTablesHeadTagLinks.jsp" /> --%>
 		
-		<jsp:include page="/WEB-INF/jsp/matchAnalysis/chartLoadScript.jsp" />
-		
+		<!-- Google charts scripts -->
+		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+		<script>
+			<%@ include file="/resources/js/chartLoadScript.js" %>
+		</script>
 	</head>
 	<body>
 		<c:url var="baseUrl" value="/" />
 		<div id="wrap">
 			<div class="container">
+			
+				<!-- Ad zone -->
 				<c:if test="${sessionScope.adtest.adTest eq true}">
 					<%@ include file="/WEB-INF/jsp/adZones/pageTopAdZone.jsp" %>
 				</c:if>
+				
+				<!-- Page top bar -->
 				<%@ include file="/WEB-INF/jsp/include/loginLogoutButtons.jsp" %>
 				<ol class="breadcrumb breadcrumb-arrow">
 					<li><a href="<c:url value='/' />">Home</a></li>
@@ -30,18 +37,19 @@
 					<li><a href="${matchPageUrl}">Match</a></li>
 					<li class="active"><span>Analysis</span></li>
 				</ol>
+				
 				<div class="page-header">
 					<h1>Match Analysis</h1>
 				</div>
 				
-				<div id="competitorAccuracyChart" style="width: 700px; height: 389px; display: block; margin: 0 auto"></div>
+				<div id="competitorAccuracyChart"></div>
 				
 				<%@ include file="/WEB-INF/jsp/matchAnalysis/hitsTable.jsp" %>
 				<br><br><br><br>
 				
-				<div id="percentByStageChart" style="width: 700px; height: 500px; display: block; margin: 0 auto"></div>
+				<div id="percentByStageChart"></div>
 				<br><br><br>
-				<div id="timeByStageChart" style="width: 700px; height: 500px; display: block; margin: 0 auto"></div>
+				<div id="timeByStageChart"></div>
 				
 				<c:if test="${sessionScope.adtest.adTest eq true}">
 					<%@ include file="/WEB-INF/jsp/adZones/pageBottomAdZone.jsp" %>

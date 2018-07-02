@@ -4,6 +4,8 @@ Muuta tietojen l√§hetys niin, ett√§ koko tiedosto l√§hetet√§√§n. J√§√§ talteen e
 
 IPSC ALIAS: Merkkijonoksi????
 
+MITƒ TAPAHTUU JOS KISAAJA AMPUU KISAN USEAN KERRAN? ERI DIVISIOONISSA?!!?
+
 Testaa ett‰ lis‰tt‰ess‰ ekat tulokset tulospalvelu alkaa n‰ytt‰‰ sivua oikein.
 
 

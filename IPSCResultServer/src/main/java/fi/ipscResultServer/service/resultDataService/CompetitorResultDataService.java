@@ -11,6 +11,7 @@ import fi.ipscResultServer.domain.Competitor;
 import fi.ipscResultServer.domain.Match;
 import fi.ipscResultServer.domain.ScoreCard;
 import fi.ipscResultServer.domain.resultData.CompetitorResultData;
+import fi.ipscResultServer.domain.resultData.StageResultDataLine;
 import fi.ipscResultServer.exception.DatabaseException;
 import fi.ipscResultServer.service.CompetitorService;
 import fi.ipscResultServer.service.MatchService;
@@ -27,6 +28,9 @@ public class CompetitorResultDataService {
 	
 	@Autowired
 	MatchService matchService;
+	
+	@Autowired
+	StageResultDataService stageResultDataService;
 	
 	public CompetitorResultData findByCompetitorAndMatchPractiScoreIds(String competitorPractiScoreId, String matchPractiScoreId) 
 			throws DatabaseException {
@@ -45,5 +49,26 @@ public class CompetitorResultDataService {
 		resultData.setStatistics();
 		
 		return resultData;
+	}
+	
+	public void setCompetitorStagePercentages(CompetitorResultData resultData) {
+		try {
+			Map<Integer, Double> stagePercentages = new HashMap<Integer, Double>();
+			List<StageResultDataLine> stageResultDataLines = stageResultDataService.findStageResultDataLinesByCompetitorAndDivision(resultData.getCompetitor(), resultData.getCompetitor().getDivision());
+			for (ScoreCard card : resultData.getScoreCards().values()) {
+				Double percentage = null;
+				for (StageResultDataLine line : stageResultDataLines) {
+					if (line.getScoreCard().getStage().getId().equals(card.getStage().getId())) {
+						percentage = line.getStageScorePercentage();
+					}
+				}
+				stagePercentages.put(card.getStage().getStageNumber(), percentage);
+			}
+			resultData.setStagePercentages(stagePercentages);
+		}
+		catch (DatabaseException e) {
+			e.printStackTrace();
+		}
+		
 	}
 }
