@@ -81,19 +81,14 @@ public class ScoreCard implements Serializable, Comparable<ScoreCard> {
 	@Transient
 	private int[] paperTargetHits;
 	
-	@JsonIgnore
 	private int aHits = 0;
 	
-	@JsonIgnore
 	private int cHits = 0;
 	
-	@JsonIgnore
 	private int dHits = 0;
 	
-	@JsonIgnore
 	private int misses = 0;
 	
-	@JsonIgnore
 	private int noshootHits = 0;
 	
 	@JsonProperty("proc")
@@ -102,20 +97,16 @@ public class ScoreCard implements Serializable, Comparable<ScoreCard> {
 	@JsonProperty("apen")
 	private int additionalPenalties = 0;
 	
-	@JsonIgnore
 	@Column(nullable = false)
 	private double hitFactor;
 
 	@JsonIgnore
 	private StageScore stageScore;
 	
-	@JsonIgnore
 	private int stageScorePercentage;
 	
-	@JsonIgnore
 	private int stagePoints;
 	
-	@JsonIgnore
 	private int stageRank;
 	
 	@Override
@@ -198,6 +189,12 @@ public class ScoreCard implements Serializable, Comparable<ScoreCard> {
 	}
 	
 	public void setHitsAndPoints() {
+		aHits = 0;
+		cHits = 0;
+		dHits = 0;
+		noshootHits = 0;
+		misses = 0;
+		
 		// Count total hits from PractiScore hits data
 		int cHitsBitShift = 8;
 		int dHitsBitShift = 12;

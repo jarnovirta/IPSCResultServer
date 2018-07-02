@@ -1,18 +1,16 @@
 TEE CHARTS HAKU AJAX-pohjaiseksi
 
+
+
 Muuta tietojen lähetys niin, että koko tiedosto lähetetään. Jää talteen eikä tarvitse aina androidia päivittää.
 
 IPSC ALIAS: Merkkijonoksi????
 
 MIT� TAPAHTUU JOS KISAAJA AMPUU KISAN USEAN KERRAN? ERI DIVISIOONISSA?!!?
 
-Testaa ett� lis�tt�ess� ekat tulokset tulospalvelu alkaa n�ytt�� sivua oikein.
-
+Muuta kaikki haut k�ytt�m��n kilpailija ja kisa-id, sek� stage ja kisa-id!
 
 DELETE MATCH: sivu ei p�ivity.
-
-- Onko mahdollista ettÃ¤ sama kilpailija ampuu saman kisan toisessa divisioonassa esim. toisena pÃ¤ivÃ¤nÃ¤? Miten tÃ¤llÃ¶in kÃ¤y practiscoressa? 
-	Onko kilpailijoita kaksi? PitÃ¤Ã¤ huomioida tuloksia laskettaessa?
 
 - !!!! Power Factor: Sub-minor??
 - Chrono stage: pitää tehdä palvelimelle!! PractiScoressa "Actual" pf -> voidaan muuttaa chrono stagessa.
@@ -22,6 +20,7 @@ EI KIIREELLISET:
 
 - Korjaa stage rank verify listassa: näyttää combined, ei divisioona. Poista comment out verify-listan JSP:stä.
 - Korjaa virheviestit datan l�hetyksen aikana, niin ett� n�ytt�� palvelimen viestin. Nyt vain virhekoodi.
+- Tee SSI-PS registration import
 
 TESTIT:
 	- Mitä practiscore tekee, jos luodaan eri laitteilla sama walkin kilpailija? Tallentaako se monta kertaa saman kilpailijan,

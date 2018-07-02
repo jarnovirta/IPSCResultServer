@@ -10,6 +10,7 @@
 	<head>
 		<!-- Common page head tag contents -->
 		<jsp:include page="/WEB-INF/jsp/include/headTag.jsp" />
+		<jsp:include page="/WEB-INF/jsp/include/dataTablesHeadTagLinks.jsp" />
 		
 		<!-- Google charts scripts -->
 		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -42,10 +43,21 @@
 					<h1>Match Analysis</h1>
 				</div>
 				
+				<%@ include file="/WEB-INF/jsp/matchAnalysis/matchAnalysisPageHeader.jsp" %>
+							
 				<div id="competitorAccuracyChart"></div>
 				
 				<%@ include file="/WEB-INF/jsp/matchAnalysis/hitsTable.jsp" %>
-				<br><br><br><br>
+				<br><br>
+				
+				<h3>Stage Results</h3>
+				<div class="table-responsive">
+					<table id="stageResultsTable" class="table table-striped table-bordered" width="100%"></table>
+				</div>
+				<br><br>
+				
+				<%@ include file="/WEB-INF/jsp/results/competitorResults/errorCostAnalysisTable.jsp" %>
+				<br><br>
 				
 				<div id="percentByStageChart"></div>
 				<br><br><br>
