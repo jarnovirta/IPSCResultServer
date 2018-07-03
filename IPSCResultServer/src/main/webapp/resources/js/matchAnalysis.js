@@ -1,5 +1,15 @@
 //JavaScript for loading and drawing Google Charts in matchAnalysisPage.jsp
 
+
+// Arrays used to determine green/red color codes 
+// used in setTableCellColors
+var reverseTableColorCodes = {
+	'hitsTable': [ false, false, false, true, true, true ],
+	'stageResultsTable': [ null, false, false, false, true, true, true, 
+		false, true, false, false, true, false, false] 
+	
+};
+
 $(document).ready(function() {
 	hideContent();
 	initializeHitsTable('competitorHitsTable');
@@ -56,14 +66,11 @@ function handleAjaxResponse(data, status) {
 		updateHitsTable('competitorHitsTable', competitorData);
 		updateHitsTable('compareToCompetitorHitsTable', compareToCompetitorData);
 		
-		setTableCellColors('competitorStageResultsTable', 'compareToCompetitorStageResultsTable', 2, -1);
-		setTableCellColors('compareToCompetitorStageResultsTable', 'competitorStageResultsTable', 2, -1);
+		setTableCellColors('competitorStageResultsTable', 'compareToCompetitorStageResultsTable', 2, -1, reverseTableColorCodes["stageResultsTable"]);
+		setTableCellColors('compareToCompetitorStageResultsTable', 'competitorStageResultsTable', 2, -1, reverseTableColorCodes["stageResultsTable"]);
 		
-		setTableCellColors('competitorErrorCostAnalysisTable', 'compareToCompetitorErrorCostAnalysisTable', 3, 4);
-		setTableCellColors('compareToCompetitorErrorCostAnalysisTable', 'competitorErrorCostAnalysisTable', 3, 4);
-		
-		setTableCellColors('competitorHitsTable', 'compareToCompetitorHitsTable', 1, -1);
-		setTableCellColors('compareToCompetitorHitsTable', 'competitorHitsTable', 1, -1);
+		setTableCellColors('competitorHitsTable', 'compareToCompetitorHitsTable', 1, -1, reverseTableColorCodes["hitsTable"]);
+		setTableCellColors('compareToCompetitorHitsTable', 'competitorHitsTable', 1, -1, reverseTableColorCodes["hitsTable"]);
 		
 		showContent();
 	}
@@ -160,7 +167,7 @@ function updateHitsTable(tableId, competitorData) {
 	table.rows.add(dataSet);
 	table.draw();
 }
-function setTableCellColors(tableId, compareToTableID, startColumn, endColumn) {
+function setTableCellColors(tableId, compareToTableID, startColumn, endColumn, reverseColorCodesArray) {
 	var table = $('#' + tableId).DataTable();
 	var compareToTable = $('#' + compareToTableID).DataTable();
 	
@@ -170,8 +177,11 @@ function setTableCellColors(tableId, compareToTableID, startColumn, endColumn) {
 	    	var value = table.cell(index).data();
 	    	var compareToTableValue = compareToTable.cell(index).data();
 	    	var color = "transparent";
-	    	if (value > compareToTableValue) color = 'PaleGreen';
-	    	if (value < compareToTableValue) color = 'LightPink';
+	    	var greaterThan = value > compareToTableValue;
+	    	if (reverseColorCodesArray[index.column] == true) greaterThan = !greaterThan;
+	    	if (value == compareToTableValue) greaterThan = null;
+	    	if (greaterThan == true) color = 'PaleGreen';
+	    	if (greaterThan == false) color = 'LightPink';
 	    	$(node).css('background-color', color);
 	    }
 		
