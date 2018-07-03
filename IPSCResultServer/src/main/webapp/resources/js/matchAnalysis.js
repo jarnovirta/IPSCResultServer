@@ -46,7 +46,6 @@ function handleAjaxResponse(data, status) {
 		drawPercentByStageChart('percentByStageChart', competitorData, compareToCompetitorData);
 		
 		drawTimeByStageChart('timeByStageChart', competitorData, compareToCompetitorData);
-		
 				
 		updateErrorCostAnalysisTable('competitorErrorCostAnalysisTable', competitorData);
 		updateErrorCostAnalysisTable('compareToCompetitorErrorCostAnalysisTable', compareToCompetitorData);
@@ -56,6 +55,15 @@ function handleAjaxResponse(data, status) {
 		
 		updateHitsTable('competitorHitsTable', competitorData);
 		updateHitsTable('compareToCompetitorHitsTable', compareToCompetitorData);
+		
+		setTableCellColors('competitorStageResultsTable', 'compareToCompetitorStageResultsTable');
+		setTableCellColors('compareToCompetitorStageResultsTable', 'competitorStageResultsTable');
+		
+		setTableCellColors('competitorErrorCostAnalysisTable', 'compareToCompetitorErrorCostAnalysisTable');
+		setTableCellColors('compareToCompetitorErrorCostAnalysisTable', 'competitorErrorCostAnalysisTable');
+		
+		setTableCellColors('competitorHitsTable', 'compareToCompetitorHitsTable');
+		setTableCellColors('compareToCompetitorHitsTable', 'competitorHitsTable');
 		
 		showContent();
 	}
@@ -152,6 +160,23 @@ function updateHitsTable(tableId, competitorData) {
 	table.rows.add(dataSet);
 	table.draw();
 }
+function setTableCellColors(tableId, compareToTableID) {
+	var table = $('#' + tableId).DataTable();
+	var compareToTable = $('#' + compareToTableID).DataTable();
+	table.cells().eq(0).each(function (index) {
+	    var node = table.cell(index).node();
+//	    if (index.column > 0) {
+	    	var value = table.cell(index).data();
+	    	var compareToTableValue = compareToTable.cell(index).data();
+	    	var color = "transparent";
+	    	if (value > compareToTableValue) color = 'PaleGreen';
+	    	if (value < compareToTableValue) color = 'LightPink';
+	    	$(node).css('background-color', color);
+//	    }
+		
+	});
+	table.draw();
+}
 function initializeStageResultsTable(tableId) {
 	$('#' + tableId).DataTable( {
         columns: [
@@ -170,14 +195,15 @@ function initializeStageResultsTable(tableId) {
             { title: "%", render: $.fn.dataTable.render.number( '.', ',', 2)},
             { title: "Diff.", render: $.fn.dataTable.render.number( '.', ',', 2) },
         ],
-        rowCallback: function(row, data, index){
-        	if(data[2]> 7){
-                $(row).find('td:eq(2)').css('background-color', 'PaleGreen');
-            }
-        	else {
-        		$(row).find('td:eq(2)').css('background-color', 'LightPink');
-        	}
-          },
+//        rowCallback: function(row, data, index){
+//        	if(data[2]> 7){
+//        		
+//                $(row).find('td:eq(2)').css('background-color', 'PaleGreen');
+//            }
+//        	else {
+//        		$(row).find('td:eq(2)').css('background-color', 'LightPink');
+//        	}
+//          },
 		paging: false,
 		searching: false,
 		sort: false,

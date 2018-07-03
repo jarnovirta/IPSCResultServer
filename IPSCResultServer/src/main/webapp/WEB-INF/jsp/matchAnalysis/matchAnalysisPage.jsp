@@ -45,7 +45,8 @@
 					<%@ include file="/WEB-INF/jsp/matchAnalysis/matchAnalysisPageHeader.jsp" %>
 					<div class="row">
 						<div class="col-xs-6">
-							<h3><span id="analysisColumnCompetitorName"></span></h3>
+						
+							<h3 align='center'><span id="analysisColumnCompetitorName"></span></h3>
 							<br>
 							<h4>Accuracy</h4>
 							<div id="competitorAccuracyChart"></div>
@@ -68,7 +69,7 @@
 							</div>
 						</div>
 						<div class="col-xs-6" style="border-left: 1px solid #ccc">
-							<h3><span id="analysisColumnCompareToCompetitorName"></span></h3>
+							<h3 align='center'><span id="analysisColumnCompareToCompetitorName"></span></h3>
 							<br>
 							<h4>Accuracy</h4>
 							<div id="compareToCompetitorAccuracyChart"></div>
