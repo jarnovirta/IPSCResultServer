@@ -108,6 +108,7 @@ public class CompetitorResultData {
 			noshootHitsSum += card.getNoshootHits();
 			totalTime += card.getTime();
 			hitFactorSum += card.getHitFactor();
+			proceduralPenaltiesSum += card.getProceduralPenalties();
 		}
 		int totalShots = aHitsSum + cHitsSum + dHitsSum + missSum + noshootHitsSum;
 		if (totalShots == 0) return;

@@ -56,14 +56,14 @@ function handleAjaxResponse(data, status) {
 		updateHitsTable('competitorHitsTable', competitorData);
 		updateHitsTable('compareToCompetitorHitsTable', compareToCompetitorData);
 		
-		setTableCellColors('competitorStageResultsTable', 'compareToCompetitorStageResultsTable');
-		setTableCellColors('compareToCompetitorStageResultsTable', 'competitorStageResultsTable');
+		setTableCellColors('competitorStageResultsTable', 'compareToCompetitorStageResultsTable', 2, -1);
+		setTableCellColors('compareToCompetitorStageResultsTable', 'competitorStageResultsTable', 2, -1);
 		
-		setTableCellColors('competitorErrorCostAnalysisTable', 'compareToCompetitorErrorCostAnalysisTable');
-		setTableCellColors('compareToCompetitorErrorCostAnalysisTable', 'competitorErrorCostAnalysisTable');
+		setTableCellColors('competitorErrorCostAnalysisTable', 'compareToCompetitorErrorCostAnalysisTable', 3, 4);
+		setTableCellColors('compareToCompetitorErrorCostAnalysisTable', 'competitorErrorCostAnalysisTable', 3, 4);
 		
-		setTableCellColors('competitorHitsTable', 'compareToCompetitorHitsTable');
-		setTableCellColors('compareToCompetitorHitsTable', 'competitorHitsTable');
+		setTableCellColors('competitorHitsTable', 'compareToCompetitorHitsTable', 1, -1);
+		setTableCellColors('compareToCompetitorHitsTable', 'competitorHitsTable', 1, -1);
 		
 		showContent();
 	}
@@ -160,19 +160,20 @@ function updateHitsTable(tableId, competitorData) {
 	table.rows.add(dataSet);
 	table.draw();
 }
-function setTableCellColors(tableId, compareToTableID) {
+function setTableCellColors(tableId, compareToTableID, startColumn, endColumn) {
 	var table = $('#' + tableId).DataTable();
 	var compareToTable = $('#' + compareToTableID).DataTable();
+	
 	table.cells().eq(0).each(function (index) {
 	    var node = table.cell(index).node();
-//	    if (index.column > 0) {
+	    if (index.column >= startColumn - 1 && (endColumn == -1 || index.column <= endColumn - 1)) {
 	    	var value = table.cell(index).data();
 	    	var compareToTableValue = compareToTable.cell(index).data();
 	    	var color = "transparent";
 	    	if (value > compareToTableValue) color = 'PaleGreen';
 	    	if (value < compareToTableValue) color = 'LightPink';
 	    	$(node).css('background-color', color);
-//	    }
+	    }
 		
 	});
 	table.draw();
