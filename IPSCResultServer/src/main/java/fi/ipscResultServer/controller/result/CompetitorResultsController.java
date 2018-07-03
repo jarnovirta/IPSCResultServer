@@ -45,7 +45,7 @@ public class CompetitorResultsController {
 			for (ScoreCard card : resultData.getScoreCards().values()) {
 				if (card.getAdditionalPenalties() > 0) additionalPenaltiesColumn = true;
 			}
-			
+		
 			List<ScoreCard> cards = new ArrayList<ScoreCard>();
 			for (Stage stage : match.getStages()) {
 				ScoreCard card = resultData.getScoreCards().get(stage.getId());

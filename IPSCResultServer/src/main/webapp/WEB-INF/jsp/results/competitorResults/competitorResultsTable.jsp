@@ -116,7 +116,7 @@
 							</tr>
 					</c:if>
 			</c:forEach>
-			<tr>
+ 			<tr>
 				<td />
 				<td align="right" style="font-weight:bold">
 					Total:
@@ -174,7 +174,7 @@
 					Avg: <fmt:formatNumber type="number" minFractionDigits="4" maxFractionDigits="4" value="${resultData.hitFactorAverage }" />
 				</td>
 				<td />
-			</tr>															
+			</tr>												
 		</tbody>
 	</table>
 </div>

@@ -1,39 +1,39 @@
 package fi.ipscResultServer.controller.matchAnalysis;
 
-import java.util.List;
-
-import fi.ipscResultServer.domain.resultData.CompetitorResultData;
-import fi.ipscResultServer.domain.resultData.StageResultDataLine;
+import fi.ipscResultServer.domain.Match;
 
 public class MatchAnalysisData {
+	private Match match;
 	
-	private CompetitorResultData competitorResultData;
-	private List<StageResultDataLine> stageResultDataLines;
-	private List<ErrorCostTableLine> errorCostTableLines; 
+	private CompetitorMatchAnalysisData competitorData;
+	private CompetitorMatchAnalysisData compareToCompetitorData;
 	
-	public MatchAnalysisData(CompetitorResultData competitorResultData,
-			List<StageResultDataLine> stageResultDataLines,
-			List<ErrorCostTableLine> errorCostTableLines) {
-		this.competitorResultData = competitorResultData;
-		this.stageResultDataLines = stageResultDataLines;
-		this.errorCostTableLines = errorCostTableLines;
+	public MatchAnalysisData(Match match, CompetitorMatchAnalysisData competitorData, 
+			CompetitorMatchAnalysisData compareToCompetitorData) {
+		this.match = match;
+		this.competitorData = competitorData;
+		this.compareToCompetitorData = compareToCompetitorData;
 	}
-	public CompetitorResultData getCompetitorResultData() {
-		return competitorResultData;
+
+	public Match getMatch() {
+		return match;
 	}
-	public void setCompetitorResultData(CompetitorResultData competitorResultData) {
-		this.competitorResultData = competitorResultData;
+
+	public void setMatch(Match match) {
+		this.match = match;
 	}
-	public List<StageResultDataLine> getStageResultDataLines() {
-		return stageResultDataLines;
+
+	public CompetitorMatchAnalysisData getCompetitorData() {
+		return competitorData;
 	}
-	public void setStageResultDataLines(List<StageResultDataLine> stageResultDataLines) {
-		this.stageResultDataLines = stageResultDataLines;
+	public void setCompetitorData(CompetitorMatchAnalysisData competitorData) {
+		this.competitorData = competitorData;
 	}
-	public List<ErrorCostTableLine> getErrorCostTableLines() {
-		return errorCostTableLines;
+	public CompetitorMatchAnalysisData getCompareToCompetitorData() {
+		return compareToCompetitorData;
 	}
-	public void setErrorCostTableLines(List<ErrorCostTableLine> errorCostTableLines) {
-		this.errorCostTableLines = errorCostTableLines;
+	public void setCompareToCompetitorData(CompetitorMatchAnalysisData compareToCompetitorData) {
+		this.compareToCompetitorData = compareToCompetitorData;
 	}
+	
 }

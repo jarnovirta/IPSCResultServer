@@ -12,7 +12,7 @@
 		        			<b>Match:</b>
 		        		</td>
 		        		<td>
-		        			<b>${competitorResultData.match.name}</b>
+		        			<b><span id="matchName"></span></b>
 	        		</td>
 	        	</tr>
 	        	<tr>

@@ -44,7 +44,7 @@
 					<c:otherwise>
 						<%@ include file="/WEB-INF/jsp/results/competitorResults/competitorResultsTable.jsp" %>	
 						<br>
-						<%@ include file="/WEB-INF/jsp/results/competitorResults/errorCostAnalysisTable.jsp" %>	
+						<%-- <%@ include file="/WEB-INF/jsp/results/competitorResults/errorCostAnalysisTable.jsp" %>	 --%>
 					</c:otherwise>
 				</c:choose>
 				<c:if test="${sessionScope.adtest.adTest eq true}">

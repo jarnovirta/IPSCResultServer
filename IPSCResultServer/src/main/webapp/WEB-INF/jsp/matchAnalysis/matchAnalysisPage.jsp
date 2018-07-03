@@ -15,13 +15,13 @@
 		<!-- Google charts scripts -->
 		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 		<script>
-			<%@ include file="/resources/js/chartLoadScript.js" %>
+			<%@ include file="/resources/js/matchAnalysis.js" %>
 		</script>
 	</head>
 	<body>
 		<c:url var="baseUrl" value="/" />
 		<div id="wrap">
-			<div class="container">
+			<div class="container" style="width: 1500px">
 			
 				<!-- Ad zone -->
 				<c:if test="${sessionScope.adtest.adTest eq true}">
@@ -33,37 +33,63 @@
 				<ol class="breadcrumb breadcrumb-arrow">
 					<li><a href="<c:url value='/' />">Home</a></li>
 					<c:url var="matchPageUrl" value="/matchMainPage">
-						<%-- <c:param name="matchId" value="${match.practiScoreId }" /> --%>
+						<c:param name="matchId" value="${matchId }" />
 					</c:url>
 					<li><a href="${matchPageUrl}">Match</a></li>
 					<li class="active"><span>Analysis</span></li>
 				</ol>
 				
-				<%@ include file="/WEB-INF/jsp/matchAnalysis/matchAnalysisPageHeader.jsp" %>
+				<div id="loader"></div>
+				
+				<div style="display:none;" id="contentDiv" class="animate-bottom">
+					<%@ include file="/WEB-INF/jsp/matchAnalysis/matchAnalysisPageHeader.jsp" %>
+					<div class="row">
+						<div class="col-xs-6">
+							<h3><span id="analysisColumnCompetitorName"></span></h3>
+							<div id="competitorAccuracyChart"></div>
 							
-				<div id="competitorAccuracyChart"></div>
-				
-				<div class="table-responsive">
-					<table id="hitsTable" class="table table-striped table-bordered" width="100%"></table>
+							<div class="table-responsive">
+								<table id="competitorHitsTable" class="table table-striped table-bordered" width="100%"></table>
+							</div>
+							<br><br>
+							
+							<h3>Stage Results</h3>
+							<div class="table-responsive">
+								<table id="competitorStageResultsTable" class="table table-striped table-bordered" width="100%"></table>
+							</div>
+							<br><br>
+							
+							<h3>Error Cost Analysis</h3>
+							<div class="table-responsive">
+								<table id="competitorErrorCostAnalysisTable" class="table table-striped table-bordered" width="100%"></table>
+							</div>
+						</div>
+						<div class="col-xs-6">
+							<h3><span id="analysisColumnCompareToCompetitorName"></span></h3>
+							
+							<div id="compareToCompetitorAccuracyChart"></div>
+							
+							<div class="table-responsive">
+								<table id="compareToCompetitorHitsTable" class="table table-striped table-bordered" width="100%"></table>
+							</div>
+							<br><br>
+							
+							<h3>Stage Results</h3>
+							<div class="table-responsive">
+								<table id="compareToCompetitorStageResultsTable" class="table table-striped table-bordered" width="100%"></table>
+							</div>
+							<br><br>
+							
+							<h3>Error Cost Analysis</h3>
+							<div class="table-responsive">
+								<table id="compareToCompetitorErrorCostAnalysisTable" class="table table-striped table-bordered" width="100%"></table>
+							</div>
+						</div>
+					</div>
+					<div id="percentByStageChart"></div>
+					<br><br><br>
+					<div id="timeByStageChart"></div>
 				</div>
-				<br><br>
-				
-				<h3>Stage Results</h3>
-				<div class="table-responsive">
-					<table id="stageResultsTable" class="table table-striped table-bordered" width="100%"></table>
-				</div>
-				<br><br>
-				
-				<h3>Error Cost Analysis</h3>
-				<div class="table-responsive">
-					<table id="errorCostAnalysisTable" class="table table-striped table-bordered" width="100%"></table>
-				</div>
-				<br><br>
-				
-				<div id="percentByStageChart"></div>
-				<br><br><br>
-				<div id="timeByStageChart"></div>
-				
 				<c:if test="${sessionScope.adtest.adTest eq true}">
 					<%@ include file="/WEB-INF/jsp/adZones/pageBottomAdZone.jsp" %>
 				</c:if>
@@ -71,20 +97,5 @@
 		</div>
 	</body>
 	<jsp:include page="/WEB-INF/jsp/include/footer.jsp" />
-	
-	<script>
-		/* $(document).ready(function() {
-			$('#statisticsTable').DataTable( {
-				paging: false,
-				searching: true,
-				info: false, 
-			});
-		} );
-		function submitDivisionChange() {
-			var url = "${baseUrl}statistics?matchId=${match.practiScoreId }&division=" + $("select#division").val();
-			location.replace(url);
-		} */
-	</script>
-
 </html>
 

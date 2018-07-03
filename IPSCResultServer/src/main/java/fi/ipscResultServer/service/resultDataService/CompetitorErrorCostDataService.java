@@ -1,7 +1,8 @@
 package fi.ipscResultServer.service.resultDataService;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import fi.ipscResultServer.controller.matchAnalysis.ErrorCostTableLine;
 import fi.ipscResultServer.domain.Competitor;
@@ -18,9 +19,9 @@ public class CompetitorErrorCostDataService {
 	private static int missPointLoss = 15;
 	private static int matchTotalPoints;
 	
-	public static List<ErrorCostTableLine> getErrorCostTableLines(Match match, Competitor competitor, 
+	public static Map<String, ErrorCostTableLine> getErrorCostTableLines(Match match, Competitor competitor, 
 			List<ScoreCard> scoreCards) {
-		List<ErrorCostTableLine> errorCostTableLines = new ArrayList<ErrorCostTableLine>();
+		Map<String, ErrorCostTableLine> errorCostTableLines = new HashMap<String, ErrorCostTableLine>();
 		
 		if (competitor.getPowerFactor().equals(PowerFactor.MAJOR)) {
 			cHitPointLoss = 1;
@@ -48,7 +49,7 @@ public class CompetitorErrorCostDataService {
 				line.setProceduralPenaltyAndNoShootCost(DataFormatUtils.round(proceduralAndNoShootPointLoss / card.getHitFactor(), 2));
 				line.setMissCost(DataFormatUtils.round(missPointLoss / card.getHitFactor(), 2));
 			}
-			errorCostTableLines.add(line);
+			errorCostTableLines.put(card.getStage().getPractiScoreId(), line);
 		}
 		for (Stage stage : match.getStages()) {
 			matchTotalPoints += stage.getMaxPoints();

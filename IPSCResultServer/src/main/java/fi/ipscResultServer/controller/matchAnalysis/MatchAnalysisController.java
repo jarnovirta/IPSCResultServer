@@ -1,7 +1,9 @@
 package fi.ipscResultServer.controller.matchAnalysis;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -45,11 +47,11 @@ public class MatchAnalysisController {
 			@RequestParam("matchId") String matchPractiScoreId) {
 		try {
 			
-			CompetitorResultData resultData = 
-					competitorResultDataService.findByCompetitorAndMatchPractiScoreIds(competitorPractiScoreId, matchPractiScoreId);
+//			CompetitorResultData resultData = 
+//					competitorResultDataService.findByCompetitorAndMatchPractiScoreIds(competitorPractiScoreId, matchPractiScoreId);
 			Match match = matchService.findByPractiScoreId(matchPractiScoreId);
 			
-			model.addAttribute("competitorResultData", resultData);
+//			model.addAttribute("competitorResultData", resultData);
 			model.addAttribute("matchId", matchPractiScoreId);
 			model.addAttribute("competitorId", competitorPractiScoreId);
 			model.addAttribute("compareToCompetitorId", match.getCompetitors().get(0).getPractiScoreId());
@@ -63,21 +65,38 @@ public class MatchAnalysisController {
 		return "matchAnalysis/matchAnalysisPage";
 	}
 	@RequestMapping(value="/data", method = RequestMethod.GET)
-	public @ResponseBody MatchAnalysisData[] getMatchAnalysisData(@RequestParam("matchId") String matchPractiScoreId, 
+	public @ResponseBody MatchAnalysisData getMatchAnalysisData(@RequestParam("matchId") String matchPractiScoreId, 
 			@RequestParam("competitorId") String competitorPractiScoreId,
 			@RequestParam("compareToCompetitorId") String compareToCompetitorId) {
-			
-			MatchAnalysisData competitorMatchAnalysisData = getCompetitorMatchAnalysisData(competitorPractiScoreId, matchPractiScoreId);
-			MatchAnalysisData compareToCompetitorMatchAnalysisData = getCompetitorMatchAnalysisData(compareToCompetitorId, matchPractiScoreId);
-			MatchAnalysisData[] response = { competitorMatchAnalysisData, compareToCompetitorMatchAnalysisData };
-			return response;
+		
+			try {
+				Match match = matchService.findByPractiScoreId(matchPractiScoreId);
+				
+				CompetitorMatchAnalysisData competitorMatchAnalysisData = getCompetitorMatchAnalysisData(competitorPractiScoreId, matchPractiScoreId);
+				for (ScoreCard card : competitorMatchAnalysisData.getCompetitorResultData().getScoreCards().values()) {
+					card.setStage(null);
+				}
+				CompetitorMatchAnalysisData compareToCompetitorMatchAnalysisData = getCompetitorMatchAnalysisData(compareToCompetitorId, matchPractiScoreId);
+				for (ScoreCard card : compareToCompetitorMatchAnalysisData.getCompetitorResultData().getScoreCards().values()) {
+					card.setStage(null);
+				}
+				MatchAnalysisData matchData = new MatchAnalysisData(match, competitorMatchAnalysisData, 
+						compareToCompetitorMatchAnalysisData);
+				return matchData;
+			}
+//			 Exception logged in repository
+			catch (DatabaseException e) {
+				return null;
+			}
 	}
 	
-	private MatchAnalysisData getCompetitorMatchAnalysisData(String competitorPractiScoreId, String matchPractiScoreId) {
+	private CompetitorMatchAnalysisData getCompetitorMatchAnalysisData(String competitorPractiScoreId, String matchPractiScoreId) {
 		try {
+			
 			CompetitorResultData competitorResultData = 
 					competitorResultDataService.findByCompetitorAndMatchPractiScoreIds(competitorPractiScoreId, matchPractiScoreId);
 			competitorResultDataService.setCompetitorStagePercentages(competitorResultData);
+			competitorResultData.setMatch(null);
 			
 			Competitor competitor = competitorService.findByPractiScoreReferences(matchPractiScoreId, competitorPractiScoreId);
 			
@@ -87,21 +106,36 @@ public class MatchAnalysisController {
 			for (StageResultDataLine line : stageResultDataLines) {
 				line.getCompetitor().setMatch(null);
 				line.setStageResultData(null);
-				line.getScoreCard().getStage().setMatch(null);
 			}
 			
+			// Map result lines to stage practiScoreId's
+			Map<String, StageResultDataLine> resultMap = new HashMap<String, StageResultDataLine>();
+			
+			for (Stage stage : competitor.getMatch().getStages()) {
+				StageResultDataLine lineForStage = null;
+				for (StageResultDataLine line : stageResultDataLines) {
+					if (line.getScoreCard() != null && line.getScoreCard().getStage() != null) {
+						if (line.getScoreCard().getStage().getPractiScoreId().equals(stage.getPractiScoreId())) {
+							lineForStage = line;
+							lineForStage.getScoreCard().setStage(null);
+						}
+					}
+				}
+				resultMap.put(stage.getPractiScoreId(), lineForStage);
+			}
+
 			// Get error cost table lines
-			Match match = matchService.findByPractiScoreId(matchPractiScoreId);
 			List<ScoreCard> cards = new ArrayList<ScoreCard>();
-			for (Stage stage : match.getStages()) {
+			for (Stage stage : competitor.getMatch().getStages()) {
 				ScoreCard card = competitorResultData.getScoreCards().get(stage.getId());
 				if (card != null) {
 					cards.add(card);
 				}
 			}
+
 			
-			List<ErrorCostTableLine> errorCostTableLines = CompetitorErrorCostDataService.getErrorCostTableLines(match, competitor, cards);
-			return new MatchAnalysisData(competitorResultData, stageResultDataLines, errorCostTableLines);
+			Map<String, ErrorCostTableLine> errorCostMap = CompetitorErrorCostDataService.getErrorCostTableLines(competitor.getMatch(), competitor, cards);
+			return new CompetitorMatchAnalysisData(competitorResultData, resultMap, errorCostMap);
 		}
 		//	 Exception logged in repository
 		catch (DatabaseException e) {
