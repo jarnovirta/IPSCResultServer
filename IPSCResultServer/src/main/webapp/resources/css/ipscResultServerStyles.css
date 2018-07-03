@@ -1,4 +1,5 @@
 @CHARSET "UTF-8";
+
 .twoColumnPageInfo { width:100%; overflow:hidden; }
 .twoColumnPageInfo table { border-collapse: separate;border-spacing: 10px; }
 
@@ -9,7 +10,6 @@
 
 .liveResultService {
 	padding-top: 10px;
-
 }
 
 .liveResultServiceInfoPanel {
@@ -80,8 +80,6 @@
     width: 50px;
     text-align: right;
 }
-
-.matchAnalysisPageLeftColumn
 
 body{
     padding-top: 50px;   
