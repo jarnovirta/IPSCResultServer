@@ -12,11 +12,6 @@
 	<body>
 		<div id="wrap">
 			<div class="container">
-				<c:url var="matchAnalysisUrl" value='/matchAnalysis' >
-					<c:param name="matchId" value="${resultData.match.practiScoreId }" />
-					<c:param name="competitorId" value="${resultData.competitor.practiScoreId }" />
-				</c:url>
-				<a href="${matchAnalysisUrl }">Match analysis</a>
 				<c:if test="${sessionScope.adtest.adTest eq true}">
 					<%@ include file="/WEB-INF/jsp/adZones/pageTopAdZone.jsp" %>
 				</c:if>
@@ -44,9 +39,19 @@
 					<c:otherwise>
 						<%@ include file="/WEB-INF/jsp/results/competitorResults/competitorResultsTable.jsp" %>	
 						<br>
+						<c:if test="${resultData.match.status eq 'SCORING_ENDED' }">
+							<c:url var="matchAnalysisUrl" value='/matchAnalysis' >
+								<c:param name="matchId" value="${resultData.match.practiScoreId }" />
+								<c:param name="competitorId" value="${resultData.competitor.practiScoreId }" />
+							</c:url>
+							<a href="${matchAnalysisUrl }">
+								<button class="btn btn-large btn-primary" type="button">Match Analysis</button>
+							</a>
+						</c:if>
 						<%-- <%@ include file="/WEB-INF/jsp/results/competitorResults/errorCostAnalysisTable.jsp" %>	 --%>
 					</c:otherwise>
 				</c:choose>
+				<br><br><br><br>
 				<c:if test="${sessionScope.adtest.adTest eq true}">
 					<%@ include file="/WEB-INF/jsp/adZones/pageBottomAdZone.jsp" %>
 				</c:if>

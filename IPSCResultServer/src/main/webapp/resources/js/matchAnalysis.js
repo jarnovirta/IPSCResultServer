@@ -287,7 +287,6 @@ function drawAccuracyPieChart(chartId, competitorData) {
         ['NS', competitorData.resultData.noshootHitsSum]
 	]);
 	var options = {
-		title: 'Accuracy',
 		width: 600,
 		height: 400,
 		};
@@ -312,9 +311,6 @@ function drawPercentByStageChart(chartId, competitor1, competitor2) {
 	data.addRows(rows);
 	
 	var options = {
-		chart: {
-		title: 'Percent by Stage',
-		},
 		width: 600,
 		height: 400,
 		vAxis: {format: '#.##' }
@@ -341,12 +337,10 @@ function drawTimeByStageChart(chartId, competitor1, competitor2) {
 	data.addRows(rows);
 	
 	var options = {
-		chart: {
-		title: 'Time by Stage',
-		},
 		width: 600,
 		height: 400
 	};
 	var chart = new google.charts.Line(document.getElementById(chartId));
 	chart.draw(data, google.charts.Line.convertOptions(options));
+	
 }

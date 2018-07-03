@@ -1,6 +1,7 @@
 package fi.ipscResultServer.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -93,7 +94,9 @@ public class MatchService {
 	}
 	
 	public Match findByPractiScoreId(String practiScoreId) throws DatabaseException {
-		return matchRepository.findByPractiScoreId(practiScoreId);
+		Match match = matchRepository.findByPractiScoreId(practiScoreId);
+		Collections.sort(match.getCompetitors());
+		return match;
 	}
 	
 	@Transactional

@@ -40,7 +40,7 @@
 								<c:param name="matchId" value="${match.practiScoreId }" />
 							</c:url>
 							<a href="${statisticsUrl }">
-								<button class="btn btn-large btn-primary" type="button">Competitor Statistics</button>
+								<button class="btn btn-large btn-primary" type="button">Statistics</button>
 							</a>
 							<br><br><br>
 							<h4><b>Match Results:</b></h4>

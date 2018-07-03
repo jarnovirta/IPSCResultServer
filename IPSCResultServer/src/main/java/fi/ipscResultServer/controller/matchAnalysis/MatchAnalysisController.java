@@ -47,11 +47,8 @@ public class MatchAnalysisController {
 			@RequestParam("matchId") String matchPractiScoreId) {
 		try {
 			
-//			CompetitorResultData resultData = 
-//					competitorResultDataService.findByCompetitorAndMatchPractiScoreIds(competitorPractiScoreId, matchPractiScoreId);
 			Match match = matchService.findByPractiScoreId(matchPractiScoreId);
 			
-//			model.addAttribute("competitorResultData", resultData);
 			model.addAttribute("matchId", matchPractiScoreId);
 			model.addAttribute("competitorId", competitorPractiScoreId);
 			model.addAttribute("compareToCompetitorId", match.getCompetitors().get(0).getPractiScoreId());
@@ -132,7 +129,6 @@ public class MatchAnalysisController {
 					cards.add(card);
 				}
 			}
-
 			
 			Map<String, ErrorCostTableLine> errorCostMap = CompetitorErrorCostDataService.getErrorCostTableLines(competitor.getMatch(), competitor, cards);
 			return new CompetitorMatchAnalysisData(competitorResultData, resultMap, errorCostMap);

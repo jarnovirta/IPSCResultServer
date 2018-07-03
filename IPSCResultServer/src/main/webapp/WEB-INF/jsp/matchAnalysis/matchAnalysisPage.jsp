@@ -46,50 +46,67 @@
 					<div class="row">
 						<div class="col-xs-6">
 							<h3><span id="analysisColumnCompetitorName"></span></h3>
+							<br>
+							<h4>Accuracy</h4>
 							<div id="competitorAccuracyChart"></div>
 							
+							<h4>Hits</h4>
 							<div class="table-responsive">
 								<table id="competitorHitsTable" class="table table-striped table-bordered" width="100%"></table>
 							</div>
 							<br><br>
 							
-							<h3>Stage Results</h3>
+							<h4>Stage Results</h4>
 							<div class="table-responsive">
 								<table id="competitorStageResultsTable" class="table table-striped table-bordered" width="100%"></table>
 							</div>
 							<br><br>
 							
-							<h3>Error Cost Analysis</h3>
+							<h4>Error Cost Analysis</h4>
 							<div class="table-responsive">
 								<table id="competitorErrorCostAnalysisTable" class="table table-striped table-bordered" width="100%"></table>
 							</div>
 						</div>
-						<div class="col-xs-6">
+						<div class="col-xs-6" style="border-left: 1px solid #ccc">
 							<h3><span id="analysisColumnCompareToCompetitorName"></span></h3>
-							
+							<br>
+							<h4>Accuracy</h4>
 							<div id="compareToCompetitorAccuracyChart"></div>
 							
+							<h4>Hits</h4>
 							<div class="table-responsive">
 								<table id="compareToCompetitorHitsTable" class="table table-striped table-bordered" width="100%"></table>
 							</div>
 							<br><br>
 							
-							<h3>Stage Results</h3>
+							<h4>Stage Results</h4>
 							<div class="table-responsive">
 								<table id="compareToCompetitorStageResultsTable" class="table table-striped table-bordered" width="100%"></table>
 							</div>
 							<br><br>
 							
-							<h3>Error Cost Analysis</h3>
+							<h4>Error Cost Analysis</h4>
 							<div class="table-responsive">
 								<table id="compareToCompetitorErrorCostAnalysisTable" class="table table-striped table-bordered" width="100%"></table>
 							</div>
 						</div>
 					</div>
-					<div id="percentByStageChart"></div>
-					<br><br><br>
-					<div id="timeByStageChart"></div>
+					<br>
+					<hr>
+					<br>
+					<div class="col-xs-6">
+						<h4>Percent by Stage</h4>
+						<br>
+						<div id="percentByStageChart" align='center'></div>
+					</div>
+					<div class="col-xs-6">
+						<h4>Time by Stage</h4>
+						<br>
+						<div id="timeByStageChart" align='center'></div>
+						<br><br><br><br>
+					</div>
 				</div>
+				
 				<c:if test="${sessionScope.adtest.adTest eq true}">
 					<%@ include file="/WEB-INF/jsp/adZones/pageBottomAdZone.jsp" %>
 				</c:if>
