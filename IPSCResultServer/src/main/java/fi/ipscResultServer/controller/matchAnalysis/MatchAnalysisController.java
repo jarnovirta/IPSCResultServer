@@ -1,6 +1,7 @@
 package fi.ipscResultServer.controller.matchAnalysis;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -68,7 +69,7 @@ public class MatchAnalysisController {
 		
 			try {
 				Match match = matchService.findByPractiScoreId(matchPractiScoreId);
-				
+				if (match != null && match.getCompetitors() != null) Collections.sort(match.getCompetitors());
 				CompetitorMatchAnalysisData competitorMatchAnalysisData = getCompetitorMatchAnalysisData(competitorPractiScoreId, matchPractiScoreId);
 				for (ScoreCard card : competitorMatchAnalysisData.getCompetitorResultData().getScoreCards().values()) {
 					card.setStage(null);

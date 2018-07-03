@@ -95,7 +95,7 @@ public class MatchService {
 	
 	public Match findByPractiScoreId(String practiScoreId) throws DatabaseException {
 		Match match = matchRepository.findByPractiScoreId(practiScoreId);
-		Collections.sort(match.getCompetitors());
+//		if (match != null && match.getCompetitors() != null) Collections.sort(match.getCompetitors());
 		return match;
 	}
 	
