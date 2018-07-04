@@ -114,7 +114,7 @@ function setCompetitorSelectElements(selectId, competitorList, selectedCompetito
 		$('#' + selectId)
         .append($("<option></option>")
                    .attr("value", competitor.sh_uid)
-                   .text(competitor.sh_fn + " " + competitor.sh_ln)); 
+                   .text(competitor.sh_ln + ", " + competitor.sh_fn)); 
 		$('#' + selectId).val(selectedCompetitor.sh_uid);
 	};
 }
