@@ -3,12 +3,8 @@
 
 // Arrays used to determine green/red color codes 
 // used in setTableCellColors
-var reverseTableColorCodes = {
-	'hitsTable': [ false, false, false, true, true, true ],
-	'stageResultsTable': [ null, false, false, false, true, true, true, 
-		false, true, false, false, true, false, false] 
-	
-};
+
+var chartsReady = false;
 
 $(document).ready(function() {
 	hideContent();
@@ -22,10 +18,12 @@ $(document).ready(function() {
 	initializeErrorCostAnalysisTable('compareToCompetitorErrorCostAnalysisTable');
 	
 });
+
+
+getChartData('${matchId}', '${competitorId}', '${compareToCompetitorId}');
 google.charts.load('current', {'packages':['corechart', 'line']});
 google.charts.setOnLoadCallback(function() {
-	
-	getChartData('${matchId}', '${competitorId}', '${compareToCompetitorId}');
+	chartsReady = true;
 });
 
 var match;
@@ -44,36 +42,45 @@ function handleAjaxResponse(data, status) {
 		alert("Problem loading data: " + status);
 	}
 	else {
-		
-		match = data.match;
-		competitorData = setCompetitorData(data.competitorData);
-		compareToCompetitorData = setCompetitorData(data.compareToCompetitorData);
-		setPageGeneralInfoElements(competitorData.resultData.competitor, compareToCompetitorData.resultData.competitor);
-		
-		drawAccuracyPieChart('competitorAccuracyChart', competitorData);
-		drawAccuracyPieChart('compareToCompetitorAccuracyChart', compareToCompetitorData);
-		
-		drawPercentByStageChart('percentByStageChart', competitorData, compareToCompetitorData);
-		
-		drawTimeByStageChart('timeByStageChart', competitorData, compareToCompetitorData);
-				
-		updateErrorCostAnalysisTable('competitorErrorCostAnalysisTable', competitorData);
-		updateErrorCostAnalysisTable('compareToCompetitorErrorCostAnalysisTable', compareToCompetitorData);
-		
-		updateStageResultsTable('competitorStageResultsTable', competitorData);
-		updateStageResultsTable('compareToCompetitorStageResultsTable', compareToCompetitorData);
-		
-		updateHitsTable('competitorHitsTable', competitorData);
-		updateHitsTable('compareToCompetitorHitsTable', compareToCompetitorData);
-		
-		setTableCellColors('competitorStageResultsTable', 'compareToCompetitorStageResultsTable', 2, -1, reverseTableColorCodes["stageResultsTable"]);
-		setTableCellColors('compareToCompetitorStageResultsTable', 'competitorStageResultsTable', 2, -1, reverseTableColorCodes["stageResultsTable"]);
-		
-		setTableCellColors('competitorHitsTable', 'compareToCompetitorHitsTable', 1, -1, reverseTableColorCodes["hitsTable"]);
-		setTableCellColors('compareToCompetitorHitsTable', 'competitorHitsTable', 1, -1, reverseTableColorCodes["hitsTable"]);
-		
-		showContent();
+		if (chartsReady == true) {
+			setContentData(data);
+			showContent();
+		}
+		else {
+			var interval = setInterval(function() {
+				if (chartsReady == true) {
+					clearInterval(interval);
+					setContentData(data);
+					showContent();
+				}
+			}, 50);
+		}
 	}
+}
+function setContentData(data) {
+	match = data.match;
+	competitorData = setCompetitorData(data.competitorData);
+	compareToCompetitorData = setCompetitorData(data.compareToCompetitorData);
+	setPageGeneralInfoElements(competitorData.resultData.competitor, compareToCompetitorData.resultData.competitor);
+	
+	drawAccuracyPieChart('competitorAccuracyChart', competitorData);
+	drawAccuracyPieChart('compareToCompetitorAccuracyChart', compareToCompetitorData);
+	
+	drawPercentByStageChart('percentByStageChart', competitorData, compareToCompetitorData);
+	
+	drawTimeByStageChart('timeByStageChart', competitorData, compareToCompetitorData);
+			
+	updateErrorCostAnalysisTable('competitorErrorCostAnalysisTable', competitorData);
+	updateErrorCostAnalysisTable('compareToCompetitorErrorCostAnalysisTable', compareToCompetitorData);
+	
+	updateStageResultsTable('competitorStageResultsTable', competitorData);
+	updateStageResultsTable('compareToCompetitorStageResultsTable', compareToCompetitorData);
+	
+	updateHitsTable('competitorHitsTable', competitorData);
+	updateHitsTable('compareToCompetitorHitsTable', compareToCompetitorData);
+	
+	setStageResultsTableCellColors();
+		
 }
 function showContent() {
 	
@@ -167,24 +174,28 @@ function updateHitsTable(tableId, competitorData) {
 	table.rows.add(dataSet);
 	table.draw();
 }
-function setTableCellColors(tableId, compareToTableID, startColumn, endColumn, reverseColorCodesArray) {
-	var table = $('#' + tableId).DataTable();
-	var compareToTable = $('#' + compareToTableID).DataTable();
+function setStageResultsTableCellColors() {
+	var table = $('#competitorStageResultsTable').DataTable();
+	var compareToTable = $('#compareToCompetitorStageResultsTable').DataTable();
 	
 	table.cells().eq(0).each(function (index) {
 	    var node = table.cell(index).node();
-	    if (index.column >= startColumn - 1 && (endColumn == -1 || index.column <= endColumn - 1)) {
-	    	var value = table.cell(index).data();
-	    	var compareToTableValue = compareToTable.cell(index).data();
-	    	var color = "transparent";
-	    	var greaterThan = value > compareToTableValue;
-	    	if (reverseColorCodesArray[index.column] == true) greaterThan = !greaterThan;
-	    	if (value == compareToTableValue) greaterThan = null;
-	    	if (greaterThan == true) color = 'PaleGreen';
-	    	if (greaterThan == false) color = 'LightPink';
-	    	$(node).css('background-color', color);
-	    }
-		
+	    var compareToNode = compareToTable.cell(index).node();
+	    var hitFactor = table.row(index.row).data()[9];
+    	var compareToHitFactor = compareToTable.row(index.row).data()[9];
+    	
+    	if (hitFactor > compareToHitFactor) {
+    		$(node).css('background-color', '#c2f0c2');
+    		$(node).css('border', '1px solid #a6a6a6');
+    		$(compareToNode).css('background-color', 'LightPink');
+    		$(compareToNode).css('border', '1px solid #a6a6a6');
+    	}
+    	else {
+    		$(node).css('background-color', 'LightPink');
+    		$(node).css('border', '1px solid #a6a6a6');
+    		$(compareToNode).css('background-color', '#c2f0c2');
+    		$(compareToNode).css('border', '1px solid #a6a6a6');
+    	}
 	});
 	table.draw();
 }
@@ -206,15 +217,6 @@ function initializeStageResultsTable(tableId) {
             { title: "%", render: $.fn.dataTable.render.number( '.', ',', 2)},
             { title: "Diff.", render: $.fn.dataTable.render.number( '.', ',', 2) },
         ],
-//        rowCallback: function(row, data, index){
-//        	if(data[2]> 7){
-//        		
-//                $(row).find('td:eq(2)').css('background-color', 'PaleGreen');
-//            }
-//        	else {
-//        		$(row).find('td:eq(2)').css('background-color', 'LightPink');
-//        	}
-//          },
 		paging: false,
 		searching: false,
 		sort: false,

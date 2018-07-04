@@ -6,6 +6,8 @@ Muuta tietojen l√§hetys niin, ett√§ koko tiedosto l√§hetet√§√§n. J√§√§ talteen e
 
 IPSC ALIAS: Merkkijonoksi????
 
+MATCH ANALYSIS: DQ player aiheuttaa virheen (H de Sz, pop action)
+
 MITƒ TAPAHTUU JOS KISAAJA AMPUU KISAN USEAN KERRAN? ERI DIVISIOONISSA?!!?
 
 Muuta kaikki haut k‰ytt‰m‰‰n kilpailija ja kisa-id, sek‰ stage ja kisa-id!
