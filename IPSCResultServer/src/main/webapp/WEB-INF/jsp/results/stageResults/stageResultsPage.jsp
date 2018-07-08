@@ -71,8 +71,6 @@
 			searching: true,
 			info: false
 		});
-			
-		
 	} );
 	
 	function submitStageListingChange() {

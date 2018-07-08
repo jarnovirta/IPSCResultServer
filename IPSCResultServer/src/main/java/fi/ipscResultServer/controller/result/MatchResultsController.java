@@ -1,5 +1,7 @@
 package fi.ipscResultServer.controller.result;
 
+import java.util.Collections;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import fi.ipscResultServer.domain.Match;
 import fi.ipscResultServer.exception.DatabaseException;
-import fi.ipscResultServer.service.CompetitorService;
 import fi.ipscResultServer.service.MatchService;
 
 @Controller
@@ -18,10 +19,7 @@ import fi.ipscResultServer.service.MatchService;
 public class MatchResultsController {
 	@Autowired
 	private MatchService matchService;
-	
-	@Autowired
-	private CompetitorService competitorService;
-	
+		
 	final static Logger logger = Logger.getLogger(MatchResultsController.class);
 	
 	@RequestMapping(method = RequestMethod.GET)
@@ -31,15 +29,9 @@ public class MatchResultsController {
 			
 		try {
 			Match match = matchService.findByPractiScoreId(matchId);
+			if (match != null && match.getCompetitors() != null) Collections.sort(match.getCompetitors());
 			model.addAttribute("match", match);
-			
-			if (liveResultsView != null && liveResultsView.equals(true)) {
-				
-//				model.addAttribute("liveResultServiceConfig", new LiveResultServiceConfig());
-//				return "results/liveResultServiceSetup";
-			}
-			
-			model.addAttribute("competitors", competitorService.findByMatch(match.getId()));
+						
 			return "results/matchResultsMainPage";
 		}
 		// Exception logged in repository

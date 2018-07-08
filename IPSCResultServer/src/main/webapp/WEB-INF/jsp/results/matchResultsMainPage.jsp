@@ -105,7 +105,7 @@
 									</tr>
 								</thead>
 								<tbody>
-									<c:forEach var="competitor" items="${competitors}">
+									<c:forEach var="competitor" items="${match.competitors}">
 										<tr>
 											<td style="width: 50%">
 												<c:url var="competitorResultsUrl" value="/competitorResults">

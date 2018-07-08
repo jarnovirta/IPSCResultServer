@@ -51,6 +51,7 @@ public class MatchService {
 				for (Competitor competitor : match.getCompetitors()) {
 					competitor.setMatch(match);
 					competitor.setShooterNumber(competitorNumber++);
+					
 					// Remove deleted competitors
 					if (competitor.isDeleted() == true) {
 						deletedCompetitors.add(competitor);

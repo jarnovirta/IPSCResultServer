@@ -11,23 +11,27 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import fi.ipscResultServer.controller.data.LiveResultServiceConfig;
-import fi.ipscResultServer.controller.result.StageResultsController;
 import fi.ipscResultServer.domain.Constants;
 import fi.ipscResultServer.domain.Match;
 import fi.ipscResultServer.domain.Stage;
 import fi.ipscResultServer.domain.resultData.StageResultData;
 import fi.ipscResultServer.exception.DatabaseException;
 import fi.ipscResultServer.service.MatchService;
+import fi.ipscResultServer.service.StageService;
+import fi.ipscResultServer.service.resultDataService.StageResultDataService;
 
 @Controller
 @RequestMapping("/live")
 public class LiveResultServiceController {
 	
 	@Autowired
-	StageResultsController stageResultsController;
+	private MatchService matchService;
 	
 	@Autowired
-	private MatchService matchService;
+	StageService stageService;
+	
+	@Autowired
+	StageResultDataService stageResultDataService;
 	
 	
 	// TODO: Ei voi olla instanssimuuttujana, muuttuu muuten aina kaikille,
@@ -55,45 +59,70 @@ public class LiveResultServiceController {
 			@RequestParam(value = "previousDivision", required = false) String previousDivision) {
 		
 		try {
-			
 			// Pass configuration info to JavaScript code (rows per page in result table and page change interval)
 			model.addAttribute("config", liveResultServiceConfig);
 			
 			Match match = matchService.findByPractiScoreId(matchId);
-			List<String> divisions = match.getDivisionsWithResults();
 			
 			// If no result data exists, set empty data instance and show empty result table
-			if (divisions == null || divisions.size() == 0) {
-				StageResultData data = new StageResultData();
-				Stage stage = new Stage();
-				stage.setMatch(match);
-				data.setStage(stage);
-				model.addAttribute("stageResultData", data);
+			if (match == null || match.getDivisionsWithResults() == null || match.getDivisionsWithResults().size() == 0) {
+				model.addAttribute("stageResultData", getEmptyStageResultData(match));
 				return "results/liveResultService/liveResultsPage";
 			}
+			
+			List<String> divisionsWithResults = match.getDivisionsWithResults();
+			
 			// Determine next stage and division to show in live result service view
-			divisions.remove(Constants.COMBINED_DIVISION);
-			String nextStagePractiScoreId = null;
+			divisionsWithResults.remove(Constants.COMBINED_DIVISION);
+			String nextStagePractiScoreId;
 			String nextDivision = previousDivision;
+			
+			// Handle start of live result service, with no previously shown result data
 			if (previousStagePractiScoreId == null) {
-				nextStagePractiScoreId = match.getStages().get(0).getPractiScoreId();
-				nextDivision = divisions.get(0);
+				nextStagePractiScoreId  = match.getStages().get(0).getPractiScoreId();
+				nextDivision = divisionsWithResults.get(0);
 			}
+			// Handle result data request with previously shown result data
 			else {
 				nextStagePractiScoreId = getNextStagePractiScoreId(match, previousStagePractiScoreId);
-				
 				if (nextStagePractiScoreId == null) {
 					nextStagePractiScoreId = match.getStages().get(0).getPractiScoreId();
-					nextDivision = getNextDivision(match, divisions, previousDivision);
+					nextDivision = getNextDivision(match, divisionsWithResults, previousDivision);
 				}
 			}
-			stageResultsController.getStageResultsPage(model, matchId, nextStagePractiScoreId, nextDivision);
+			
+			Stage nextStage = stageService.findByPractiScoreId(match.getPractiScoreId(), nextStagePractiScoreId);
+			
+			StageResultData stageResultData = stageResultDataService.findByStageAndDivision(nextStage.getId(), nextDivision);
+			
+			// Handle stages with no result data by sending an empty StageResultData instance with match, stage and division
+			// information for use in JSP.
+			if (stageResultData == null) {
+				model.addAttribute("stageResultData", getEmptyStageResultData(nextStage, nextDivision));
+			}
+			else {
+				model.addAttribute("stageResultData", stageResultData);
+			}
 			return "results/liveResultService/liveResultsPage";
 		}
 		// Exception logged in repository
 		catch (DatabaseException e) {
 			return "results/matchResultsMainPage";
 		}
+	}
+
+	private StageResultData getEmptyStageResultData(Match match) {
+		StageResultData data = new StageResultData();
+		Stage stage = new Stage();
+		stage.setMatch(match);
+		data.setStage(stage);
+		return data;
+	}
+	private StageResultData getEmptyStageResultData(Stage stage, String division) {
+		StageResultData data = new StageResultData();
+		data.setStage(stage);
+		data.setDivision(division);
+		return data;
 	}
 	private String getNextDivision(Match match, List<String> divisions, String previousDivision) {
 		int divisionIndex = divisions.indexOf(previousDivision);

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import fi.ipscResultServer.domain.Stage;
+import fi.ipscResultServer.domain.resultData.StageResultData;
 import fi.ipscResultServer.exception.DatabaseException;
 import fi.ipscResultServer.service.StageService;
 import fi.ipscResultServer.service.resultDataService.StageResultDataService;
@@ -28,7 +29,13 @@ public class StageResultsController {
 		try {
 			
 			Stage stage = stageService.findByPractiScoreId(matchId, stageId);
-			model.addAttribute("stageResultData", stageResultDataService.findByStageAndDivision(stage.getId(), division));
+			StageResultData resultData = stageResultDataService.findByStageAndDivision(stage.getId(), division);
+			if (resultData == null) {
+				resultData = new StageResultData();
+				resultData.setStage(stage);
+				resultData.setDivision(division);
+			}
+			model.addAttribute("stageResultData", resultData);
 			return "results/stageResults/stageResultsPage";
 		}
 		// Exception logged in repository

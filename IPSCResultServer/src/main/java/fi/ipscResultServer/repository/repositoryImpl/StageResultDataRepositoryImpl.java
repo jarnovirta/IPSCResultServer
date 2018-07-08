@@ -30,7 +30,7 @@ public class StageResultDataRepositoryImpl implements StageResultDataRepository 
 	
 	public StageResultData findByStageAndDivision(Long stageId, String division) 
 			throws DatabaseException {
-		StageResultData resultData = new StageResultData();
+		StageResultData resultData = null;
 		try {
 			String queryString = "SELECT s FROM StageResultData s WHERE s.stage.id = :stageId AND s.division = :division";
 			TypedQuery<StageResultData> query = entityManager.createQuery(queryString, StageResultData.class);

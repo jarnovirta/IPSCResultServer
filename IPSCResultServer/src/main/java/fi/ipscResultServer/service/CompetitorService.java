@@ -24,7 +24,7 @@ public class CompetitorService {
 	
 	public List<Competitor> findByMatch(Long matchId) throws DatabaseException {
 		List<Competitor> competitors = competitorRepository.findByMatch(matchId);
-		Collections.sort(competitors);
+		if (competitors != null) Collections.sort(competitors);
 		return competitors;
 	}
 	
