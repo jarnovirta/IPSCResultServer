@@ -5,14 +5,14 @@ import fi.ipscResultServer.domain.Match;
 public class MatchAnalysisData {
 	private Match match;
 	
-	private CompetitorMatchAnalysisData competitorData;
-	private CompetitorMatchAnalysisData compareToCompetitorData;
+	private CompetitorMatchAnalysisData competitorMatchAnalysisData;
+	private CompetitorMatchAnalysisData compareToCompetitorMatchAnalysisData;
 	
 	public MatchAnalysisData(Match match, CompetitorMatchAnalysisData competitorData, 
 			CompetitorMatchAnalysisData compareToCompetitorData) {
 		this.match = match;
-		this.competitorData = competitorData;
-		this.compareToCompetitorData = compareToCompetitorData;
+		this.competitorMatchAnalysisData = competitorData;
+		this.compareToCompetitorMatchAnalysisData = compareToCompetitorData;
 	}
 
 	public Match getMatch() {
@@ -23,17 +23,17 @@ public class MatchAnalysisData {
 		this.match = match;
 	}
 
-	public CompetitorMatchAnalysisData getCompetitorData() {
-		return competitorData;
+	public CompetitorMatchAnalysisData getCompetitorMatchAnalysisData() {
+		return competitorMatchAnalysisData;
 	}
-	public void setCompetitorData(CompetitorMatchAnalysisData competitorData) {
-		this.competitorData = competitorData;
+	public void setCompetitorMatchAnalysisData(CompetitorMatchAnalysisData competitorData) {
+		this.competitorMatchAnalysisData = competitorData;
 	}
-	public CompetitorMatchAnalysisData getCompareToCompetitorData() {
-		return compareToCompetitorData;
+	public CompetitorMatchAnalysisData getCompareToCompetitorMatchAnalysisData() {
+		return compareToCompetitorMatchAnalysisData;
 	}
-	public void setCompareToCompetitorData(CompetitorMatchAnalysisData compareToCompetitorData) {
-		this.compareToCompetitorData = compareToCompetitorData;
+	public void setCompareToCompetitorMatchData(CompetitorMatchAnalysisData compareToCompetitorData) {
+		this.compareToCompetitorMatchAnalysisData = compareToCompetitorData;
 	}
 	
 }
