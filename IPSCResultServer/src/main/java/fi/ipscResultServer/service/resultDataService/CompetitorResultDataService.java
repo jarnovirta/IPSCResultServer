@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import fi.ipscResultServer.domain.Competitor;
+import fi.ipscResultServer.domain.Constants;
 import fi.ipscResultServer.domain.Match;
 import fi.ipscResultServer.domain.ScoreCard;
 import fi.ipscResultServer.domain.resultData.CompetitorResultData;
@@ -52,9 +53,15 @@ public class CompetitorResultDataService {
 	}
 	
 	public void setCompetitorStagePercentages(CompetitorResultData resultData) {
+		resultData.setStagePercentages(getStagePercentages(resultData, resultData.getCompetitor().getDivision()));
+		if (resultData.getMatch().getDivisionsWithResults() != null && resultData.getMatch().getDivisionsWithResults().contains(Constants.COMBINED_DIVISION)) {
+			resultData.setCombinedDivStagePercentages(getStagePercentages(resultData, Constants.COMBINED_DIVISION));
+		}
+	}
+	public Map<Integer, Double> getStagePercentages(CompetitorResultData resultData, String division) {
 		try {
 			Map<Integer, Double> stagePercentages = new HashMap<Integer, Double>();
-			List<StageResultDataLine> stageResultDataLines = stageResultDataService.findStageResultDataLinesByCompetitorAndDivision(resultData.getCompetitor(), resultData.getCompetitor().getDivision());
+			List<StageResultDataLine> stageResultDataLines = stageResultDataService.findStageResultDataLinesByCompetitorAndDivision(resultData.getCompetitor(), division);
 			for (ScoreCard card : resultData.getScoreCards().values()) {
 				Double percentage = null;
 				for (StageResultDataLine line : stageResultDataLines) {
@@ -64,11 +71,11 @@ public class CompetitorResultDataService {
 				}
 				stagePercentages.put(card.getStage().getStageNumber(), percentage);
 			}
-			resultData.setStagePercentages(stagePercentages);
+			return stagePercentages;
 		}
 		catch (DatabaseException e) {
 			e.printStackTrace();
+			return null;
 		}
-		
 	}
 }

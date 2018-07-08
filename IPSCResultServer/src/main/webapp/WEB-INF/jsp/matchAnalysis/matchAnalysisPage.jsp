@@ -41,10 +41,10 @@
 				
 				<div id="loader"></div>
 				
-				<div style="display:none;" id="contentDiv" class="animate-bottom">
+				<div id="contentDiv" class="animate-bottom">
 					<%@ include file="/WEB-INF/jsp/matchAnalysis/matchAnalysisPageHeader.jsp" %>
 					<div class="row">
-						<div class="col-xs-6">
+						<div id ="test" class="col-xs-6">
 						
 							<h3 align='center'><span id="analysisColumnCompetitorName"></span></h3>
 							<br>
@@ -53,19 +53,19 @@
 							
 							<h4>Hits</h4>
 							<div class="table-responsive">
-								<table id="competitorHitsTable" class="table table-striped table-bordered" width="100%"></table>
+								<table id="competitorHitsTable" class="table table-striped table-bordered" width="99%"></table>
 							</div>
 							<br><br>
 							
 							<h4>Stage Results</h4>
 							<div class="table-responsive">
-								<table id="competitorStageResultsTable" class="table table-striped table-bordered" width="100%"></table>
+								<table id="competitorStageResultsTable" class="table table-striped table-bordered" width="99%"></table>
 							</div>
 							<br><br>
 							
 							<h4>Error Cost Analysis</h4>
 							<div class="table-responsive">
-								<table id="competitorErrorCostAnalysisTable" class="table table-striped table-bordered" width="100%"></table>
+								<table id="competitorErrorCostAnalysisTable" class="table table-striped table-bordered" width="99%"></table>
 							</div>
 						</div>
 						<div class="col-xs-6" style="border-left: 1px solid #ccc">
@@ -76,19 +76,19 @@
 							
 							<h4>Hits</h4>
 							<div class="table-responsive">
-								<table id="compareToCompetitorHitsTable" class="table table-striped table-bordered" width="100%"></table>
+								<table id="compareToCompetitorHitsTable" class="table table-striped table-bordered" width="99%"></table>
 							</div>
 							<br><br>
 							
 							<h4>Stage Results</h4>
 							<div class="table-responsive">
-								<table id="compareToCompetitorStageResultsTable" class="table table-striped table-bordered" width="100%"></table>
+								<table id="compareToCompetitorStageResultsTable" class="table table-striped table-bordered" width="99%"></table>
 							</div>
 							<br><br>
 							
 							<h4>Error Cost Analysis</h4>
 							<div class="table-responsive">
-								<table id="compareToCompetitorErrorCostAnalysisTable" class="table table-striped table-bordered" width="100%"></table>
+								<table id="compareToCompetitorErrorCostAnalysisTable" class="table table-striped table-bordered" width="99%"></table>
 							</div>
 						</div>
 					</div>
@@ -96,7 +96,7 @@
 					<hr>
 					<br>
 					<div class="col-xs-6">
-						<h4>Percent by Stage</h4>
+						<h4>Percent by Stage <span id="percentByStageDivision"</span></h4>
 						<br>
 						<div id="percentByStageChart" align='center'></div>
 					</div>

@@ -75,7 +75,7 @@ function setContentData(data) {
 	
 	updateStageResultsTable('competitorStageResultsTable', competitorData);
 	updateStageResultsTable('compareToCompetitorStageResultsTable', compareToCompetitorData);
-	
+			
 	updateHitsTable('competitorHitsTable', competitorData);
 	updateHitsTable('compareToCompetitorHitsTable', compareToCompetitorData);
 	
@@ -83,13 +83,14 @@ function setContentData(data) {
 		
 }
 function showContent() {
-	
 	$("#loader").hide();
 	$("#contentDiv").show();
+	
+
 }
 function hideContent() {
 	$("#loader").show();
-	$("#contentDiv").hide();	
+	$("#contentDiv").hide();
 	
 }
 function setPageGeneralInfoElements(competitor, compareToCompetitor) {
@@ -336,6 +337,23 @@ function drawAccuracyPieChart(chartId, competitorData) {
 
 function drawPercentByStageChart(chartId, competitor1, competitor2) {
 	if (competitor1 == null || competitor2 == null || match == null || competitorData.resultData.stagePercentages == null) return;
+	
+	var competitor1Percentages;
+	var competitor2Percentages;
+	// Show division stage percentages if same division for both competitors
+	// and Combined results stage percentages if different divisions.
+	if (competitor1.resultData.competitor.sh_dvp == competitor2.resultData.competitor.sh_dvp) {
+		competitor1Percentages = competitor1.resultData.stagePercentages;
+		competitor2Percentages = competitor2.resultData.stagePercentages;
+		$('#stageResultChartDivision').html("");
+	}
+	else {
+		
+		competitor1Percentages = competitor1.resultData.combinedDivStagePercentages;
+		competitor2Percentages = competitor2.resultData.combinedDivStagePercentages;
+		
+		$('#percentByStageDivision').html("(Combined results)");
+	}
 	var data = new google.visualization.DataTable();
 	data.addColumn('string', 'Stage');
 	data.addColumn('number', competitor1.name);
@@ -343,8 +361,8 @@ function drawPercentByStageChart(chartId, competitor1, competitor2) {
 	
 	var rows = [];
 	$.each(competitorData.resultData.stagePercentages, function(stageNumber) {
-		rows[stageNumber - 1] = [stageNumber.toString(), competitor1.resultData.stagePercentages[stageNumber], 
-			competitor2.resultData.stagePercentages[stageNumber]];
+		rows[stageNumber - 1] = [stageNumber.toString(), competitor1Percentages[stageNumber], 
+			competitor2Percentages[stageNumber]];
 	});
 	
 	data.addRows(rows);

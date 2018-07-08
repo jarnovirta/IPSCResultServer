@@ -17,9 +17,13 @@ public class CompetitorResultData {
 	// ScoreCard instances mapped to Stage id's
 	private Map<Long, ScoreCard> scoreCards;
 	
-	// Competitor result percentages per stage
+	// Competitor result percentages per stage for competitor's division
 	@Transient
 	private Map<Integer, Double> stagePercentages;
+	
+	// Competitor result percentages per stage for combined division
+	@Transient
+	private Map<Integer, Double> combinedDivStagePercentages;
 	
 	@Transient
 	private int aHitsSum;
@@ -180,6 +184,14 @@ public class CompetitorResultData {
 
 	public void setStagePercentages(Map<Integer, Double> stagePercentages) {
 		this.stagePercentages = stagePercentages;
+	}
+
+	public Map<Integer, Double> getCombinedDivStagePercentages() {
+		return combinedDivStagePercentages;
+	}
+
+	public void setCombinedDivStagePercentages(Map<Integer, Double> combinedDivStagePercentages) {
+		this.combinedDivStagePercentages = combinedDivStagePercentages;
 	}
 	
 }
