@@ -44,7 +44,7 @@
 				<div id="contentDiv" class="animate-bottom">
 					<%@ include file="/WEB-INF/jsp/matchAnalysis/matchAnalysisPageHeader.jsp" %>
 					<div class="row">
-						<div id ="test" class="col-xs-6">
+						<div class="col-xs-6">
 						
 							<h3 align='center'><span id="analysisColumnCompetitorName"></span></h3>
 							<br>

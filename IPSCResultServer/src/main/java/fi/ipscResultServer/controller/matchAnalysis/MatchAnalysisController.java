@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import fi.ipscResultServer.domain.Competitor;
+import fi.ipscResultServer.domain.Constants;
 import fi.ipscResultServer.domain.Match;
 import fi.ipscResultServer.domain.ScoreCard;
 import fi.ipscResultServer.domain.Stage;
@@ -42,6 +43,7 @@ public class MatchAnalysisController {
 	
 	@Autowired
 	private MatchService matchService;
+
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public String getMatchAnalysisPage(Model model, @RequestParam("competitorId") String competitorPractiScoreId,
@@ -71,11 +73,13 @@ public class MatchAnalysisController {
 				Match match = matchService.findByPractiScoreId(matchPractiScoreId);
 				if (match != null && match.getCompetitors() != null) Collections.sort(match.getCompetitors());
 				CompetitorMatchAnalysisData competitorMatchAnalysisData = getCompetitorMatchAnalysisData(competitorPractiScoreId, matchPractiScoreId);
-				for (ScoreCard card : competitorMatchAnalysisData.getCompetitorResultData().getScoreCards().values()) {
+				for (StageResultDataLine line : competitorMatchAnalysisData.getStageResultDataLines().values()) {
+					ScoreCard card = line.getScoreCard();
 					card.setStage(null);
 				}
 				CompetitorMatchAnalysisData compareToCompetitorMatchAnalysisData = getCompetitorMatchAnalysisData(compareToCompetitorId, matchPractiScoreId);
-				for (ScoreCard card : compareToCompetitorMatchAnalysisData.getCompetitorResultData().getScoreCards().values()) {
+				for (StageResultDataLine line : competitorMatchAnalysisData.getStageResultDataLines().values()) {
+					ScoreCard card = line.getScoreCard();
 					card.setStage(null);
 				}
 				MatchAnalysisData matchData = new MatchAnalysisData(match, competitorMatchAnalysisData, 
@@ -91,13 +95,11 @@ public class MatchAnalysisController {
 	private CompetitorMatchAnalysisData getCompetitorMatchAnalysisData(String competitorPractiScoreId, String matchPractiScoreId) {
 		try {
 			
+			Competitor competitor = competitorService.findByPractiScoreReferences(matchPractiScoreId, competitorPractiScoreId);
 			CompetitorResultData competitorResultData = 
 					competitorResultDataService.findByCompetitorAndMatchPractiScoreIds(competitorPractiScoreId, matchPractiScoreId);
 			competitorResultDataService.setCompetitorStagePercentages(competitorResultData);
-			competitorResultData.setMatch(null);
-			
-			Competitor competitor = competitorService.findByPractiScoreReferences(matchPractiScoreId, competitorPractiScoreId);
-			
+						
 			List<StageResultDataLine> stageResultDataLines = stageResultDataService.findStageResultDataLinesByCompetitor(competitor);
 			
 			// Remove circular references before stringifying to JSON
@@ -132,7 +134,14 @@ public class MatchAnalysisController {
 			}
 			
 			Map<String, ErrorCostTableLine> errorCostMap = CompetitorErrorCostDataService.getErrorCostTableLines(competitor.getMatch(), competitor, cards);
-			return new CompetitorMatchAnalysisData(competitorResultData, resultMap, errorCostMap);
+			
+			Map<Integer, Double> stagePercentages = competitorResultDataService.getStagePercentages(competitorResultData, competitor.getDivision());
+			Map<Integer, Double> combinedStagePercentages = null; 
+			if (competitorResultData.getMatch().getDivisionsWithResults().contains(Constants.COMBINED_DIVISION)) {
+				combinedStagePercentages = competitorResultDataService.getStagePercentages(competitorResultData, Constants.COMBINED_DIVISION);
+			}
+			competitorResultData.setMatch(null);
+			return new CompetitorMatchAnalysisData(competitor.getMatch(), competitor, competitorResultData, resultMap, errorCostMap, stagePercentages, combinedStagePercentages);
 		}
 		//	 Exception logged in repository
 		catch (DatabaseException e) {

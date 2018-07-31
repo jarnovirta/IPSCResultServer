@@ -1,4 +1,4 @@
-TEE CHARTS HAKU AJAX-pohjaiseksi
+MYÖS STAGE RESULTS STATISTIIKASSA COMBINED/DIV RESULTS
 
 
 Tarkista kuinka paljon dataa lähetetään JSONilla match analysis sivulle -> liikaa esim. match -> competitor tavaraa?

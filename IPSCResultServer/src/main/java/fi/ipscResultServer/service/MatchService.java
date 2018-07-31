@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,11 +36,21 @@ public class MatchService {
 	@Autowired
 	private ScoreCardService scoreCardService;
 	
+	@Autowired
+	private UserService userService;
+	
 	final static Logger logger = Logger.getLogger(MatchService.class);
 	
 	@Transactional
 	public Match save(Match match) throws DatabaseException {
+		for (Stage stage : match.getStages()) {
+			stage.setMatch(match);
+		}
+		boolean admin = userService.isCurrentUserAdmin();
 		
+		if (admin == true) match.setUploadedByAdmin(true);
+		else match.setUser(userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
+				
 		Match oldMatch = matchRepository.findByPractiScoreId(match.getPractiScoreId());
 		if (oldMatch != null) delete(oldMatch.getId());
 		Match savedMatch = null;

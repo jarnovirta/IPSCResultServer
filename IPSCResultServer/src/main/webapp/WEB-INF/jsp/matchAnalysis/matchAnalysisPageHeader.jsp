@@ -29,10 +29,13 @@
 	        			<b>Compare to:</b>
 	        		</td>
 	        		<td>
-	        			<div class="form-inline">
+	        			
 		        			<select id="compareToCompetitor" name="compareToCompetitorId" class="form-control" ></select>
-							<button class="btn btn-large btn-default" onclick="submitCompetitorsChange()" type="button">Show</button>
-						</div>
+							
+						
+	        		</td>
+	        		<td>
+	        			<button class="btn btn-large btn-default" onclick="submitCompetitorsChange()" type="button">Show</button>
 	        		</td>
 	        	</tr>	        		 		        	
 	        </table>
