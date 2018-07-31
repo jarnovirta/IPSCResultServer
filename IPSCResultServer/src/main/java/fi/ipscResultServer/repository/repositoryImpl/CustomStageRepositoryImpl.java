@@ -13,7 +13,6 @@ import org.springframework.stereotype.Repository;
 import fi.ipscResultServer.domain.Stage;
 import fi.ipscResultServer.repository.StageRepository;
 import fi.ipscResultServer.repository.springJPARepository.SpringJPAStageRepository;
-import fi.ipscResultServer.service.practiScoreDataService.MatchScoreService;
 
 @Repository
 public class CustomStageRepositoryImpl implements StageRepository {
@@ -24,7 +23,7 @@ public class CustomStageRepositoryImpl implements StageRepository {
 	@PersistenceContext
 	EntityManager entityManager;
 	
-	final static Logger logger = Logger.getLogger(MatchScoreService.class);
+	final static Logger logger = Logger.getLogger(CustomStageRepositoryImpl.class);
 	
 	public Stage getOne(Long id) {
 		try {

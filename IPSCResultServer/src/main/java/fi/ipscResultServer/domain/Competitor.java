@@ -56,7 +56,7 @@ public class Competitor implements Serializable, Comparable<Competitor> {
 	private String lastName;
 	
 	@JsonProperty("sh_id")
-	private int ipscAlias;
+	private String ipscAlias;
 	
 	@JsonProperty("sh_dvp")
 	@Column(nullable = false)
@@ -235,14 +235,13 @@ public class Competitor implements Serializable, Comparable<Competitor> {
 		this.squad = squad;
 	}
 
-	public int getIpscAlias() {
+	public String getIpscAlias() {
 		return ipscAlias;
 	}
 
-	public void setIpscAlias(int ipscAlias) {
+	public void setIpscAlias(String ipscAlias) {
 		this.ipscAlias = ipscAlias;
 	}
-
 
 	public PowerFactor getPowerFactor() {
 		return powerFactor;

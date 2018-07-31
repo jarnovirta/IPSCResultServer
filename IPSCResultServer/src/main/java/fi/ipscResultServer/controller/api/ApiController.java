@@ -13,14 +13,11 @@ import fi.ipscResultServer.domain.Match;
 import fi.ipscResultServer.domain.MatchStatus;
 import fi.ipscResultServer.exception.DatabaseException;
 import fi.ipscResultServer.service.MatchService;
-import fi.ipscResultServer.service.practiScoreDataService.MatchScoreService;
+
 
 @Controller
 @RequestMapping("/api")
 public class ApiController {
-	@Autowired
-	private MatchScoreService matchScoreService;
-
 	
 	@Autowired
 	private MatchService matchService;
@@ -36,10 +33,8 @@ public class ApiController {
 				return new ResponseEntity<String>("Scoring not open for match", null, HttpStatus.BAD_REQUEST);
 				
 			}
-			matchService.save(matchData.getMatch());
+			matchService.saveMatchData(matchData);
 			
-			// Save scores
-			matchScoreService.save(matchData.getMatchScore());
 			return new ResponseEntity<String>("Match data saved", null, HttpStatus.OK);
 		}
 		catch (DatabaseException e) {

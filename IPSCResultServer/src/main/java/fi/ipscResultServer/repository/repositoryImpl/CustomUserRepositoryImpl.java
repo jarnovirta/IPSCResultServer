@@ -10,13 +10,12 @@ import org.apache.log4j.Logger;
 
 import fi.ipscResultServer.domain.User;
 import fi.ipscResultServer.repository.CustomUserRepository;
-import fi.ipscResultServer.service.practiScoreDataService.MatchScoreService;
 
 public class CustomUserRepositoryImpl implements CustomUserRepository {
 	@PersistenceContext
 	EntityManager entityManager;
 	
-	final static Logger logger = Logger.getLogger(MatchScoreService.class);
+	final static Logger logger = Logger.getLogger(CustomUserRepositoryImpl.class);
 		
 	public List<User> findActiveUsers() {
 		try {

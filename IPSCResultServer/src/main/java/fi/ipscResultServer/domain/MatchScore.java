@@ -13,20 +13,9 @@ public class MatchScore implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
-	@JsonProperty("match_id")
-	private String matchId;
 
 	@JsonProperty("match_scores")
 	private List<StageScore> stageScores;
-
-	public String getMatchId() {
-		return matchId;
-	}
-
-	public void setMatchId(String matchId) {
-		this.matchId = matchId;
-	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
