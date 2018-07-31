@@ -1,29 +1,31 @@
 TEE CHARTS HAKU AJAX-pohjaiseksi
 
+Kisa-analyysi avoimeksi jo kisan aikana.
 
-Tarkista kuinka paljon dataa l�hetet��n JSONilla match analysis sivulle -> liikaa esim. match -> competitor tavaraa?
-Muuta tietojen lähetys niin, että koko tiedosto lähetetään. Jää talteen eikä tarvitse aina androidia päivittää.
+
+Tarkista kuinka paljon dataa lähetetään JSONilla match analysis sivulle -> liikaa esim. match -> competitor tavaraa?
+Muuta tietojen lÃ¤hetys niin, ettÃ¤ koko tiedosto lÃ¤hetetÃ¤Ã¤n. JÃ¤Ã¤ talteen eikÃ¤ tarvitse aina androidia pÃ¤ivittÃ¤Ã¤.
 
 IPSC ALIAS: Merkkijonoksi????
 
 MATCH ANALYSIS: DQ player aiheuttaa virheen (H de Sz, pop action)
 
-MIT� TAPAHTUU JOS KISAAJA AMPUU KISAN USEAN KERRAN? ERI DIVISIOONISSA?!!?
+MITÄ TAPAHTUU JOS KISAAJA AMPUU KISAN USEAN KERRAN? ERI DIVISIOONISSA?!!?
 
-Muuta kaikki haut k�ytt�m��n kilpailija ja kisa-id, sek� stage ja kisa-id!
+Muuta kaikki haut käyttämään kilpailija ja kisa-id, sekä stage ja kisa-id!
 
-DELETE MATCH: sivu ei p�ivity.
+DELETE MATCH: sivu ei pï¿½ivity.
 
 - !!!! Power Factor: Sub-minor??
-- Chrono stage: pitää tehdä palvelimelle!! PractiScoressa "Actual" pf -> voidaan muuttaa chrono stagessa.
+- Chrono stage: pitÃ¤Ã¤ tehdÃ¤ palvelimelle!! PractiScoressa "Actual" pf -> voidaan muuttaa chrono stagessa.
 - Timezone palvelimelle ja koodiin
 
 EI KIIREELLISET:
 
-- Korjaa stage rank verify listassa: näyttää combined, ei divisioona. Poista comment out verify-listan JSP:stä.
-- Korjaa virheviestit datan l�hetyksen aikana, niin ett� n�ytt�� palvelimen viestin. Nyt vain virhekoodi.
+- Korjaa stage rank verify listassa: nÃ¤yttÃ¤Ã¤ combined, ei divisioona. Poista comment out verify-listan JSP:stÃ¤.
+- Korjaa virheviestit datan lï¿½hetyksen aikana, niin ettï¿½ nï¿½yttï¿½ï¿½ palvelimen viestin. Nyt vain virhekoodi.
 - Tee SSI-PS registration import
 
 TESTIT:
-	- Mitä practiscore tekee, jos luodaan eri laitteilla sama walkin kilpailija? Tallentaako se monta kertaa saman kilpailijan,
+	- MitÃ¤ practiscore tekee, jos luodaan eri laitteilla sama walkin kilpailija? Tallentaako se monta kertaa saman kilpailijan,
 	 	eri sh_uuid numeroilla?
