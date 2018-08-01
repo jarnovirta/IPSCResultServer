@@ -105,14 +105,14 @@ function setCompetitorHitSums(competitorData) {
 	competitorData.dHitsSum = 0;
 	competitorData.missSum = 0;
 	competitorData.noshootHitsSum = 0;
-	proceduralPenaltiesSum = 0;
+	competitorData.proceduralPenaltiesSum = 0;
 	$.each(competitorData.stageResultDataLines, function(key, line) {
 		competitorData.aHitsSum += line.scoreCard.aHits;
 		competitorData.cHitsSum += line.scoreCard.cHits;
 		competitorData.dHitsSum += line.scoreCard.dHits;
 		competitorData.missSum += line.scoreCard.misses;
 		competitorData.noshootHitsSum += line.scoreCard.noshootHits;
-		competitorData.proceduralPenaltiesSum += line.scoreCard.proceduralPenalties;
+		competitorData.proceduralPenaltiesSum += line.scoreCard.proc;
 	});
 	
 }
@@ -150,9 +150,9 @@ function setPageGeneralInfoElements() {
 	if (competitorMatchAnalysisData == null || compareToCompetitorMatchAnalysisData == null) return;
 	$('#matchName').html(match.match_name);
 	$('#pageHeadingCompetitorName, #analysisColumnCompetitorName').each(function() {
-		$(this).html(competitorMatchAnalysisData.name);
+		$(this).html(competitorMatchAnalysisData.competitor.name);
 	});
-	$('#analysisColumnCompareToCompetitorName').html(compareToCompetitorMatchAnalysisData.name);
+	$('#analysisColumnCompareToCompetitorName').html(compareToCompetitorMatchAnalysisData.competitor.name);
 
 }
 
@@ -269,8 +269,7 @@ function initializeStageResultsTable(tableId) {
             { title: "HF", render: $.fn.dataTable.render.number( '.', ',', 4) },
             { title: "Stage Points", render: $.fn.dataTable.render.number( '.', ',', 4) },
             { title: "Place" },
-            { title: "%", render: $.fn.dataTable.render.number( '.', ',', 2)},
-            { title: "Diff.", render: $.fn.dataTable.render.number( '.', ',', 2) },
+            { title: "%", render: $.fn.dataTable.render.number( '.', ',', 2)}
         ],
 		paging: false,
 		searching: false,
@@ -305,8 +304,7 @@ function updateStageResultsTable(tableId, competitorData) {
 			line.scoreCard.hitFactor,
 			line.stagePoints,
 			line.stageRank,
-			line.stageScorePercentage,
-			null
+			line.stageScorePercentage
 		]
 	});
 	var table = $('#' + tableId).DataTable();
