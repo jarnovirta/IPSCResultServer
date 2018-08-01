@@ -65,6 +65,7 @@ function setContentData(data) {
 	match = data.match;
 	
 	competitorMatchAnalysisData = data.competitorMatchAnalysisData;
+	
 	compareToCompetitorMatchAnalysisData = data.compareToCompetitorMatchAnalysisData;
 			
 	setCompetitorName(competitorMatchAnalysisData);
@@ -82,9 +83,9 @@ function setContentData(data) {
 	drawAccuracyPieChart('competitorAccuracyChart', competitorMatchAnalysisData);
 	drawAccuracyPieChart('compareToCompetitorAccuracyChart', compareToCompetitorMatchAnalysisData);
 	
-	drawPercentByStageChart('percentByStageChart', competitorMatchAnalysisData.competitor, compareToCompetitorMatchAnalysisData.competitor);
+	drawPercentByStageChart();
 	
-	drawTimeByStageChart('timeByStageChart', competitorMatchAnalysisData, compareToCompetitorMatchAnalysisData);
+	drawTimeByStageChart();
 			
 	updateErrorCostAnalysisTable('competitorErrorCostAnalysisTable', competitorMatchAnalysisData);
 	updateErrorCostAnalysisTable('compareToCompetitorErrorCostAnalysisTable', compareToCompetitorMatchAnalysisData);
@@ -184,16 +185,16 @@ function submitCompetitorsChange() {
 }
 
 function setCompetitorName(data) {
-	if (data.competitorResultData == null) return;
+	if (data == null) return;
 	
-	data.name = data.competitor.sh_fn + " " 
+	data.competitor.name = data.competitor.sh_fn + " " 
 	+ data.competitor.sh_ln
 	+ " (" 
 	+ data.competitor.sh_dvp 
 	+ "/"
 	+ data.competitor.powerFactor
 	+ ")";
-
+	
 }
 
 
@@ -278,7 +279,7 @@ function initializeStageResultsTable(tableId) {
     } );	
 }
 function updateStageResultsTable(tableId, competitorData) {
-	if (competitorData == null || competitorData.competitorResultData == null || match.match_stages == null) return;
+	if (competitorData == null || match.match_stages == null) return;
 	var dataSet = [];
 	$.each(match.match_stages, function(index, stage) {
 		var line = competitorData.stageResultDataLines[stage.stage_uuid];
@@ -329,7 +330,8 @@ function initializeErrorCostAnalysisTable(tableId) {
     } );	
 }
 function updateErrorCostAnalysisTable(tableId, competitorData) {
-	if (competitorData == null || competitorData.competitorResultData == null || match.match_stages == null) return;
+	if (competitorData == null || match.match_stages == null) return;
+	
 	var dataSet = [];
 	$.each(match.match_stages, function(index, stage) {
 		var line = competitorData.errorCostTableLines[stage.stage_uuid];
@@ -388,36 +390,35 @@ function drawAccuracyPieChart(chartId, competitorData) {
 }
 
 
-function drawPercentByStageChart(chartId, competitor1, competitor2) {
-	if (competitor1 == null || competitor2 == null || match == null 
-			|| competitorMatchAnalysisData.competitorResultData.stagePercentages == null
-			|| compareToCompetitorMatchAnalysisData.competitorResultData.stagePercentages == null) return;
-	
-	var competitor1Percentages;
-	var competitor2Percentages;
+function drawPercentByStageChart() {
+	if (match == null || competitorMatchAnalysisData.divisionStagePercentages == null
+			|| compareToCompetitorMatchAnalysisData.divisionStagePercentages == null) return;
+	var competitorPercentages;
+	var compareToCompetitorPercentages;
 	
 	// Show division stage percentages if same division for both competitors
 	// and Combined results stage percentages if different divisions.
-	if (competitor1.competitor.sh_dvp == competitor2.competitor.sh_dvp) {
-		competitor1Percentages = competitor1.stagePercentages;
-		competitor2Percentages = competitor2.stagePercentages;
+	if (competitorMatchAnalysisData.competitor.sh_dvp == compareToCompetitorMatchAnalysisData.competitor.sh_dvp) {
+		competitorPercentages = competitorMatchAnalysisData.divisionStagePercentages;
+		compareToCompetitorPercentages = compareToCompetitorMatchAnalysisData.divisionStagePercentages;
 		$('#percentByStageDivision').html("");
 	}
 	else {
-		competitor1Percentages = competitor1.competitorResultData.combinedDivStagePercentages;
-		competitor2Percentages = competitor2.competitorResultData.combinedDivStagePercentages;
+		competitorPercentages = competitorMatchAnalysisData.combinedResultsStagePercentages;
+		compareToCompetitorPercentages = compareToCompetitorMatchAnalysisData.combinedResultsStagePercentages;
 		
 		$('#percentByStageDivision').html("(Combined results)");
 	}
+	
 	var data = new google.visualization.DataTable();
 	data.addColumn('string', 'Stage');
-	data.addColumn('number', competitor1.name);
-	data.addColumn('number', competitor2.name);
+	data.addColumn('number', competitorMatchAnalysisData.competitor.name);
+	data.addColumn('number', compareToCompetitorMatchAnalysisData.competitor.name);
 	
 	var rows = [];
-	$.each(competitorMatchAnalysisData.competitorResultData.stagePercentages, function(stageNumber) {
-		rows[stageNumber - 1] = [stageNumber.toString(), competitor1Percentages[stageNumber], 
-			competitor2Percentages[stageNumber]];
+	$.each(competitorMatchAnalysisData.divisionStagePercentages, function(stageNumber) {
+		rows[stageNumber - 1] = [stageNumber.toString(), competitorPercentages[stageNumber], 
+			compareToCompetitorPercentages[stageNumber]];
 	});
 	
 	data.addRows(rows);
@@ -428,22 +429,25 @@ function drawPercentByStageChart(chartId, competitor1, competitor2) {
 		vAxis: {format: '#.##' }
 
 	};
-	var chart = new google.charts.Line(document.getElementById(chartId));
+	var chart = new google.charts.Line(document.getElementById('percentByStageChart'));
 	chart.draw(data, google.charts.Line.convertOptions(options));
 }
-function drawTimeByStageChart(chartId, competitor1, competitor2) {
-	if (competitor1 == null || competitor2 == null || match == null || match.match_stages == null) return;
+function drawTimeByStageChart() {
+	if (competitorMatchAnalysisData.stageResultDataLines == null 
+			|| compareToCompetitorMatchAnalysisData.stageResultDataLines == null
+			|| match.match_stages == null) {
+		return;
+	}
 	var data = new google.visualization.DataTable();
 	data.addColumn('string', 'Stage');
-	data.addColumn('number', competitor1.name);
-	data.addColumn('number', competitor2.name);
+	data.addColumn('number', competitorMatchAnalysisData.competitor.name);
+	data.addColumn('number', compareToCompetitorMatchAnalysisData.competitor.name);
 	
 	var rows = [];
 	$.each(match.match_stages, function(index, stage) {
-		
-//		rows[index] = [stage.stage_number.toString(),
-//			competitor1.competitorResultData.scoreCards[stage.id].time,
-//			competitor2.competitorResultData.scoreCards[stage.id].time ];
+		rows[index] = [stage.stage_number.toString(),
+			competitorMatchAnalysisData.stageResultDataLines[stage.stage_uuid].scoreCard.time,
+			compareToCompetitorMatchAnalysisData.stageResultDataLines[stage.stage_uuid].scoreCard.time];
 	});
 
 	data.addRows(rows);
@@ -452,8 +456,7 @@ function drawTimeByStageChart(chartId, competitor1, competitor2) {
 		width: 600,
 		height: 400
 	};
-	var chart = new google.charts.Line(document.getElementById(chartId));
+	var chart = new google.charts.Line(document.getElementById('timeByStageChart'));
 	chart.draw(data, google.charts.Line.convertOptions(options));
 	
 }
-

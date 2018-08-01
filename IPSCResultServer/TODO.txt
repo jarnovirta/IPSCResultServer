@@ -5,11 +5,6 @@ Subminor huomioiminen. Näkyy taulukoissa Production-. Onko varma että suljettu
 Kisa-analyysi avoimeksi jo kisan aikana.
 
 
-Tarkista kuinka paljon dataa lähetetään JSONilla match analysis sivulle -> liikaa esim. match -> competitor tavaraa?
-Muuta tietojen lÃ¤hetys niin, ettÃ¤ koko tiedosto lÃ¤hetetÃ¤Ã¤n. JÃ¤Ã¤ talteen eikÃ¤ tarvitse aina androidia pÃ¤ivittÃ¤Ã¤.
-
-IPSC ALIAS: Merkkijonoksi????
-
 MATCH ANALYSIS: DQ player aiheuttaa virheen (H de Sz, pop action)
 
 MITÄ TAPAHTUU JOS KISAAJA AMPUU KISAN USEAN KERRAN? ERI DIVISIOONISSA?!!?

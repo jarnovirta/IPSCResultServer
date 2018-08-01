@@ -29,7 +29,7 @@ public class StageResultData implements Serializable {
 	
 	private String division;
 	
-	@OneToMany(mappedBy = "stageResultData", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "stageResultData", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<StageResultDataLine> dataLines;
 
 	public StageResultData() { }
