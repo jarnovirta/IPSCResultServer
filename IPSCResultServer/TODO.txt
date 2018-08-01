@@ -1,5 +1,7 @@
 MY�S STAGE RESULTS STATISTIIKASSA COMBINED/DIV RESULTS
 
+Live result service: rivimäärän sijaan resoluutio ja ohjelma päättää montako divisioonaa samaan aikaan ja montako riviä.
+
 Subminor huomioiminen. Näkyy taulukoissa Production-. Onko varma että suljettu tuloksista?
 
 Kisa-analyysi avoimeksi jo kisan aikana.
