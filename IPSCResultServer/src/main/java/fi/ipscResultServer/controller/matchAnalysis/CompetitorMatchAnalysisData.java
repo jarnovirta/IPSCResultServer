@@ -3,7 +3,6 @@ package fi.ipscResultServer.controller.matchAnalysis;
 import java.util.Map;
 
 import fi.ipscResultServer.domain.Competitor;
-import fi.ipscResultServer.domain.resultData.CompetitorResultData;
 import fi.ipscResultServer.domain.resultData.StageResultDataLine;
 
 public class CompetitorMatchAnalysisData {
@@ -20,8 +19,7 @@ public class CompetitorMatchAnalysisData {
 	
 	private Map<Integer, Double> combinedResultsStagePercentages;
 	
-	public CompetitorMatchAnalysisData(Competitor competitor, CompetitorResultData competitorResultData,
-			Map<String, StageResultDataLine> stageResultDataLines,
+	public CompetitorMatchAnalysisData(Competitor competitor, Map<String, StageResultDataLine> stageResultDataLines,
 			Map<String, ErrorCostTableLine> errorCostTableLines,
 			Map<Integer, Double> divisionStagePercentages,
 			Map<Integer, Double> combinedResultsStagePercentages) {

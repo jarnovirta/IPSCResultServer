@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import fi.ipscResultServer.domain.Competitor;
 import fi.ipscResultServer.domain.Constants;
 import fi.ipscResultServer.domain.Match;
@@ -77,13 +75,13 @@ public class MatchAnalysisController {
 				CompetitorMatchAnalysisData compareToCompetitorMatchAnalysisData = getCompetitorMatchAnalysisData(compareToCompetitorId, 
 						matchPractiScoreId);
 				
+				// Remove unnecessary data before stringifying to JSON
+				removeUnnecessaryStageResultLineData(new ArrayList<StageResultDataLine>(competitorMatchAnalysisData.getStageResultDataLines().values()));
+				removeUnnecessaryStageResultLineData(new ArrayList<StageResultDataLine>(compareToCompetitorMatchAnalysisData.getStageResultDataLines().values()));
+				
 				MatchAnalysisData matchData = new MatchAnalysisData(match, competitorMatchAnalysisData, 
 						compareToCompetitorMatchAnalysisData);
-				ObjectMapper objectMapper = new ObjectMapper();
-				try {
-					System.out.println(objectMapper.writeValueAsString(matchData));
-				}
-				catch (Exception e){}
+				
 				return matchData;
 			}
 //			 Exception logged in repository
@@ -98,7 +96,6 @@ public class MatchAnalysisController {
 			CompetitorResultData competitorResultData = 
 					competitorResultDataService.findByCompetitorAndMatchPractiScoreIds(competitorPractiScoreId, matchPractiScoreId);
 			
-			competitorResultDataService.setCompetitorStagePercentages(competitorResultData);
 			
 			Competitor competitor = competitorResultData.getCompetitor();
 			
@@ -110,17 +107,17 @@ public class MatchAnalysisController {
 					competitor, new ArrayList<ScoreCard>(competitorResultData.getScoreCards().values()));
 			
 			// Get competitor stage result percentages for competitor's division
-			Map<Integer, Double> stagePercentages = competitorResultDataService.getStagePercentages(competitorResultData, competitor.getDivision());
+			Map<Integer, Double> stagePercentages = getStagePercentagesMap(competitorResultData, new ArrayList<StageResultDataLine>(resultMap.values()));
 			
 			// Get competitor stage result percentages for combined division
 			Map<Integer, Double> combinedStagePercentages = null; 
 			if (competitorResultData.getMatch().getDivisionsWithResults().contains(Constants.COMBINED_DIVISION)) {
-				combinedStagePercentages = competitorResultDataService.getStagePercentages(competitorResultData, Constants.COMBINED_DIVISION);
+				List<StageResultDataLine> combinedDivStageResultDataLines = stageResultDataService.findStageResultDataLinesByCompetitorAndDivision(competitor, 
+						Constants.COMBINED_DIVISION);
+				combinedStagePercentages = getStagePercentagesMap(competitorResultData, combinedDivStageResultDataLines);
 			}
-			
-			competitorResultData.setMatch(null);
 						 
-			return new CompetitorMatchAnalysisData(competitor, competitorResultData, resultMap, errorCostMap, stagePercentages, combinedStagePercentages);
+			return new CompetitorMatchAnalysisData(competitor, resultMap, errorCostMap, stagePercentages, combinedStagePercentages);
 		}
 		//	 Exception logged in repository
 		catch (DatabaseException e) {
@@ -139,13 +136,6 @@ public class MatchAnalysisController {
 					if (line.getScoreCard() != null && line.getScoreCard().getStage() != null) {
 						if (line.getScoreCard().getStage().getPractiScoreId().equals(stage.getPractiScoreId())) {
 							lineForStage = line;
-							
-							// Remove unnecessary references before stringifying to JSON
-							lineForStage.getScoreCard().setStage(null);
-							lineForStage.getScoreCard().setCompetitor(null);
-							lineForStage.getCompetitor().setMatch(null);
-							lineForStage.setStageResultData(null);
-							break;
 						}
 					}
 				}
@@ -159,4 +149,27 @@ public class MatchAnalysisController {
 		}
 	}
 
+	public Map<Integer, Double> getStagePercentagesMap(CompetitorResultData resultData, List<StageResultDataLine> stageResultDataLines) {
+			Map<Integer, Double> stagePercentages = new HashMap<Integer, Double>();
+			for (ScoreCard card : resultData.getScoreCards().values()) {
+				Double percentage = null;
+				for (StageResultDataLine line : stageResultDataLines) {
+					if (line.getScoreCard().getStage().getId().equals(card.getStage().getId())) {
+						percentage = line.getStageScorePercentage();
+
+					}
+				}
+				stagePercentages.put(card.getStage().getStageNumber(), percentage);
+			}
+			return stagePercentages;
+	}
+
+	private void removeUnnecessaryStageResultLineData(List<StageResultDataLine> lines) {
+		for (StageResultDataLine line : lines) {
+			line.getScoreCard().setStage(null);
+			line.getScoreCard().setCompetitor(null);
+			line.getCompetitor().setMatch(null);
+			line.setStageResultData(null);
+		}
+	}
 }

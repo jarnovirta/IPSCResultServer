@@ -3,7 +3,6 @@ package fi.ipscResultServer.domain.resultData;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -35,7 +34,7 @@ public class StageResultDataLine implements Serializable {
 	
 	private int stageRank;
 		
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne
 	private ScoreCard scoreCard;
 	
 	public Long getId() {
