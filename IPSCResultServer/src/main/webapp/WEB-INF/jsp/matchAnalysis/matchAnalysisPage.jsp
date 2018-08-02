@@ -21,7 +21,7 @@
 	<body>
 		<c:url var="baseUrl" value="/" />
 		<div id="wrap">
-			<div class="container" style="width: 1500px">
+			<div class="container">
 			
 				<!-- Ad zone -->
 				<c:if test="${sessionScope.adtest.adTest eq true}">
@@ -43,71 +43,172 @@
 				
 				<div id="contentDiv" class="animate-bottom">
 					<%@ include file="/WEB-INF/jsp/matchAnalysis/matchAnalysisPageHeader.jsp" %>
-					<div class="row">
-						<div class="col-xs-6">
-						
-							<h3 align='center'><span id="analysisColumnCompetitorName"></span></h3>
+					
+	<!-- MONITOR / TABLET LAYOUT -->
+					<div class="hidden-xs">
+							<div class="row">
+								<div class="col-xs-6">
+									<h3 align='center'><span id="analysisColumnCompetitorName"></span></h3>
+									<br>
+									<h4>Accuracy</h4>
+									<div id="competitorAccuracyChart-large"></div>
+									
+									<h4>Hits</h4>
+									<div class="table-responsive">
+										<table id="competitorHitsTable-large" class="table table-striped table-bordered hitsTable competitorHitsTable" width="100%"></table>
+									</div>
+									<br><br>
+									
+									<h4>Stage Results</h4>
+									<div class="table-responsive">
+										<table id="competitorStageResultsTable-large" class="table table-striped table-bordered stageResultsTable competitorStageResultsTable" width="100%"></table>
+									</div>
+									<br><br>
+									
+									<h4>Error Cost Analysis</h4>
+									<div class="table-responsive">
+										<table id="competitorErrorCostAnalysisTable-large" class="table table-striped table-bordered errorCostAnalysisTable competitorErrorCostAnalysisTable" width="100%"></table>
+									</div>
+									
+								</div>
+								<div class="col-xs-6" style="border-left: 1px solid #ccc">
+									<h3 align='center'><span id="analysisColumnCompareToCompetitorName"></span></h3>
+									<br>
+									<h4>Accuracy</h4>
+									<div id="compareToCompetitorAccuracyChart-large"></div>
+									
+									<h4>Hits</h4>
+									<div class="table-responsive">
+										<table id="compareToCompetitorHitsTable-large" class="table table-striped table-bordered hitsTable compareToCompetitorHitsTable" width="100%"></table>
+									</div>
+									<br><br>
+									
+									<h4>Stage Results</h4>
+									<div class="table-responsive">
+										<table id="compareToCompetitorStageResultsTable-large" class="table table-striped table-bordered stageResultsTable compareToCompetitorStageResultsTable" width="100%"></table>
+									</div>
+									<br><br>
+									
+									<h4>Error Cost Analysis</h4>
+									<div class="table-responsive">
+										<table id="compareToCompetitorErrorCostAnalysisTable-large" class="table table-striped table-bordered errorCostAnalysisTable compareToCompetitorErrorCostAnalysisTable" width="100%"></table>
+									</div>
+								</div>
+							</div>
 							<br>
-							<h4>Accuracy</h4>
-							<div id="competitorAccuracyChart"></div>
-							
-							<h4>Hits</h4>
-							<div class="table-responsive">
-								<table id="competitorHitsTable" class="table table-striped table-bordered" width="99%"></table>
-							</div>
-							<br><br>
-							
-							<h4>Stage Results</h4>
-							<div class="table-responsive">
-								<table id="competitorStageResultsTable" class="table table-striped table-bordered" width="99%"></table>
-							</div>
-							<br><br>
-							
-							<h4>Error Cost Analysis</h4>
-							<div class="table-responsive">
-								<table id="competitorErrorCostAnalysisTable" class="table table-striped table-bordered" width="99%"></table>
+							<hr>
+							<div class="row">
+								<div class="col-xs-6">
+									<h4 style="text-align:center">Percent by Stage <span id="percentByStageDivision"</span></h4>
+									<div id="percentByStageChart-large" align='center'></div>
+								</div>
+								<div class="col-xs-6" style="border-left: 1px solid #ccc">
+									<h4 style="text-align:center">Time by Stage</h4>
+									<div id="timeByStageChart-large" align='center'></div>
+								</div>
 							</div>
 						</div>
-						<div class="col-xs-6" style="border-left: 1px solid #ccc">
-							<h3 align='center'><span id="analysisColumnCompareToCompetitorName"></span></h3>
-							<br>
-							<h4>Accuracy</h4>
-							<div id="compareToCompetitorAccuracyChart"></div>
+
+	<!-- SMART PHONE LAYOUT -->					
+						<div class="hidden-sm hidden-md hidden-lg">
+							  <ul class="nav nav-tabs">
+							    <li class="active"><a data-toggle="tab" href="#accuracy">Accuracy</a></li>
+							    <li><a data-toggle="tab" href="#hits">Hits</a></li>
+							    <li><a data-toggle="tab" href="#stageResults">Stage Results</a></li>
+							    <li><a data-toggle="tab" href="#errorCost">Error Cost</a></li>
+							    <li><a data-toggle="tab" href="#stagePercent">Stage %</a></li>
+							    <li><a data-toggle="tab" href="#stageTimes">Stage Times</a></li>
+							  </ul>	
+							<div class="tab-content">
+								
+							<!-- ACCURACY CHART TAB -->
+   							<div id="accuracy" class="tab-pane fade in active">
+    							<ul class="nav nav-pills">
+								  <li class="active"><a href="#competitorAccuracyPill" data-toggle="pill"><span class="competitorPillName"></span></a></li>
+								  <li><a href="#compareToCompetitorAccuracyPill" data-toggle="pill"><span class="compareToCompetitorPillName"></span></a></li>
+								</ul>
+								<div class="tab-content">
+									<div id="competitorAccuracyPill" class="tab-pane active">
+	    								<div id="competitorAccuracyChart-small"></div>
+	    							</div>
+	    							<div id="compareToCompetitorAccuracyPill" class="tab-pane">
+	    								<div id="compareToCompetitorAccuracyChart-small"></div>
+	    							</div>
+								</div>
+   							</div>
 							
-							<h4>Hits</h4>
-							<div class="table-responsive">
-								<table id="compareToCompetitorHitsTable" class="table table-striped table-bordered" width="99%"></table>
-							</div>
-							<br><br>
-							
-							<h4>Stage Results</h4>
-							<div class="table-responsive">
-								<table id="compareToCompetitorStageResultsTable" class="table table-striped table-bordered" width="99%"></table>
-							</div>
-							<br><br>
-							
-							<h4>Error Cost Analysis</h4>
-							<div class="table-responsive">
-								<table id="compareToCompetitorErrorCostAnalysisTable" class="table table-striped table-bordered" width="99%"></table>
-							</div>
-						</div>
-					</div>
-					<br>
-					<hr>
-					<br>
-					<div class="col-xs-6">
-						<h4>Percent by Stage <span id="percentByStageDivision"</span></h4>
-						<br>
-						<div id="percentByStageChart" align='center'></div>
-					</div>
-					<div class="col-xs-6">
-						<h4>Time by Stage</h4>
-						<br>
-						<div id="timeByStageChart" align='center'></div>
-						<br><br><br><br>
+							<!-- HITS TABLE TAB -->
+   							<div id="hits" class="tab-pane fade in">
+    							<ul class="nav nav-pills">
+								  <li class="active"><a href="#competitorHitsPill" data-toggle="pill"><span class="competitorPillName"></span></a></li>
+								  <li><a href="#compareToCompetitorHitsPill" data-toggle="pill"><span class="compareToCompetitorPillName"></span></a></li>
+								</ul>
+								<div class="tab-content">
+									<div id="competitorHitsPill" class="tab-pane active">
+	    								<div class="table-responsive">
+											<table id="competitorHitsTable-small" class="table table-striped table-bordered hitsTable competitorHitsTable" width="100%"></table>
+										</div>
+	    							</div>
+	    							<div id="compareToCompetitorHitsPill" class="tab-pane">
+	    								<div class="table-responsive">
+											<table id="compareToCompetitorHitsTable-small" class="table table-striped table-bordered hitsTable compareToCompetitorHitsTable" width="100%"></table>
+										</div>
+	    							</div>
+								</div>   							
+   							</div>
+   							
+   							<!-- STAGE RESULTS TAB -->
+   							<div id="stageResults" class="tab-pane fade in">
+    							<ul class="nav nav-pills">
+								  <li class="active"><a href="#competitorStageResultsPill" data-toggle="pill"><span class="competitorPillName"></span></a></li>
+								  <li><a href="#compareToCompetitorStageResultsPill" data-toggle="pill"><span class="compareToCompetitorPillName"></span></a></li>
+								</ul>
+								<div class="tab-content">
+									<div id="competitorStageResultsPill" class="tab-pane active">
+		   								<div class="table-responsive">
+											<table id="competitorStageResultsTable-small" class="table table-striped table-bordered stageResultsTable competitorStageResultsTable" width="100%"></table>
+										</div>
+	    							</div>
+	    							<div id="compareToCompetitorStageResultsPill" class="tab-pane">
+		   								<div class="table-responsive">
+											<table id="compareToCompetitorStageResultsTable-small" class="table table-striped table-bordered stageResultsTable compareToCompetitorStageResultsTable" width="100%"></table>
+										</div>
+	    							</div>
+								</div>    							
+   							</div>
+   							
+   							<!-- ERROR COST TAB -->
+   							<div id="errorCost" class="tab-pane fade in">
+    							<ul class="nav nav-pills">
+								  <li class="active"><a href="#competitorErrorCostPill" data-toggle="pill"><span class="competitorPillName"></span></a></li>
+								  <li><a href="#compareToCompetitorErrorCostPill" data-toggle="pill"><span class="compareToCompetitorPillName"></span></a></li>
+								</ul>
+								<div class="tab-content">
+									<div id="competitorErrorCostPill" class="tab-pane active">
+		   								<div class="table-responsive">
+											<table id="competitorErrorCostAnalysisTable-small" class="table table-striped table-bordered errorCostAnalysisTable competitorErrorCostAnalysisTable" width="100%"></table>
+										</div>
+			    							</div>
+	    							<div id="compareToCompetitorErrorCostPill" class="tab-pane">
+		   								<div class="table-responsive">
+											<table id="compareToCompetitorErrorCostAnalysisTable-small" class="table table-striped table-bordered errorCostAnalysisTable compareToCompetitorErrorCostAnalysisTable" width="100%"></table>
+										</div>
+	    							</div>
+								</div>     							
+   							</div>
+   							
+   							<!-- STAGE PERCENT CHART TAB -->
+   							<div id="stagePercent" class="tab-pane fade in">
+   								<div id="percentByStageChart-small" align='center'></div>
+   							</div>
+   							
+   							<!-- STAGE TIMES CHART TAB -->
+     							<div id="stageTimes" class="tab-pane fade in">
+   								<div id="timeByStageChart-small" align='center'></div>
+    						</div>
+    					</div>
 					</div>
 				</div>
-				
 				<c:if test="${sessionScope.adtest.adTest eq true}">
 					<%@ include file="/WEB-INF/jsp/adZones/pageBottomAdZone.jsp" %>
 				</c:if>
