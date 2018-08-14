@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import fi.ipscResultServer.domain.Match;
 import fi.ipscResultServer.domain.MatchStatus;
-import fi.ipscResultServer.exception.DatabaseException;
 import fi.ipscResultServer.service.MatchService;
 
 
@@ -30,15 +29,15 @@ public class ApiController {
 			// Save match definition data
 			Match dbMatch = matchService.findByPractiScoreId(matchData.getMatch().getPractiScoreId());
 			if (dbMatch != null && dbMatch.getStatus() != MatchStatus.SCORING) {
-				return new ResponseEntity<String>("Scoring not open for match", null, HttpStatus.BAD_REQUEST);
+				return new ResponseEntity<String>("Scoring not open for match!", null, HttpStatus.BAD_REQUEST);
 				
 			}
 			matchService.saveMatchData(matchData);
 			
-			return new ResponseEntity<String>("Match data saved", null, HttpStatus.OK);
+			return new ResponseEntity<String>("Match data saved!", null, HttpStatus.OK);
 		}
-		catch (DatabaseException e) {
-			return new ResponseEntity<String>("Error occurred while saving data", null, HttpStatus.INTERNAL_SERVER_ERROR);
+		catch (Exception e) {
+			return new ResponseEntity<String>("Error occurred on server!", null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
