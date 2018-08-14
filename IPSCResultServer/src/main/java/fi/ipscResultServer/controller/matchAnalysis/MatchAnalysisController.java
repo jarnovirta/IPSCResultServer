@@ -165,10 +165,14 @@ public class MatchAnalysisController {
 	}
 
 	private void removeUnnecessaryStageResultLineData(List<StageResultDataLine> lines) {
+		if (lines == null) return;
 		for (StageResultDataLine line : lines) {
-			line.getScoreCard().setStage(null);
-			line.getScoreCard().setCompetitor(null);
-			line.getCompetitor().setMatch(null);
+			if (line == null) continue;
+			if (line.getScoreCard() != null) {
+				line.getScoreCard().setStage(null);
+				line.getScoreCard().setCompetitor(null);
+			}
+			if (line.getCompetitor() != null) line.getCompetitor().setMatch(null);
 			line.setStageResultData(null);
 		}
 	}

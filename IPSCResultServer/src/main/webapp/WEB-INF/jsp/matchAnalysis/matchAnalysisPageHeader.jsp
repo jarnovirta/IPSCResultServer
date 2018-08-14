@@ -31,8 +31,6 @@
 	        		<td>
 	        			
 		        			<select id="compareToCompetitor" name="compareToCompetitorId" class="form-control" ></select>
-							
-						
 	        		</td>
 	        		<td>
 	        			<button class="btn btn-large btn-default" onclick="submitCompetitorsChange()" type="button">Show</button>

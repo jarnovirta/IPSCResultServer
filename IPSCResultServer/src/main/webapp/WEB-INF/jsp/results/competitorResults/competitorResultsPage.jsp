@@ -31,7 +31,10 @@
 
 				<%@ include file="/WEB-INF/jsp/results/competitorResults/competitorResultsPageHeader.jsp" %>	
 				<br>
-				
+				<c:url var="matchAnalysisUrl" value='/matchAnalysis' >
+					<c:param name="matchId" value="${resultData.match.practiScoreId }" />
+					<c:param name="competitorId" value="${resultData.competitor.practiScoreId }" />
+				</c:url>
 				<c:choose>
 					<c:when test="${resultData.match.status eq 'CLOSED'}">
 						<h3>Match is closed.</h3>
@@ -39,16 +42,9 @@
 					<c:otherwise>
 						<%@ include file="/WEB-INF/jsp/results/competitorResults/competitorResultsTable.jsp" %>	
 						<br>
-						<c:if test="${resultData.match.status eq 'SCORING_ENDED' }">
-							<c:url var="matchAnalysisUrl" value='/matchAnalysis' >
-								<c:param name="matchId" value="${resultData.match.practiScoreId }" />
-								<c:param name="competitorId" value="${resultData.competitor.practiScoreId }" />
-							</c:url>
-							<a href="${matchAnalysisUrl }">
-								<button class="btn btn-large btn-primary" type="button">Match Analysis</button>
-							</a>
-						</c:if>
-						<%-- <%@ include file="/WEB-INF/jsp/results/competitorResults/errorCostAnalysisTable.jsp" %>	 --%>
+						<a href="${matchAnalysisUrl }">
+							<button class="btn btn-large btn-primary" type="button">Match Analysis</button>
+						</a>
 					</c:otherwise>
 				</c:choose>
 				<br><br><br><br>

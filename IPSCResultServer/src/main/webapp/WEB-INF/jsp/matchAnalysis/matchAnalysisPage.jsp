@@ -51,20 +51,18 @@
 									<h3 align='center'><span id="analysisColumnCompetitorName"></span></h3>
 									<br>
 									<h4>Accuracy</h4>
-									<div id="competitorAccuracyChart-large"></div>
-									
+									<div id="competitorAccuracyChart-large" align='center'></div>
+									<hr>
 									<h4>Hits</h4>
 									<div class="table-responsive">
 										<table id="competitorHitsTable-large" class="table table-striped table-bordered hitsTable competitorHitsTable" width="100%"></table>
 									</div>
-									<br><br>
-									
+									<hr>
 									<h4>Stage Results</h4>
 									<div class="table-responsive">
 										<table id="competitorStageResultsTable-large" class="table table-striped table-bordered stageResultsTable competitorStageResultsTable" width="100%"></table>
 									</div>
-									<br><br>
-									
+									<hr>
 									<h4>Error Cost Analysis</h4>
 									<div class="table-responsive">
 										<table id="competitorErrorCostAnalysisTable-large" class="table table-striped table-bordered errorCostAnalysisTable competitorErrorCostAnalysisTable" width="100%"></table>
@@ -76,19 +74,17 @@
 									<br>
 									<h4>Accuracy</h4>
 									<div id="compareToCompetitorAccuracyChart-large"></div>
-									
+									<hr>
 									<h4>Hits</h4>
 									<div class="table-responsive">
 										<table id="compareToCompetitorHitsTable-large" class="table table-striped table-bordered hitsTable compareToCompetitorHitsTable" width="100%"></table>
 									</div>
-									<br><br>
-									
+									<hr>									
 									<h4>Stage Results</h4>
 									<div class="table-responsive">
 										<table id="compareToCompetitorStageResultsTable-large" class="table table-striped table-bordered stageResultsTable compareToCompetitorStageResultsTable" width="100%"></table>
 									</div>
-									<br><br>
-									
+									<hr>									
 									<h4>Error Cost Analysis</h4>
 									<div class="table-responsive">
 										<table id="compareToCompetitorErrorCostAnalysisTable-large" class="table table-striped table-bordered errorCostAnalysisTable compareToCompetitorErrorCostAnalysisTable" width="100%"></table>
@@ -108,37 +104,37 @@
 								</div>
 							</div>
 						</div>
-
+						<br><br><br>
 	<!-- SMART PHONE LAYOUT -->					
 						<div class="hidden-sm hidden-md hidden-lg">
 							  <ul class="nav nav-tabs">
-							    <li class="active"><a data-toggle="tab" href="#accuracy">Accuracy</a></li>
-							    <li><a data-toggle="tab" href="#hits">Hits</a></li>
-							    <li><a data-toggle="tab" href="#stageResults">Stage Results</a></li>
-							    <li><a data-toggle="tab" href="#errorCost">Error Cost</a></li>
-							    <li><a data-toggle="tab" href="#stagePercent">Stage %</a></li>
-							    <li><a data-toggle="tab" href="#stageTimes">Stage Times</a></li>
+							    <li class="active"><a data-toggle="tab" href="#accuracyTab">Accuracy</a></li>
+							    <li><a data-toggle="tab" href="#hitsTab">Hits</a></li>
+							    <li><a data-toggle="tab" href="#stageResultsTab">Stage Results</a></li>
+							    <li><a data-toggle="tab" href="#errorCostTab">Error Cost</a></li>
+							    <li><a data-toggle="tab" href="#stagePercentTab">Stage %</a></li>
+							    <li><a data-toggle="tab" href="#stageTimesTab">Stage Times</a></li>
 							  </ul>	
 							<div class="tab-content">
 								
 							<!-- ACCURACY CHART TAB -->
-   							<div id="accuracy" class="tab-pane fade in active">
+   							<div id="accuracyTab" class="tab-pane fade in active">
     							<ul class="nav nav-pills">
 								  <li class="active"><a href="#competitorAccuracyPill" data-toggle="pill"><span class="competitorPillName"></span></a></li>
 								  <li><a href="#compareToCompetitorAccuracyPill" data-toggle="pill"><span class="compareToCompetitorPillName"></span></a></li>
 								</ul>
 								<div class="tab-content">
 									<div id="competitorAccuracyPill" class="tab-pane active">
-	    								<div id="competitorAccuracyChart-small"></div>
+	    								<div id="competitorAccuracyChart-small" align='center'></div>
 	    							</div>
 	    							<div id="compareToCompetitorAccuracyPill" class="tab-pane">
-	    								<div id="compareToCompetitorAccuracyChart-small"></div>
+	    								<div id="compareToCompetitorAccuracyChart-small" align='center'></div>
 	    							</div>
 								</div>
    							</div>
 							
 							<!-- HITS TABLE TAB -->
-   							<div id="hits" class="tab-pane fade in">
+   							<div id="hitsTab" class="tab-pane fade in">
     							<ul class="nav nav-pills">
 								  <li class="active"><a href="#competitorHitsPill" data-toggle="pill"><span class="competitorPillName"></span></a></li>
 								  <li><a href="#compareToCompetitorHitsPill" data-toggle="pill"><span class="compareToCompetitorPillName"></span></a></li>
@@ -158,7 +154,7 @@
    							</div>
    							
    							<!-- STAGE RESULTS TAB -->
-   							<div id="stageResults" class="tab-pane fade in">
+   							<div id="stageResultsTab" class="tab-pane fade in">
     							<ul class="nav nav-pills">
 								  <li class="active"><a href="#competitorStageResultsPill" data-toggle="pill"><span class="competitorPillName"></span></a></li>
 								  <li><a href="#compareToCompetitorStageResultsPill" data-toggle="pill"><span class="compareToCompetitorPillName"></span></a></li>
@@ -178,7 +174,7 @@
    							</div>
    							
    							<!-- ERROR COST TAB -->
-   							<div id="errorCost" class="tab-pane fade in">
+   							<div id="errorCostTab" class="tab-pane fade in">
     							<ul class="nav nav-pills">
 								  <li class="active"><a href="#competitorErrorCostPill" data-toggle="pill"><span class="competitorPillName"></span></a></li>
 								  <li><a href="#compareToCompetitorErrorCostPill" data-toggle="pill"><span class="compareToCompetitorPillName"></span></a></li>
@@ -198,13 +194,17 @@
    							</div>
    							
    							<!-- STAGE PERCENT CHART TAB -->
-   							<div id="stagePercent" class="tab-pane fade in">
+   							<div id="stagePercentTab" class="tab-pane fade in">
+   								<br>
    								<div id="percentByStageChart-small" align='center'></div>
    							</div>
    							
    							<!-- STAGE TIMES CHART TAB -->
-     							<div id="stageTimes" class="tab-pane fade in">
-   								<div id="timeByStageChart-small" align='center'></div>
+     						<div id="stageTimesTab" class="tab-pane fade in">
+     							<br>
+     							<div id="testWrapper">
+     								<div id="timeByStageChart-small" align='center'></div>
+     							</div>
     						</div>
     					</div>
 					</div>

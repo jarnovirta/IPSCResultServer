@@ -12,19 +12,22 @@ var match;
 var competitorMatchAnalysisData;
 var compareToCompetitorMatchAnalysisData;
 
+
 $(document).ready(function() {
 	hideContent();
 	initializeHitsTable('hitsTable');
 	initializeStageResultsTable('stageResultsTable');
 	initializeErrorCostAnalysisTable('errorCostAnalysisTable');
-	
-//	TODO: redraw charts and tables more specifically, not all always
-	
+
+	// Attach events for tab and pill change to redraw charts and tables
+	// to ensure they are drawn correctly.
 	$(document).on('shown.bs.tab', 'a[data-toggle="pill"]', function (e) {
-		showContent();
+		var targetPillHref = $(e.target).attr("href").substring(1);
+		redrawChartOrTable(targetPillHref);
 	});
 	$(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
-		showContent();
+		var targetTabHref = $(e.target).attr("href").substring(1);
+		redrawChartOrTable(targetTabHref);
 	});
 	
 });
@@ -34,7 +37,53 @@ google.charts.load('current', {'packages':['corechart', 'line']});
 google.charts.setOnLoadCallback(function() {
 	chartsReady = true;
 });
- 
+
+// Must redraw charts and tables when first shown to make sure they are displayed
+// correctly
+
+function redrawChartOrTable(targetHref) {
+	
+	switch(targetHref) {
+	case "accuracyTab":
+	case "competitorAccuracyPill":
+		drawAccuracyPieChart('competitorAccuracyChart-small', competitorMatchAnalysisData);
+		break;
+	case "compareToCompetitorAccuracyPill":
+		drawAccuracyPieChart('compareToCompetitorAccuracyChart-small', compareToCompetitorMatchAnalysisData);
+		break;
+	case "hitsTab":
+	case "competitorHitsPill":
+		updateHitsTable('competitorHitsTable', competitorMatchAnalysisData);
+		
+		break;
+	case "compareToCompetitorHitsPill":
+		updateHitsTable('compareToCompetitorHitsTable', compareToCompetitorMatchAnalysisData);
+		break;
+	case "stageResultsTab":
+	case "competitorStageResultsPill":
+		updateStageResultsTable('competitorStageResultsTable', competitorMatchAnalysisData);
+		setStageResultsTableCellColors();
+		break;
+	case "compareToCompetitorStageResultsPill":
+		updateStageResultsTable('compareToCompetitorStageResultsTable', compareToCompetitorMatchAnalysisData);
+		setStageResultsTableCellColors();
+		break;
+	case "errorCostTab":
+	case "competitorErrorCostPill":
+		updateErrorCostAnalysisTable('competitorErrorCostAnalysisTable', competitorMatchAnalysisData);
+		break;
+	case "compareToCompetitorErrorCostPill":
+		updateErrorCostAnalysisTable('compareToCompetitorErrorCostAnalysisTable', compareToCompetitorMatchAnalysisData);
+		break;
+	case "stageTimesTab":
+		drawTimeByStageChart();
+		break;
+	case "stagePercentTab":
+		drawPercentByStageChart();
+		break;
+	}
+}
+
 function getChartData(matchId, competitorId, compareToCompetitorId) {
 	var path = window.location.pathname.substr(0, window.location.pathname.lastIndexOf('/'));
 	path += '/matchAnalysis/data?matchId=' + matchId + '&competitorId=' + competitorId;
@@ -49,18 +98,33 @@ function handleAjaxResponse(data, status) {
 	}
 	else {
 		if (chartsReady == true) {
-			setContentData(data);
-			showContent();
+			chartsReadyEventHandler(data);
 		}
 		else {
 			var interval = setInterval(function() {
 				if (chartsReady == true) {
 					clearInterval(interval);
-					setContentData(data);
-					showContent();
+					chartsReadyEventHandler(data);
 				}
 			}, 50);
 		}
+	}
+}
+
+function chartsReadyEventHandler(data) {
+	setContentData(data);
+	showContent();
+	setWindowResizeEventListener();
+}
+function setWindowResizeEventListener() {
+	if (document.addEventListener) {
+	    window.addEventListener('resize', drawCharts);
+	}
+	else if (document.attachEvent) {
+	    window.attachEvent('onresize', drawCharts);
+	}
+	else {
+	    window.resize = drawCharts;
 	}
 }
 
@@ -68,7 +132,10 @@ function setContentData(data) {
 	match = data.match;
 	competitorMatchAnalysisData = data.competitorMatchAnalysisData;
 	compareToCompetitorMatchAnalysisData = data.compareToCompetitorMatchAnalysisData;
-			
+	
+	competitorMatchAnalysisData.empty = emptyResultData(competitorMatchAnalysisData);
+	compareToCompetitorMatchAnalysisData.empty = emptyResultData(compareToCompetitorMatchAnalysisData);
+	
 	setCompetitorName(competitorMatchAnalysisData);
 	setCompetitorName(compareToCompetitorMatchAnalysisData);
 	
@@ -81,6 +148,13 @@ function setContentData(data) {
 	
 	setCompetitorSelectElements();
 }
+function emptyResultData(resultData) {
+	var empty = true;
+	$.each(resultData.stageResultDataLines, function(index, line) {
+		if (line != null) empty = false;
+	});
+	return empty;
+}
 
 function setCompetitorHitSums(competitorData) {
 	competitorData.aHitsSum = 0;
@@ -90,6 +164,7 @@ function setCompetitorHitSums(competitorData) {
 	competitorData.noshootHitsSum = 0;
 	competitorData.proceduralPenaltiesSum = 0;
 	$.each(competitorData.stageResultDataLines, function(key, line) {
+		if (line == null) return true;
 		competitorData.aHitsSum += line.scoreCard.aHits;
 		competitorData.cHitsSum += line.scoreCard.cHits;
 		competitorData.dHitsSum += line.scoreCard.dHits;
@@ -124,26 +199,29 @@ function showContent() {
 	
 	// Must draw tables and charts after showing div to make sure
 	// they are drawn correctly
-	drawAccuracyPieChart('competitorAccuracyChart-large', competitorMatchAnalysisData);
-	drawAccuracyPieChart('competitorAccuracyChart-small', competitorMatchAnalysisData);
-	
-	drawAccuracyPieChart('compareToCompetitorAccuracyChart-large', compareToCompetitorMatchAnalysisData);
-	drawAccuracyPieChart('compareToCompetitorAccuracyChart-small', compareToCompetitorMatchAnalysisData);
-	
+	drawCharts();
 	updateStageResultsTable('competitorStageResultsTable', competitorMatchAnalysisData);
 	updateStageResultsTable('compareToCompetitorStageResultsTable', compareToCompetitorMatchAnalysisData);
 	
-//	setStageResultsTableCellColors();
+	setStageResultsTableCellColors();
 	
 	updateHitsTable('competitorHitsTable', competitorMatchAnalysisData);
 	updateHitsTable('compareToCompetitorHitsTable', compareToCompetitorMatchAnalysisData);
 
 	updateErrorCostAnalysisTable('competitorErrorCostAnalysisTable', competitorMatchAnalysisData);
 	updateErrorCostAnalysisTable('compareToCompetitorErrorCostAnalysisTable', compareToCompetitorMatchAnalysisData);
+
+}
+
+function drawCharts() {
+	drawAccuracyPieChart('competitorAccuracyChart-large', competitorMatchAnalysisData);
+	drawAccuracyPieChart('competitorAccuracyChart-small', competitorMatchAnalysisData);
 	
+	drawAccuracyPieChart('compareToCompetitorAccuracyChart-large', compareToCompetitorMatchAnalysisData);
+	drawAccuracyPieChart('compareToCompetitorAccuracyChart-small', compareToCompetitorMatchAnalysisData);
 	drawTimeByStageChart();
 	drawPercentByStageChart();
-
+	
 }
 
 function hideContent() {
@@ -170,8 +248,6 @@ function setPageGeneralInfoElements() {
 function setCompetitorSelectElements() {
 	setCompetitorSelectOptions('competitor', competitorMatchAnalysisData.competitor);
 	setCompetitorSelectOptions('compareToCompetitor', compareToCompetitorMatchAnalysisData.competitor);
-	
-	
 }
 
 function adjustColumns(tableId) {
@@ -463,8 +539,6 @@ function drawPercentByStageChart() {
 	data.addRows(rows);
 	
 	var options = {
-		width: 300,
-		height: 400,
 		vAxis: {format: '#.##' },
 		chartArea: { width: '85%', height: '80%'},
         legend: { position: 'top'}
@@ -487,16 +561,18 @@ function drawTimeByStageChart() {
 	
 	var rows = [];
 	$.each(match.match_stages, function(index, stage) {
-		rows[index] = [stage.stage_number.toString(),
-			competitorMatchAnalysisData.stageResultDataLines[stage.stage_uuid].scoreCard.time,
-			compareToCompetitorMatchAnalysisData.stageResultDataLines[stage.stage_uuid].scoreCard.time];
+		var competitorTime = null;
+		var compareToCompetitorTime = null;
+		
+		if (competitorMatchAnalysisData.empty == false && competitorMatchAnalysisData.stageResultDataLines[stage.stage_uuid] != null) competitorTime = competitorMatchAnalysisData.stageResultDataLines[stage.stage_uuid].scoreCard.time;
+		if (compareToCompetitorMatchAnalysisData.empty == false && compareToCompetitorMatchAnalysisData.stageResultDataLines[stage.stage_uuid] != null) compareToCompetitorTime = compareToCompetitorMatchAnalysisData.stageResultDataLines[stage.stage_uuid].scoreCard.time;
+		rows[index] = [stage.stage_number.toString(), competitorTime,
+			compareToCompetitorTime];
 	});
 
 	data.addRows(rows);
 	
 	var options = {
-		width: 300,
-		height: 400,
 		chartArea: { width: '85%', height: '80%'},
         legend: { position: 'top'}
 		

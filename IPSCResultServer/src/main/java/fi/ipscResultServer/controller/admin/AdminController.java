@@ -14,11 +14,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import fi.ipscResultServer.domain.Match;
 import fi.ipscResultServer.domain.MatchStatus;
 import fi.ipscResultServer.domain.User;
 import fi.ipscResultServer.exception.DatabaseException;
 import fi.ipscResultServer.service.MatchService;
+import fi.ipscResultServer.service.StatisticsService;
 import fi.ipscResultServer.service.UserService;
+import fi.ipscResultServer.service.resultDataService.MatchResultDataService;
 
 @Controller
 @RequestMapping("/admin")
@@ -29,6 +32,12 @@ public class AdminController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private MatchResultDataService matchResultDataService;
+	
+	@Autowired
+	private StatisticsService statisticsService;
 	
 	final static Logger logger = Logger.getLogger(AdminController.class);
 	
@@ -80,6 +89,13 @@ public class AdminController {
 			@RequestParam("status") MatchStatus status, Model model) {
 		try {
 			matchService.setMatchStatus(matchId, status);
+			Match match = matchService.getOne(matchId);
+			if (status == MatchStatus.SCORING_ENDED) {
+				logger.info("Generating match result listing...");
+				matchResultDataService.generateMatchResultListing(match);
+				logger.info("Generating statistics...");
+				statisticsService.generateCompetitorStatistics(match);
+			}
 		}
 		catch (Exception e) {
 			logger.error(e.getMessage());

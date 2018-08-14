@@ -47,16 +47,12 @@ public class MatchService {
 	private CompetitorService competitorService;
 	
 	final static Logger logger = Logger.getLogger(MatchService.class);
-	
+
 	@Transactional
 	public void saveMatchData(MatchData matchData) throws DatabaseException {
 		Match match = saveMatchDef(matchData.getMatch());
-		
-		saveScores(matchData.getMatchScore().getStageScores(), match);
-		logger.info("Generating match result listing...");
-		matchResultDataService.generateMatchResultListing(match);
-		logger.info("Generating statistics...");
-		statisticsService.generateCompetitorStatistics(match);
+		if (matchData.getMatchScore() != null) saveScores(matchData.getMatchScore().getStageScores(), match);
+
 		logger.info("**** MATCH RESULT DATA SAVE DONE");
 	}
 	@Transactional
@@ -124,7 +120,6 @@ public class MatchService {
 						stage = savedStage;
 					}
 				}
-				
 				// Skip results for deleted stages
 				if (stage == null || stage.isDeleted() == true) continue;
 				

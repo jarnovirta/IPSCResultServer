@@ -60,6 +60,7 @@ public class MatchResultDataService {
 	@Transactional
 	public MatchResultData generateMatchResultListing(Match match) throws DatabaseException {
 		logger.info("Generating match result data...");
+		
 		for (String division : match.getDivisionsWithResults()) {
 			MatchResultData matchResultData = new MatchResultData(match, division);
 			List<MatchResultDataLine> dataLines = new ArrayList<MatchResultDataLine>();
