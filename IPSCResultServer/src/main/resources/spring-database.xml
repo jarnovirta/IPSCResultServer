@@ -38,20 +38,20 @@
  	</bean>
  	<!-- DEVELOPMENT DATABASE CONF-->
   	
-  <!-- <bean id="dataSource"
+  <bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="url" value="jdbc:mysql://localhost:3306/ipsc_result_server?useUnicode=true&amp;characterEncoding=utf8" />
 		<property name="username" value="root" />
 		<property name="password" value="" />
-	</bean> -->  
+	</bean> 
  	
- 	<!-- PRODUCTION DATABASE CONF    -->  
+ 	<!-- PRODUCTION DATABASE CONF   
 		<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="url" value="jdbc:mysql://mysql3000.mochahost.com:3306/kkiipsc2_ipsc_result_server?useUnicode=true&amp;characterEncoding=utf8" />
 		<property name="username" value="kkiipsc2_app" />
 		<property name="password" value="haur18" />
-	</bean>      
+	</bean>       -->
 </beans>

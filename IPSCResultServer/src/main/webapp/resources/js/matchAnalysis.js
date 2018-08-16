@@ -176,7 +176,7 @@ function setCompetitorHitSums(competitorData) {
 }
 function setCompetitorsByDivisionList() {
 	competitorsByDivision = {};
-	$.each(match.divisionsWithResults, function(key, division) {
+	$.each(match.match_cats, function(key, division) {
 		if (division != 'Combined' && !Object.keys(competitorsByDivision).includes(division)) competitorsByDivision[division] = [];
 	});
 	$.each(match.match_shooters, function(key, competitor) {
@@ -455,12 +455,16 @@ function updateErrorCostAnalysisTable(tableClass, competitorData) {
 			+ stage.stage_name;
 		var aTime;
 		var errorCosts;
-		if (line.scoreCard.hitFactor > 0) {
+		var stageValue = "";
+		var time = "-";
+		if (line != null && line.scoreCard.hitFactor > 0) {
 			aTime = line.aTime;
 			errorCosts = "C=" + line.cCost.toString().replace(".", ",");
 			errorCosts +=" / D=" + line.dCost.toString().replace(".", ",");
 			errorCosts +=" / NS=" + line.proceduralPenaltyAndNoShootCost.toString().replace(".", ",");
 			errorCosts +=" / Miss=" + line.missCost.toString().replace(".", ",");
+			stageValue = stage.maxPoints + " (" + line.stageValuePercentage + "%)";
+			time = line.scoreCard.time
 		}
 		else {
 			aTime = "-";
@@ -469,8 +473,8 @@ function updateErrorCostAnalysisTable(tableClass, competitorData) {
 		
 		dataSet[index] = [
 			"<a href='" + stageResultsPath + "'>"+ stageName + '</a>',
-			stage.maxPoints + " (" + line.stageValuePercentage + "%)",
-			line.scoreCard.time,
+			stageValue,
+			time,
 			aTime,
 			errorCosts
 		]

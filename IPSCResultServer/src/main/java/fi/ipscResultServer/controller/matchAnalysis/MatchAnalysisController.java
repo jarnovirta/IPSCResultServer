@@ -154,7 +154,7 @@ public class MatchAnalysisController {
 			for (ScoreCard card : resultData.getScoreCards().values()) {
 				Double percentage = null;
 				for (StageResultDataLine line : stageResultDataLines) {
-					if (line.getScoreCard().getStage().getId().equals(card.getStage().getId())) {
+					if (line != null && line.getScoreCard() != null && line.getScoreCard().getStage().getId().equals(card.getStage().getId())) {
 						percentage = line.getStageScorePercentage();
 
 					}

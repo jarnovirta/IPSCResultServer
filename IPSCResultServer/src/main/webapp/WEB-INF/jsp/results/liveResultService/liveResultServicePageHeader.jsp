@@ -55,8 +55,8 @@
 					</div>
 				</div>
 		</td>
-		<td class="liveResultServiceAdZone">
+<%-- 		<td class="liveResultServiceAdZone">
 			<%@ include file="/WEB-INF/jsp/adZones/liveResultServicePageAdZone.jsp" %>
-		</td>
+		</td> --%>
 	</tr>
 </table>
