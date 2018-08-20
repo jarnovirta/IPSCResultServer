@@ -1,5 +1,6 @@
 MY�S STAGE RESULTS STATISTIIKASSA COMBINED/DIV RESULTS
 DQ kisaaja: Ei lainkaan dataa match analysis sivulla
+Lisää joukkuetulokset
 
 Live result service: rivimäärän sijaan resoluutio ja ohjelma päättää montako divisioonaa samaan aikaan ja montako riviä.
 
