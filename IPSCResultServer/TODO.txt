@@ -1,5 +1,5 @@
 MY�S STAGE RESULTS STATISTIIKASSA COMBINED/DIV RESULTS
-DQ kisaaja: aiheuttaa ongelman Match Analysis
+DQ kisaaja: Ei lainkaan dataa match analysis sivulla
 
 Live result service: rivimäärän sijaan resoluutio ja ohjelma päättää montako divisioonaa samaan aikaan ja montako riviä.
 
