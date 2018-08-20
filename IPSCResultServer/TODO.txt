@@ -26,6 +26,7 @@ EI KIIREELLISET:
 - Korjaa stage rank verify listassa: nÃ¤yttÃ¤Ã¤ combined, ei divisioona. Poista comment out verify-listan JSP:stÃ¤.
 - Korjaa virheviestit datan lï¿½hetyksen aikana, niin ettï¿½ nï¿½yttï¿½ï¿½ palvelimen viestin. Nyt vain virhekoodi.
 - Tee SSI-PS registration import
+- Favicon: ei ole ja aiheuttaa virheitä lokiin.
 
 TESTIT:
 	- MitÃ¤ practiscore tekee, jos luodaan eri laitteilla sama walkin kilpailija? Tallentaako se monta kertaa saman kilpailijan,
