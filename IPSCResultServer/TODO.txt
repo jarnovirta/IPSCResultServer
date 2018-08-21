@@ -1,6 +1,9 @@
+Korjaa datan tallennus seuraavasti: tallennettaessa vain scorecards tallennus, stage results lasketaan muistissa, eli haku hf järjestyksessä. Sitten kisatulosdata kun scoring ended?
+
 MY�S STAGE RESULTS STATISTIIKASSA COMBINED/DIV RESULTS
 DQ kisaaja: Ei lainkaan dataa match analysis sivulla
 Lisää joukkuetulokset
+
 
 
 Virhe ilmeisesti MatchAnalysis DQ kisaajalle:
