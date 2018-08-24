@@ -1,3 +1,5 @@
+EXPLORER EI TUE .INCLUDES
+
 Korjaa datan tallennus seuraavasti: tallennettaessa vain scorecards tallennus, stage results lasketaan muistissa, eli haku hf järjestyksessä. Sitten kisatulosdata kun scoring ended?
 
 MY�S STAGE RESULTS STATISTIIKASSA COMBINED/DIV RESULTS
