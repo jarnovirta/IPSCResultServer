@@ -159,7 +159,6 @@ public class ScoreCard implements Serializable, Comparable<ScoreCard> {
 		this.popperNonPenaltyMisses = popperNonPenaltyMisses;
 		
 	}
-
 	public int getPopperNoshootHits() {
 		return popperNoshootHits;
 	}
@@ -189,11 +188,6 @@ public class ScoreCard implements Serializable, Comparable<ScoreCard> {
 	}
 	
 	public void setHitsAndPoints() {
-		aHits = 0;
-		cHits = 0;
-		dHits = 0;
-		noshootHits = 0;
-		misses = 0;
 		
 		// Count total hits from PractiScore hits data
 		int cHitsBitShift = 8;
@@ -202,7 +196,6 @@ public class ScoreCard implements Serializable, Comparable<ScoreCard> {
 		int missesBitShift = 20;
 		
 		int bitMask = 0xF;
-
 		
 		for (int hits : paperTargetHits) {
 			this.aHits += hits & bitMask;
