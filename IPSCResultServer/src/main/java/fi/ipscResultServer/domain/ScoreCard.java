@@ -79,7 +79,7 @@ public class ScoreCard implements Serializable, Comparable<ScoreCard> {
 	
 	@JsonProperty("ts")
 	@Transient
-	private int[] paperTargetHits;
+	private int[] paperTargetHits = {};
 	
 	private int aHits = 0;
 	

@@ -1,6 +1,7 @@
 package fi.ipscResultServer.controller.api;
 
 import org.apache.log4j.Logger;
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +38,7 @@ public class ApiController {
 			return new ResponseEntity<String>("Match data saved!", null, HttpStatus.OK);
 		}
 		catch (Exception e) {
+			logger.error(ExceptionUtils.getStackTrace(e));
 			return new ResponseEntity<String>("Error occurred on server!", null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}

@@ -343,16 +343,21 @@ function drawStageResultsTableColors(competitorTable, compareToCompetitorTable) 
 	competitorTable.cells().eq(0).each(function (index) {
 	    var node = competitorTable.cell(index).node();
 	    var compareToNode = compareToCompetitorTable.cell(index).node();
-	    var hitFactor = competitorTable.row(index.row).data()[9];
-    	var compareToHitFactor = compareToCompetitorTable.row(index.row).data()[9];
-    	
-    	if (hitFactor > compareToHitFactor) {
+	    var rowData = competitorTable.row(index.row).data();
+	    var compareToCompetitorRowData = compareToCompetitorTable.row(index.row).data();
+	    if (rowData == null || compareToCompetitorRowData == null) return;
+	    var hitFactor = rowData[9];
+	    var compareToCompetitorHitFactor = compareToCompetitorRowData[9];
+	    
+	    if (hitFactor == null || compareToCompetitorHitFactor == null || isNaN(hitFactor) || isNaN(compareToCompetitorHitFactor)) return;
+	    
+	    if (hitFactor > compareToCompetitorHitFactor) {
     		$(node).css('background-color', '#c2f0c2');
     		$(node).css('border', '1px solid #a6a6a6');
     		$(compareToNode).css('background-color', 'LightPink');
     		$(compareToNode).css('border', '1px solid #a6a6a6');
     	}
-    	else {
+	    if (hitFactor < compareToCompetitorHitFactor) { 
     		$(node).css('background-color', 'LightPink');
     		$(node).css('border', '1px solid #a6a6a6');
     		$(compareToNode).css('background-color', '#c2f0c2');
@@ -389,30 +394,49 @@ function updateStageResultsTable(tableClass, competitorData) {
 	var dataSet = [];
 	$.each(match.match_stages, function(index, stage) {
 		var line = competitorData.stageResultDataLines[stage.stage_uuid];
-		if (line == null) return;
 		var stageResultsPath = "${baseUrl}stageResults?matchId="
 			+ match.match_id
 			+ "&stageId="
 			+ stage.stage_uuid
 			+ "&division="
 			+ competitorData.competitor.sh_dvp;
-		var stageName = stage.stage_number + ": " 
-			+ stage.stage_name;
-		dataSet[index] = [
-			"<a href='" + stageResultsPath + "'>"+ stageName + '</a>',
-			line.scoreCard.aHits,
-			line.scoreCard.cHits,
-			line.scoreCard.dHits,
-			line.scoreCard.misses,
-			line.scoreCard.noshootHits,
-			line.scoreCard.proc,
-			line.scoreCard.rawpts,
-			line.scoreCard.time,
-			line.scoreCard.hitFactor,
-			line.stagePoints,
-			line.stageRank,
-			line.stageScorePercentage
-		]
+		var stageName = stage.stage_number + ": " + stage.stage_name;
+		var stage = "<a href='" + stageResultsPath + "'>"+ stageName + "</a>";
+		var data;
+		if (line != null) {
+			data = [
+				"<a href='" + stageResultsPath + "'>"+ stageName + '</a>',
+				line.scoreCard.aHits,
+				line.scoreCard.cHits,
+				line.scoreCard.dHits,
+				line.scoreCard.misses,
+				line.scoreCard.noshootHits,
+				line.scoreCard.proc,
+				line.scoreCard.rawpts,
+				line.scoreCard.time,
+				line.scoreCard.hitFactor,
+				line.stagePoints,
+				line.stageRank,
+				line.stageScorePercentage
+			];
+		}
+		else {
+			data = [stage, 
+				"-",
+				"-",
+				"-",
+				"-",
+				"-",
+				"-",
+				"-",
+				"-",
+				"-",
+				"-",
+				"-",
+				"-"
+				];
+		}
+		dataSet.push(data);
 	});
 	$.each($('table.' + tableClass), function(index, tableElement) {
 		if (tableElement.id != "") {
@@ -535,11 +559,10 @@ function drawPercentByStageChart() {
 	data.addColumn('number', compareToCompetitorMatchAnalysisData.competitor.name);
 	
 	var rows = [];
-	$.each(competitorMatchAnalysisData.divisionStagePercentages, function(stageNumber) {
+	for (stageNumber = 1; stageNumber <= match.match_stages.length; stageNumber++) {
 		rows[stageNumber - 1] = [stageNumber.toString(), competitorPercentages[stageNumber], 
 			compareToCompetitorPercentages[stageNumber]];
-	});
-	
+	};
 	data.addRows(rows);
 	
 	var options = {

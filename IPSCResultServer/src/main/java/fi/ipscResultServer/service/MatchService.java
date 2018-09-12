@@ -57,7 +57,7 @@ public class MatchService {
 	}
 	@Transactional
 	public Match saveMatchDef(Match match) throws DatabaseException {
-		logger.info("Saving match def");
+		logger.info("Saving stage and competitor data");
 		for (Stage stage : match.getStages()) {
 			stage.setMatch(match);
 		}
@@ -110,7 +110,6 @@ public class MatchService {
 			logger.info("Saving result data");
 			
 			if (match.getDivisions() == null) match.setDivisions(new ArrayList<String>());
-			
 			List<Stage> stagesWithNewResults = new ArrayList<Stage>();
 									
 			for (StageScore stageScore : stageScores) {
