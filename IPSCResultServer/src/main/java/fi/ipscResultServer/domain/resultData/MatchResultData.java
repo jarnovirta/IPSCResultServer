@@ -24,7 +24,7 @@ public class MatchResultData implements Serializable {
 	@GeneratedValue(strategy = GenerationType.TABLE)
 	private Long id;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Match match; 
 	
 	private String division;

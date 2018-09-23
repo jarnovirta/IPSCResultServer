@@ -1,6 +1,7 @@
 package fi.ipscResultServer.domain.resultData;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,10 +15,10 @@ public class MatchResultDataLine implements Comparable<MatchResultDataLine> {
 	@GeneratedValue(strategy = GenerationType.TABLE)
 	private Long id;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	private MatchResultData matchResultData;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Competitor competitor;
 	
 	private double scorePercentage = 0;

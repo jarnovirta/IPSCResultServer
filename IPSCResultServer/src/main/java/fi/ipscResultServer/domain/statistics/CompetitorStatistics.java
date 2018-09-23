@@ -3,6 +3,7 @@ package fi.ipscResultServer.domain.statistics;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,10 +24,10 @@ public class CompetitorStatistics implements Serializable, Comparable<Competitor
 	@GeneratedValue(strategy = GenerationType.TABLE)
 	private Long id;
 	
-	@OneToOne
+	@OneToOne(fetch = FetchType.LAZY)
 	private Match match;
 		
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Competitor competitor;
 
 	private double matchTime;
