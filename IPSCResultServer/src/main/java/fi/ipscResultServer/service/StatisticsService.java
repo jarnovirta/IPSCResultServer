@@ -45,7 +45,7 @@ public class StatisticsService {
 	
 	@Transactional
 	public void generateCompetitorStatistics(Match match) throws DatabaseException {
-		deleteByMatch(match);	
+		deleteByMatch(match.getId());	
 				
 		for (String division : match.getDivisionsWithResults()) {
 			logger.info("Generating match statistics for " + division);
@@ -64,7 +64,7 @@ public class StatisticsService {
 				int noShootHits = 0;
 				int sumOfPoints = 0;
 				CompetitorResultData competitorResultData = 
-						competitorResultDataService.findByCompetitorAndMatchPractiScoreIds(competitor.getPractiScoreId(), match.getPractiScoreId());
+						competitorResultDataService.getCompetitorResultData(competitor.getPractiScoreId(), match.getPractiScoreId());
 				
 				// Exclude competitors with no score card data. Will not be shown at all in statistics listing.
 				if (competitorResultData.getScoreCards() == null || competitorResultData.getScoreCards().size() == 0) continue; 
@@ -106,7 +106,7 @@ public class StatisticsService {
 	}
 	
 	@Transactional
-	public void deleteByMatch(Match match) throws DatabaseException {
-		competitorStatisticsRepository.deleteByMatch(match);
+	public void deleteByMatch(Long matchId) throws DatabaseException {
+		competitorStatisticsRepository.deleteByMatch(matchId);
 	}
 }

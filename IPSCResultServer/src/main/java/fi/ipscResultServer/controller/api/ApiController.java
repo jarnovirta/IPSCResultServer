@@ -1,7 +1,7 @@
 package fi.ipscResultServer.controller.api;
 
-import org.apache.log4j.Logger;
 import org.apache.commons.lang.exception.ExceptionUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import fi.ipscResultServer.domain.Match;
-import fi.ipscResultServer.domain.MatchStatus;
 import fi.ipscResultServer.service.MatchService;
 
 
@@ -27,13 +25,11 @@ public class ApiController {
 	@RequestMapping(value = "/matches", method = RequestMethod.POST)
 	public ResponseEntity<String> postMatchData(@RequestBody MatchData matchData) {
 		try {
-			// Save match definition data
-			Match dbMatch = matchService.findByPractiScoreId(matchData.getMatch().getPractiScoreId());
-			if (dbMatch != null && dbMatch.getStatus() != MatchStatus.SCORING) {
-				return new ResponseEntity<String>("Scoring not open for match!", null, HttpStatus.BAD_REQUEST);
-				
-			}
+			long startTime = System.currentTimeMillis();
+			
 			matchService.saveMatchData(matchData);
+			long estimatedTime = System.currentTimeMillis() - startTime;
+			System.out.println("\n\n **** TOTAL ELAPSED TIME: " + estimatedTime / 1000 + " SEC");
 			
 			return new ResponseEntity<String>("Match data saved!", null, HttpStatus.OK);
 		}

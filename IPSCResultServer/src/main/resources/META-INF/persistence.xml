@@ -12,6 +12,8 @@
 			<property name="eclipselink.logging.level" value="CONFIG" />
 			<property name="eclipselink.logging.level.sql" value="CONFIG" />
 			<property name="eclipselink.target-database" value="MySQL"/> 
+			<property name="eclipselink.jdbc.batch-writing" value="JDBC"/>
+			<property name="eclipselink.jdbc.batch-writing.size" value="1000"/>
 		</properties>
 	</persistence-unit>
 </persistence>

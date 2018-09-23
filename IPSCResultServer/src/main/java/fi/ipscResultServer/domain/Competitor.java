@@ -11,12 +11,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -36,7 +36,7 @@ public class Competitor implements Serializable, Comparable<Competitor> {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 	
-	@JsonIgnore
+	@OneToOne
 	private Match match;
 	
 	@JsonProperty("sh_uid")
@@ -127,8 +127,6 @@ public class Competitor implements Serializable, Comparable<Competitor> {
 	public String getPractiScoreId() {
 		return practiScoreId;
 	}
-
-
 
 	public void setPractiScoreId(String practiScoreId) {
 		this.practiScoreId = practiScoreId;

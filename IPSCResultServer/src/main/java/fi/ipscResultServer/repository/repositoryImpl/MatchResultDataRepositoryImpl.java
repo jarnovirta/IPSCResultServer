@@ -1,5 +1,6 @@
 package fi.ipscResultServer.repository.repositoryImpl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -11,11 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import fi.ipscResultServer.domain.Competitor;
-import fi.ipscResultServer.domain.Match;
 import fi.ipscResultServer.domain.resultData.MatchResultData;
 import fi.ipscResultServer.domain.resultData.MatchResultDataLine;
 import fi.ipscResultServer.exception.DatabaseException;
 import fi.ipscResultServer.repository.MatchResultDataRepository;
+import fi.ipscResultServer.repository.springJPARepository.SpringJPAMatchResultDataLineRepository;
 import fi.ipscResultServer.repository.springJPARepository.SpringJPAMatchResultDataRepository;
 
 @Repository
@@ -25,6 +26,9 @@ public class MatchResultDataRepositoryImpl implements MatchResultDataRepository 
 	
 	@Autowired
 	SpringJPAMatchResultDataRepository springJPAMatchResultDataRepository;
+	
+	@Autowired
+	SpringJPAMatchResultDataLineRepository springJPAMatchResultDataLineRepository;
 	
 	final static Logger logger = Logger.getLogger(MatchResultDataRepositoryImpl.class);
 	
@@ -47,11 +51,11 @@ public class MatchResultDataRepositoryImpl implements MatchResultDataRepository 
 		
 	}
 	
-	public List<MatchResultData> find(Match match) throws DatabaseException {
+	public List<MatchResultData> find(Long matchId) throws DatabaseException {
 		try {
-			String queryString = "SELECT m FROM MatchResultData m WHERE m.match = :match";
+			String queryString = "SELECT m FROM MatchResultData m WHERE m.match.id = :matchId";
 			TypedQuery<MatchResultData> query = entityManager.createQuery(queryString, MatchResultData.class); 
-			query.setParameter("match", match);
+			query.setParameter("matchId", matchId);
 			return query.getResultList();
 		}
 		catch (Exception e) {
@@ -86,10 +90,15 @@ public class MatchResultDataRepositoryImpl implements MatchResultDataRepository 
 			throw new DatabaseException(e);
 		}		
 	}
-
-	public void delete(MatchResultData matchResultData) throws DatabaseException {
+	
+	public void deleteInBatch(List<MatchResultData> matchResultData) throws DatabaseException {
 		try {
-			springJPAMatchResultDataRepository.delete(matchResultData);
+			List<MatchResultDataLine> lines = new ArrayList<MatchResultDataLine>();
+			for (MatchResultData data : matchResultData) {
+				lines.addAll(data.getDataLines());
+			}
+			springJPAMatchResultDataLineRepository.deleteInBatch(lines);
+			springJPAMatchResultDataRepository.deleteInBatch(matchResultData);
 		}
 		catch (Exception e) {
 			logger.error(e);

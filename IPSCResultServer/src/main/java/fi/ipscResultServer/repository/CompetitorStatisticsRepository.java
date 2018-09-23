@@ -2,7 +2,6 @@ package fi.ipscResultServer.repository;
 
 import java.util.List;
 
-import fi.ipscResultServer.domain.Match;
 import fi.ipscResultServer.domain.statistics.CompetitorStatistics;
 
 public interface CompetitorStatisticsRepository {
@@ -12,5 +11,5 @@ public interface CompetitorStatisticsRepository {
 	
 	public CompetitorStatistics save(CompetitorStatistics competitorStatistics);
 	
-	public void deleteByMatch(Match match);
+	public void deleteByMatch(Long matchId);
 }

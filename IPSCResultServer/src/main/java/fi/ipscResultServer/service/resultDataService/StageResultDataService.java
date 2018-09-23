@@ -1,7 +1,6 @@
 package fi.ipscResultServer.service.resultDataService;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +17,7 @@ import fi.ipscResultServer.domain.resultData.StageResultDataLine;
 import fi.ipscResultServer.exception.DatabaseException;
 import fi.ipscResultServer.repository.StageResultDataRepository;
 import fi.ipscResultServer.service.ScoreCardService;
+import fi.ipscResultServer.service.StageService;
 
 @Service
 public class StageResultDataService {
@@ -28,10 +28,54 @@ public class StageResultDataService {
 	@Autowired
 	ScoreCardService scoreCardService;
 	
-	public StageResultData findByStageAndDivision(Long stageId, String division) 
+	@Autowired
+	StageService stageService;
+	
+	public StageResultData getStageResultListing(String matchPractiScoreId, String stagePractiScoreId, String division) 
 			throws DatabaseException {
-		return stageResultDataRepository.findByStageAndDivision(stageId, division);
-	}
+		Stage stage = stageService.findByPractiScoreId(matchPractiScoreId, stagePractiScoreId);
+		List<ScoreCard> scoreCards = null;
+		
+		if (division.equals(Constants.COMBINED_DIVISION)) scoreCards = scoreCardService.findByStage(stage.getId());
+		else scoreCards = scoreCardService.findByStageAndDivision(stage.getId(), division);
+		StageResultData stageResultData = new StageResultData(stage, division);
+		List<StageResultDataLine> dataLines = new ArrayList<StageResultDataLine>();
+		double topHitFactor = -1.0;
+		double topPoints = -1.0;
+		int rank = 1;
+		
+		for (ScoreCard scoreCard : scoreCards) {
+			// Discard results for DQ'ed competitor
+			if (scoreCard.getCompetitor().isDisqualified()) continue;
+			
+			if (rank == 1) topHitFactor = scoreCard.getHitFactor();
+			StageResultDataLine resultDataLine = new StageResultDataLine();
+			resultDataLine.setStageRank(rank);
+			resultDataLine.setStageResultData(stageResultData);
+			resultDataLine.setScoreCard(scoreCard);
+			resultDataLine.setCompetitor(scoreCard.getCompetitor());
+			
+			if (topHitFactor > 0) resultDataLine.setStagePoints((scoreCard.getHitFactor() / topHitFactor) * stage.getMaxPoints());
+			else {
+				resultDataLine.setStagePoints(stage.getMaxPoints());
+			}
+			scoreCard.setStageRank(rank);
+			
+			if (rank == 1) topPoints = resultDataLine.getStagePoints();
+			resultDataLine.setStageScorePercentage(resultDataLine.getStagePoints() / topPoints * 100);
+			dataLines.add(resultDataLine);
+			
+			if (!stage.getMatch().getDivisionsWithResults().contains(scoreCard.getCompetitor().getDivision())) {
+				stage.getMatch().getDivisionsWithResults().add(scoreCard.getCompetitor().getDivision());
+			}
+			rank++;
+		}
+		
+		if (dataLines.size() > 0) { 
+			stageResultData.setDataLines(dataLines);
+		}
+		return stageResultData;
+}
 
 	public List<StageResultData> findByStage(Stage stage) 
 			throws DatabaseException {
@@ -47,65 +91,7 @@ public class StageResultDataService {
 	}
 	@Transactional
 	public void generateStageResultsListing(Stage stage) throws DatabaseException {
-		List<String> divisions = new ArrayList<String>();
-		divisions.addAll(stage.getMatch().getDivisions());
-		divisions.add(Constants.COMBINED_DIVISION);
-		int divisionsWithResults = 0;
-		for (String division : divisions) {
-			StageResultData stageResultData = new StageResultData(stage, division);
-			
-			List<StageResultDataLine> dataLines = new ArrayList<StageResultDataLine>();
-			List<ScoreCard> scoreCards;
-			// Only generate data for combined divisions if at least 2 divisions have results. 
-			if (division.equals(Constants.COMBINED_DIVISION)) {
-				if (divisionsWithResults < 2) {
-					continue;
-				}
-				else {
-					scoreCards = scoreCardService.findByStage(stage.getId());
-				}
-			}
-			else scoreCards = scoreCardService.findByStageAndDivision(stage, division);
-			Collections.sort(scoreCards);
-			
-			double topHitFactor = -1.0;
-			double topPoints = -1.0;
-			int rank = 1;
-			
-			for (ScoreCard scoreCard : scoreCards) {
-				
-				// Discard results for DQ'ed competitor
-				if (scoreCard.getCompetitor().isDisqualified()) continue;
-				
-				if (rank == 1) topHitFactor = scoreCard.getHitFactor();
-				StageResultDataLine resultDataLine = new StageResultDataLine();
-				resultDataLine.setStageRank(rank);
-				resultDataLine.setStageResultData(stageResultData);
-				resultDataLine.setScoreCard(scoreCard);
-				resultDataLine.setCompetitor(scoreCard.getCompetitor());
-				
-				if (topHitFactor > 0) resultDataLine.setStagePoints((scoreCard.getHitFactor() / topHitFactor) * stage.getMaxPoints());
-				else {
-					resultDataLine.setStagePoints(stage.getMaxPoints());
-				}
-				scoreCard.setStageRank(rank);
-				
-				if (rank == 1) topPoints = resultDataLine.getStagePoints();
-				resultDataLine.setStageScorePercentage(resultDataLine.getStagePoints() / topPoints * 100);
-				dataLines.add(resultDataLine);
-				
-				if (!stage.getMatch().getDivisionsWithResults().contains(scoreCard.getCompetitor().getDivision())) {
-					stage.getMatch().getDivisionsWithResults().add(scoreCard.getCompetitor().getDivision());
-				}
-				rank++;
-			}
-			
-			if (dataLines.size() > 0) { 
-				divisionsWithResults++;
-				stageResultData.setDataLines(dataLines);
-				stageResultDataRepository.save(stageResultData);
-			}
-		}
+
 	}
 	
 	@Transactional
@@ -114,15 +100,6 @@ public class StageResultDataService {
 		if (oldStageResultData != null) {
 			for (StageResultData data : oldStageResultData) {
 				stageResultDataRepository.delete(data);
-			}
-		}
-	}
-	@Transactional
-	public void deleteByMatch(Match match) throws DatabaseException {
-		for (Stage stage : match.getStages()) {
-			List<StageResultData> data = findByStage(stage);
-			for (StageResultData d : data) {
-				stageResultDataRepository.delete(d);
 			}
 		}
 	}

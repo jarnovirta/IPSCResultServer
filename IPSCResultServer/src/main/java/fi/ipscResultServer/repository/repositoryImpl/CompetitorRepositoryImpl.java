@@ -30,9 +30,6 @@ public class CompetitorRepositoryImpl implements CompetitorRepository {
 			String queryString = "SELECT m.competitors FROM Match m WHERE m.id = :matchId";
 			TypedQuery<Competitor> query = entityManager.createQuery(queryString, Competitor.class);
 			query.setParameter("matchId", matchId);
-			List<Competitor> comps = query.getResultList();
-			System.out.println("Repo found " + comps.size());
-			System.out.println("Repo found " + comps.size());
 			return query.getResultList();
 			} catch (Exception e) {
 				logger.error(e);

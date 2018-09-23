@@ -11,7 +11,6 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import fi.ipscResultServer.domain.Match;
 import fi.ipscResultServer.domain.statistics.CompetitorStatistics;
 import fi.ipscResultServer.repository.CompetitorStatisticsRepository;
 import fi.ipscResultServer.repository.springJPARepository.SpringJPACompetitorStatisticsRepository;
@@ -67,17 +66,24 @@ public class CompetitorStatisticsRepositoryImpl implements CompetitorStatisticsR
 		}
 	}
 	
-	public void deleteByMatch(Match match) {
+	public void deleteInBatch(List<CompetitorStatistics> statistics) {
+		try {
+			springJPACompetitorStatisticsRepository.deleteInBatch(statistics);
+		} catch (Exception e) {
+			logger.error(e);
+		}
+	}
+	public void deleteByMatch(Long matchId) {
 		try {
 			// Set entity references to null in CompetitorStatistics to be deleted
-			String queryString = "SELECT c FROM CompetitorStatistics c WHERE c.match = :match";
+			String queryString = "SELECT c FROM CompetitorStatistics c WHERE c.match.id = :matchId";
 			TypedQuery<CompetitorStatistics> query = entityManager.createQuery(queryString, CompetitorStatistics.class);
-			List<CompetitorStatistics> statistics = query.setParameter("match", match).getResultList();
+			List<CompetitorStatistics> statistics = query.setParameter("matchId", matchId).getResultList();
 			for (CompetitorStatistics stats : statistics) {
 				stats.setMatch(null);
 				stats.setCompetitor(null);
-				entityManager.remove(stats);
 			}
+			deleteInBatch(statistics);
 		} catch (Exception e) {
 			logger.error(e);
 		}

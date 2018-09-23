@@ -9,7 +9,6 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -42,7 +41,7 @@ public class Match implements Serializable {
 	@Column(length = 36)
 	private String practiScoreId;
 	
-	@ManyToOne(cascade = CascadeType.MERGE)
+	@ManyToOne(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
 	private User user;
 	
 	private boolean uploadedByAdmin = false;
@@ -78,12 +77,12 @@ public class Match implements Serializable {
 	private List<String> divisionsWithResults;
 		
 	@JsonProperty("match_stages")
-	@OneToMany(mappedBy = "match", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+	@OneToMany(mappedBy = "match", cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE }, orphanRemoval = true)
 	@OrderColumn
 	private List<Stage> stages;
 	
 	@JsonProperty("match_shooters")
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+	@OneToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE }, orphanRemoval = true)
 	private List<Competitor> competitors; 
 
 	public Match() { }

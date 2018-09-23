@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import fi.ipscResultServer.domain.Match;
 import fi.ipscResultServer.domain.MatchStatus;
 import fi.ipscResultServer.domain.User;
-import fi.ipscResultServer.exception.DatabaseException;
 import fi.ipscResultServer.service.MatchService;
 import fi.ipscResultServer.service.StatisticsService;
 import fi.ipscResultServer.service.UserService;
@@ -38,7 +37,7 @@ public class AdminController {
 	
 	@Autowired
 	private StatisticsService statisticsService;
-	
+		
 	final static Logger logger = Logger.getLogger(AdminController.class);
 	
 	@RequestMapping(method = RequestMethod.GET)
@@ -92,8 +91,10 @@ public class AdminController {
 			Match match = matchService.getOne(matchId);
 			if (status == MatchStatus.SCORING_ENDED) {
 				logger.info("Generating match result listing...");
+				matchResultDataService.deleteByMatch(matchId);				
 				matchResultDataService.generateMatchResultListing(match);
 				logger.info("Generating statistics...");
+				statisticsService.deleteByMatch(matchId);
 				statisticsService.generateCompetitorStatistics(match);
 			}
 		}
@@ -105,16 +106,16 @@ public class AdminController {
 	
 	@RequestMapping(value="/deleteMatch", method = RequestMethod.POST)
 	public String deleteMatch(@RequestParam("matchId") Long matchId, Model model) {
+		
+		long startTime = System.currentTimeMillis();
+		matchService.delete(matchId);
+		
+		long estimatedTime = System.currentTimeMillis() - startTime;
+		System.out.println("\n\n **** DELETE MATCH TOOK " + estimatedTime / 1000 + " SEC");
+		
+		model.addAttribute("matchList", matchService.getFullMatchList());
+		model.addAttribute("matchStatusList", Arrays.asList(MatchStatus.values()));
 
-		try {
-			matchService.delete(matchId);
-			model.addAttribute("matchList", matchService.getFullMatchList());
-			model.addAttribute("matchStatusList", Arrays.asList(MatchStatus.values()));
-		}
-		catch (DatabaseException e) {
-			logger.error(e.getMessage());
-			
-		}
 		return "redirect:/admin";
 	}
 }

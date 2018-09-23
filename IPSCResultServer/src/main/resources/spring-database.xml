@@ -36,7 +36,7 @@
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
  	</bean>
- 	<!-- DEVELOPMENT DATABASE CONF--> 
+ 	<!-- DEVELOPMENT DATABASE CONF --> 
   	
   <bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -46,7 +46,7 @@
 		<property name="password" value="" />
 	</bean>  
  	
- 	<!-- PRODUCTION DATABASE CONF 
+ 	<!-- PRODUCTION DATABASE CONF  
 		<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />

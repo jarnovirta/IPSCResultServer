@@ -94,7 +94,7 @@ public class MatchAnalysisController {
 		try {
 			
 			CompetitorResultData competitorResultData = 
-					competitorResultDataService.findByCompetitorAndMatchPractiScoreIds(competitorPractiScoreId, matchPractiScoreId);
+					competitorResultDataService.getCompetitorResultData(competitorPractiScoreId, matchPractiScoreId);
 			
 			
 			Competitor competitor = competitorResultData.getCompetitor();
@@ -103,7 +103,7 @@ public class MatchAnalysisController {
 			Map<String, StageResultDataLine> resultMap = getStageResultDataLines(competitorResultData); 
 
 			// Get error cost table lines
-			Map<String, ErrorCostTableLine> errorCostMap = CompetitorErrorCostDataService.getErrorCostTableLines(competitor.getMatch(), 
+			Map<String, ErrorCostTableLine> errorCostMap = CompetitorErrorCostDataService.getErrorCostTableLines(matchService.findByPractiScoreId(matchPractiScoreId), 
 					competitor, new ArrayList<ScoreCard>(competitorResultData.getScoreCards().values()));
 			
 			// Get competitor stage result percentages for competitor's division
@@ -172,7 +172,6 @@ public class MatchAnalysisController {
 				line.getScoreCard().setStage(null);
 				line.getScoreCard().setCompetitor(null);
 			}
-			if (line.getCompetitor() != null) line.getCompetitor().setMatch(null);
 			line.setStageResultData(null);
 		}
 	}

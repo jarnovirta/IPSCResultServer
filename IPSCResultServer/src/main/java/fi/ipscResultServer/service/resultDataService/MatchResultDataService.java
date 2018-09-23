@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import fi.ipscResultServer.domain.Competitor;
 import fi.ipscResultServer.domain.Constants;
 import fi.ipscResultServer.domain.Match;
+import fi.ipscResultServer.domain.Stage;
 import fi.ipscResultServer.domain.resultData.MatchResultData;
 import fi.ipscResultServer.domain.resultData.MatchResultDataLine;
 import fi.ipscResultServer.domain.resultData.StageResultDataLine;
@@ -35,8 +36,8 @@ public class MatchResultDataService {
 		return matchResultDataRepository.findByMatchAndDivision(matchId, division);
 	}
 	
-	public List<MatchResultData> findByMatch(Match match) throws DatabaseException {
-		return matchResultDataRepository.find(match);
+	public List<MatchResultData> findByMatch(Long matchId) throws DatabaseException {
+		return matchResultDataRepository.find(matchId);
 	}
 	
 	public MatchResultDataLine findMatchResultDataLinesByCompetitor(Competitor competitor) 
@@ -50,20 +51,21 @@ public class MatchResultDataService {
 		
 	}
 	@Transactional
-	public void deleteByMatch(Match match) throws DatabaseException {
-		List<MatchResultData> resultDataList = findByMatch(match);
-		for (MatchResultData resultData : resultDataList) {
-			matchResultDataRepository.delete(resultData);
-		}
+	public void deleteByMatch(Long matchId) throws DatabaseException {
+		matchResultDataRepository.deleteInBatch(findByMatch(matchId));
 	}
 	
 	@Transactional
 	public MatchResultData generateMatchResultListing(Match match) throws DatabaseException {
-		logger.info("Generating match result data...");
-		
 		for (String division : match.getDivisionsWithResults()) {
 			MatchResultData matchResultData = new MatchResultData(match, division);
-			List<MatchResultDataLine> dataLines = new ArrayList<MatchResultDataLine>();
+			List<MatchResultDataLine> matchResultDataLines = new ArrayList<MatchResultDataLine>();
+			
+			// List all stage result data lines for division
+			List<StageResultDataLine> allDivisionStageResultDatalines = new ArrayList<StageResultDataLine>();			
+			for (Stage stage : match.getStages()) {
+				allDivisionStageResultDatalines.addAll(stageResultDataService.getStageResultListing(match.getPractiScoreId(), stage.getPractiScoreId(), division).getDataLines());
+			}
 			
 			// Calculate competitor total points for match and set scored stages count
 			for (Competitor competitor : match.getCompetitors()) {
@@ -71,35 +73,44 @@ public class MatchResultDataService {
 				// Skip competitor if not generating a result list for competitor's division
 				// or combined division.
 				if (!division.equals(Constants.COMBINED_DIVISION) && !competitor.getDivision().equals(division)) continue;
+				
 				MatchResultDataLine competitorDataLine = new MatchResultDataLine(competitor, matchResultData);
-				List<StageResultDataLine> stageResultDataLines = stageResultDataService.findStageResultDataLinesByCompetitorAndDivision(competitor, division);
+				
+				List<StageResultDataLine> competitorStageResultDataLines = getCompetitorStageResultDataLines(competitor, allDivisionStageResultDatalines);
 				
 				// Exclude competitors with no results for stages (did not show up)
-				if (stageResultDataLines.size() == 0) continue;
+				if (competitorStageResultDataLines.size() == 0) continue;
 				
-				competitorDataLine.setScoredStages(stageResultDataLines.size());
+				competitorDataLine.setScoredStages(competitorStageResultDataLines.size());
 				double totalPoints = 0.0;
-				for (StageResultDataLine stageResultDataLine : stageResultDataLines) {
-					totalPoints += stageResultDataLine.getStagePoints();
+				for (StageResultDataLine dataLine : competitorStageResultDataLines) {
+					totalPoints += dataLine.getStagePoints();
 				}
 				competitorDataLine.setPoints(totalPoints);
-				dataLines.add(competitorDataLine);
+				matchResultDataLines.add(competitorDataLine);
 			}
 			
-			Collections.sort(dataLines);
+			Collections.sort(matchResultDataLines);
 			
 			double topPoints = -1.0;
 			int rank = 1;
-			for (MatchResultDataLine dataLine : dataLines) {
+			for (MatchResultDataLine dataLine : matchResultDataLines) {
 				if (rank == 1) topPoints = dataLine.getPoints();
 				dataLine.setScorePercentage(dataLine.getPoints() / topPoints * 100);
 				dataLine.setRank(rank);
 				rank++;
 			}
-			matchResultData.setDataLines(dataLines);
+			matchResultData.setDataLines(matchResultDataLines);
 			logger.info("Saving match result data for division " + division);
 			save(matchResultData);
 		}
 		return null;
+	}
+	private List<StageResultDataLine> getCompetitorStageResultDataLines(Competitor competitor, List<StageResultDataLine> allStageResultDatalines) {
+		List<StageResultDataLine> stageResultDataLines = new ArrayList<StageResultDataLine>();
+		for (StageResultDataLine line : allStageResultDatalines) {
+			if (line.getCompetitor().getPractiScoreId().equals(competitor.getPractiScoreId())) stageResultDataLines.add(line);
+		}
+		return stageResultDataLines;
 	}
 }

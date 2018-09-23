@@ -3,7 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!-- *** REMOVE AFTER AD TESTS: -->
 <!-- *** 						--> 
 <%@ page session="true" %>
@@ -44,15 +44,17 @@
 							</a>
 							<br><br><br>
 							<h4><b>Match Results:</b></h4>
-							
-							<c:forEach var="division" items="${match.divisionsWithResults }">
+							<c:set var="divisionsSize" value="${fn:length(match.divisionsWithResults) }" />
+							<c:forEach var="division" items="${match.divisionsWithResults }" varStatus="status">
 								<c:url var="divisionResultsUrl" value="/divisionResults">
 									<c:param name="matchId" value="${match.practiScoreId }" />
 									<c:param name="division" value="${division }" />
 								</c:url>
 								<a href="${divisionResultsUrl}">
-									${division }
-								</a>
+									${division }</a>
+								<c:if test="${status.count < divisionsSize }">
+									|
+								</c:if>
 							</c:forEach>
 							<hr />
 						</c:if>
@@ -76,15 +78,18 @@
 												${stage.name}
 											</td>
 											<td style="width: 50%">
-												<c:forEach var="division" items="${match.divisionsWithResults }">
+												<c:set var="divisionsSize" value="${fn:length(match.divisionsWithResults) }" />
+												<c:forEach var="division" items="${match.divisionsWithResults }" varStatus="status">
 													<c:url var="stageResultsUrl" value="/stageResults">
 														<c:param name="matchId" value="${match.practiScoreId }" />
 														<c:param name="stageId" value="${stage.practiScoreId }" />
 														<c:param name="division" value="${division }" />
 													</c:url>
 													<a href="${stageResultsUrl}">
-														${division } 
-													</a>
+														${division}</a>
+													<c:if test="${status.count < divisionsSize }">
+														|
+													</c:if>
 												</c:forEach>
 											</td>
 										</tr>

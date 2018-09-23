@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import fi.ipscResultServer.domain.Match;
 import fi.ipscResultServer.domain.ScoreCard;
-import fi.ipscResultServer.domain.Stage;
 import fi.ipscResultServer.exception.DatabaseException;
 import fi.ipscResultServer.repository.ScoreCardRepository;
 
@@ -22,7 +21,7 @@ public class ScoreCardService {
 	final static Logger logger = Logger.getLogger(ScoreCardService.class);
 	
 	@Transactional
-	public ScoreCard save(ScoreCard scoreCard) throws DatabaseException {
+	public List<ScoreCard> save(List<ScoreCard> scoreCard) throws DatabaseException {
 		return scoreCardRepository.save(scoreCard);
 	}
 	
@@ -38,8 +37,8 @@ public class ScoreCardService {
 		scoreCardRepository.deleteInBatch(scoreCards);
 	}
 	
-	public List<ScoreCard> findByStageAndDivision(Stage stage, String division) throws DatabaseException {
-		return scoreCardRepository.findByStageAndDivision(stage, division);
+	public List<ScoreCard> findByStageAndDivision(Long stageId, String division) throws DatabaseException {
+		return scoreCardRepository.findByStageAndDivision(stageId, division);
 	}
 	
 	public List<ScoreCard> findByStage(Long stageId) throws DatabaseException {

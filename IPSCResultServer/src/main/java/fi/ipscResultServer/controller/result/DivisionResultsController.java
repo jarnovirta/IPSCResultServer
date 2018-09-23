@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import fi.ipscResultServer.domain.Match;
+import fi.ipscResultServer.domain.resultData.MatchResultData;
 import fi.ipscResultServer.exception.DatabaseException;
 import fi.ipscResultServer.service.MatchService;
 import fi.ipscResultServer.service.resultDataService.MatchResultDataService;
@@ -26,6 +27,10 @@ public class DivisionResultsController {
 			@RequestParam("division") String division) {
 		try {
 			Match match = matchService.findByPractiScoreId(matchId);
+			System.out.println("Match id: " + match.getId() + " division: " + division);
+			MatchResultData data = matchResultDataService.findByMatchAndDivision(match.getId(), division);
+			if (data == null) System.out.println("Data null");
+			else System.out.println("Found " + data.getDataLines().size() + " lines for division " + data.getDivision());
 			model.addAttribute("matchResultData", matchResultDataService.findByMatchAndDivision(match.getId(), division));
 			return "results/divisionResults/divisionResultsPage";
 		}

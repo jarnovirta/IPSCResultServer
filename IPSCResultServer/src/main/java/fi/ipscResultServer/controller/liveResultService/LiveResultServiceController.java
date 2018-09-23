@@ -93,7 +93,7 @@ public class LiveResultServiceController {
 			
 			Stage nextStage = stageService.findByPractiScoreId(match.getPractiScoreId(), nextStagePractiScoreId);
 			
-			StageResultData stageResultData = stageResultDataService.findByStageAndDivision(nextStage.getId(), nextDivision);
+			StageResultData stageResultData = stageResultDataService.getStageResultListing(match.getPractiScoreId(), nextStage.getPractiScoreId(), nextDivision);
 			
 			// Handle stages with no result data by sending an empty StageResultData instance with match, stage and division
 			// information for use in JSP.

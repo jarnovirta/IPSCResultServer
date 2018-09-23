@@ -1,5 +1,6 @@
 package fi.ipscResultServer.repository.repositoryImpl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -30,9 +31,17 @@ public class ScoreCardRepositoryImpl implements ScoreCardRepository {
 
 	final static Logger logger = Logger.getLogger(ScoreCardRepositoryImpl.class);
 	
-	public ScoreCard save(ScoreCard scoreCard) throws DatabaseException {
+	public List<ScoreCard> save(List<ScoreCard> scoreCards) throws DatabaseException {
 		try {
-			return springJPAScoreCardRepository.save(scoreCard);
+
+			Iterable<ScoreCard> cards = springJPAScoreCardRepository.saveAll(scoreCards);
+			if (cards == null) return null;
+			List<ScoreCard> result = new ArrayList<ScoreCard>();
+			for (ScoreCard card : cards) {
+				result.add(card);
+			}
+			return result;
+
 		}
 		catch (Exception e) {
 			logger.error(e);
@@ -41,12 +50,13 @@ public class ScoreCardRepositoryImpl implements ScoreCardRepository {
 	}
 	
 	
-	public List<ScoreCard> findByStageAndDivision(Stage stage, String division) 
+	
+	public List<ScoreCard> findByStageAndDivision(Long stageId, String division) 
 			throws DatabaseException {
 		try {
-			String queryString = "SELECT s FROM ScoreCard s WHERE s.stage = :stage AND s.competitor.division = :division";
+			String queryString = "SELECT s FROM ScoreCard s WHERE s.stage.id = :stageId AND s.competitor.division = :division ORDER BY s.hitFactor DESC";
 			TypedQuery<ScoreCard> query = entityManager.createQuery(queryString, ScoreCard.class);
-			query.setParameter("stage", stage);
+			query.setParameter("stageId", stageId);
 			query.setParameter("division", division);
 			return query.getResultList();
 			
@@ -58,7 +68,7 @@ public class ScoreCardRepositoryImpl implements ScoreCardRepository {
 	
 	public List<ScoreCard> findByStage(Long stageId) throws DatabaseException {
 		try {
-			String queryString = "SELECT s FROM ScoreCard s WHERE s.stage.id = :stageId";
+			String queryString = "SELECT s FROM ScoreCard s WHERE s.stage.id = :stageId ORDER BY s.hitFactor DESC";
 			TypedQuery<ScoreCard> query = entityManager.createQuery(queryString, ScoreCard.class);
 			query.setParameter("stageId", stageId);
 			return query.getResultList();
@@ -67,6 +77,20 @@ public class ScoreCardRepositoryImpl implements ScoreCardRepository {
 			logger.error(e);
 			throw new DatabaseException(e);
 		}
+	}
+	
+	public List<ScoreCard> findByStage(String practiScoreId) throws DatabaseException {
+		try {
+			String queryString = "SELECT s FROM ScoreCard s WHERE s.stage.practiScoreId = :stageId ORDER BY s.hitFactor DESC";
+			TypedQuery<ScoreCard> query = entityManager.createQuery(queryString, ScoreCard.class);
+			query.setParameter("stageId", practiScoreId);
+			return query.getResultList();
+			
+		} catch (Exception e) {
+			logger.error(e);
+			throw new DatabaseException(e);
+		}
+		
 	}
 	
 	public ScoreCard findByCompetitorAndStage(String competitorId, String stageId) 
@@ -89,7 +113,7 @@ public class ScoreCardRepositoryImpl implements ScoreCardRepository {
 			throws DatabaseException {
 		try {
 			String queryString = "SELECT s FROM ScoreCard s WHERE s.competitor.practiScoreId = :competitorPractiScoreId "
-					+ "AND s.stage.match.practiScoreId = :matchPractiScoreId";
+					+ "AND s.stage.match.practiScoreId = :matchPractiScoreId ORDER BY s.hitFactor DESC";
 			TypedQuery<ScoreCard> query = entityManager.createQuery(queryString, ScoreCard.class);
 			query.setParameter("competitorPractiScoreId", competitorPractiScoreId);
 			query.setParameter("matchPractiScoreId", matchPractiScoreId);
@@ -102,7 +126,6 @@ public class ScoreCardRepositoryImpl implements ScoreCardRepository {
 	}
 	public void deleteInBatch(List<ScoreCard> scoreCards) throws DatabaseException {
 		try {
-			
 			springJPAScoreCardRepository.deleteInBatch(scoreCards);
 		} catch (Exception e) {
 			logger.error(e);

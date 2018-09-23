@@ -15,13 +15,12 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
-public class ScoreCard implements Serializable, Comparable<ScoreCard> {
+public class ScoreCard implements Serializable {
 	
 	/**
 	 * 
@@ -42,8 +41,6 @@ public class ScoreCard implements Serializable, Comparable<ScoreCard> {
 	
 	@ManyToOne
 	private Stage stage;
-	
-	private String stageId;
 	
 	@JsonProperty("mod")
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.SSS")
@@ -72,6 +69,7 @@ public class ScoreCard implements Serializable, Comparable<ScoreCard> {
 	private int points = 0;
 	
 	@JsonProperty("str")
+	@Transient
 	private double[] stringTimes;
 	
 	@Column(nullable = false)
@@ -99,9 +97,6 @@ public class ScoreCard implements Serializable, Comparable<ScoreCard> {
 	
 	@Column(nullable = false)
 	private double hitFactor;
-
-	@JsonIgnore
-	private StageScore stageScore;
 	
 	private int stageScorePercentage;
 	
@@ -109,13 +104,6 @@ public class ScoreCard implements Serializable, Comparable<ScoreCard> {
 	
 	private int stageRank;
 	
-	@Override
-	public int compareTo(ScoreCard compareToScoreCard) {
-	    final int EQUAL = 0;
-	    if (this == compareToScoreCard) return EQUAL;
-	    return new Double(compareToScoreCard.getHitFactor()).compareTo(new Double(this.hitFactor));
-	}
-
 	public String getCompetitorPractiScoreId() {
 		return competitorPractiScoreId;
 	}
@@ -283,14 +271,6 @@ public class ScoreCard implements Serializable, Comparable<ScoreCard> {
 		return serialVersionUID;
 	}
 
-	public StageScore getStageScore() {
-		return stageScore;
-	}
-
-	public void setStageScore(StageScore stageScore) {
-		this.stageScore = stageScore;
-	}
-
 	public Competitor getCompetitor() {
 		return competitor;
 	}
@@ -305,14 +285,6 @@ public class ScoreCard implements Serializable, Comparable<ScoreCard> {
 
 	public void setStage(Stage stage) {
 		this.stage = stage;
-	}
-
-	public String getStageId() {
-		return stageId;
-	}
-
-	public void setStageId(String stageId) {
-		this.stageId = stageId;
 	}
 
 	public double getHitFactor() {
@@ -347,16 +319,10 @@ public class ScoreCard implements Serializable, Comparable<ScoreCard> {
 		this.stageRank = stageRank;
 	}
 
-	public double[] getStringTimes() {
-		return stringTimes;
-	}
-
 	public void setStringTimes(double[] stringTimes) {
 		if (stringTimes != null && stringTimes.length > 0) {
 			this.time = stringTimes[0];
 		}
-		this.stringTimes = stringTimes;
-		
 	}
 
 	public void setTime(double time) {

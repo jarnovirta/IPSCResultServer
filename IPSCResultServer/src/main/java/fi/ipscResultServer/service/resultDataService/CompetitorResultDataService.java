@@ -31,15 +31,19 @@ public class CompetitorResultDataService {
 	@Autowired
 	StageResultDataService stageResultDataService;
 	
-	public CompetitorResultData findByCompetitorAndMatchPractiScoreIds(String competitorPractiScoreId, String matchPractiScoreId) 
+	public CompetitorResultData getCompetitorResultData(String competitorPractiScoreId, String matchPractiScoreId) 
 			throws DatabaseException {
 		List<ScoreCard> cards = scoreCardService.findByCompetitorAndMatchPractiScoreIds(competitorPractiScoreId, matchPractiScoreId);
+				
 		Map<Long, ScoreCard> scoreCards = new HashMap<Long, ScoreCard>();
 		for (ScoreCard card : cards) {
 			scoreCards.put(card.getStage().getId(), card);
 		}
 
 		Competitor competitor = competitorService.findByPractiScoreReferences(matchPractiScoreId, competitorPractiScoreId);
+		if (competitor == null) {
+			System.out.println("Competitor " + competitorPractiScoreId + " match " + matchPractiScoreId);
+		}
 		Match match = matchService.findByPractiScoreId(matchPractiScoreId);
 		CompetitorResultData resultData = new CompetitorResultData();
 		resultData.setScoreCards(scoreCards);
