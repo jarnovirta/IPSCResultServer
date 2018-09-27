@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import fi.ipscResultServer.domain.ScoreCard;
 import fi.ipscResultServer.repository.springJDBCRepository.mapper.ScoreCardMapper;
@@ -31,7 +30,6 @@ public class ScoreCardRepository {
 		String query = "SELECT * FROM scorecard";
 		return jdbcTemplate.query(query, new ScoreCardMapper());
 	}
-	@Transactional("JDBCTransaction")
 	public void delete(List<Long> ids) {
 		String query = "DELETE FROM scorecard WHERE id = ?";
 		jdbcTemplate.batchUpdate(query, new BatchPreparedStatementSetter() {
@@ -45,7 +43,7 @@ public class ScoreCardRepository {
 			}
 		});
 	}
-	@Transactional("JDBCTransaction")
+	
 	public void save(List<ScoreCard> cards) {
 		String query = "INSERT INTO scorecard (ahits, additionalpenalties, chits, dhits, time, hitfactor, misses, noshoothits"
 				+ ", proceduralpenalties, stagepoints, stagerank, competitor_id, stage_id, modified"
@@ -80,5 +78,6 @@ public class ScoreCardRepository {
 				return cards.size();
 			}
 		});
+
 	}
 }

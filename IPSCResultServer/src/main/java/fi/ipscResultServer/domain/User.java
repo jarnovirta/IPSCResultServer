@@ -1,24 +1,7 @@
 package fi.ipscResultServer.domain;
 
-import java.io.Serializable;
+public class User {
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
-@Entity
-public class User implements Serializable {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
 	private String firstName;
@@ -26,12 +9,10 @@ public class User implements Serializable {
 	private String email;
 	private String phone;
 	
-	@Column(unique = true)
 	private String username;
 
 	private String password;
 	
-	@Enumerated(EnumType.STRING)
 	private UserRole role;
 	private boolean enabled = true;
 	
@@ -81,9 +62,6 @@ public class User implements Serializable {
 		this.password = password;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
 	public boolean isEnabled() {
 		return enabled;
 	}

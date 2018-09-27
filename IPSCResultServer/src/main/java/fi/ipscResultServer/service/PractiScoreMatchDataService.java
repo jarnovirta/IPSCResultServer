@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import fi.ipscResultServer.domain.Competitor;
@@ -23,15 +22,9 @@ public class PractiScoreMatchDataService {
 	MatchService matchService;
 	
 	@Autowired
-	private CompetitorService competitorService;
-	
-	@Autowired
 	private ScoreCardService scoreCardService;
 	
-	@Autowired
-	private UserService userService;
-	
-	final static Logger logger = Logger.getLogger(PractiScoreMatchDataService.class);
+	final static Logger LOGGER = Logger.getLogger(PractiScoreMatchDataService.class);
 	
 	public void save(PractiScoreMatchData matchData) throws DatabaseException {
 		Match match = matchData.getMatch();
@@ -46,11 +39,10 @@ public class PractiScoreMatchDataService {
 		match = matchService.save(match);
 
 		// Save result data
-		System.out.println("Saving scorecards");
 		prepareStageScoresForSave(matchData.getMatchScore().getStageScores(), match);
 		scoreCardService.save(getMatchScoreCards(matchData));
 				
-		logger.info("**** MATCH SAVE DONE ****");
+		LOGGER.info("**** MATCH SAVE DONE ****");
 	}
 	
 	private List<ScoreCard> getMatchScoreCards(PractiScoreMatchData matchData) {
@@ -61,7 +53,6 @@ public class PractiScoreMatchDataService {
 	return scoreCards;
 	}
 	private void prepareStageScoresForSave(List<PractiScoreStageScore> stageScores, Match match) {
-		
 		if (match.getDivisions() == null) match.setDivisions(new ArrayList<String>());
 		if (match.getDivisionsWithResults() == null) match.setDivisionsWithResults(new ArrayList<String>());
 		
@@ -72,11 +63,15 @@ public class PractiScoreMatchDataService {
 					stage = savedStage;
 				}
 			}
-						
+					
 			List<ScoreCard> cardsToRemove = new ArrayList<ScoreCard>();
+			
 			for (ScoreCard scoreCard : stageScore.getScoreCards()) {
-				
-				Competitor competitor = matchService.findByPractiScoreId(scoreCard.getCompetitorPractiScoreId(), match);
+				// Set competitor
+				Competitor competitor = null;
+				for (Competitor comp : match.getCompetitors()) {
+					if (comp.getPractiScoreId().equals(scoreCard.getCompetitorPractiScoreId())) competitor = comp;
+				}
 				
 				// Remove cards if competitor or stage has been deleted
 				if (competitor == null || competitor.isDeleted() || stage == null) {

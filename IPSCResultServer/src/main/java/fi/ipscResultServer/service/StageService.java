@@ -24,7 +24,7 @@ public class StageService {
 	public Stage findByPractiScoreId(String practiScoreMatchId, String practiScoreStageId) throws DatabaseException {
 		return null;
 	}
-	@Transactional("JDBCTransaction")
+	@Transactional
 	public List<Stage> save(List<Stage> stages) {
 		if (stages == null) return null;
 		stageRepository.save(stages);
@@ -32,9 +32,12 @@ public class StageService {
 		for (Stage stage : stages) savedStages.add(stageRepository.findByPractiScoreReference(stage.getMatch().getPractiScoreId(), stage.getPractiScoreId()));		
 		return savedStages;
 	}
-	@Transactional("JDBCTransaction")
+	@Transactional
 	public void delete(List<Stage> stages) {
 		if (stages == null) return;
 		stageRepository.delete(stages);
+	}
+	public List<Stage> findByMatch(Long matchId) {
+		return stageRepository.findByMatch(matchId);
 	}
 }

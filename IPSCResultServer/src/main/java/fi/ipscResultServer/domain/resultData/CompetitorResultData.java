@@ -2,8 +2,6 @@ package fi.ipscResultServer.domain.resultData;
 
 import java.util.Map;
 
-import javax.persistence.Transient;
-
 import fi.ipscResultServer.domain.Competitor;
 import fi.ipscResultServer.domain.Match;
 import fi.ipscResultServer.domain.ScoreCard;
@@ -18,53 +16,37 @@ public class CompetitorResultData {
 	private Map<Long, ScoreCard> scoreCards;
 	
 	// Competitor result percentages per stage for competitor's division
-	@Transient
 	private Map<Integer, Double> stagePercentages;
 	
 	// Competitor result percentages per stage for combined division
-	@Transient
 	private Map<Integer, Double> combinedDivStagePercentages;
 	
-	@Transient
 	private int aHitsSum;
 	
-	@Transient
 	private double aHitsPercentage;
 	
-	@Transient
 	private int cHitsSum;
 	
-	@Transient
 	private double cHitsPercentage;
 	
-	@Transient
 	private int dHitsSum;
 	
-	@Transient
 	private double dHitsPercentage;
 	
-	@Transient
 	private int missSum;
 	
-	@Transient
 	private double missPercentage;
 	
-	@Transient
 	private int noshootHitsSum;
 	
-	@Transient 
 	private int pointsSum; 
 	
-	@Transient
 	private int proceduralPenaltiesSum;
 	
-	@Transient
 	private double totalTime; 
 	
-	@Transient
 	private double hitFactorSum;
 		
-	@Transient
 	private double hitFactorAverage;
 	
 

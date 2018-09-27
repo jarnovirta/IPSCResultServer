@@ -3,9 +3,6 @@ package fi.ipscResultServer.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,28 +16,15 @@ import fi.ipscResultServer.domain.Stage;
 import fi.ipscResultServer.domain.User;
 import fi.ipscResultServer.exception.DatabaseException;
 import fi.ipscResultServer.repository.springJDBCRepository.MatchRepository;
-import fi.ipscResultServer.service.resultDataService.MatchResultDataService;
 
 @Service
 public class MatchService {
-	
-	@PersistenceContext
-	EntityManager entityManager;
 	
 	@Autowired
 	private MatchRepository matchRepository;
 	
 	@Autowired
 	private StageService stageService;
-	
-	@Autowired
-	private MatchResultDataService matchResultDataService;
-	
-	@Autowired
-	private StatisticsService statisticsService;
-	
-	@Autowired
-	private ScoreCardService scoreCardService;
 	
 	@Autowired
 	private UserService userService;
@@ -50,7 +34,7 @@ public class MatchService {
 	
 	final static Logger logger = Logger.getLogger(MatchService.class);
 
-	@Transactional("JDBCTransaction")
+	@Transactional
 	public Match save(Match match) {
 		prepareStagesForSave(match);
 		
@@ -60,10 +44,15 @@ public class MatchService {
 		
 		match = matchRepository.save(match);
 		
+		// Save competitors and get saved instances with IDs
 		prepareCompetitorsForSave(match);
 		competitorService.save(match.getCompetitors());
-				
+		match.setCompetitors(competitorService.findByMatch(match.getId()));
+		
+		// Save stages and get saved instances with IDs
 		stageService.save(match.getStages());
+		match.setStages(stageService.findByMatch(match.getId()));
+		
 		
 		return match;
 	}
@@ -99,7 +88,6 @@ public class MatchService {
 		}
 	}
 	
-	@Transactional
 	public List<Match> findAll() {
 //		return matchRepository.findAll();
 		return null;
@@ -111,12 +99,11 @@ public class MatchService {
 	
 	// Returns Match list with only necessary properties set for listing purposes
 	// instead of full instances with a list of Stages etc.
-	@Transactional
 	public List<Match> getFullMatchList() {
 //		return matchRepository.getFullMatchList();
 		return null;
 	}
-	@Transactional
+	
 	public List<Match> getMatchListForUser(User user) {
 
 		return null;
@@ -124,12 +111,12 @@ public class MatchService {
 	public Match getOne(Long id) {
 		return matchRepository.getOne(id);
 	}
-	@Transactional("JDBCTransaction")
+	
 	public Match findByPractiScoreId(String practiScoreId) throws DatabaseException {
 		return matchRepository.findByPractiScoreId(practiScoreId);
 		
 	}
-	@Transactional("JDBCTransaction")
+	@Transactional
 	public void delete(Match match) {
 		logger.debug("*** DELETING MATCH ");
 		System.out.println("Deleting competitors");

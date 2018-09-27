@@ -14,15 +14,11 @@ import fi.ipscResultServer.domain.Stage;
 import fi.ipscResultServer.domain.resultData.StageResultData;
 import fi.ipscResultServer.domain.resultData.StageResultDataLine;
 import fi.ipscResultServer.exception.DatabaseException;
-import fi.ipscResultServer.repository.eclipseLinkRepository.StageResultDataRepository;
 import fi.ipscResultServer.service.ScoreCardService;
 import fi.ipscResultServer.service.StageService;
 
 @Service
 public class StageResultDataService {
-	
-	@Autowired
-	StageResultDataRepository stageResultDataRepository;
 	
 	@Autowired
 	ScoreCardService scoreCardService;
@@ -78,15 +74,15 @@ public class StageResultDataService {
 
 	public List<StageResultData> findByStage(Stage stage) 
 			throws DatabaseException {
-		return stageResultDataRepository.findByStage(stage);
+		return null;
 	}
 	public List<StageResultDataLine> findStageResultDataLinesByCompetitor(Competitor competitor) 
 			throws DatabaseException {
-		return stageResultDataRepository.findStageResultDataLinesByCompetitor(competitor);
+		return null;
 	}
 	public List<StageResultDataLine> findStageResultDataLinesByCompetitorAndDivision(Competitor competitor, String division) 
 			throws DatabaseException {
-		return stageResultDataRepository.findStageResultDataLinesByCompetitorAndDivision(competitor, division);
+		return null;
 	}
 	@Transactional
 	public void generateStageResultsListing(Stage stage) throws DatabaseException {
@@ -98,7 +94,7 @@ public class StageResultDataService {
 		List<StageResultData> oldStageResultData = findByStage(stage);
 		if (oldStageResultData != null) {
 			for (StageResultData data : oldStageResultData) {
-				stageResultDataRepository.delete(data);
+//				stageResultDataRepository.delete(data);
 			}
 		}
 	}

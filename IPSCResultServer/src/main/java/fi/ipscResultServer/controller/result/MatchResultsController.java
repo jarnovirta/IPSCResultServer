@@ -1,7 +1,5 @@
 package fi.ipscResultServer.controller.result;
 
-import java.util.Collections;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,7 +27,6 @@ public class MatchResultsController {
 			
 		try {
 			Match match = matchService.findByPractiScoreId(matchId);
-			if (match != null && match.getCompetitors() != null) Collections.sort(match.getCompetitors());
 			model.addAttribute("match", match);
 						
 			return "results/matchResultsMainPage";

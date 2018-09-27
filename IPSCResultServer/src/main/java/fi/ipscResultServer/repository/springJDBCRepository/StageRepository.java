@@ -2,7 +2,6 @@ package fi.ipscResultServer.repository.springJDBCRepository;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -15,12 +14,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import fi.ipscResultServer.domain.Competitor;
 import fi.ipscResultServer.domain.Match;
 import fi.ipscResultServer.domain.Stage;
 import fi.ipscResultServer.repository.springJDBCRepository.mapper.StageMapper;
 import fi.ipscResultServer.service.MatchService;
-import fi.ipscResultServer.service.PractiScoreMatchDataService;
 
 @Repository
 public class StageRepository {
@@ -38,9 +35,7 @@ public class StageRepository {
     public void init() {
         jdbcTemplate = dbUtil.getJdbcTemplate();
     }
-	@Transactional("JDBCTransaction")
 	public void save(List<Stage> stages) {
-		
 		String query = "INSERT INTO stage (name, maxpoints, practiscoreid, stagenumber, match_id, stages_order)"
 	      		+ " VALUES (?, ?, ?, ?, ?, ?);";
 		
@@ -63,9 +58,9 @@ public class StageRepository {
 	}
 	public Stage findByPractiScoreReference(String matchPractiScoreId, String stagePractiScoreId) {
 		try {
-		Match match = matchService.findByPractiScoreId(matchPractiScoreId);
-		String query = "SELECT * FROM stage WHERE practiscoreid = ? AND match_id = ?;";
-		return jdbcTemplate.queryForObject(query, new Object[] { stagePractiScoreId, match.getId() }, new StageMapper());
+			Match match = matchService.findByPractiScoreId(matchPractiScoreId);
+			String query = "SELECT * FROM stage WHERE practiscoreid = ? AND match_id = ?;";
+			return jdbcTemplate.queryForObject(query, new Object[] { stagePractiScoreId, match.getId() }, new StageMapper());
 		}
 		catch (EmptyResultDataAccessException e) {
 			return null;
@@ -75,7 +70,12 @@ public class StageRepository {
 			return null;
 		}
 	}
-	@Transactional("JDBCTransaction")
+	
+	public List<Stage> findByMatch(Long matchId) {
+		String query = "SELECT * FROM stage WHERE match_id = ? ORDER BY stages_order";
+		return jdbcTemplate.query(query, new Object[] { matchId }, new StageMapper());
+	}
+	@Transactional
 	public void delete(List<Stage> stages) {
 		if (stages == null) return;
 
@@ -93,10 +93,7 @@ public class StageRepository {
 			}
 		});
 	}
-	@Transactional("JDBCTransaction")
 	private void removeReferencesToStages(List<Stage> stages) {
-		
-		logger.debug("Removing stage references");
 		
 		String query = "UPDATE scorecard SET stage_id = ? WHERE stage_id = ?";
 		jdbcTemplate.batchUpdate(query, new BatchPreparedStatementSetter() {

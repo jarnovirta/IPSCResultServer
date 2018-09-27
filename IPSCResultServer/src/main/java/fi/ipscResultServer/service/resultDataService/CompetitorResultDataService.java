@@ -7,8 +7,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import fi.ipscResultServer.domain.Competitor;
-import fi.ipscResultServer.domain.Match;
 import fi.ipscResultServer.domain.ScoreCard;
 import fi.ipscResultServer.domain.resultData.CompetitorResultData;
 import fi.ipscResultServer.exception.DatabaseException;
@@ -40,18 +38,19 @@ public class CompetitorResultDataService {
 			scoreCards.put(card.getStage().getId(), card);
 		}
 
-		Competitor competitor = competitorService.findByPractiScoreReferences(matchPractiScoreId, competitorPractiScoreId);
-		if (competitor == null) {
-			System.out.println("Competitor " + competitorPractiScoreId + " match " + matchPractiScoreId);
-		}
-		Match match = matchService.findByPractiScoreId(matchPractiScoreId);
-		CompetitorResultData resultData = new CompetitorResultData();
-		resultData.setScoreCards(scoreCards);
-		resultData.setCompetitor(competitorService.getOne(competitor.getId()));
-		resultData.setMatch(matchService.getOne(match.getId()));
-		resultData.setStatistics();
+//
+//		Competitor competitor = competitorService.findByPractiScoreReferences(matchPractiScoreId, competitorPractiScoreId);
+//		if (competitor == null) {
+//			System.out.println("Competitor " + competitorPractiScoreId + " match " + matchPractiScoreId);
+//		}
+//		Match match = matchService.findByPractiScoreId(matchPractiScoreId);
+//		CompetitorResultData resultData = new CompetitorResultData();
+//		resultData.setScoreCards(scoreCards);
+//		resultData.setCompetitor(competitorService.getOne(competitor.getId()));
+//		resultData.setMatch(matchService.getOne(match.getId()));
+//		resultData.setStatistics();
 		
-		return resultData;
+		return null;
 	}
 	
 

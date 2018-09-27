@@ -23,7 +23,7 @@ public class UserService {
 	public User getOne(Long id) {
 		return userRepository.getOne(id);
 	}
-	@Transactional
+	
 	public List<User> findEnabledUsers() {
 		return null;
 	}

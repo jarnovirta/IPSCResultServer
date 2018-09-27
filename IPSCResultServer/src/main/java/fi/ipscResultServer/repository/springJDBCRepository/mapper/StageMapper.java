@@ -18,7 +18,7 @@ public class StageMapper implements RowMapper<Stage> {
 		stage.setPractiScoreId(rs.getString("practiscoreid"));
 		stage.setStageNumber(rs.getInt("stagenumber"));
 		stage.setMatchId(rs.getLong("match_id"));
-				
+		stage.setMatchStagesIndex(rs.getInt("stages_ORDER"));		
 		return stage;
 	}
 

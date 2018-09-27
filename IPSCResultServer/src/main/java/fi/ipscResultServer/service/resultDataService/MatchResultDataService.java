@@ -17,14 +17,10 @@ import fi.ipscResultServer.domain.resultData.MatchResultData;
 import fi.ipscResultServer.domain.resultData.MatchResultDataLine;
 import fi.ipscResultServer.domain.resultData.StageResultDataLine;
 import fi.ipscResultServer.exception.DatabaseException;
-import fi.ipscResultServer.repository.eclipseLinkRepository.MatchResultDataRepository;
 import fi.ipscResultServer.service.ScoreCardService;
 
 @Service
 public class MatchResultDataService {
-
-	@Autowired
-	MatchResultDataRepository matchResultDataRepository;
 	
 	@Autowired
 	StageResultDataService stageResultDataService;
@@ -33,26 +29,26 @@ public class MatchResultDataService {
 	
 	public MatchResultData findByMatchAndDivision(Long matchId, String division) 
 			throws DatabaseException {
-		return matchResultDataRepository.findByMatchAndDivision(matchId, division);
+		return null;
 	}
 	
 	public List<MatchResultData> findByMatch(Long matchId) throws DatabaseException {
-		return matchResultDataRepository.find(matchId);
+		return null;
 	}
 	
 	public MatchResultDataLine findMatchResultDataLinesByCompetitor(Competitor competitor) 
 			throws DatabaseException {
-		return matchResultDataRepository.findMatchResultDataLinesByCompetitor(competitor);
+		return null;
 	}
 	
 	@Transactional
 	public MatchResultData save(MatchResultData matchResultData) throws DatabaseException {
-		return matchResultDataRepository.save(matchResultData);
+		return null;
 		
 	}
 	@Transactional
 	public void deleteByMatch(Long matchId) throws DatabaseException {
-		matchResultDataRepository.deleteInBatch(findByMatch(matchId));
+//		matchResultDataRepository.deleteInBatch(findByMatch(matchId));
 	}
 	
 	@Transactional

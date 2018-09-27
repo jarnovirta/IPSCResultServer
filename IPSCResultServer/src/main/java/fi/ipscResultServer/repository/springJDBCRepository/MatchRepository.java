@@ -13,7 +13,6 @@ import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import fi.ipscResultServer.domain.Match;
 import fi.ipscResultServer.repository.springJDBCRepository.mapper.MatchMapper;
@@ -33,7 +32,6 @@ public class MatchRepository {
     public void init() {
         jdbcTemplate = dbUtil.getJdbcTemplate();
     }
-	@Transactional("JDBCTransaction")
 	public Match save(Match match) {
 		String query = "INSERT INTO ipscmatch (date, level, name, practiscoreid, "
 				+ "status, uploadedbyadmin, user_id) VALUES (?, ?, ?, ?, ?, ?, ?);";

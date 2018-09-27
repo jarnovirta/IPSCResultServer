@@ -1,82 +1,49 @@
 package fi.ipscResultServer.domain;
 
-import java.io.Serializable;
 import java.util.Calendar;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Entity
-public class ScoreCard implements Serializable {
+public class ScoreCard {
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
 	@JsonProperty("shtr")
-	@Transient
 	private String competitorPractiScoreId;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(nullable = false)
+	
 	private Competitor competitor;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
 	private Stage stage;
 	
 	@JsonProperty("mod")
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.SSS")
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(nullable = false)
 	private Calendar modified;
 	
 	@JsonProperty("popm")
-	@Column(nullable = false)
 	private int popperMisses = 0;
 	
 	@JsonProperty("poph")
-	@Column(nullable = false)
 	private int popperHits = 0;
 	
 	@JsonProperty("popns")
 	private int popperNoshootHits = 0;
 	
 	@JsonProperty("popnpm")
-	@Transient
 	private int popperNonPenaltyMisses = 0;
 	
 	@JsonProperty("rawpts")
-	@Column(nullable = false)
 	private int points = 0;
 	
 	@JsonProperty("str")
-	@Transient
 	private double[] stringTimes;
 	
-	@Column(nullable = false)
 	private double time;
 	
 	@JsonProperty("ts")
-	@Transient
 	private int[] paperTargetHits = {};
 	
 	private int aHits = 0;
@@ -95,7 +62,6 @@ public class ScoreCard implements Serializable {
 	@JsonProperty("apen")
 	private int additionalPenalties = 0;
 	
-	@Column(nullable = false)
 	private double hitFactor;
 	
 	private int stagePoints;
@@ -262,10 +228,6 @@ public class ScoreCard implements Serializable {
 
 	public void setProceduralPenalties(int proceduralPenalties) {
 		this.proceduralPenalties = proceduralPenalties;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
 	}
 
 	public Competitor getCompetitor() {

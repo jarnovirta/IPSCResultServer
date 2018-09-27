@@ -1,77 +1,44 @@
 package fi.ipscResultServer.domain;
 
-import java.io.Serializable;
-import java.util.Calendar;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.Transient;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Entity
-public class Stage implements Serializable {
+public class Stage {
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 	
 	@JsonProperty("stage_uuid")
-	@Column(length = 36)
 	private String practiScoreId;
 	
 	@JsonIgnore
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(nullable = false)
 	private Match match;
 	
-	@Transient
 	private Long matchId;
 	
 	@JsonProperty("stage_name")
-	@Column(nullable = false)
 	private String name;
 	
 	@JsonProperty("stage_scoretype")
-	@Transient
 	private String scoreType;
 	
 	@JsonProperty("stage_number")
-	@Column(nullable = false)
 	private int stageNumber;
 
 	@JsonProperty("stage_targets")
-	@Transient
 	private Target[] targets; 
 	
 	@JsonProperty("stage_poppers")
-	@Transient
 	private int poppers;
 	
 	private int maxPoints;
 	
 	@JsonProperty("stage_deleted")
-	@Transient
 	private boolean deleted = false;
 	
-
+	private int matchStagesIndex;
+	
 	public Long getId() {
 		return id;
 	}
@@ -86,10 +53,6 @@ public class Stage implements Serializable {
 
 	public void setPractiScoreId(String practiScoreId) {
 		this.practiScoreId = practiScoreId;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
 	}
 
 	public String getName() {
@@ -174,6 +137,14 @@ public class Stage implements Serializable {
 
 	public void setMatchId(Long matchId) {
 		this.matchId = matchId;
+	}
+
+	public int getMatchStagesIndex() {
+		return matchStagesIndex;
+	}
+
+	public void setMatchStagesIndex(int matchStagesIndex) {
+		this.matchStagesIndex = matchStagesIndex;
 	}
 	
 }

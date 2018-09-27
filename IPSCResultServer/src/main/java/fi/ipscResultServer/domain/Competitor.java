@@ -1,18 +1,7 @@
 package fi.ipscResultServer.domain;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -21,82 +10,52 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(Include.NON_NULL)
-@Entity
-public class Competitor implements Serializable, Comparable<Competitor> {
+public class Competitor {
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 	
-	@OneToOne(fetch = FetchType.LAZY)
 	private Match match;
 	
 	@JsonProperty("sh_uid")
-	@Column(length = 36)
 	private String practiScoreId;
 	
 	@JsonProperty("sh_num")
-	@Column(nullable = false)
 	private int shooterNumber;
 	
 	@JsonProperty("sh_fn")
-	@Column(nullable = false)
 	private String firstName;
 	
 	@JsonProperty("sh_ln")
-	@Column(nullable = false)
 	private String lastName;
 	
 	@JsonProperty("sh_id")
 	private String ipscAlias;
 	
 	@JsonProperty("sh_dvp")
-	@Column(nullable = false)
 	private String division;
 	
-	@ElementCollection
 	private List<String> categories;
 	
 	@JsonProperty("sh_ctgs")
-	@Transient
 	private String practiScoreCategoryString;
 	
 	@JsonProperty("sh_dq")
-	@Column(nullable = false)
 	private boolean disqualified;
 	
 	@JsonProperty("sh_team")
 	private String team;
 	
 	@JsonProperty("sh_del")
-	@Transient
 	private boolean deleted = false; 
 	
 	@JsonProperty("sh_pf")
-	@Transient
 	private String practiScorePowerFactorString;
 	
 	private PowerFactor powerFactor;
 	
 	@JsonProperty("sh_sqd")
 	private int squad;
-
-	@Override
-	public int compareTo(Competitor compareToCompetitor) {
-	    final int EQUAL = 0;
-	    
-	    if (this == compareToCompetitor) return EQUAL;
-	    int lastNameComparison = this.lastName.toLowerCase().compareTo(compareToCompetitor.getLastName().toLowerCase());
-	    if (lastNameComparison != EQUAL) return lastNameComparison;
-	    return this.firstName.compareTo(compareToCompetitor.getFirstName());
-	}
-
-
+	
 	public Long getId() {
 		return id;
 	}
@@ -178,10 +137,6 @@ public class Competitor implements Serializable, Comparable<Competitor> {
 		this.powerFactor = PowerFactor.valueOf(practiScorePowerFactorString.toUpperCase());
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
 	public int getSquad() {
 		return squad;
 	}
@@ -250,4 +205,5 @@ public class Competitor implements Serializable, Comparable<Competitor> {
 	public String getPractiScoreCategoryString() {
 		return practiScoreCategoryString;
 	}
+
 }

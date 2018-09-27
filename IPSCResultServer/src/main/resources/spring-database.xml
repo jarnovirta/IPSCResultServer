@@ -20,29 +20,11 @@
         http://www.springframework.org/schema/data/repository/spring-repository-1.8.xsd">
 
 	<tx:annotation-driven transaction-manager="transactionManager" />
-	<jpa:repositories base-package="fi.ipscResultServer.repository" />
-
-	<bean id="entityManagerFactory"
-		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-		<property name="dataSource" ref="dataSource" /> 
-		<property name="packagesToScan" value="fi.ipscResultServer.domain" />
-		<property name="persistenceUnitName" value="ipscResultServerPersistenceUnit" />
-		<property name="jpaVendorAdapter">
-			<bean
-				class="org.springframework.orm.jpa.vendor.EclipseLinkJpaVendorAdapter" />
-		</property>
-	</bean>
-
-	<bean id="JDBCTransactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+	
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource"/>
 		<qualifier value="JDBCTransaction"/>
  	</bean>
- 	 
-	<bean id="JPAtransactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-		<property name="entityManagerFactory" ref="entityManagerFactory" />
-		<qualifier value="JPATransaction"/>
- 	</bean>
- 	 
  	
  	<!-- DEVELOPMENT DATABASE CONF --> 
   	

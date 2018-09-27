@@ -26,5 +26,4 @@ public class CompetitorMapper implements RowMapper<Competitor> {
 		comp.setTeam(rs.getString("team"));
 		return comp;
 	}
-	
 }

@@ -1,32 +1,14 @@
 package fi.ipscResultServer.domain.resultData;
 
-import java.io.Serializable;
-
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-
 import fi.ipscResultServer.domain.Competitor;
 import fi.ipscResultServer.domain.ScoreCard;
 
-@Entity
-public class StageResultDataLine implements Serializable {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+public class StageResultDataLine {
+
 	private Long id;
 
-	@ManyToOne(fetch = FetchType.LAZY)
 	private StageResultData stageResultData;
-	
-	@ManyToOne
+
 	private Competitor competitor;
 	
 	private double stageScorePercentage = 0.0;
@@ -35,7 +17,6 @@ public class StageResultDataLine implements Serializable {
 	
 	private int stageRank;
 		
-	@OneToOne
 	private ScoreCard scoreCard;
 	
 	public Long getId() {
@@ -78,9 +59,6 @@ public class StageResultDataLine implements Serializable {
 		this.stageRank = stageRank;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
 
 	public StageResultData getStageResultData() {
 		return stageResultData;

@@ -20,7 +20,7 @@ public class ScoreCardService {
 	
 	final static Logger logger = Logger.getLogger(ScoreCardService.class);
 	
-	@Transactional("JDBCTransaction")
+	@Transactional
 	public void save(List<ScoreCard> scoreCards) throws DatabaseException {
 		scoreCardRepository.save(scoreCards);
 	}
@@ -32,7 +32,7 @@ public class ScoreCardService {
 			String matchPractiScoreId) throws DatabaseException {
 		return null;		
 	}
-	@Transactional("JDBCTransaction")
+	@Transactional
 	public void deleteInBatch(List<Long> scoreCardIds) throws DatabaseException {
 		scoreCardRepository.delete(scoreCardIds);
 	}

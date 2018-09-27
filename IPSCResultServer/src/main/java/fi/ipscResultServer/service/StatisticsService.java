@@ -14,7 +14,6 @@ import fi.ipscResultServer.domain.resultData.CompetitorResultData;
 import fi.ipscResultServer.domain.resultData.MatchResultDataLine;
 import fi.ipscResultServer.domain.statistics.CompetitorStatistics;
 import fi.ipscResultServer.exception.DatabaseException;
-import fi.ipscResultServer.repository.eclipseLinkRepository.CompetitorStatisticsRepository;
 import fi.ipscResultServer.service.resultDataService.CompetitorResultDataService;
 import fi.ipscResultServer.service.resultDataService.MatchResultDataService;
 
@@ -27,19 +26,17 @@ public class StatisticsService {
 	@Autowired
 	private MatchResultDataService matchResultDataService;
 	
-	@Autowired 
-	private CompetitorStatisticsRepository competitorStatisticsRepository;
-	
-	final static Logger logger = Logger.getLogger(StatisticsService.class);
+	final static Logger LOGGER = Logger.getLogger(StatisticsService.class);
 	
 	public List<CompetitorStatistics> findCompetitorStatisticsByMatchAndDivision(Long matchId, String division) 
 		throws DatabaseException {
-		return competitorStatisticsRepository.findCompetitorStatisticsByMatchAndDivision(matchId, division);
+		return null;
+
 	}
 	
 	public List<CompetitorStatistics> findCompetitorStatisticsByMatch(Long matchId) 
 			throws DatabaseException {
-			return competitorStatisticsRepository.findCompetitorStatisticsByMatch(matchId);
+			return null;
 		}
 		
 	
@@ -48,7 +45,7 @@ public class StatisticsService {
 		deleteByMatch(match.getId());	
 				
 		for (String division : match.getDivisionsWithResults()) {
-			logger.info("Generating match statistics for " + division);
+			LOGGER.info("Generating match statistics for " + division);
 			
 			// Generate CompetitorStatisticsLine instances for competitors
 			for (Competitor competitor : match.getCompetitors()) {
@@ -100,13 +97,13 @@ public class StatisticsService {
 					line.setDivisionPoints(matchDataLine.getPoints());
 					line.setDivisionScorePercentage(matchDataLine.getScorePercentage());
 				}
-				competitorStatisticsRepository.save(line);
+//				competitorStatisticsRepository.save(line);
 			}
 		}
 	}
 	
 	@Transactional
 	public void deleteByMatch(Long matchId) throws DatabaseException {
-		competitorStatisticsRepository.deleteByMatch(matchId);
+		
 	}
 }

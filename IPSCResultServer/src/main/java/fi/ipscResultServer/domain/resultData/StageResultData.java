@@ -1,35 +1,17 @@
 package fi.ipscResultServer.domain.resultData;
 
-import java.io.Serializable;
 import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
 import fi.ipscResultServer.domain.Stage;
 
-@Entity
-public class StageResultData implements Serializable {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+public class StageResultData {
+	
 	private Long id;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
 	private Stage stage;
 	
 	private String division;
 	
-	@OneToMany(mappedBy = "stageResultData", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<StageResultDataLine> dataLines;
 
 	public StageResultData() { }
@@ -52,10 +34,6 @@ public class StageResultData implements Serializable {
 
 	public void setStage(Stage stage) {
 		this.stage = stage;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
 	}
 
 	public List<StageResultDataLine> getDataLines() {

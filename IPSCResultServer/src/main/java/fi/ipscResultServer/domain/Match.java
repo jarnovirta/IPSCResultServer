@@ -1,87 +1,46 @@
 package fi.ipscResultServer.domain;
-import java.io.Serializable;
 import java.util.Calendar;
 import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OrderColumn;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Entity
-@Table(name = "IPSCMatch")
-public class Match implements Serializable {
+public class Match {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 	
 	@JsonProperty("match_id")
-	@Column(length = 36)
 	private String practiScoreId;
 	
-	@ManyToOne(cascade = { CascadeType.MERGE, CascadeType.PERSIST }, fetch = FetchType.LAZY)
 	private User user;
 	
-	@Transient
 	private Long userId;
 	
 	private boolean uploadedByAdmin = false;
 	
-	
 	@JsonProperty("match_name")
-	@Column(nullable = false)
 	private String name;
 	
-	@Enumerated(EnumType.ORDINAL)
 	private MatchStatus status = MatchStatus.SCORING;
-	
 	
 	@JsonProperty("match_level")
 	private String level;
 
 	@JsonProperty("match_date")
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-	@Temporal(TemporalType.DATE)
 	private Calendar date;
 
 	@JsonProperty("match_cats")
-	@ElementCollection
 	private List<String> divisions;
 	
-	@ElementCollection
 	private List<String> divisionsWithResults;
 		
 	@JsonProperty("match_stages")
-	@OneToMany(mappedBy = "match", cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE }, orphanRemoval = true)
-	@OrderColumn
 	private List<Stage> stages;
 	
 	@JsonProperty("match_shooters")
-	@OneToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE }, orphanRemoval = true)
 	private List<Competitor> competitors; 
 
 	public Match() { }
@@ -153,10 +112,6 @@ public class Match implements Serializable {
 
 	public void setPractiScoreId(String practiScoreId) {
 		this.practiScoreId = practiScoreId;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
 	}
 
 	public MatchStatus getStatus() {

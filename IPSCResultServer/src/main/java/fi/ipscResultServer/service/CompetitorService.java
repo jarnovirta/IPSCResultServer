@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import fi.ipscResultServer.domain.Competitor;
 import fi.ipscResultServer.exception.DatabaseException;
@@ -14,6 +15,7 @@ public class CompetitorService {
 	@Autowired
 	private CompetitorRepository competitorRepository;
 	
+	@Transactional
 	public Competitor save(Competitor competitor) throws DatabaseException {
 		
 		return null;
@@ -23,11 +25,7 @@ public class CompetitorService {
 
 		return null;
 	}
-	
-	public Competitor findByPractiScoreReferences(String practiScoreMatchId, String practiScoreCompetitorId) {
-		return null;
-	}
-	
+	@Transactional
 	public void save(List<Competitor> competitors) {
 		if (competitors == null) return;
 		competitorRepository.save(competitors);
@@ -37,6 +35,7 @@ public class CompetitorService {
 	public List<Competitor> findByMatch(Long matchId) {
 		return competitorRepository.findByMatch(matchId);
 	}
+	@Transactional
 	public void delete(List<Competitor> competitors) {
 		competitorRepository.delete(competitors);
 	}

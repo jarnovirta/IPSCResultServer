@@ -1,33 +1,13 @@
 package fi.ipscResultServer.domain.statistics;
 
-import java.io.Serializable;
-
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-
 import fi.ipscResultServer.domain.Competitor;
 import fi.ipscResultServer.domain.Match;
 
-@Entity
-public class CompetitorStatistics implements Serializable, Comparable<CompetitorStatistics> {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+public class CompetitorStatistics implements Comparable<CompetitorStatistics> {
 	private Long id;
 	
-	@OneToOne(fetch = FetchType.LAZY)
 	private Match match;
 		
-	@ManyToOne(fetch = FetchType.LAZY)
 	private Competitor competitor;
 
 	private double matchTime;
@@ -92,10 +72,6 @@ public class CompetitorStatistics implements Serializable, Comparable<Competitor
 
 	public void setCompetitor(Competitor competitor) {
 		this.competitor = competitor;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
 	}
 
 	public double getMatchTime() {

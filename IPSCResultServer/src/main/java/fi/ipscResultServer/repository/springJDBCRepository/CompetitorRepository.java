@@ -2,7 +2,6 @@ package fi.ipscResultServer.repository.springJDBCRepository;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -13,7 +12,6 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import fi.ipscResultServer.domain.Competitor;
 import fi.ipscResultServer.domain.Match;
@@ -37,10 +35,7 @@ public class CompetitorRepository {
         jdbcTemplate = dbUtil.getJdbcTemplate();
     }
 	
-	@Transactional("JDBCTransaction")
 	public void save(List<Competitor> competitors) {
-		System.out.println("Competitor repo Saving competitors");
-		
 		String query = "INSERT INTO competitor (disqualified, division, firstname, ipscalias, lastname"
 				+ ", powerfactor, practiscoreid, shooternumber, squad, team, match_id)"
 	      		+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
@@ -72,6 +67,7 @@ public class CompetitorRepository {
 		try {
 			String query = "SELECT * FROM competitor WHERE match_id = ? ORDER BY ? DESC";
 			List<Competitor> competitors = jdbcTemplate.query(query, new Object[] {matchId, "lastname"}, new CompetitorMapper());
+			
 			Match match = matchService.getOne(matchId);
 			for (Competitor comp : competitors) comp.setMatch(match);
 			return competitors;
@@ -81,7 +77,6 @@ public class CompetitorRepository {
 		}
 	}
 	
-	@Transactional("JDBCTransaction")
 	public void delete(List<Competitor> competitors) {
 		if (competitors == null) return;
 		
@@ -101,7 +96,6 @@ public class CompetitorRepository {
 		});
 	}
 	
-	@Transactional("JDBCTransaction")
 	private void removeReferencesToCompetitors(List<Competitor> competitors) {
 		String query = "UPDATE scorecard SET competitor_id = ? WHERE competitor_id = ?";
 		jdbcTemplate.batchUpdate(query, new BatchPreparedStatementSetter() {

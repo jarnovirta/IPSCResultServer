@@ -39,24 +39,25 @@ public class CompetitorResultsController {
 		try { 
 			
 			Match match = matchService.findByPractiScoreId(matchId);
-			Competitor competitor = competitorService.findByPractiScoreReferences(matchId, competitorId);
-			CompetitorResultData resultData = competitorResultDataService.getCompetitorResultData(competitorId, matchId);
-			boolean additionalPenaltiesColumn = false;
-			for (ScoreCard card : resultData.getScoreCards().values()) {
-				if (card.getAdditionalPenalties() > 0) additionalPenaltiesColumn = true;
-			}
-		
-			List<ScoreCard> cards = new ArrayList<ScoreCard>();
-			for (Stage stage : match.getStages()) {
-				ScoreCard card = resultData.getScoreCards().get(stage.getId());
-				if (card != null) {
-					cards.add(card);
-				}
-			}
+//			Competitor competitor = competitorService.findByPractiScoreReferences(matchId, competitorId);
+//			
+//			CompetitorResultData resultData = competitorResultDataService.getCompetitorResultData(competitorId, matchId);
+//			boolean additionalPenaltiesColumn = false;
+//			for (ScoreCard card : resultData.getScoreCards().values()) {
+//				if (card.getAdditionalPenalties() > 0) additionalPenaltiesColumn = true;
+//			}
+//		
+//			List<ScoreCard> cards = new ArrayList<ScoreCard>();
+//			for (Stage stage : match.getStages()) {
+//				ScoreCard card = resultData.getScoreCards().get(stage.getId());
+//				if (card != null) {
+//					cards.add(card);
+//				}
+//			}
 			
-			model.addAttribute("resultData", resultData);
-			model.addAttribute("additionalPenaltiesColumn", additionalPenaltiesColumn);
-			model.addAttribute("errorCostDataLines", CompetitorErrorCostDataService.getErrorCostTableLines(match, competitor, cards));
+//			model.addAttribute("resultData", resultData);
+//			model.addAttribute("additionalPenaltiesColumn", additionalPenaltiesColumn);
+//			model.addAttribute("errorCostDataLines", CompetitorErrorCostDataService.getErrorCostTableLines(match, competitor, cards));
 			
 		}
 //		 Exception logged in repository
