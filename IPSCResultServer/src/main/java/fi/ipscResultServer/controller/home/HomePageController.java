@@ -14,7 +14,7 @@ public class HomePageController {
 	@Autowired
 	MatchService matchService;
 		
-	final static Logger logger = Logger.getLogger(HomePageController.class);
+	private final static Logger LOGGER = Logger.getLogger(HomePageController.class);
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String getHomePage(Model model) {

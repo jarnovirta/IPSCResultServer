@@ -18,7 +18,7 @@ public class ScoreCardService {
 	@Autowired
 	private ScoreCardRepository scoreCardRepository;
 	
-	final static Logger logger = Logger.getLogger(ScoreCardService.class);
+	private final static Logger LOGGER = Logger.getLogger(ScoreCardService.class);
 	
 	@Transactional
 	public void save(List<ScoreCard> scoreCards) throws DatabaseException {

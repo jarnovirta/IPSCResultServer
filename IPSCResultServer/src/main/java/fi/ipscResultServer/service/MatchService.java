@@ -32,7 +32,7 @@ public class MatchService {
 	@Autowired
 	private CompetitorService competitorService;
 	
-	final static Logger logger = Logger.getLogger(MatchService.class);
+	private final static Logger LOGGER = Logger.getLogger(MatchService.class);
 
 	@Transactional
 	public Match save(Match match) {
@@ -118,7 +118,7 @@ public class MatchService {
 	}
 	@Transactional
 	public void delete(Match match) {
-		logger.debug("*** DELETING MATCH ");
+		LOGGER.debug("*** DELETING MATCH ");
 		System.out.println("Deleting competitors");
 		competitorService.delete(match.getCompetitors());
 		System.out.println("Deleting stages");

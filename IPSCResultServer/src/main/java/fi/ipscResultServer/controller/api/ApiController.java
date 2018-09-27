@@ -21,7 +21,7 @@ public class ApiController {
 	@Autowired
 	private PractiScoreMatchDataService practiScoreMatchDataService;
 	
-	final static Logger logger = Logger.getLogger(ApiController.class);
+	private final static Logger LOGGER = Logger.getLogger(ApiController.class);
 	
 	@RequestMapping(value = "/matches", method = RequestMethod.POST)
 	public ResponseEntity<String> postMatchData(@RequestBody PractiScoreMatchData matchData) {
@@ -35,7 +35,7 @@ public class ApiController {
 			return new ResponseEntity<String>("Match data saved!", null, HttpStatus.OK);
 		}
 		catch (Exception e) {
-			logger.error(ExceptionUtils.getStackTrace(e));
+			LOGGER.error(ExceptionUtils.getStackTrace(e));
 			return new ResponseEntity<String>("Error occurred on server!", null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}

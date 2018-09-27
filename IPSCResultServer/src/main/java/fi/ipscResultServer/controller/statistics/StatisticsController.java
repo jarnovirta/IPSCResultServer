@@ -27,7 +27,7 @@ public class StatisticsController {
 	@Autowired
 	MatchService matchService;
 	
-	final static Logger logger = Logger.getLogger(StatisticsController.class);
+	private final static Logger LOGGER = Logger.getLogger(StatisticsController.class);
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public String getStatisticsPage(Model model, @RequestParam("matchId") String matchId,
@@ -55,7 +55,7 @@ public class StatisticsController {
 			model.addAttribute("additionalPenaltiesColumn", additionalPenaltiesColumn);
 		}
 		catch (DatabaseException e) {
-			logger.error(e.getMessage());
+			LOGGER.error(e.getMessage());
 		}
 		return "statistics/competitorStatistics/competitorStatisticsPage";
 	}
@@ -68,7 +68,7 @@ public class StatisticsController {
 			else return statisticsService.findCompetitorStatisticsByMatchAndDivision(matchId, division);
 		}
 		catch (DatabaseException e) {
-			logger.error(e.getMessage());
+			LOGGER.error(e.getMessage());
 			return null;
 		}
 	}

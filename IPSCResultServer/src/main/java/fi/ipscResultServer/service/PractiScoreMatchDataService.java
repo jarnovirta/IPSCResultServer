@@ -24,7 +24,7 @@ public class PractiScoreMatchDataService {
 	@Autowired
 	private ScoreCardService scoreCardService;
 	
-	final static Logger LOGGER = Logger.getLogger(PractiScoreMatchDataService.class);
+	private final static Logger LOGGER = Logger.getLogger(PractiScoreMatchDataService.class);
 	
 	public void save(PractiScoreMatchData matchData) throws DatabaseException {
 		Match match = matchData.getMatch();

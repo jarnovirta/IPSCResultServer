@@ -25,7 +25,7 @@ public class MatchResultDataService {
 	@Autowired
 	StageResultDataService stageResultDataService;
 	
-	final static Logger logger = Logger.getLogger(ScoreCardService.class);
+	private final static Logger LOGGER = Logger.getLogger(ScoreCardService.class);
 	
 	public MatchResultData findByMatchAndDivision(Long matchId, String division) 
 			throws DatabaseException {
@@ -97,7 +97,7 @@ public class MatchResultDataService {
 				rank++;
 			}
 			matchResultData.setDataLines(matchResultDataLines);
-			logger.info("Saving match result data for division " + division);
+			LOGGER.info("Saving match result data for division " + division);
 			save(matchResultData);
 		}
 		return null;

@@ -18,7 +18,7 @@ public class MatchResultsController {
 	@Autowired
 	private MatchService matchService;
 		
-	final static Logger logger = Logger.getLogger(MatchResultsController.class);
+	private final static Logger LOGGER = Logger.getLogger(MatchResultsController.class);
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public String getMatchMainPage(Model model, 

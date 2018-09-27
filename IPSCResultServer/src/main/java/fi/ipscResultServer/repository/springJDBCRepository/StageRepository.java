@@ -29,7 +29,7 @@ public class StageRepository {
 	@Autowired
 	private MatchService matchService;
 	
-	final static Logger logger = Logger.getLogger(StageRepository.class);
+	private final static Logger LOGGER = Logger.getLogger(StageRepository.class);
 	
 	@PostConstruct
     public void init() {

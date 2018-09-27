@@ -26,7 +26,7 @@ public class StatisticsService {
 	@Autowired
 	private MatchResultDataService matchResultDataService;
 	
-	final static Logger LOGGER = Logger.getLogger(StatisticsService.class);
+	private final static Logger LOGGER = Logger.getLogger(StatisticsService.class);
 	
 	public List<CompetitorStatistics> findCompetitorStatisticsByMatchAndDivision(Long matchId, String division) 
 		throws DatabaseException {

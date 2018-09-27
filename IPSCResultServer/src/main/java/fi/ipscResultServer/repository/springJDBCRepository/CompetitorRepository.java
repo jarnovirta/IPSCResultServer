@@ -28,7 +28,7 @@ public class CompetitorRepository {
 	@Autowired
 	private MatchService matchService;
 	
-	final static Logger logger = Logger.getLogger(StageRepository.class);
+	private final static Logger LOGGER = Logger.getLogger(StageRepository.class);
 	
 	@PostConstruct
     public void init() {
@@ -80,7 +80,7 @@ public class CompetitorRepository {
 	public void delete(List<Competitor> competitors) {
 		if (competitors == null) return;
 		
-		logger.debug("Removing competitor references");
+		LOGGER.debug("Removing competitor references");
 		removeReferencesToCompetitors(competitors);
 		
 		String query = "DELETE FROM competitor WHERE id = ?";
