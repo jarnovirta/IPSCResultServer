@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import fi.ipscResultServer.service.MatchService;
+import fi.ipscResultServer.domain.practiScore.PractiScoreMatchData;
+import fi.ipscResultServer.service.PractiScoreMatchDataService;
 
 
 @Controller
@@ -18,18 +19,18 @@ import fi.ipscResultServer.service.MatchService;
 public class ApiController {
 	
 	@Autowired
-	private MatchService matchService;
-
+	private PractiScoreMatchDataService practiScoreMatchDataService;
+	
 	final static Logger logger = Logger.getLogger(ApiController.class);
 	
 	@RequestMapping(value = "/matches", method = RequestMethod.POST)
-	public ResponseEntity<String> postMatchData(@RequestBody MatchData matchData) {
+	public ResponseEntity<String> postMatchData(@RequestBody PractiScoreMatchData matchData) {
 		try {
 			long startTime = System.currentTimeMillis();
-			
-			matchService.saveMatchData(matchData);
+			practiScoreMatchDataService.save(matchData);
 			long estimatedTime = System.currentTimeMillis() - startTime;
-			System.out.println("\n\n **** TOTAL ELAPSED TIME: " + estimatedTime / 1000 + " SEC");
+
+			System.out.println("\n\n **** MATCH SAVE TOOK " + estimatedTime / 1000 + " SEC");			
 			
 			return new ResponseEntity<String>("Match data saved!", null, HttpStatus.OK);
 		}

@@ -13,7 +13,7 @@ import fi.ipscResultServer.service.MatchService;
 public class HomePageController {
 	@Autowired
 	MatchService matchService;
-	
+		
 	final static Logger logger = Logger.getLogger(HomePageController.class);
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)

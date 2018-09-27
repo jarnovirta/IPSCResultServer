@@ -12,17 +12,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import fi.ipscResultServer.controller.api.MatchData;
 import fi.ipscResultServer.domain.Competitor;
-import fi.ipscResultServer.domain.Constants;
 import fi.ipscResultServer.domain.Match;
 import fi.ipscResultServer.domain.MatchStatus;
-import fi.ipscResultServer.domain.ScoreCard;
 import fi.ipscResultServer.domain.Stage;
-import fi.ipscResultServer.domain.StageScore;
 import fi.ipscResultServer.domain.User;
 import fi.ipscResultServer.exception.DatabaseException;
-import fi.ipscResultServer.repository.MatchRepository;
+import fi.ipscResultServer.repository.springJDBCRepository.MatchRepository;
 import fi.ipscResultServer.service.resultDataService.MatchResultDataService;
 
 @Service
@@ -33,6 +29,9 @@ public class MatchService {
 	
 	@Autowired
 	private MatchRepository matchRepository;
+	
+	@Autowired
+	private StageService stageService;
 	
 	@Autowired
 	private MatchResultDataService matchResultDataService;
@@ -46,39 +45,48 @@ public class MatchService {
 	@Autowired
 	private UserService userService;
 	
+	@Autowired
+	private CompetitorService competitorService;
+	
 	final static Logger logger = Logger.getLogger(MatchService.class);
 
-	@Transactional
-	public void saveMatchData(MatchData matchData) throws DatabaseException {
+	@Transactional("JDBCTransaction")
+	public Match save(Match match) {
+		prepareStagesForSave(match);
 		
-		// Delete previously saved match data from DB
+		boolean admin = userService.isCurrentUserAdmin();
+		if (admin == true) match.setUploadedByAdmin(true);
+		else match.setUser(userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));	
 		
-		logger.info("*** START MATCH DATA SAVE *** \n Delete old match data");
-		Match oldMatch = matchRepository.findByPractiScoreId(matchData.getMatch().getPractiScoreId());
+		match = matchRepository.save(match);
 		
-		if (oldMatch != null) delete(oldMatch.getId());
-		
-		prepareMatchDataForSave(matchData.getMatch());
-		
-		Match match = saveMatchDef(matchData.getMatch());
+		prepareCompetitorsForSave(match);
+		competitorService.save(match.getCompetitors());
 				
-		prepareStageScoresForSave(matchData.getMatchScore().getStageScores(), match);
+		stageService.save(match.getStages());
 		
-		scoreCardService.save(getMatchScoreCards(matchData));
-				
-		logger.info("**** MATCH RESULT DATA SAVE DONE");
+		return match;
 	}
-	
-	private List<ScoreCard> getMatchScoreCards(MatchData matchData) {
-		List<ScoreCard> scoreCards = new ArrayList<ScoreCard>();
-		for (StageScore ss : matchData.getMatchScore().getStageScores()) {
-			scoreCards.addAll(ss.getScoreCards());
+
+	private void prepareCompetitorsForSave(Match match) {
+		if (match.getCompetitors() != null) {
+			List<Competitor> deletedCompetitors = new ArrayList<Competitor>();
+			int competitorNumber = 1;
+			
+			for (Competitor competitor : match.getCompetitors()) {
+				competitor.setShooterNumber(competitorNumber++);
+				competitor.setMatch(match);
+
+				// Remove deleted competitors
+				if (competitor.isDeleted() == true) {
+					deletedCompetitors.add(competitor);
+				}
+			}
+			match.getCompetitors().removeAll(deletedCompetitors);
 		}
-	return scoreCards;
 	}
-	public void prepareMatchDataForSave(Match match) {
-		
-		// Prepare stage data
+
+	public void prepareStagesForSave(Match match) {
 		if (match.getStages() != null) {
 			List<Stage> removeStages = new ArrayList<Stage>();
 			for (Stage stage : match.getStages()) {
@@ -89,136 +97,50 @@ public class MatchService {
 			}
 			match.getStages().removeAll(removeStages);
 		}
-		// Set user reference to match
-		boolean admin = userService.isCurrentUserAdmin();
-		
-		if (admin == true) match.setUploadedByAdmin(true);
-		else match.setUser(userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
-		
-		// Prepare competitor data
-		if (match.getCompetitors() != null) {
-			List<Competitor> deletedCompetitors = new ArrayList<Competitor>();
-			int competitorNumber = 1;
-			
-			for (Competitor competitor : match.getCompetitors()) {
-				competitor.setShooterNumber(competitorNumber++);
-				competitor.setMatch(match);
-				// Remove deleted competitors
-				if (competitor.isDeleted() == true) {
-					deletedCompetitors.add(competitor);
-				}
-			}
-			match.getCompetitors().removeAll(deletedCompetitors);
-		}
 	}
 	
-	private void prepareStageScoresForSave(List<StageScore> stageScores, Match match) {
-		
-		if (match.getDivisions() == null) match.setDivisions(new ArrayList<String>());
-		if (match.getDivisionsWithResults() == null) match.setDivisionsWithResults(new ArrayList<String>());
-		
-		for (StageScore stageScore : stageScores) {
-			Stage stage = null;
-			for (Stage savedStage : match.getStages()) {
-				if (savedStage.getPractiScoreId().equals(stageScore.getStagePractiScoreId())) {
-					stage = savedStage;
-				}
-			}
-						
-			List<ScoreCard> cardsToRemove = new ArrayList<ScoreCard>();
-			for (ScoreCard scoreCard : stageScore.getScoreCards()) {
-				
-				Competitor competitor = findByPractiScoreId(scoreCard.getCompetitorPractiScoreId(), match);
-				
-				// Remove cards if competitor or stage has been deleted
-				if (competitor == null || competitor.isDeleted() || stage == null) {
-					cardsToRemove.add(scoreCard);
-					continue;
-				}
-				
-				scoreCard.setCompetitor(competitor);
-				
-				scoreCard.setHitsAndPoints();
-				scoreCard.setStage(stage);
-				
-				String scoreCardDivision = scoreCard.getCompetitor().getDivision();
-
-				if (!match.getDivisionsWithResults().contains(scoreCardDivision))  {
-					match.getDivisionsWithResults().add(scoreCardDivision);
-				}
-			}
-			stageScore.getScoreCards().removeAll(cardsToRemove);
-			
-			// If match has results for more than one division, add IPSCDivision combined to match for result listing purposes.
-			if (match.getDivisionsWithResults().size() > 1 && !match.getDivisionsWithResults().contains(Constants.COMBINED_DIVISION)) {
-				match.getDivisionsWithResults().add(Constants.COMBINED_DIVISION);
-			}
-		}
-	}
-	
-	@Transactional
-	public Match saveMatchDef(Match match) throws DatabaseException {
-		Match savedMatch = matchRepository.save(match);
-		return savedMatch;
-	}
-
 	@Transactional
 	public List<Match> findAll() {
-		return matchRepository.findAll();
+//		return matchRepository.findAll();
+		return null;
 	}
 	
-	private Competitor findByPractiScoreId(String id, Match match) {
-		Competitor resultCompetitor = null;
-		for (Competitor comp : match.getCompetitors()) {
-			if (comp.getPractiScoreId().equals(id)) {
-				resultCompetitor = comp;
-				break;
-			}
-		}
-		
-		return resultCompetitor;
+	public Competitor findByPractiScoreId(String id, Match match) {
+		return null;
 	}
 	
 	// Returns Match list with only necessary properties set for listing purposes
 	// instead of full instances with a list of Stages etc.
 	@Transactional
 	public List<Match> getFullMatchList() {
-		return matchRepository.getFullMatchList();
+//		return matchRepository.getFullMatchList();
+		return null;
 	}
 	@Transactional
 	public List<Match> getMatchListForUser(User user) {
-		return matchRepository.getMatchListForUser(user);
+
+		return null;
 	}
-	@Transactional
-	public Match getOne(Long id) throws DatabaseException {
+	public Match getOne(Long id) {
 		return matchRepository.getOne(id);
 	}
-	@Transactional
+	@Transactional("JDBCTransaction")
 	public Match findByPractiScoreId(String practiScoreId) throws DatabaseException {
-		Match match = matchRepository.findByPractiScoreId(practiScoreId);
+		return matchRepository.findByPractiScoreId(practiScoreId);
 		
-		return match;
 	}
-	@Transactional
-	public void delete(Long matchId) {
-	
-		try {
-			Match match = getOne(matchId);
-			
-			statisticsService.deleteByMatch(matchId);
-			matchResultDataService.deleteByMatch(matchId);
-			scoreCardService.deleteByMatch(match);
-			matchRepository.delete(match);
-			
-		}
-		catch (DatabaseException e) {
-			e.printStackTrace();
-		}
-	
+	@Transactional("JDBCTransaction")
+	public void delete(Match match) {
+		logger.debug("*** DELETING MATCH ");
+		System.out.println("Deleting competitors");
+		competitorService.delete(match.getCompetitors());
+		System.out.println("Deleting stages");
+		stageService.delete(match.getStages());
+		
 	}
 	@Transactional
 	public void setMatchStatus(Long matchId, MatchStatus newStatus) throws DatabaseException {
-		Match match = getOne(matchId);
-		match.setStatus(newStatus);
+//		Match match = getOne(matchId);
+//		match.setStatus(newStatus);
 	}
 }

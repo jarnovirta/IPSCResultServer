@@ -9,13 +9,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import fi.ipscResultServer.domain.Competitor;
 import fi.ipscResultServer.domain.Constants;
-import fi.ipscResultServer.domain.Match;
 import fi.ipscResultServer.domain.ScoreCard;
 import fi.ipscResultServer.domain.Stage;
 import fi.ipscResultServer.domain.resultData.StageResultData;
 import fi.ipscResultServer.domain.resultData.StageResultDataLine;
 import fi.ipscResultServer.exception.DatabaseException;
-import fi.ipscResultServer.repository.StageResultDataRepository;
+import fi.ipscResultServer.repository.eclipseLinkRepository.StageResultDataRepository;
 import fi.ipscResultServer.service.ScoreCardService;
 import fi.ipscResultServer.service.StageService;
 

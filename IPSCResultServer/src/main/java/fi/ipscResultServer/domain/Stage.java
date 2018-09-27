@@ -42,6 +42,9 @@ public class Stage implements Serializable {
 	@JoinColumn(nullable = false)
 	private Match match;
 	
+	@Transient
+	private Long matchId;
+	
 	@JsonProperty("stage_name")
 	@Column(nullable = false)
 	private String name;
@@ -53,12 +56,6 @@ public class Stage implements Serializable {
 	@JsonProperty("stage_number")
 	@Column(nullable = false)
 	private int stageNumber;
-	
-	@JsonProperty("stage_modifieddate")
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.SSS")
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(nullable = false)
-	private Calendar modifiedDate;
 
 	@JsonProperty("stage_targets")
 	@Transient
@@ -71,6 +68,7 @@ public class Stage implements Serializable {
 	private int maxPoints;
 	
 	@JsonProperty("stage_deleted")
+	@Transient
 	private boolean deleted = false;
 	
 
@@ -116,14 +114,6 @@ public class Stage implements Serializable {
 
 	public void setStageNumber(int stageNumber) {
 		this.stageNumber = stageNumber;
-	}
-
-	public Calendar getModifiedDate() {
-		return modifiedDate;
-	}
-
-	public void setModifiedDate(Calendar modifiedDate) {
-		this.modifiedDate = modifiedDate;
 	}
 
 	public Match getMatch() {
@@ -176,6 +166,14 @@ public class Stage implements Serializable {
 
 	public void setMaxPoints(int maxPoints) {
 		this.maxPoints = maxPoints;
+	}
+
+	public Long getMatchId() {
+		return matchId;
+	}
+
+	public void setMatchId(Long matchId) {
+		this.matchId = matchId;
 	}
 	
 }

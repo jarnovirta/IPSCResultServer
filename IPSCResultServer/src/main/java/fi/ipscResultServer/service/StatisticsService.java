@@ -14,7 +14,7 @@ import fi.ipscResultServer.domain.resultData.CompetitorResultData;
 import fi.ipscResultServer.domain.resultData.MatchResultDataLine;
 import fi.ipscResultServer.domain.statistics.CompetitorStatistics;
 import fi.ipscResultServer.exception.DatabaseException;
-import fi.ipscResultServer.repository.CompetitorStatisticsRepository;
+import fi.ipscResultServer.repository.eclipseLinkRepository.CompetitorStatisticsRepository;
 import fi.ipscResultServer.service.resultDataService.CompetitorResultDataService;
 import fi.ipscResultServer.service.resultDataService.MatchResultDataService;
 

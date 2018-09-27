@@ -28,7 +28,64 @@
 					
 				</configuration>
 			</plugin>
+<!-- 			<plugin>
+               <groupId>de.empulse.eclipselink</groupId>
+               <artifactId>staticweave-maven-plugin</artifactId>
+               <version>1.0.0</version>
+               <executions>
+                   <execution>
+                       <phase>process-classes</phase>
+                       <goals>
+                           <goal>weave</goal>
+                       </goals>
+                       <configuration>
+                           <persistenceXMLLocation>META-INF/persistence.xml</persistenceXMLLocation>
+                           <logLevel>FINE</logLevel>
+                       </configuration>
+                   </execution>
+               </executions>
+               <dependencies>
+                   <dependency>
+                       <groupId>org.eclipse.persistence</groupId>
+                       <artifactId>org.eclipse.persistence.jpa</artifactId>
+                       <version>2.7.0</version>
+                   </dependency>
+               </dependencies>
+           </plugin> -->
+           
 		</plugins>
+<!-- 	<pluginManagement>
+        <plugins>
+            
+                This plugin's configuration is used to store Eclipse m2e settings only.
+                It has no influence on the Maven build itself.
+           
+            <plugin>
+                <groupId>org.eclipse.m2e</groupId>
+                <artifactId>lifecycle-mapping</artifactId>
+                <version>1.0.0</version>
+                <configuration>
+                    <lifecycleMappingMetadata>
+                        <pluginExecutions>
+                            <pluginExecution>
+                                <pluginExecutionFilter>
+                                    <groupId>de.empulse.eclipselink</groupId>
+                                    <artifactId>staticweave-maven-plugin</artifactId>
+                                    <versionRange>[1.0,)</versionRange>
+                                    <goals>
+                                        <goal>weave</goal>
+                                    </goals>
+                                </pluginExecutionFilter>
+                                <action>
+                                    <execute/>
+                                </action>
+                            </pluginExecution>
+                        </pluginExecutions>
+                    </lifecycleMappingMetadata>
+                </configuration>
+            </plugin>
+        </plugins>
+    </pluginManagement> -->
 	</build>
   <dependencies>
 	  <dependency>

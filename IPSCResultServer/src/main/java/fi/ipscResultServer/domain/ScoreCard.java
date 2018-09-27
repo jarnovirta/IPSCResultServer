@@ -33,7 +33,7 @@ public class ScoreCard implements Serializable {
 	private Long id;
 	
 	@JsonProperty("shtr")
-	@Column(nullable = false, length = 36)
+	@Transient
 	private String competitorPractiScoreId;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -58,11 +58,10 @@ public class ScoreCard implements Serializable {
 	private int popperHits = 0;
 	
 	@JsonProperty("popns")
-	@Transient
 	private int popperNoshootHits = 0;
 	
 	@JsonProperty("popnpm")
-	@Column(nullable = false)
+	@Transient
 	private int popperNonPenaltyMisses = 0;
 	
 	@JsonProperty("rawpts")
@@ -99,8 +98,6 @@ public class ScoreCard implements Serializable {
 	@Column(nullable = false)
 	private double hitFactor;
 	
-	private int stageScorePercentage;
-	
 	private int stagePoints;
 	
 	private int stageRank;
@@ -109,11 +106,9 @@ public class ScoreCard implements Serializable {
 		return competitorPractiScoreId;
 	}
 
-
 	public void setCompetitorPractiScoreId(String competitorPractiScoreId) {
 		this.competitorPractiScoreId = competitorPractiScoreId;
 	}
-
 
 	public Calendar getModified() {
 		return modified;
@@ -196,6 +191,7 @@ public class ScoreCard implements Serializable {
 		
 		this.aHits += this.popperHits;
 		this.misses += popperMisses;
+		this.noshootHits += popperNoshootHits;
 		
 		this.points -= noshootHits * 10;
 		this.points -= misses * 10;
@@ -294,14 +290,6 @@ public class ScoreCard implements Serializable {
 
 	public void setHitFactor(double hitFactor) {
 		this.hitFactor = hitFactor;
-	}
-
-	public int getStageScorePercentage() {
-		return stageScorePercentage;
-	}
-
-	public void setStageScorePercentage(int stageScorePercentage) {
-		this.stageScorePercentage = stageScorePercentage;
 	}
 
 	public int getStagePoints() {

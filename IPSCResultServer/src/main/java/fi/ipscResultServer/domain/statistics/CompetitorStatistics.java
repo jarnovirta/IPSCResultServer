@@ -21,7 +21,7 @@ public class CompetitorStatistics implements Serializable, Comparable<Competitor
 	 */
 	private static final long serialVersionUID = 1L;
 	@Id
-	@GeneratedValue(strategy = GenerationType.TABLE)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
 	@OneToOne(fetch = FetchType.LAZY)

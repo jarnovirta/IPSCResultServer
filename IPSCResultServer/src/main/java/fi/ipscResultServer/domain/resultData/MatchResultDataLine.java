@@ -12,7 +12,7 @@ import fi.ipscResultServer.domain.Competitor;
 @Entity
 public class MatchResultDataLine implements Comparable<MatchResultDataLine> {
 	@Id
-	@GeneratedValue(strategy = GenerationType.TABLE)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
 	@ManyToOne(fetch = FetchType.LAZY)

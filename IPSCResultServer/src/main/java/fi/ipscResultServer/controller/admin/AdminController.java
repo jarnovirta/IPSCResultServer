@@ -108,7 +108,7 @@ public class AdminController {
 	public String deleteMatch(@RequestParam("matchId") Long matchId, Model model) {
 		
 		long startTime = System.currentTimeMillis();
-		matchService.delete(matchId);
+//		matchService.delete(matchId);
 		
 		long estimatedTime = System.currentTimeMillis() - startTime;
 		System.out.println("\n\n **** DELETE MATCH TOOK " + estimatedTime / 1000 + " SEC");

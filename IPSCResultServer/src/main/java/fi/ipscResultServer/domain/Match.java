@@ -19,6 +19,7 @@ import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -45,6 +46,9 @@ public class Match implements Serializable {
 	@ManyToOne(cascade = { CascadeType.MERGE, CascadeType.PERSIST }, fetch = FetchType.LAZY)
 	private User user;
 	
+	@Transient
+	private Long userId;
+	
 	private boolean uploadedByAdmin = false;
 	
 	
@@ -63,12 +67,6 @@ public class Match implements Serializable {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	@Temporal(TemporalType.DATE)
 	private Calendar date;
-
-	@JsonProperty("match_modifieddate")
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.SSS")
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(nullable = false)
-	private Calendar modifiedDate;
 
 	@JsonProperty("match_cats")
 	@ElementCollection
@@ -116,15 +114,6 @@ public class Match implements Serializable {
 	public void setDate(Calendar date) {
 		this.date = date;
 	}
-
-	public Calendar getModifiedDate() {
-		return modifiedDate;
-	}
-
-	public void setModifiedDate(Calendar modifiedDate) {
-		this.modifiedDate = modifiedDate;
-	}
-
 
 	public List<Stage> getStages() {
 		return stages;
@@ -208,6 +197,14 @@ public class Match implements Serializable {
 
 	public void setUploadedByAdmin(boolean uploadedByAdmin) {
 		this.uploadedByAdmin = uploadedByAdmin;
+	}
+
+	public Long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
 
 }

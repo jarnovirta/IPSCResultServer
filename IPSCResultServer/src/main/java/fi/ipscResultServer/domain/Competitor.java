@@ -2,7 +2,6 @@ package fi.ipscResultServer.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -13,11 +12,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -69,27 +65,16 @@ public class Competitor implements Serializable, Comparable<Competitor> {
 	@JsonProperty("sh_ctgs")
 	@Transient
 	private String practiScoreCategoryString;
-		
-	@JsonProperty("sh_cc")
-	private String country;
 	
 	@JsonProperty("sh_dq")
 	@Column(nullable = false)
 	private boolean disqualified;
 	
-	@JsonProperty("sh_grd")
-	private char classification;
-	
 	@JsonProperty("sh_team")
 	private String team;
 	
-	@JsonProperty("sh_mod")
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.SSS")
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(nullable = false)
-	private Calendar modifiedDate;
-	
 	@JsonProperty("sh_del")
+	@Transient
 	private boolean deleted = false; 
 	
 	@JsonProperty("sh_pf")
@@ -112,18 +97,13 @@ public class Competitor implements Serializable, Comparable<Competitor> {
 	}
 
 
-
 	public Long getId() {
 		return id;
 	}
 
-
-
 	public void setId(Long id) {
 		this.id = id;
 	}
-
-
 
 	public String getPractiScoreId() {
 		return practiScoreId;
@@ -173,14 +153,6 @@ public class Competitor implements Serializable, Comparable<Competitor> {
 		return division;
 	}
 
-	public String getCountry() {
-		return country;
-	}
-
-	public void setCountry(String country) {
-		this.country = country;
-	}
-
 	public boolean isDisqualified() {
 		return disqualified;
 	}
@@ -189,28 +161,12 @@ public class Competitor implements Serializable, Comparable<Competitor> {
 		this.disqualified = disqualified;
 	}
 
-	public char getClassification() {
-		return classification;
-	}
-
-	public void setClassification(char classification) {
-		this.classification = classification;
-	}
-
 	public String getTeam() {
 		return team;
 	}
 
 	public void setTeam(String team) {
 		this.team = team;
-	}
-
-	public Calendar getModifiedDate() {
-		return modifiedDate;
-	}
-
-	public void setModifiedDate(Calendar modifiedDate) {
-		this.modifiedDate = modifiedDate;
 	}
 
 	public String getPractiScorePowerFactorString() {
@@ -294,5 +250,4 @@ public class Competitor implements Serializable, Comparable<Competitor> {
 	public String getPractiScoreCategoryString() {
 		return practiScoreCategoryString;
 	}
-	
 }

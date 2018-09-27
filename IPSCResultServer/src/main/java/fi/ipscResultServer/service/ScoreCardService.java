@@ -10,49 +10,49 @@ import org.springframework.transaction.annotation.Transactional;
 import fi.ipscResultServer.domain.Match;
 import fi.ipscResultServer.domain.ScoreCard;
 import fi.ipscResultServer.exception.DatabaseException;
-import fi.ipscResultServer.repository.ScoreCardRepository;
+import fi.ipscResultServer.repository.springJDBCRepository.ScoreCardRepository;
 
 @Service
 public class ScoreCardService {
+	
 	@Autowired
 	private ScoreCardRepository scoreCardRepository;
-
 	
 	final static Logger logger = Logger.getLogger(ScoreCardService.class);
 	
-	@Transactional
-	public List<ScoreCard> save(List<ScoreCard> scoreCard) throws DatabaseException {
-		return scoreCardRepository.save(scoreCard);
+	@Transactional("JDBCTransaction")
+	public void save(List<ScoreCard> scoreCards) throws DatabaseException {
+		scoreCardRepository.save(scoreCards);
 	}
 	
 	public ScoreCard findByCompetitorAndStage(String competitorId, String stageId) throws DatabaseException  {
-		return scoreCardRepository.findByCompetitorAndStage(competitorId, stageId);
+		return null;
 	}
 	public List<ScoreCard> findByCompetitorAndMatchPractiScoreIds(String competitorPractiScoreId, 
 			String matchPractiScoreId) throws DatabaseException {
-		return scoreCardRepository.findByCompetitorAndMatchPractiScoreIds(competitorPractiScoreId, matchPractiScoreId);		
+		return null;		
 	}
-	@Transactional
-	public void deleteInBatch(List<ScoreCard> scoreCards) throws DatabaseException {
-		scoreCardRepository.deleteInBatch(scoreCards);
+	@Transactional("JDBCTransaction")
+	public void deleteInBatch(List<Long> scoreCardIds) throws DatabaseException {
+		scoreCardRepository.delete(scoreCardIds);
 	}
 	
 	public List<ScoreCard> findByStageAndDivision(Long stageId, String division) throws DatabaseException {
-		return scoreCardRepository.findByStageAndDivision(stageId, division);
+		return null;
 	}
 	
 	public List<ScoreCard> findByStage(Long stageId) throws DatabaseException {
-		return scoreCardRepository.findByStage(stageId);
+		return null;
 	}
 	
 	// Delete ScoreCard. Needs to use properties other than id because ScoreCard data from PractiScore does not 
 	// include id.
 	@Transactional
 	public void delete(ScoreCard scoreCard) throws DatabaseException {
-		scoreCardRepository.delete(scoreCard);
+		
 	}
 	@Transactional
 	public void deleteByMatch(Match match) throws DatabaseException {
-		scoreCardRepository.deleteByMatch(match);
+		
 	}
 }

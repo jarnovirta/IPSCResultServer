@@ -17,7 +17,7 @@ import fi.ipscResultServer.domain.resultData.MatchResultData;
 import fi.ipscResultServer.domain.resultData.MatchResultDataLine;
 import fi.ipscResultServer.domain.resultData.StageResultDataLine;
 import fi.ipscResultServer.exception.DatabaseException;
-import fi.ipscResultServer.repository.MatchResultDataRepository;
+import fi.ipscResultServer.repository.eclipseLinkRepository.MatchResultDataRepository;
 import fi.ipscResultServer.service.ScoreCardService;
 
 @Service
