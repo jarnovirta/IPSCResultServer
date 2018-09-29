@@ -14,7 +14,6 @@ public class ScoreCard {
 	@JsonProperty("shtr")
 	private String competitorPractiScoreId;
 	
-	
 	private Competitor competitor;
 	
 	private Long competitorId;

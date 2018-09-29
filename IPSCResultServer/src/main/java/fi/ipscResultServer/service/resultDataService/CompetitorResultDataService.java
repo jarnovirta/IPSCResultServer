@@ -8,11 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import fi.ipscResultServer.domain.Competitor;
+import fi.ipscResultServer.domain.Match;
 import fi.ipscResultServer.domain.ScoreCard;
 import fi.ipscResultServer.domain.resultData.CompetitorResultData;
 import fi.ipscResultServer.service.CompetitorService;
 import fi.ipscResultServer.service.MatchService;
 import fi.ipscResultServer.service.ScoreCardService;
+import fi.ipscResultServer.service.StageService;
 
 @Service
 public class CompetitorResultDataService {
@@ -29,6 +31,9 @@ public class CompetitorResultDataService {
 	@Autowired
 	StageResultDataService stageResultDataService;
 	
+	@Autowired
+	StageService stageService;
+	
 	public CompetitorResultData getCompetitorResultData(Long competitorId) {
 		List<ScoreCard> cards = scoreCardService.findByCompetitor(competitorId);
 		
@@ -40,7 +45,9 @@ public class CompetitorResultDataService {
 		}
 		
 		Competitor competitor = competitorService.getOne(competitorId);
+		Match match = matchService.lazyGetOne(competitor.getMatchId());
+		match.setStages(stageService.findByMatch(match.getId()));
 
-		return new CompetitorResultData(competitor.getMatch(), competitor, scoreCards);
+		return new CompetitorResultData(match, competitor, scoreCards);
 	}
 }

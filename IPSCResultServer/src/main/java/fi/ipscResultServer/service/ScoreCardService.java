@@ -22,6 +22,9 @@ public class ScoreCardService {
 	@Autowired
 	private CompetitorService competitorService;
 	
+	@Autowired 
+	MatchService matchService;
+	
 	@Transactional
 	public void save(List<ScoreCard> scoreCards) throws DatabaseException {
 		scoreCardRepository.save(scoreCards);

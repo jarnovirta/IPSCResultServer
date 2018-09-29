@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import fi.ipscResultServer.domain.Competitor;
-import fi.ipscResultServer.domain.Match;
 import fi.ipscResultServer.domain.ScoreCard;
 import fi.ipscResultServer.domain.resultData.CompetitorResultData;
 import fi.ipscResultServer.service.CompetitorService;
@@ -34,20 +33,17 @@ public class CompetitorResultsController {
 	public String getCompetitorResultsPage(Model model, @RequestParam("competitorId") String competitorId, 
 			@RequestParam("matchId") String matchId) {
 			
-			Match match = matchService.getOne(matchService.getIdByPractiScoreId(matchId));
-			Competitor competitor = competitorService.findByPractiScoreReferences(matchId, competitorId);
-			
-			CompetitorResultData resultData = competitorResultDataService.getCompetitorResultData(competitor.getId());
-			
-			boolean additionalPenaltiesColumn = false;
-			for (ScoreCard card : resultData.getScoreCards().values()) {
-				if (card.getAdditionalPenalties() > 0) additionalPenaltiesColumn = true;
-			}
-			
-			model.addAttribute("resultData", resultData);
-			model.addAttribute("additionalPenaltiesColumn", additionalPenaltiesColumn);
-			model.addAttribute("errorCostDataLines", CompetitorErrorCostDataService.getErrorCostTableLines(match, competitor, new ArrayList<ScoreCard>(resultData.getScoreCards().values())));
+		Competitor competitor = competitorService.findByPractiScoreReferences(matchId, competitorId);
+		CompetitorResultData resultData = competitorResultDataService.getCompetitorResultData(competitor.getId());
 		
+		boolean additionalPenaltiesColumn = false;
+		for (ScoreCard card : resultData.getScoreCards().values()) {
+			if (card.getAdditionalPenalties() > 0) additionalPenaltiesColumn = true;
+		}
+		
+		model.addAttribute("resultData", resultData);
+		model.addAttribute("additionalPenaltiesColumn", additionalPenaltiesColumn);
+		model.addAttribute("errorCostDataLines", CompetitorErrorCostDataService.getErrorCostTableLines(resultData.getMatch(), competitor, new ArrayList<ScoreCard>(resultData.getScoreCards().values())));
 		return "results/competitorResults/competitorResultsPage";
 	}
 }

@@ -36,9 +36,7 @@ public class MatchResultDataService {
 	
 	@Autowired
 	private CompetitorService competitorService;
-	
-	@Autowired
-	private ScoreCardService scoreCardService;
+
 	
 	private final static Logger LOGGER = Logger.getLogger(ScoreCardService.class);
 	
@@ -48,7 +46,7 @@ public class MatchResultDataService {
 		data.setDataLines(matchResultDataRepository.getDataLines(data.getId()));
 		data.setDivision(division);
 		for (MatchResultDataLine line : data.getDataLines()) {
-			line.setCompetitor(competitorService.lazyGetOne(line.getCompetitorId()));
+			line.setCompetitor(competitorService.getOne(line.getCompetitorId()));
 			line.setMatchResultData(data);
 		}
 		

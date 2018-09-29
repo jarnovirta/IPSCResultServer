@@ -90,4 +90,10 @@ public class StageRepository {
 		String query = "DELETE FROM stage WHERE match_id = ?";
 		jdbcTemplate.update(query, new Object[] { matchId }); 
 	}
+	public Long getIdByPractiScoreReference(String matchPractiScoreId, String stagePractiScoreId) {
+		String sql = "SELECT s.id FROM stage s"
+				+ " INNER JOIN ipscmatch m ON s.match_id = m.id"
+				+ " WHERE s.practiscoreid = ? and m.practiscoreid = ?;";
+		return jdbcTemplate.queryForObject(sql, new Object[] { stagePractiScoreId, matchPractiScoreId }, Long.class);
+	}
 }

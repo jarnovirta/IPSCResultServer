@@ -62,7 +62,7 @@
 									<c:choose>
 										<c:when test="${resultData.match.status eq 'SCORING_ENDED' }">
 											<c:url var="stageResultsUrl" value="/stageResults" >
-												<c:param name="matchId" value="${scoreCard.stage.match.practiScoreId}" />
+												<c:param name="matchId" value="${resultData.match.practiScoreId}" />
 												<c:param name="stageId" value="${scoreCard.stage.practiScoreId}" />
 												<c:param name="division" value="${scoreCard.competitor.division }" />
 											</c:url>

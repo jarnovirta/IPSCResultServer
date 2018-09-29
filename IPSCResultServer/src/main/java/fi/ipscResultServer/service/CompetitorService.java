@@ -14,17 +14,7 @@ public class CompetitorService {
 	@Autowired
 	private CompetitorRepository competitorRepository;
 	
-	@Autowired
-	private MatchService matchService;
-	
 	public Competitor getOne(Long id) {
-		Competitor competitor = competitorRepository.getOne(id);
-		competitor.setMatch(matchService.getOne(competitor.getMatchId()));
-		competitor.setCategories(competitorRepository.getCategories(id));
-		return competitor;
-	}
-	
-	public Competitor lazyGetOne(Long id) {
 		Competitor competitor = competitorRepository.getOne(id);
 		competitor.setCategories(competitorRepository.getCategories(id));
 		return competitor;

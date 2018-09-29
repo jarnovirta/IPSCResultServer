@@ -21,10 +21,7 @@ public class StageService {
 		Stage stage = stageRepository.getOne(id);
 		return stage;
 	}
-	
-	public Stage getIdByPractiScoreReferences(String practiScoreMatchId, String practiScoreStageId) throws DatabaseException {
-		return null;
-	}
+
 	@Transactional
 	public List<Stage> save(List<Stage> stages) {
 		stageRepository.save(stages);
@@ -40,5 +37,8 @@ public class StageService {
 	}
 	public List<Stage> findByMatch(Long matchId) {
 		return stageRepository.findByMatch(matchId);
+	}
+	public Long getIdByPractiScoreReference(String matchPractiScoreId, String stagePractiScoreId) {
+		return stageRepository.getIdByPractiScoreReference(matchPractiScoreId, stagePractiScoreId);
 	}
 }
