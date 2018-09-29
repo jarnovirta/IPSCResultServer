@@ -9,6 +9,8 @@ public class MatchResultData {
 
 	private Match match; 
 	
+	private Long matchId;
+	
 	private String division;
 		
 	private List<MatchResultDataLine> dataLines;
@@ -50,6 +52,14 @@ public class MatchResultData {
 
 	public void setDivision(String division) {
 		this.division = division;
+	}
+
+	public Long getMatchId() {
+		return matchId;
+	}
+
+	public void setMatchId(Long matchId) {
+		this.matchId = matchId;
 	}
 
 	

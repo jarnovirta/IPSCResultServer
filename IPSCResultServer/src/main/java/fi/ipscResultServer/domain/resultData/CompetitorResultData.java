@@ -49,7 +49,12 @@ public class CompetitorResultData {
 		
 	private double hitFactorAverage;
 	
-
+	public CompetitorResultData(Match match, Competitor competitor, Map<Long, ScoreCard> scoreCards) {
+		this.match = match;
+		this.competitor = competitor;
+		this.scoreCards = scoreCards;
+		setStatistics();
+	}
 	public Map<Long, ScoreCard> getScoreCards() {
 		return scoreCards;
 	}

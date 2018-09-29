@@ -17,6 +17,9 @@ import fi.ipscResultServer.domain.resultData.MatchResultData;
 import fi.ipscResultServer.domain.resultData.MatchResultDataLine;
 import fi.ipscResultServer.domain.resultData.StageResultDataLine;
 import fi.ipscResultServer.exception.DatabaseException;
+import fi.ipscResultServer.repository.springJDBCRepository.MatchResultDataRepository;
+import fi.ipscResultServer.service.CompetitorService;
+import fi.ipscResultServer.service.MatchService;
 import fi.ipscResultServer.service.ScoreCardService;
 
 @Service
@@ -25,11 +28,31 @@ public class MatchResultDataService {
 	@Autowired
 	StageResultDataService stageResultDataService;
 	
+	@Autowired
+	private MatchResultDataRepository matchResultDataRepository;
+	
+	@Autowired
+	private MatchService matchService;
+	
+	@Autowired
+	private CompetitorService competitorService;
+	
+	@Autowired
+	private ScoreCardService scoreCardService;
+	
 	private final static Logger LOGGER = Logger.getLogger(ScoreCardService.class);
 	
-	public MatchResultData findByMatchAndDivision(Long matchId, String division) 
-			throws DatabaseException {
-		return null;
+	public MatchResultData findByMatchAndDivision(Long matchId, String division) {
+		MatchResultData data = matchResultDataRepository.findByMatchAndDivision(matchId, division);
+		data.setMatch(matchService.lazyGetOne(data.getMatchId()));
+		data.setDataLines(matchResultDataRepository.getDataLines(data.getId()));
+		data.setDivision(division);
+		for (MatchResultDataLine line : data.getDataLines()) {
+			line.setCompetitor(competitorService.lazyGetOne(line.getCompetitorId()));
+			line.setMatchResultData(data);
+		}
+		
+		return data;
 	}
 	
 	public List<MatchResultData> findByMatch(Long matchId) throws DatabaseException {
@@ -42,25 +65,29 @@ public class MatchResultDataService {
 	}
 	
 	@Transactional
-	public MatchResultData save(MatchResultData matchResultData) throws DatabaseException {
-		return null;
-		
+	public void save(MatchResultData matchResultData) {
+		matchResultDataRepository.save(matchResultData);
 	}
 	@Transactional
-	public void deleteByMatch(Long matchId) throws DatabaseException {
-//		matchResultDataRepository.deleteInBatch(findByMatch(matchId));
+	public void deleteByMatch(Long matchId) {
+		matchResultDataRepository.deleteByMatch(matchId);
 	}
 	
 	@Transactional
-	public MatchResultData generateMatchResultListing(Match match) throws DatabaseException {
+	public MatchResultData generateMatchResultListing(Long matchId) {
+		deleteByMatch(matchId);
+		Match match = matchService.getOne(matchId);
+
 		for (String division : match.getDivisionsWithResults()) {
+			LOGGER.info("Generating match result data for division " + division);
+			
 			MatchResultData matchResultData = new MatchResultData(match, division);
 			List<MatchResultDataLine> matchResultDataLines = new ArrayList<MatchResultDataLine>();
 			
-			// List all stage result data lines for division
+			// Get all stage result data lines for division
 			List<StageResultDataLine> allDivisionStageResultDatalines = new ArrayList<StageResultDataLine>();			
 			for (Stage stage : match.getStages()) {
-				allDivisionStageResultDatalines.addAll(stageResultDataService.getStageResultListing(match.getPractiScoreId(), stage.getPractiScoreId(), division).getDataLines());
+				allDivisionStageResultDatalines.addAll(stageResultDataService.getStageResultListing(stage, division).getDataLines());
 			}
 			
 			// Calculate competitor total points for match and set scored stages count
@@ -86,8 +113,8 @@ public class MatchResultDataService {
 				matchResultDataLines.add(competitorDataLine);
 			}
 			
+			// Order by points, set rank, points and percentages
 			Collections.sort(matchResultDataLines);
-			
 			double topPoints = -1.0;
 			int rank = 1;
 			for (MatchResultDataLine dataLine : matchResultDataLines) {
@@ -97,7 +124,6 @@ public class MatchResultDataService {
 				rank++;
 			}
 			matchResultData.setDataLines(matchResultDataLines);
-			LOGGER.info("Saving match result data for division " + division);
 			save(matchResultData);
 		}
 		return null;

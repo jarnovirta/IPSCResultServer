@@ -15,21 +15,22 @@ public class ScoreCardMapper implements RowMapper<ScoreCard> {
 		ScoreCard card = new ScoreCard();
 		card.setId(rs.getLong("id"));
 		card.setaHits(rs.getInt("ahits"));
+		card.setcHits(rs.getInt("chits"));
+		card.setdHits(rs.getInt("dhits"));
+		card.setMisses(rs.getInt("misses"));
+		card.setNoshootHits(rs.getInt("noshoothits"));
+		card.setProceduralPenalties(rs.getInt("proceduralpenalties"));
+		card.setPopperHits(rs.getInt("popperhits"));
+		card.setPopperMisses(rs.getInt("poppermisses"));
+		card.setPopperNoshootHits(rs.getInt("poppernoshoothits"));
 		card.setTime(rs.getDouble("time"));
 		card.setHitFactor(rs.getDouble("hitfactor"));
-		
-		// TODO: FIX
-		card.setCompetitor(null);
-		card.setStage(null);
 		Calendar cal = Calendar.getInstance();
-		cal.setTime(rs.getDate("modified"));
+		cal.setTime(rs.getTimestamp("modified"));
 		card.setModified(cal);
 		card.setPoints(rs.getInt("points"));
-		card.setPopperMisses(rs.getInt("poppermisses"));
-		card.setPopperHits(rs.getInt("popperhits"));
-		card.setPopperNoshootHits(rs.getInt("poppernoshoothits"));
-		card.setProceduralPenalties(rs.getInt("proceduralpenalties"));
-		
+		card.setStageId(rs.getLong("stage_id"));
+		card.setCompetitorId(rs.getLong("competitor_id"));
 		return card;
 	}
 }

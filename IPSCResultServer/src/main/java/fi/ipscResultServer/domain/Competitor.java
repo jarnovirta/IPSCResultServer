@@ -16,6 +16,8 @@ public class Competitor {
 	
 	private Match match;
 	
+	private Long matchId;
+	
 	@JsonProperty("sh_uid")
 	private String practiScoreId;
 	
@@ -50,6 +52,9 @@ public class Competitor {
 	
 	@JsonProperty("sh_pf")
 	private String practiScorePowerFactorString;
+	
+	@JsonProperty("sh_cc")
+	private String country;
 	
 	private PowerFactor powerFactor;
 	
@@ -204,6 +209,22 @@ public class Competitor {
 
 	public String getPractiScoreCategoryString() {
 		return practiScoreCategoryString;
+	}
+
+	public Long getMatchId() {
+		return matchId;
+	}
+
+	public void setMatchId(Long matchId) {
+		this.matchId = matchId;
+	}
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
 	}
 
 }

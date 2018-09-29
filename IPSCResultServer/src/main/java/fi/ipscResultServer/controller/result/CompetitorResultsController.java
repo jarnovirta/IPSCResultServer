@@ -1,5 +1,7 @@
 package fi.ipscResultServer.controller.result;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,10 +9,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import fi.ipscResultServer.domain.Competitor;
 import fi.ipscResultServer.domain.Match;
-import fi.ipscResultServer.exception.DatabaseException;
+import fi.ipscResultServer.domain.ScoreCard;
+import fi.ipscResultServer.domain.resultData.CompetitorResultData;
 import fi.ipscResultServer.service.CompetitorService;
 import fi.ipscResultServer.service.MatchService;
+import fi.ipscResultServer.service.resultDataService.CompetitorErrorCostDataService;
 import fi.ipscResultServer.service.resultDataService.CompetitorResultDataService;
 
 @Controller
@@ -30,28 +35,18 @@ public class CompetitorResultsController {
 			@RequestParam("matchId") String matchId) {
 			
 			Match match = matchService.getOne(matchService.getIdByPractiScoreId(matchId));
-//			Competitor competitor = competitorService.findByPractiScoreReferences(matchId, competitorId);
-//			
-//			CompetitorResultData resultData = competitorResultDataService.getCompetitorResultData(competitorId, matchId);
-//			boolean additionalPenaltiesColumn = false;
-//			for (ScoreCard card : resultData.getScoreCards().values()) {
-//				if (card.getAdditionalPenalties() > 0) additionalPenaltiesColumn = true;
-//			}
-//		
-//			List<ScoreCard> cards = new ArrayList<ScoreCard>();
-//			for (Stage stage : match.getStages()) {
-//				ScoreCard card = resultData.getScoreCards().get(stage.getId());
-//				if (card != null) {
-//					cards.add(card);
-//				}
-//			}
+			Competitor competitor = competitorService.findByPractiScoreReferences(matchId, competitorId);
 			
-//			model.addAttribute("resultData", resultData);
-//			model.addAttribute("additionalPenaltiesColumn", additionalPenaltiesColumn);
-//			model.addAttribute("errorCostDataLines", CompetitorErrorCostDataService.getErrorCostTableLines(match, competitor, cards));
+			CompetitorResultData resultData = competitorResultDataService.getCompetitorResultData(competitor.getId());
 			
-		
-//		 Exception logged in repository
+			boolean additionalPenaltiesColumn = false;
+			for (ScoreCard card : resultData.getScoreCards().values()) {
+				if (card.getAdditionalPenalties() > 0) additionalPenaltiesColumn = true;
+			}
+			
+			model.addAttribute("resultData", resultData);
+			model.addAttribute("additionalPenaltiesColumn", additionalPenaltiesColumn);
+			model.addAttribute("errorCostDataLines", CompetitorErrorCostDataService.getErrorCostTableLines(match, competitor, new ArrayList<ScoreCard>(resultData.getScoreCards().values())));
 		
 		return "results/competitorResults/competitorResultsPage";
 	}

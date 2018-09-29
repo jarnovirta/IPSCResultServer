@@ -61,7 +61,7 @@ public class StatisticsService {
 				int noShootHits = 0;
 				int sumOfPoints = 0;
 				CompetitorResultData competitorResultData = 
-						competitorResultDataService.getCompetitorResultData(competitor.getPractiScoreId(), match.getPractiScoreId());
+						competitorResultDataService.getCompetitorResultData(competitor.getId());
 				
 				// Exclude competitors with no score card data. Will not be shown at all in statistics listing.
 				if (competitorResultData.getScoreCards() == null || competitorResultData.getScoreCards().size() == 0) continue; 

@@ -35,6 +35,16 @@ public class StageRepository {
     public void init() {
         jdbcTemplate = dbUtil.getJdbcTemplate();
     }
+	
+	public Stage getOne(Long id) {
+		try {
+			String sql = "SELECT * FROM stage WHERE id = ?";
+			return jdbcTemplate.queryForObject(sql, new Object[]{ id }, new StageMapper());
+		}
+		catch (EmptyResultDataAccessException e) {
+			return null;
+		}
+	}
 	public void save(List<Stage> stages) {
 		String query = "INSERT INTO stage (name, maxpoints, practiscoreid, stagenumber, match_id, stages_order)"
 	      		+ " VALUES (?, ?, ?, ?, ?, ?);";

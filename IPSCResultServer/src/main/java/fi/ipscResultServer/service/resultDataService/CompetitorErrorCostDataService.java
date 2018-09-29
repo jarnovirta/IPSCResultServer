@@ -1,5 +1,6 @@
 package fi.ipscResultServer.service.resultDataService;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +22,15 @@ public class CompetitorErrorCostDataService {
 	
 	public static Map<String, ErrorCostTableLine> getErrorCostTableLines(Match match, Competitor competitor, 
 			List<ScoreCard> scoreCards) {
+		
+		List<ScoreCard> nonNullCards = new ArrayList<ScoreCard>();
+		for (ScoreCard card : scoreCards) {
+			if (card != null) {
+				nonNullCards.add(card);
+			}
+		}		
+		scoreCards = nonNullCards;
+		
 		Map<String, ErrorCostTableLine> errorCostTableLines = new HashMap<String, ErrorCostTableLine>();
 		
 		if (competitor.getPowerFactor().equals(PowerFactor.MAJOR)) {
@@ -57,6 +67,4 @@ public class CompetitorErrorCostDataService {
 		
 		return errorCostTableLines;
 	}
-	
-	
 }

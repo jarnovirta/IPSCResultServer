@@ -25,18 +25,11 @@ public class DivisionResultsController {
 	@RequestMapping(method = RequestMethod.GET)
 	public String getDivisionOverAllResultsPage(Model model, @RequestParam("matchId") String matchId, 
 			@RequestParam("division") String division) {
-		try {
+		
 			Match match = matchService.getOne(matchService.getIdByPractiScoreId(matchId));
-			System.out.println("Match id: " + match.getId() + " division: " + division);
-			MatchResultData data = matchResultDataService.findByMatchAndDivision(match.getId(), division);
-			if (data == null) System.out.println("Data null");
-			else System.out.println("Found " + data.getDataLines().size() + " lines for division " + data.getDivision());
+			
 			model.addAttribute("matchResultData", matchResultDataService.findByMatchAndDivision(match.getId(), division));
 			return "results/divisionResults/divisionResultsPage";
-		}
-		// Exception logged in repository
-		catch (DatabaseException e) {
-			return "results/divisionResults/divisionResultsPage";
-		}
+		
 	}
 }

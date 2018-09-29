@@ -17,7 +17,11 @@ public class ScoreCard {
 	
 	private Competitor competitor;
 	
+	private Long competitorId;
+	
 	private Stage stage;
+	
+	private Long stageId;
 	
 	@JsonProperty("mod")
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.SSS")
@@ -288,4 +292,20 @@ public class ScoreCard {
 		this.additionalPenalties = additionalPenalties;
 	}
 
+	public Long getStageId() {
+		return stageId;
+	}
+
+	public void setStageId(Long stageId) {
+		this.stageId = stageId;
+	}
+
+	public Long getCompetitorId() {
+		return competitorId;
+	}
+
+	public void setCompetitorId(Long competitorId) {
+		this.competitorId = competitorId;
+	}
+	
 }

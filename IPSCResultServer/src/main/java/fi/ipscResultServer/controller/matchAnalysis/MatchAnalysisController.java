@@ -21,6 +21,7 @@ import fi.ipscResultServer.domain.Stage;
 import fi.ipscResultServer.domain.resultData.CompetitorResultData;
 import fi.ipscResultServer.domain.resultData.StageResultDataLine;
 import fi.ipscResultServer.exception.DatabaseException;
+import fi.ipscResultServer.service.CompetitorService;
 import fi.ipscResultServer.service.MatchService;
 import fi.ipscResultServer.service.resultDataService.CompetitorErrorCostDataService;
 import fi.ipscResultServer.service.resultDataService.CompetitorResultDataService;
@@ -38,6 +39,9 @@ public class MatchAnalysisController {
 	
 	@Autowired
 	private MatchService matchService;
+	
+	@Autowired
+	private CompetitorService competitorService;
 
 	
 	@RequestMapping(method = RequestMethod.GET)
@@ -76,62 +80,64 @@ public class MatchAnalysisController {
 	}
 	
 	private CompetitorMatchAnalysisData getCompetitorMatchAnalysisData(String competitorPractiScoreId, String matchPractiScoreId) {
-		try {
-			
-			CompetitorResultData competitorResultData = 
-					competitorResultDataService.getCompetitorResultData(competitorPractiScoreId, matchPractiScoreId);
-			
-			
-			Competitor competitor = competitorResultData.getCompetitor();
-			
-			// Get stage result lines mapped to stage's PractiScoreId
-			Map<String, StageResultDataLine> resultMap = getStageResultDataLines(competitorResultData); 
-
-			// Get error cost table lines
-			Map<String, ErrorCostTableLine> errorCostMap = CompetitorErrorCostDataService.getErrorCostTableLines(matchService.getOne(matchService.getIdByPractiScoreId(matchPractiScoreId)), 
-					competitor, new ArrayList<ScoreCard>(competitorResultData.getScoreCards().values()));
-			
-			// Get competitor stage result percentages for competitor's division
-			Map<Integer, Double> stagePercentages = getStagePercentagesMap(competitorResultData, new ArrayList<StageResultDataLine>(resultMap.values()));
-			
-			// Get competitor stage result percentages for combined division
-			Map<Integer, Double> combinedStagePercentages = null; 
-			if (competitorResultData.getMatch().getDivisionsWithResults().contains(Constants.COMBINED_DIVISION)) {
-				List<StageResultDataLine> combinedDivStageResultDataLines = stageResultDataService.findStageResultDataLinesByCompetitorAndDivision(competitor, 
-						Constants.COMBINED_DIVISION);
-				combinedStagePercentages = getStagePercentagesMap(competitorResultData, combinedDivStageResultDataLines);
-			}
-						 
-			return new CompetitorMatchAnalysisData(competitor, resultMap, errorCostMap, stagePercentages, combinedStagePercentages);
-		}
-		//	 Exception logged in repository
-		catch (DatabaseException e) {
-			return null;
-		}
+//		try {
+//			
+//			CompetitorResultData competitorResultData = 
+//					competitorResultDataService.getCompetitorResultData(competitorService.getIdByPractiScoreReferences(competitorPractiScoreId, matchPractiScoreId));
+//			
+//			
+//			Competitor competitor = competitorResultData.getCompetitor();
+//			
+//			// Get stage result lines mapped to stage's PractiScoreId
+//			Map<String, StageResultDataLine> resultMap = getStageResultDataLines(competitorResultData); 
+//
+//			// Get error cost table lines
+//			Map<String, ErrorCostTableLine> errorCostMap = CompetitorErrorCostDataService.getErrorCostTableLines(matchService.getOne(matchService.getIdByPractiScoreId(matchPractiScoreId)), 
+//					competitor, new ArrayList<ScoreCard>(competitorResultData.getScoreCards().values()));
+//			
+//			// Get competitor stage result percentages for competitor's division
+//			Map<Integer, Double> stagePercentages = getStagePercentagesMap(competitorResultData, new ArrayList<StageResultDataLine>(resultMap.values()));
+//			
+//			// Get competitor stage result percentages for combined division
+//			Map<Integer, Double> combinedStagePercentages = null; 
+//			if (competitorResultData.getMatch().getDivisionsWithResults().contains(Constants.COMBINED_DIVISION)) {
+//				List<StageResultDataLine> combinedDivStageResultDataLines = stageResultDataService.findStageResultDataLinesByCompetitorAndDivision(competitor, 
+//						Constants.COMBINED_DIVISION);
+//				combinedStagePercentages = getStagePercentagesMap(competitorResultData, combinedDivStageResultDataLines);
+//			}
+//						 
+//			return new CompetitorMatchAnalysisData(competitor, resultMap, errorCostMap, stagePercentages, combinedStagePercentages);
+//		}
+//		//	 Exception logged in repository
+//		catch (DatabaseException e) {
+//			return null;
+//		}
+		return null;
 	}
 	
 	private Map<String, StageResultDataLine> getStageResultDataLines(CompetitorResultData competitorResultData) {
-		try {
-			Map<String, StageResultDataLine> resultMap = new HashMap<String, StageResultDataLine>();
-			List<StageResultDataLine> stageResultDataLines = stageResultDataService.findStageResultDataLinesByCompetitor(competitorResultData.getCompetitor());
-			
-			for (Stage stage : competitorResultData.getMatch().getStages()) {
-				StageResultDataLine lineForStage = null;
-				for (StageResultDataLine line : stageResultDataLines) {
-					if (line.getScoreCard() != null && line.getScoreCard().getStage() != null) {
-						if (line.getScoreCard().getStage().getPractiScoreId().equals(stage.getPractiScoreId())) {
-							lineForStage = line;
-						}
-					}
-				}
-				resultMap.put(stage.getPractiScoreId(), lineForStage);
-			}
-			return resultMap;
-		}
-//		 Exception logged in repository
-		catch (Exception e) {
-			return null;
-		}
+		return null;
+//		try {
+//			Map<String, StageResultDataLine> resultMap = new HashMap<String, StageResultDataLine>();
+//			List<StageResultDataLine> stageResultDataLines = stageResultDataService.findStageResultDataLinesByCompetitor(competitorResultData.getCompetitor());
+//			
+//			for (Stage stage : competitorResultData.getMatch().getStages()) {
+//				StageResultDataLine lineForStage = null;
+//				for (StageResultDataLine line : stageResultDataLines) {
+//					if (line.getScoreCard() != null && line.getScoreCard().getStage() != null) {
+//						if (line.getScoreCard().getStage().getPractiScoreId().equals(stage.getPractiScoreId())) {
+//							lineForStage = line;
+//						}
+//					}
+//				}
+//				resultMap.put(stage.getPractiScoreId(), lineForStage);
+//			}
+//			return resultMap;
+//		}
+////		 Exception logged in repository
+//		catch (Exception e) {
+//			return null;
+//		}
 	}
 
 	public Map<Integer, Double> getStagePercentagesMap(CompetitorResultData resultData, List<StageResultDataLine> stageResultDataLines) {

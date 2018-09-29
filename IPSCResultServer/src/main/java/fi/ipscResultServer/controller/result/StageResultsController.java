@@ -25,17 +25,17 @@ public class StageResultsController {
 	public String getStageResultsPage(Model model, @RequestParam("matchId") String matchId, 
 			@RequestParam("stageId") String stageId, 
 			@RequestParam("division") String division) {
-		try {
-			StageResultData resultData = stageResultDataService.getStageResultListing(matchId, stageId, division);
-			if (resultData == null) {
+//		try {
+//			StageResultData resultData = stageResultDataService.getStageResultListing(matchId, stageId, division);
+//			if (resultData == null) {
 //				resultData = new StageResultData(stageService.findByPractiScoreId(matchId, stageId), division);
-			}
-			model.addAttribute("stageResultData", resultData);
+//			}
+//			model.addAttribute("stageResultData", resultData);
 			return "results/stageResults/stageResultsPage";
 		}
 		// Exception logged in repository
-		catch (DatabaseException e) {
-			return "results/stageResults/stageResultsPage";
-		}
-	}
+//		catch (DatabaseException e) {
+//			return "results/stageResults/stageResultsPage";
+//		}
+//	}
 }

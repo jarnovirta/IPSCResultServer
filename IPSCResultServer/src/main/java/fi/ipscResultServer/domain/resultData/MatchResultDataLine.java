@@ -9,6 +9,8 @@ public class MatchResultDataLine implements Comparable<MatchResultDataLine> {
 	
 	private Competitor competitor;
 	
+	private Long competitorId;
+	
 	private double scorePercentage = 0;
 	
 	private double points = 0;
@@ -84,4 +86,12 @@ public class MatchResultDataLine implements Comparable<MatchResultDataLine> {
 	public void setScoredStages(int scoredStages) {
 		this.scoredStages = scoredStages;
 	}
+	public Long getCompetitorId() {
+		return competitorId;
+	}
+	public void setCompetitorId(Long competitorId) {
+		this.competitorId = competitorId;
+	}
+	
+	
 }

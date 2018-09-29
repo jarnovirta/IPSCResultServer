@@ -24,6 +24,8 @@ public class CompetitorMapper implements RowMapper<Competitor> {
 		comp.setShooterNumber(rs.getInt("shooternumber"));
 		comp.setSquad(rs.getInt("squad"));
 		comp.setTeam(rs.getString("team"));
+		comp.setMatchId(rs.getLong("match_id"));
+		comp.setCountry(rs.getString("country"));
 		return comp;
 	}
 }

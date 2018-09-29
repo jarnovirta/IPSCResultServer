@@ -10,12 +10,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import fi.ipscResultServer.domain.Competitor;
+import fi.ipscResultServer.domain.Constants;
 import fi.ipscResultServer.domain.Match;
 import fi.ipscResultServer.domain.MatchStatus;
 import fi.ipscResultServer.domain.Stage;
 import fi.ipscResultServer.domain.User;
-import fi.ipscResultServer.exception.DatabaseException;
 import fi.ipscResultServer.repository.springJDBCRepository.MatchRepository;
+import fi.ipscResultServer.service.resultDataService.MatchResultDataService;
 
 @Service
 public class MatchService {
@@ -34,6 +35,9 @@ public class MatchService {
 	
 	@Autowired
 	private ScoreCardService scoreCardService;
+	
+	@Autowired
+	private MatchResultDataService matchResultDataService;
 	
 	private final static Logger LOGGER = Logger.getLogger(MatchService.class);
 
@@ -104,13 +108,18 @@ public class MatchService {
 		if (match != null) {		
 			match.setCompetitors(competitorService.findByMatch(match.getId()));
 			match.setStages(stageService.findByMatch(match.getId()));
+			match.setDivisionsWithResults(scoreCardService.getDivisionsWithResults(id));
+			if (match.getDivisionsWithResults().size() > 1) match.getDivisionsWithResults().add(Constants.COMBINED_DIVISION);
 			if (match.getUserId() != null) match.setUser(userService.getOne(match.getUserId()));
 		}
 		return match;
 	}
 	
 	public Match lazyGetOne(Long id) {
-		return matchRepository.getOne(id);
+		Match match = matchRepository.getOne(id);
+		match.setDivisionsWithResults(scoreCardService.getDivisionsWithResults(id));
+		if (match.getDivisionsWithResults().size() > 1) match.getDivisionsWithResults().add(Constants.COMBINED_DIVISION);
+		return match;
 	}
 	
 	public Long getIdByPractiScoreId(String practiScoreId) {
@@ -129,7 +138,9 @@ public class MatchService {
 	
 	@Transactional
 	public void delete(Long id) {
-		LOGGER.info("*** DELETING MATCH ");
+		LOGGER.info("*** DELETING MATCH " + id);
+		
+		matchResultDataService.deleteByMatch(id);
 		scoreCardService.deleteByMatch(id);
 		competitorService.deleteByMatch(id);
 		stageService.deleteByMatch(id);

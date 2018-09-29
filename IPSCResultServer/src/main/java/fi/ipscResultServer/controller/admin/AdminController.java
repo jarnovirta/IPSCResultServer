@@ -39,7 +39,8 @@ public class AdminController {
 	
 	@Autowired
 	private StatisticsService statisticsService;
-		
+	
+
 	private final static Logger LOGGER = Logger.getLogger(AdminController.class);
 	
 	@RequestMapping(method = RequestMethod.GET)
@@ -89,19 +90,16 @@ public class AdminController {
 			@RequestParam("status") MatchStatus status, Model model) {
 		try {
 			matchService.setStatus(matchId, status);
-			
-			Match match = matchService.getOne(matchId);
 			if (status == MatchStatus.SCORING_ENDED) {
-//				LOGGER.info("Generating match result listing...");
-//				matchResultDataService.deleteByMatch(matchId);				
-//				matchResultDataService.generateMatchResultListing(match);
+				matchResultDataService.generateMatchResultListing(matchId);
+				
 //				LOGGER.info("Generating statistics...");
 //				statisticsService.deleteByMatch(matchId);
 //				statisticsService.generateCompetitorStatistics(match);
 			}
 		}
 		catch (Exception e) {
-			LOGGER.error(e.getMessage());
+			e.printStackTrace();
 		}
 		return "redirect:/admin";
 	}

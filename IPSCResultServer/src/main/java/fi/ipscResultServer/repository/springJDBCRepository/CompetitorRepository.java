@@ -3,15 +3,12 @@ package fi.ipscResultServer.repository.springJDBCRepository;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -20,7 +17,6 @@ import org.springframework.stereotype.Repository;
 
 import fi.ipscResultServer.domain.Competitor;
 import fi.ipscResultServer.repository.springJDBCRepository.mapper.CompetitorMapper;
-import fi.ipscResultServer.service.MatchService;
 
 @Repository
 public class CompetitorRepository {
@@ -29,18 +25,19 @@ public class CompetitorRepository {
 	
 	private JdbcTemplate jdbcTemplate;
 	
-	private final static Logger LOGGER = Logger.getLogger(MatchService.class);
-	
-	
 	@PostConstruct
     public void init() {
         jdbcTemplate = dbUtil.getJdbcTemplate();
     }
 	
+	public Competitor getOne(Long id) {
+		String sql = "SELECT * FROM competitor WHERE id = ?";
+		return jdbcTemplate.queryForObject(sql, new Object[] { id }, new CompetitorMapper());
+	}
 	public void save(final List<Competitor> competitors) {
 		String insertCompetitorSql = "INSERT INTO competitor (disqualified, division, firstname, ipscalias, lastname"
-				+ ", powerfactor, practiscoreid, shooternumber, squad, team, match_id)"
-	      		+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+				+ ", powerfactor, practiscoreid, shooternumber, squad, team, country, match_id)"
+	      		+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 		
 		String insertCompetitorCategoriesSql = "INSERT INTO competitor_categories (competitor_id, categories)"
 				+ " VALUES (?, ?);";
@@ -61,7 +58,8 @@ public class CompetitorRepository {
 					ps.setInt(8, competitor.getShooterNumber());
 					ps.setInt(9, competitor.getSquad());
 					ps.setString(10, competitor.getTeam());
-					ps.setLong(11, competitor.getMatch().getId());
+					ps.setString(11, competitor.getCountry());
+					ps.setLong(12, competitor.getMatch().getId());
 					
 					return ps;
 				}
@@ -79,8 +77,8 @@ public class CompetitorRepository {
 
 	public List<Competitor> findByMatch(Long matchId) {
 		try {
-			String query = "SELECT * FROM competitor WHERE match_id = ? ORDER BY ? DESC";
-			return jdbcTemplate.query(query, new Object[] {matchId, "lastname"}, new CompetitorMapper());
+			String query = "SELECT * FROM competitor WHERE match_id = ? ORDER BY UPPER(TRIM(lastname)) ASC";
+			return jdbcTemplate.query(query, new Object[] { matchId }, new CompetitorMapper());
 		}
 		catch (EmptyResultDataAccessException e) {
 			return null;
@@ -92,5 +90,25 @@ public class CompetitorRepository {
 		jdbcTemplate.update(query, new Object[] { matchId });
 		query = "DELETE FROM competitor WHERE match_id = ?;";
 		jdbcTemplate.update(query, new Object[] { matchId });
+	}
+	
+	public Competitor findByPractiScoreReferences(String matchPractiScoreId, String competitorPractiScoreId) {
+		String sql = "SELECT * FROM competitor c "
+				+ "INNER JOIN ipscmatch m ON c.match_id = m.id "
+				+ "WHERE m.practiscoreid = ? AND c.practiscoreid = ?";
+		return jdbcTemplate.queryForObject(sql, new Object[] { matchPractiScoreId, competitorPractiScoreId }, 
+				new CompetitorMapper());		
+	}
+	
+	public Long getIdByPractiScoreReferences(String competitorPractiScoreId, String matchPractiScoreId) {
+		String sql = "SELECT id FROM competitor c "
+				+ "INNER JOIN ipscmatch m ON c.match_id = m.id "
+				+ "WHERE m.practiscoreid = ? AND c.practiscoreid = ?";
+		return jdbcTemplate.queryForObject(sql, new Object[] { matchPractiScoreId, competitorPractiScoreId }, 
+				Long.class);		
+	}
+	public List<String> getCategories(Long competitorId) {
+		String sql = "SELECT categories FROM competitor_categories WHERE competitor_id = ?";
+		return jdbcTemplate.queryForList(sql, new Object[] { competitorId }, String.class);
 	}
 }

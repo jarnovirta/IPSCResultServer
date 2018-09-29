@@ -17,8 +17,9 @@ public class StageService {
 	@Autowired
 	private StageRepository stageRepository;
 	
-	public Stage getOne(Long id) throws DatabaseException {
-		return null;
+	public Stage getOne(Long id) {
+		Stage stage = stageRepository.getOne(id);
+		return stage;
 	}
 	
 	public Stage getIdByPractiScoreReferences(String practiScoreMatchId, String practiScoreStageId) throws DatabaseException {
