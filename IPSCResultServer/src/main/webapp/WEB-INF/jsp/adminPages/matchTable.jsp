@@ -117,8 +117,9 @@
 		    	      label: "Delete",
 		    	      className: "btn-danger",
 		    	      callback: function() {
-		    	    	  $.post("${baseUrl}admin/deleteMatch", {matchId: matchId});
-		    	    	  window.location.href = "${baseUrl}admin";
+		    	    	  $.post("${baseUrl}admin/deleteMatch", { matchId: matchId}, function() {
+		    	    		  window.location.href = "${baseUrl}admin";
+		    	    	  });
 		    	    	  }
 		    	      }
 		    	    },

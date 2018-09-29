@@ -43,19 +43,12 @@ public class MatchAnalysisController {
 	@RequestMapping(method = RequestMethod.GET)
 	public String getMatchAnalysisPage(Model model, @RequestParam("competitorId") String competitorPractiScoreId,
 			@RequestParam("matchId") String matchPractiScoreId) {
-		try {
-			
-			Match match = matchService.findByPractiScoreId(matchPractiScoreId);
-			
-			model.addAttribute("matchId", matchPractiScoreId);
-			model.addAttribute("competitorId", competitorPractiScoreId);
-			model.addAttribute("compareToCompetitorId", match.getCompetitors().get(0).getPractiScoreId());
-			
-		}
-//		 Exception logged in repository
-		catch (DatabaseException e) {
-			
-		}
+	
+		Match match = matchService.getOne(matchService.getIdByPractiScoreId(matchPractiScoreId));
+		
+		model.addAttribute("matchId", matchPractiScoreId);
+		model.addAttribute("competitorId", competitorPractiScoreId);
+		model.addAttribute("compareToCompetitorId", match.getCompetitors().get(0).getPractiScoreId());
 		
 		return "matchAnalysis/matchAnalysisPage";
 	}
@@ -64,28 +57,22 @@ public class MatchAnalysisController {
 			@RequestParam("competitorId") String competitorPractiScoreId,
 			@RequestParam("compareToCompetitorId") String compareToCompetitorId) {
 		
-			try {
-				Match match = matchService.findByPractiScoreId(matchPractiScoreId);
-				
-				CompetitorMatchAnalysisData competitorMatchAnalysisData = getCompetitorMatchAnalysisData(competitorPractiScoreId, 
-						matchPractiScoreId);
-								
-				CompetitorMatchAnalysisData compareToCompetitorMatchAnalysisData = getCompetitorMatchAnalysisData(compareToCompetitorId, 
-						matchPractiScoreId);
-				
-				// Remove unnecessary data before stringifying to JSON
-				removeUnnecessaryStageResultLineData(new ArrayList<StageResultDataLine>(competitorMatchAnalysisData.getStageResultDataLines().values()));
-				removeUnnecessaryStageResultLineData(new ArrayList<StageResultDataLine>(compareToCompetitorMatchAnalysisData.getStageResultDataLines().values()));
-				
-				MatchAnalysisData matchData = new MatchAnalysisData(match, competitorMatchAnalysisData, 
-						compareToCompetitorMatchAnalysisData);
-				
-				return matchData;
-			}
-//			 Exception logged in repository
-			catch (DatabaseException e) {
-				return null;
-			}
+			Match match = matchService.getOne(matchService.getIdByPractiScoreId(matchPractiScoreId));
+			
+			CompetitorMatchAnalysisData competitorMatchAnalysisData = getCompetitorMatchAnalysisData(competitorPractiScoreId, 
+					matchPractiScoreId);
+							
+			CompetitorMatchAnalysisData compareToCompetitorMatchAnalysisData = getCompetitorMatchAnalysisData(compareToCompetitorId, 
+					matchPractiScoreId);
+			
+			// Remove unnecessary data before stringifying to JSON
+			removeUnnecessaryStageResultLineData(new ArrayList<StageResultDataLine>(competitorMatchAnalysisData.getStageResultDataLines().values()));
+			removeUnnecessaryStageResultLineData(new ArrayList<StageResultDataLine>(compareToCompetitorMatchAnalysisData.getStageResultDataLines().values()));
+			
+			MatchAnalysisData matchData = new MatchAnalysisData(match, competitorMatchAnalysisData, 
+					compareToCompetitorMatchAnalysisData);
+			
+			return matchData;
 	}
 	
 	private CompetitorMatchAnalysisData getCompetitorMatchAnalysisData(String competitorPractiScoreId, String matchPractiScoreId) {
@@ -101,7 +88,7 @@ public class MatchAnalysisController {
 			Map<String, StageResultDataLine> resultMap = getStageResultDataLines(competitorResultData); 
 
 			// Get error cost table lines
-			Map<String, ErrorCostTableLine> errorCostMap = CompetitorErrorCostDataService.getErrorCostTableLines(matchService.findByPractiScoreId(matchPractiScoreId), 
+			Map<String, ErrorCostTableLine> errorCostMap = CompetitorErrorCostDataService.getErrorCostTableLines(matchService.getOne(matchService.getIdByPractiScoreId(matchPractiScoreId)), 
 					competitor, new ArrayList<ScoreCard>(competitorResultData.getScoreCards().values()));
 			
 			// Get competitor stage result percentages for competitor's division

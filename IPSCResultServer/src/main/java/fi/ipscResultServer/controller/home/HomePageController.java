@@ -14,12 +14,10 @@ public class HomePageController {
 	@Autowired
 	MatchService matchService;
 		
-	private final static Logger LOGGER = Logger.getLogger(HomePageController.class);
-	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String getHomePage(Model model) {
-		model.addAttribute("matches", matchService.getFullMatchList());
 		
+		model.addAttribute("matches", matchService.findAll());
 		return "home";
 	}
 }

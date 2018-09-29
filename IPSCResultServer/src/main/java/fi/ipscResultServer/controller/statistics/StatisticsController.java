@@ -32,31 +32,27 @@ public class StatisticsController {
 	@RequestMapping(method = RequestMethod.GET)
 	public String getStatisticsPage(Model model, @RequestParam("matchId") String matchId,
 			@RequestParam(value="division", required = false) String division) {
-		try {
-			Match match = matchService.findByPractiScoreId(matchId);
-			if (division == null) {
-				if (match.getDivisionsWithResults().contains(Constants.COMBINED_DIVISION)) {
-					division = Constants.COMBINED_DIVISION;
-				}
-				else {
-					if (match.getDivisionsWithResults().size() > 0) {
-						division = match.getDivisionsWithResults().get(0);
-					}
+		Match match = matchService.getOne(matchService.getIdByPractiScoreId(matchId));
+		if (division == null) {
+			if (match.getDivisionsWithResults().contains(Constants.COMBINED_DIVISION)) {
+				division = Constants.COMBINED_DIVISION;
+			}
+			else {
+				if (match.getDivisionsWithResults().size() > 0) {
+					division = match.getDivisionsWithResults().get(0);
 				}
 			}
-			List<CompetitorStatistics> competitorStatistics = getCompetitorStatistics(match.getId(), division);
-			boolean additionalPenaltiesColumn = false;
-			for (CompetitorStatistics stats : competitorStatistics) {
-				if (stats.getAdditionalPenalties() > 0) additionalPenaltiesColumn = true;
-			}
-			model.addAttribute("match", match);
-			model.addAttribute("division", division);
-			model.addAttribute("statistics", competitorStatistics);
-			model.addAttribute("additionalPenaltiesColumn", additionalPenaltiesColumn);
 		}
-		catch (DatabaseException e) {
-			LOGGER.error(e.getMessage());
+		List<CompetitorStatistics> competitorStatistics = getCompetitorStatistics(match.getId(), division);
+		boolean additionalPenaltiesColumn = false;
+		for (CompetitorStatistics stats : competitorStatistics) {
+			if (stats.getAdditionalPenalties() > 0) additionalPenaltiesColumn = true;
 		}
+		model.addAttribute("match", match);
+		model.addAttribute("division", division);
+		model.addAttribute("statistics", competitorStatistics);
+		model.addAttribute("additionalPenaltiesColumn", additionalPenaltiesColumn);
+
 		return "statistics/competitorStatistics/competitorStatisticsPage";
 	}
 	

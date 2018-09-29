@@ -7,17 +7,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import fi.ipscResultServer.domain.User;
-import fi.ipscResultServer.repository.springJDBCRepository.UserJDBCRepository;
+import fi.ipscResultServer.repository.springJDBCRepository.UserRepository;
 
 @Service
 public class UserService {
 	
 	@Autowired
-	private UserJDBCRepository userRepository;
+	private UserRepository userRepository;
 	
 	@Transactional
-	public User save(User user) {
-		return null;
+	public User saveOrUpdate(User user) {
+		if (user.getId() != null) userRepository.updateUser(user);
+		else user = userRepository.save(user);
+		return user;
 	}
 	
 	public User getOne(Long id) {
@@ -25,7 +27,7 @@ public class UserService {
 	}
 	
 	public List<User> findEnabledUsers() {
-		return null;
+		return userRepository.findEnabledUsers();
 	}
 	
 	public User findByUsername(String username) {
@@ -39,7 +41,11 @@ public class UserService {
 	
 	@Transactional
 	public void setEnabled(Long userId, boolean enabled) {
-		
+		User user = userRepository.getOne(userId);
+		if (user != null) {
+			user.setEnabled(false);
+			saveOrUpdate(user);
+		}
 	}
 	
 	public boolean isCurrentUserAdmin() {

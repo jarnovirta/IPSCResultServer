@@ -58,7 +58,7 @@ public class StageRepository {
 	}
 	public Stage findByPractiScoreReference(String matchPractiScoreId, String stagePractiScoreId) {
 		try {
-			Match match = matchService.findByPractiScoreId(matchPractiScoreId);
+			Match match = matchService.getOne(matchService.getIdByPractiScoreId(matchPractiScoreId));
 			String query = "SELECT * FROM stage WHERE practiscoreid = ? AND match_id = ?;";
 			return jdbcTemplate.queryForObject(query, new Object[] { stagePractiScoreId, match.getId() }, new StageMapper());
 		}
@@ -76,36 +76,8 @@ public class StageRepository {
 		return jdbcTemplate.query(query, new Object[] { matchId }, new StageMapper());
 	}
 	@Transactional
-	public void delete(List<Stage> stages) {
-		if (stages == null) return;
-
-		removeReferencesToStages(stages);
-		
-		String query = "DELETE FROM stage WHERE id = ?";
-		jdbcTemplate.batchUpdate(query, new BatchPreparedStatementSetter() {
-			@Override
-			public void setValues(PreparedStatement ps, int i) throws SQLException {
-				ps.setLong(1, stages.get(i).getId());
-			}
-			@Override
-			public int getBatchSize() {
-				return stages.size();
-			}
-		});
-	}
-	private void removeReferencesToStages(List<Stage> stages) {
-		
-		String query = "UPDATE scorecard SET stage_id = ? WHERE stage_id = ?";
-		jdbcTemplate.batchUpdate(query, new BatchPreparedStatementSetter() {
-			@Override
-			public void setValues(PreparedStatement ps, int i) throws SQLException {
-				ps.setNull(1, java.sql.Types.BIGINT);
-				ps.setLong(2, stages.get(i).getId());
-			}
-			@Override
-			public int getBatchSize() {
-				return stages.size();
-			}
-		});
+	public void deleteByMatch(Long matchId) {
+		String query = "DELETE FROM stage WHERE match_id = ?";
+		jdbcTemplate.update(query, new Object[] { matchId }); 
 	}
 }

@@ -32,6 +32,9 @@ public class MatchService {
 	@Autowired
 	private CompetitorService competitorService;
 	
+	@Autowired
+	private ScoreCardService scoreCardService;
+	
 	private final static Logger LOGGER = Logger.getLogger(MatchService.class);
 
 	@Transactional
@@ -89,19 +92,7 @@ public class MatchService {
 	}
 	
 	public List<Match> findAll() {
-//		return matchRepository.findAll();
-		return null;
-	}
-	
-	public Competitor findByPractiScoreId(String id, Match match) {
-		return null;
-	}
-	
-	// Returns Match list with only necessary properties set for listing purposes
-	// instead of full instances with a list of Stages etc.
-	public List<Match> getFullMatchList() {
-//		return matchRepository.getFullMatchList();
-		return null;
+		return matchRepository.findAll();
 	}
 	
 	public List<Match> getMatchListForUser(User user) {
@@ -109,25 +100,43 @@ public class MatchService {
 		return null;
 	}
 	public Match getOne(Long id) {
+		Match match = matchRepository.getOne(id);
+		if (match != null) {		
+			match.setCompetitors(competitorService.findByMatch(match.getId()));
+			match.setStages(stageService.findByMatch(match.getId()));
+			if (match.getUserId() != null) match.setUser(userService.getOne(match.getUserId()));
+		}
+		return match;
+	}
+	
+	public Match lazyGetOne(Long id) {
 		return matchRepository.getOne(id);
 	}
 	
-	public Match findByPractiScoreId(String practiScoreId) throws DatabaseException {
-		return matchRepository.findByPractiScoreId(practiScoreId);
-		
+	public Long getIdByPractiScoreId(String practiScoreId) {
+		return matchRepository.getIdByPractiScoreId(practiScoreId);
+	}
+	
+	@Transactional
+	public void deleteByPractiScoreId(String matchPractiScoreId) {
+		List<Long> ids = matchRepository.getAllIdsByPractiScoreId(matchPractiScoreId);
+		if (ids != null) {
+			for (Long id : ids) {
+				delete(id);
+			}
+		}
+	}
+	
+	@Transactional
+	public void delete(Long id) {
+		LOGGER.info("*** DELETING MATCH ");
+		scoreCardService.deleteByMatch(id);
+		competitorService.deleteByMatch(id);
+		stageService.deleteByMatch(id);
+		matchRepository.delete(id);
 	}
 	@Transactional
-	public void delete(Match match) {
-		LOGGER.debug("*** DELETING MATCH ");
-		System.out.println("Deleting competitors");
-		competitorService.delete(match.getCompetitors());
-		System.out.println("Deleting stages");
-		stageService.delete(match.getStages());
-		
-	}
-	@Transactional
-	public void setMatchStatus(Long matchId, MatchStatus newStatus) throws DatabaseException {
-//		Match match = getOne(matchId);
-//		match.setStatus(newStatus);
+	public void setStatus(Long matchId, MatchStatus newStatus) {
+		matchRepository.setStatus(matchId, newStatus);
 	}
 }

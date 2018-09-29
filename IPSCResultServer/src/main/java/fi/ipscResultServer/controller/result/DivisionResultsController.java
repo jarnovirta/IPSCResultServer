@@ -26,7 +26,7 @@ public class DivisionResultsController {
 	public String getDivisionOverAllResultsPage(Model model, @RequestParam("matchId") String matchId, 
 			@RequestParam("division") String division) {
 		try {
-			Match match = matchService.findByPractiScoreId(matchId);
+			Match match = matchService.getOne(matchService.getIdByPractiScoreId(matchId));
 			System.out.println("Match id: " + match.getId() + " division: " + division);
 			MatchResultData data = matchResultDataService.findByMatchAndDivision(match.getId(), division);
 			if (data == null) System.out.println("Data null");

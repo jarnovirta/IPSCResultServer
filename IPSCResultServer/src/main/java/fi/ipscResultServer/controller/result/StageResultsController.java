@@ -28,7 +28,7 @@ public class StageResultsController {
 		try {
 			StageResultData resultData = stageResultDataService.getStageResultListing(matchId, stageId, division);
 			if (resultData == null) {
-				resultData = new StageResultData(stageService.findByPractiScoreId(matchId, stageId), division);
+//				resultData = new StageResultData(stageService.findByPractiScoreId(matchId, stageId), division);
 			}
 			model.addAttribute("stageResultData", resultData);
 			return "results/stageResults/stageResultsPage";

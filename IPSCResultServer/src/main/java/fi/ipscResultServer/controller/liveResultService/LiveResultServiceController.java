@@ -40,7 +40,7 @@ public class LiveResultServiceController {
 		
 	@RequestMapping(method = RequestMethod.GET)
 	public String getLiveResultServiceSetupPage(Model model) {
-		model.addAttribute("matches", matchService.getFullMatchList());
+		model.addAttribute("matches", matchService.findAll());
 		model.addAttribute("liveResultServiceConfig", new LiveResultServiceConfig());
 		return "results/liveResultService/liveResultServiceSetup";
 	}
@@ -58,11 +58,10 @@ public class LiveResultServiceController {
 			@RequestParam(value = "previousStagePractiScoreId", required = false) String previousStagePractiScoreId,
 			@RequestParam(value = "previousDivision", required = false) String previousDivision) {
 		
-		try {
 			// Pass configuration info to JavaScript code (rows per page in result table and page change interval)
 			model.addAttribute("config", liveResultServiceConfig);
 			
-			Match match = matchService.findByPractiScoreId(matchId);
+			Match match = matchService.getOne(matchService.getIdByPractiScoreId(matchId));
 			
 			// If no result data exists, set empty data instance and show empty result table
 			if (match == null || match.getDivisionsWithResults() == null || match.getDivisionsWithResults().size() == 0) {
@@ -91,24 +90,20 @@ public class LiveResultServiceController {
 				}
 			}
 			
-			Stage nextStage = stageService.findByPractiScoreId(match.getPractiScoreId(), nextStagePractiScoreId);
-			
-			StageResultData stageResultData = stageResultDataService.getStageResultListing(match.getPractiScoreId(), nextStage.getPractiScoreId(), nextDivision);
-			
-			// Handle stages with no result data by sending an empty StageResultData instance with match, stage and division
-			// information for use in JSP.
-			if (stageResultData == null) {
-				model.addAttribute("stageResultData", getEmptyStageResultData(nextStage, nextDivision));
-			}
-			else {
-				model.addAttribute("stageResultData", stageResultData);
-			}
+//			Stage nextStage = stageService.findByPractiScoreId(match.getPractiScoreId(), nextStagePractiScoreId);
+//			
+//			StageResultData stageResultData = stageResultDataService.getStageResultListing(match.getPractiScoreId(), nextStage.getPractiScoreId(), nextDivision);
+//			
+//			// Handle stages with no result data by sending an empty StageResultData instance with match, stage and division
+//			// information for use in JSP.
+//			if (stageResultData == null) {
+//				model.addAttribute("stageResultData", getEmptyStageResultData(nextStage, nextDivision));
+//			}
+//			else {
+//				model.addAttribute("stageResultData", stageResultData);
+//			}
 			return "results/liveResultService/liveResultsPage";
-		}
-		// Exception logged in repository
-		catch (DatabaseException e) {
-			return "results/matchResultsMainPage";
-		}
+		
 	}
 
 	private StageResultData getEmptyStageResultData(Match match) {

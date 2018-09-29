@@ -28,17 +28,8 @@ public class PractiScoreMatchDataService {
 	
 	public void save(PractiScoreMatchData matchData) throws DatabaseException {
 		Match match = matchData.getMatch();
-		
-		// Delete old match data
-		Match oldMatch = matchService.findByPractiScoreId(match.getPractiScoreId());
-		if (oldMatch != null) {
-			matchService.delete(oldMatch);
-		}
-		
-		// Save match
+		matchService.deleteByPractiScoreId(match.getPractiScoreId());
 		match = matchService.save(match);
-
-		// Save result data
 		prepareStageScoresForSave(matchData.getMatchScore().getStageScores(), match);
 		scoreCardService.save(getMatchScoreCards(matchData));
 				

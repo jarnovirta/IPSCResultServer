@@ -4,6 +4,8 @@ import java.util.Arrays;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -43,7 +45,7 @@ public class AdminController {
 	@RequestMapping(method = RequestMethod.GET)
 	public String getAdminMainPage(Model model) {
 		if (userService.isCurrentUserAdmin()) {
-			model.addAttribute("matchList", matchService.getFullMatchList());
+			model.addAttribute("matchList", matchService.findAll());
 			model.addAttribute("userList", userService.findEnabledUsers());
 		}
 		else {
@@ -56,7 +58,6 @@ public class AdminController {
 	
 	@RequestMapping(value="/editUser", method = RequestMethod.GET)
 	public String getAddUserPage(@RequestParam(value="userId", required = false) Long userId, Model model) {
-		
 		User user = new User();
 		if (userId != null) {
 			user = userService.getOne(userId);
@@ -74,28 +75,29 @@ public class AdminController {
 		}
 		else user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
 		user.setRole(User.UserRole.ROLE_USER);
-		userService.save(user);
+		userService.saveOrUpdate(user);
 		return "redirect:/admin";
 	}
 	@RequestMapping(value="/deleteUser", method = RequestMethod.POST)
-	public String deleteUser(@RequestParam("userId") Long userId, Model model) {
+	public ResponseEntity<String> deleteUser(@RequestParam("userId") Long userId, Model model) {
 		userService.setEnabled(userId, false);
-		return "redirect:/admin";
+		return new ResponseEntity<String>("User deleted", null, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value="/setMatchStatus", method = RequestMethod.POST)
 	public String setMatchStatus(@RequestParam("matchId") Long matchId, 
 			@RequestParam("status") MatchStatus status, Model model) {
 		try {
-			matchService.setMatchStatus(matchId, status);
+			matchService.setStatus(matchId, status);
+			
 			Match match = matchService.getOne(matchId);
 			if (status == MatchStatus.SCORING_ENDED) {
-				LOGGER.info("Generating match result listing...");
-				matchResultDataService.deleteByMatch(matchId);				
-				matchResultDataService.generateMatchResultListing(match);
-				LOGGER.info("Generating statistics...");
-				statisticsService.deleteByMatch(matchId);
-				statisticsService.generateCompetitorStatistics(match);
+//				LOGGER.info("Generating match result listing...");
+//				matchResultDataService.deleteByMatch(matchId);				
+//				matchResultDataService.generateMatchResultListing(match);
+//				LOGGER.info("Generating statistics...");
+//				statisticsService.deleteByMatch(matchId);
+//				statisticsService.generateCompetitorStatistics(match);
 			}
 		}
 		catch (Exception e) {
@@ -105,17 +107,8 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value="/deleteMatch", method = RequestMethod.POST)
-	public String deleteMatch(@RequestParam("matchId") Long matchId, Model model) {
-		
-		long startTime = System.currentTimeMillis();
-//		matchService.delete(matchId);
-		
-		long estimatedTime = System.currentTimeMillis() - startTime;
-		System.out.println("\n\n **** DELETE MATCH TOOK " + estimatedTime / 1000 + " SEC");
-		
-		model.addAttribute("matchList", matchService.getFullMatchList());
-		model.addAttribute("matchStatusList", Arrays.asList(MatchStatus.values()));
-
-		return "redirect:/admin";
+	public ResponseEntity<String> deleteMatch(@RequestParam("matchId") Long matchId, Model model) {
+		matchService.delete(matchId);
+		return new ResponseEntity<String>("Match deleted!", null, HttpStatus.OK);
 	}
 }

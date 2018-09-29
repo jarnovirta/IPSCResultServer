@@ -28,48 +28,49 @@ public class StageResultDataService {
 	
 	public StageResultData getStageResultListing(String matchPractiScoreId, String stagePractiScoreId, String division) 
 			throws DatabaseException {
-		Stage stage = stageService.findByPractiScoreId(matchPractiScoreId, stagePractiScoreId);
-		List<ScoreCard> scoreCards = null;
-		
-		if (division.equals(Constants.COMBINED_DIVISION)) scoreCards = scoreCardService.findByStage(stage.getId());
-		else scoreCards = scoreCardService.findByStageAndDivision(stage.getId(), division);
-		StageResultData stageResultData = new StageResultData(stage, division);
-		List<StageResultDataLine> dataLines = new ArrayList<StageResultDataLine>();
-		double topHitFactor = -1.0;
-		double topPoints = -1.0;
-		int rank = 1;
-		
-		for (ScoreCard scoreCard : scoreCards) {
-			// Discard results for DQ'ed competitor
-			if (scoreCard.getCompetitor().isDisqualified()) continue;
-			
-			if (rank == 1) topHitFactor = scoreCard.getHitFactor();
-			StageResultDataLine resultDataLine = new StageResultDataLine();
-			resultDataLine.setStageRank(rank);
-			resultDataLine.setStageResultData(stageResultData);
-			resultDataLine.setScoreCard(scoreCard);
-			resultDataLine.setCompetitor(scoreCard.getCompetitor());
-			
-			if (topHitFactor > 0) resultDataLine.setStagePoints((scoreCard.getHitFactor() / topHitFactor) * stage.getMaxPoints());
-			else {
-				resultDataLine.setStagePoints(stage.getMaxPoints());
-			}
-			scoreCard.setStageRank(rank);
-			
-			if (rank == 1) topPoints = resultDataLine.getStagePoints();
-			resultDataLine.setStageScorePercentage(resultDataLine.getStagePoints() / topPoints * 100);
-			dataLines.add(resultDataLine);
-			
-			if (!stage.getMatch().getDivisionsWithResults().contains(scoreCard.getCompetitor().getDivision())) {
-				stage.getMatch().getDivisionsWithResults().add(scoreCard.getCompetitor().getDivision());
-			}
-			rank++;
-		}
-		
-		if (dataLines.size() > 0) { 
-			stageResultData.setDataLines(dataLines);
-		}
-		return stageResultData;
+//		Stage stage = stageService.findByPractiScoreId(matchPractiScoreId, stagePractiScoreId);
+//		List<ScoreCard> scoreCards = null;
+//		
+//		if (division.equals(Constants.COMBINED_DIVISION)) scoreCards = scoreCardService.findByStage(stage.getId());
+//		else scoreCards = scoreCardService.findByStageAndDivision(stage.getId(), division);
+//		StageResultData stageResultData = new StageResultData(stage, division);
+//		List<StageResultDataLine> dataLines = new ArrayList<StageResultDataLine>();
+//		double topHitFactor = -1.0;
+//		double topPoints = -1.0;
+//		int rank = 1;
+//		
+//		for (ScoreCard scoreCard : scoreCards) {
+//			// Discard results for DQ'ed competitor
+//			if (scoreCard.getCompetitor().isDisqualified()) continue;
+//			
+//			if (rank == 1) topHitFactor = scoreCard.getHitFactor();
+//			StageResultDataLine resultDataLine = new StageResultDataLine();
+//			resultDataLine.setStageRank(rank);
+//			resultDataLine.setStageResultData(stageResultData);
+//			resultDataLine.setScoreCard(scoreCard);
+//			resultDataLine.setCompetitor(scoreCard.getCompetitor());
+//			
+//			if (topHitFactor > 0) resultDataLine.setStagePoints((scoreCard.getHitFactor() / topHitFactor) * stage.getMaxPoints());
+//			else {
+//				resultDataLine.setStagePoints(stage.getMaxPoints());
+//			}
+//			scoreCard.setStageRank(rank);
+//			
+//			if (rank == 1) topPoints = resultDataLine.getStagePoints();
+//			resultDataLine.setStageScorePercentage(resultDataLine.getStagePoints() / topPoints * 100);
+//			dataLines.add(resultDataLine);
+//			
+//			if (!stage.getMatch().getDivisionsWithResults().contains(scoreCard.getCompetitor().getDivision())) {
+//				stage.getMatch().getDivisionsWithResults().add(scoreCard.getCompetitor().getDivision());
+//			}
+//			rank++;
+//		}
+//		
+//		if (dataLines.size() > 0) { 
+//			stageResultData.setDataLines(dataLines);
+//		}
+//		return stageResultData;
+		return null;
 }
 
 	public List<StageResultData> findByStage(Stage stage) 

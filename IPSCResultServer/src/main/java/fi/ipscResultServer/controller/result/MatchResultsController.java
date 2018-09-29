@@ -25,15 +25,9 @@ public class MatchResultsController {
 			@RequestParam("matchId") String matchId,
 			@RequestParam(value="live", required = false) Boolean liveResultsView) {
 			
-		try {
-			Match match = matchService.findByPractiScoreId(matchId);
-			model.addAttribute("match", match);
-						
-			return "results/matchResultsMainPage";
-		}
-		// Exception logged in repository
-		catch (DatabaseException e) {
-			return "results/matchResultsMainPage";
-		}
+		Match match = matchService.getOne(matchService.getIdByPractiScoreId(matchId));
+		model.addAttribute("match", match);
+					
+		return "results/matchResultsMainPage";
 	}
 }

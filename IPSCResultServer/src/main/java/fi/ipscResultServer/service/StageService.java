@@ -21,21 +21,21 @@ public class StageService {
 		return null;
 	}
 	
-	public Stage findByPractiScoreId(String practiScoreMatchId, String practiScoreStageId) throws DatabaseException {
+	public Stage getIdByPractiScoreReferences(String practiScoreMatchId, String practiScoreStageId) throws DatabaseException {
 		return null;
 	}
 	@Transactional
 	public List<Stage> save(List<Stage> stages) {
-		if (stages == null) return null;
 		stageRepository.save(stages);
 		List<Stage> savedStages = new ArrayList<Stage>();
-		for (Stage stage : stages) savedStages.add(stageRepository.findByPractiScoreReference(stage.getMatch().getPractiScoreId(), stage.getPractiScoreId()));		
+		for (Stage stage : stages) {
+			savedStages.add(stageRepository.findByPractiScoreReference(stage.getMatch().getPractiScoreId(), stage.getPractiScoreId()));		
+		}
 		return savedStages;
 	}
 	@Transactional
-	public void delete(List<Stage> stages) {
-		if (stages == null) return;
-		stageRepository.delete(stages);
+	public void deleteByMatch(Long matchId) {
+		stageRepository.deleteByMatch(matchId);
 	}
 	public List<Stage> findByMatch(Long matchId) {
 		return stageRepository.findByMatch(matchId);

@@ -52,7 +52,7 @@ public class ScoreCardService {
 		
 	}
 	@Transactional
-	public void deleteByMatch(Match match) throws DatabaseException {
-		
+	public void deleteByMatch(Long matchId) {
+		scoreCardRepository.deleteByMatch(matchId);
 	}
 }

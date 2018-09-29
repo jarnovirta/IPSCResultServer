@@ -85,8 +85,12 @@
 		    	      label: "Delete",
 		    	      className: "btn-danger",
 		    	      callback: function() {
-		    	    	  $.post("${baseUrl}admin/deleteUser", {userId: userId});
-		    	    	  window.location.href = "${baseUrl}admin";
+		    	    	  $.post("${baseUrl}admin/deleteUser", 
+		    	    			  { userId: userId }, 
+		    	    			  function() { 
+		    	    				  window.location.href = "${baseUrl}admin";
+		    	    			  }
+		    	    			);
 		    	      }
 		    	    },
 		  	  }

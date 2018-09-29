@@ -44,6 +44,11 @@ public class ScoreCardRepository {
 		});
 	}
 	
+	public void deleteByMatch(Long matchId) {
+		String query = "DELETE sc FROM scorecard sc INNER JOIN stage s ON sc.stage_id = s.id WHERE s.match_id = ?";
+		jdbcTemplate.update(query, new Object[] { matchId });
+	}
+	
 	public void save(List<ScoreCard> cards) {
 		String query = "INSERT INTO scorecard (ahits, additionalpenalties, chits, dhits, time, hitfactor, misses, noshoothits"
 				+ ", proceduralpenalties, stagepoints, stagerank, competitor_id, stage_id, modified"

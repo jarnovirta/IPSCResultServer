@@ -36,7 +36,7 @@ public class CompetitorService {
 		return competitorRepository.findByMatch(matchId);
 	}
 	@Transactional
-	public void delete(List<Competitor> competitors) {
-		competitorRepository.delete(competitors);
+	public void deleteByMatch(Long matchId) {
+		competitorRepository.deleteByMatch(matchId);
 	}
 }
