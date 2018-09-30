@@ -27,10 +27,10 @@ public class ApiController {
 	public ResponseEntity<String> postMatchData(@RequestBody PractiScoreMatchData matchData) {
 		try {
 			long startTime = System.currentTimeMillis();
+			LOGGER.info("Saving match data for " + matchData.getMatch().getName());
 			practiScoreMatchDataService.save(matchData);
 			long estimatedTime = System.currentTimeMillis() - startTime;
-
-			System.out.println("\n\n **** MATCH SAVE TOOK " + estimatedTime / 1000 + " SEC");			
+			LOGGER.info("Match data saved in " + estimatedTime / 1000 + " sec.");
 			
 			return new ResponseEntity<String>("Match data saved!", null, HttpStatus.OK);
 		}

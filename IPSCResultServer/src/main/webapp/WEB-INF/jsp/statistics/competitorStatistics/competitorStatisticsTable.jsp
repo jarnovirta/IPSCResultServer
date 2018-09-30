@@ -17,9 +17,6 @@
 							Name
 						</th>
 						<th>
-							CompNr
-						</th>
-						<th>
 							Total Pts
 						</th>
 						<th>
@@ -80,10 +77,7 @@
 										<c:param name="matchId" value="${match.practiScoreId}" />
 										<c:param name="competitorId" value="${line.competitor.practiScoreId}" />
 									</c:url>
-									<a href="${competitorResultsUrl}">${line.competitor.firstName} ${line.competitor.lastName} </a>
-								</td>
-								<td align="right">
-									${line.competitor.shooterNumber }
+									<a href="${competitorResultsUrl}">${line.competitor.firstName} ${line.competitor.lastName}</a>
 								</td>
 								<td align="right">
 									<fmt:formatNumber type="number" minFractionDigits="4" maxFractionDigits="4" value="${line.divisionPoints }" />

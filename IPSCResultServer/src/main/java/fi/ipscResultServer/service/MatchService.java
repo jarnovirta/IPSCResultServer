@@ -39,6 +39,9 @@ public class MatchService {
 	@Autowired
 	private MatchResultDataService matchResultDataService;
 	
+	@Autowired
+	private StatisticsService statisticsService;
+	
 	private final static Logger LOGGER = Logger.getLogger(MatchService.class);
 
 	@Transactional
@@ -138,8 +141,7 @@ public class MatchService {
 	
 	@Transactional
 	public void delete(Long id) {
-		LOGGER.info("*** DELETING MATCH " + id);
-		
+		statisticsService.deleteByMatch(id);
 		matchResultDataService.deleteByMatch(id);
 		scoreCardService.deleteByMatch(id);
 		competitorService.deleteByMatch(id);

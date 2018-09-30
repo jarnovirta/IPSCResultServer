@@ -32,8 +32,7 @@ public class PractiScoreMatchDataService {
 		match = matchService.save(match);
 		prepareStageScoresForSave(matchData.getMatchScore().getStageScores(), match);
 		scoreCardService.save(getMatchScoreCards(matchData));
-				
-		LOGGER.info("**** MATCH SAVE DONE ****");
+
 	}
 	
 	private List<ScoreCard> getMatchScoreCards(PractiScoreMatchData matchData) {

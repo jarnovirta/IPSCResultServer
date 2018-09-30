@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import fi.ipscResultServer.domain.Constants;
 import fi.ipscResultServer.domain.Match;
 import fi.ipscResultServer.domain.statistics.CompetitorStatistics;
-import fi.ipscResultServer.exception.DatabaseException;
 import fi.ipscResultServer.service.MatchService;
 import fi.ipscResultServer.service.StatisticsService;
 
@@ -57,15 +56,10 @@ public class StatisticsController {
 	}
 	
 	private List<CompetitorStatistics> getCompetitorStatistics(Long matchId, String division) {
-		try {
-			if (division == null || division.equals(Constants.COMBINED_DIVISION)) {
-				return statisticsService.findCompetitorStatisticsByMatch(matchId);
-			}
-			else return statisticsService.findCompetitorStatisticsByMatchAndDivision(matchId, division);
+	
+		if (division == null || division.equals(Constants.COMBINED_DIVISION)) {
+			return statisticsService.findByMatch(matchId);
 		}
-		catch (DatabaseException e) {
-			LOGGER.error(e.getMessage());
-			return null;
-		}
+		else return statisticsService.findByMatchAndDivision(matchId, division);
 	}
 }

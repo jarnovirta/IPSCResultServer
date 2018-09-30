@@ -1,16 +1,20 @@
 24.9.: KATSO ETT� POPPER NOSHOOT ON VARMASTI OIKEIN HUOMIOITU!!!!
-
-
+MIT� TAPAHTUU JOS SAMA HENKIL� REKISTER�ITY KAHDESTI ERI DIVISIOONIIN?
 EXPLORER EI TUE .INCLUDES
 
-Korjaa datan tallennus seuraavasti: tallennettaessa vain scorecards tallennus, stage results lasketaan muistissa, eli haku hf järjestyksessä. Sitten kisatulosdata kun scoring ended?
-
-MY�S STAGE RESULTS STATISTIIKASSA COMBINED/DIV RESULTS
+Live result service menee rikki tulosdatan latauksen aikana -> javascript niin ett� jos virhe niin lataa kuitenkin uudelleen.
+ - Rivien ja taulujen m��r�n s��t� aloitusvalikkoon
+ 
 DQ kisaaja: Ei lainkaan dataa match analysis sivulla
-Lisää joukkuetulokset
 
+Subminor huomioiminen. Näkyy taulukoissa Production-. Onko varma että suljettu tuloksista?
 
+- Chrono stage: pitÃ¤Ã¤ tehdÃ¤ palvelimelle!! PractiScoressa "Actual" pf -> voidaan muuttaa chrono stagessa.
 
+TESTIT:
+	- Mit� practiscore tekee, jos luodaan eri laitteilla sama walkin kilpailija? Tallentaako se monta kertaa saman kilpailijan,
+	 	eri sh_uuid numeroilla?
+	 	
 Virhe ilmeisesti MatchAnalysis DQ kisaajalle:
 
 SEVERE: Servlet.service() for servlet [spring-front-controller] in context with path [] threw exception [Request processing failed; nested exception is java.lang.NullPointerException] with root cause
@@ -100,32 +104,14 @@ java.lang.NullPointerException
 	at java.lang.Thread.run(Thread.java:745)
 
 
-Live result service: rivimäärän sijaan resoluutio ja ohjelma päättää montako divisioonaa samaan aikaan ja montako riviä.
-
-Subminor huomioiminen. Näkyy taulukoissa Production-. Onko varma että suljettu tuloksista?
-
-Kisa-analyysi avoimeksi jo kisan aikana.
-
-
-MATCH ANALYSIS: DQ player aiheuttaa virheen (H de Sz, pop action)
-
-MITÄ TAPAHTUU JOS KISAAJA AMPUU KISAN USEAN KERRAN? ERI DIVISIOONISSA?!!?
-
-Muuta kaikki haut käyttämään kilpailija ja kisa-id, sekä stage ja kisa-id!
-
-DELETE MATCH: sivu ei pï¿½ivity.
-
-- !!!! Power Factor: Sub-minor??
-- Chrono stage: pitÃ¤Ã¤ tehdÃ¤ palvelimelle!! PractiScoressa "Actual" pf -> voidaan muuttaa chrono stagessa.
-- Timezone palvelimelle ja koodiin
 
 EI KIIREELLISET:
 
+
+ - Joukkuetulokset?
 - Korjaa stage rank verify listassa: nÃ¤yttÃ¤Ã¤ combined, ei divisioona. Poista comment out verify-listan JSP:stÃ¤.
 - Korjaa virheviestit datan lï¿½hetyksen aikana, niin ettï¿½ nï¿½yttï¿½ï¿½ palvelimen viestin. Nyt vain virhekoodi.
 - Tee SSI-PS registration import
 - Favicon: ei ole ja aiheuttaa virheitä lokiin.
 
-TESTIT:
-	- MitÃ¤ practiscore tekee, jos luodaan eri laitteilla sama walkin kilpailija? Tallentaako se monta kertaa saman kilpailijan,
-	 	eri sh_uuid numeroilla?
+

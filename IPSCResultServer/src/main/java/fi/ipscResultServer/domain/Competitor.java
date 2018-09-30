@@ -81,13 +81,9 @@ public class Competitor {
 		return match;
 	}
 
-
-
 	public void setMatch(Match match) {
 		this.match = match;
 	}
-
-
 
 	public int getShooterNumber() {
 		return shooterNumber;
@@ -102,7 +98,7 @@ public class Competitor {
 	}
 
 	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+		this.firstName = firstName.trim();
 	}
 
 	public String getLastName() {
@@ -110,7 +106,7 @@ public class Competitor {
 	}
 
 	public void setLastName(String lastName) {
-		this.lastName = lastName;
+		this.lastName = lastName.trim();
 	}
 
 	public String getPractiScoreDivisionString() {

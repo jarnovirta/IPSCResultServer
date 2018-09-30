@@ -73,11 +73,11 @@ public class MatchResultDataService {
 	
 	@Transactional
 	public MatchResultData generateMatchResultListing(Long matchId) {
+		LOGGER.info("Generating match result data (match ID: " + matchId + ")");
 		deleteByMatch(matchId);
 		Match match = matchService.getOne(matchId);
 
 		for (String division : match.getDivisionsWithResults()) {
-			LOGGER.info("Generating match result data for division " + division);
 			
 			MatchResultData matchResultData = new MatchResultData(match, division);
 			List<MatchResultDataLine> matchResultDataLines = new ArrayList<MatchResultDataLine>();
@@ -125,6 +125,9 @@ public class MatchResultDataService {
 			save(matchResultData);
 		}
 		return null;
+	}
+	public MatchResultDataLine findLineByCompetitor(Long competitorId, String division) {
+		return matchResultDataRepository.findLineByCompetitor(competitorId, division);
 	}
 	private List<StageResultDataLine> getCompetitorStageResultDataLines(Competitor competitor, List<StageResultDataLine> allStageResultDatalines) {
 		List<StageResultDataLine> stageResultDataLines = new ArrayList<StageResultDataLine>();

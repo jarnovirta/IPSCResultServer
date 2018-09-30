@@ -34,9 +34,9 @@ public class ScoreCardService {
 		return null;
 	}
 	
-	public List<ScoreCard> findByMatch(Long matchId) {
+	public List<ScoreCard> findByMatch(Long matchId, boolean eager) {
 		List<ScoreCard> cards = scoreCardRepository.findByMatch(matchId);
-		setReferencedInstances(cards);
+		if (eager) setReferencedInstances(cards);
 		return cards;	
 	}
 	

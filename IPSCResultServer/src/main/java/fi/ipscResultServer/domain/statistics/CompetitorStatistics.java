@@ -7,8 +7,12 @@ public class CompetitorStatistics implements Comparable<CompetitorStatistics> {
 	private Long id;
 	
 	private Match match;
+	
+	private Long matchId;
 		
 	private Competitor competitor;
+	
+	private Long competitorId;
 
 	private double matchTime;
 	
@@ -30,7 +34,7 @@ public class CompetitorStatistics implements Comparable<CompetitorStatistics> {
 	
 	private int sumOfPoints;
 	
-	private int divisionRank;
+	private Integer divisionRank;
 	
 	private double divisionPoints;
 	
@@ -146,11 +150,11 @@ public class CompetitorStatistics implements Comparable<CompetitorStatistics> {
 		this.sumOfPoints = sumOfPoints;
 	}
 
-	public int getDivisionRank() {
+	public Integer getDivisionRank() {
 		return divisionRank;
 	}
 
-	public void setDivisionRank(int divisionRank) {
+	public void setDivisionRank(Integer divisionRank) {
 		this.divisionRank = divisionRank;
 	}
 
@@ -176,6 +180,22 @@ public class CompetitorStatistics implements Comparable<CompetitorStatistics> {
 
 	public void setAdditionalPenalties(int additionalPenalties) {
 		this.additionalPenalties = additionalPenalties;
+	}
+
+	public Long getMatchId() {
+		return matchId;
+	}
+
+	public void setMatchId(Long matchId) {
+		this.matchId = matchId;
+	}
+
+	public Long getCompetitorId() {
+		return competitorId;
+	}
+
+	public void setCompetitorId(Long competitorId) {
+		this.competitorId = competitorId;
 	}
 
 }

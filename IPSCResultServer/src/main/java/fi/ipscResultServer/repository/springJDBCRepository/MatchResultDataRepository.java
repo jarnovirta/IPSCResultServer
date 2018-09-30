@@ -8,6 +8,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -87,12 +88,31 @@ public class MatchResultDataRepository {
 			e.printStackTrace();
 		}
 	}
+	
 	public MatchResultData findByMatchAndDivision(Long matchId, String division) {
 		String sql = "SELECT * FROM matchresultdata WHERE match_id = ? AND division = ?";
 		return jdbcTemplate.queryForObject(sql, new Object[] { matchId, division }, new MatchResultDataMapper());
 	}
+	
 	public List<MatchResultDataLine> getDataLines(Long matchResultDataId) {
 		String sql = "SELECT * FROM matchresultdataline WHERE matchresultdata_id = ? ORDER BY rank ASC";
 		return jdbcTemplate.query(sql, new Object[] { matchResultDataId }, new MatchResultDataLineMapper());
+	}
+	
+	public MatchResultDataLine findLineByCompetitor(Long competitorId, String division) {
+		try {
+			String sql = "SELECT * FROM matchresultdataline mrdl"
+					+ " INNER JOIN matchresultdata mrd ON mrdl.matchresultdata_id = mrd.id"
+					+ " INNER JOIN competitor c ON mrdl.competitor_id = c.id"
+					+ " WHERE c.id = ? AND mrd.division = ?";
+			return jdbcTemplate.queryForObject(sql, new Object[] { competitorId, division }, new MatchResultDataLineMapper());
+		}
+		catch (EmptyResultDataAccessException e) {
+			return null;
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 }

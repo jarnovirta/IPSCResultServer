@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import fi.ipscResultServer.domain.Match;
-import fi.ipscResultServer.domain.resultData.MatchResultData;
-import fi.ipscResultServer.exception.DatabaseException;
 import fi.ipscResultServer.service.MatchService;
 import fi.ipscResultServer.service.resultDataService.MatchResultDataService;
 

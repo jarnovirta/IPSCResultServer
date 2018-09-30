@@ -93,9 +93,8 @@ public class AdminController {
 			if (status == MatchStatus.SCORING_ENDED) {
 				matchResultDataService.generateMatchResultListing(matchId);
 				
-//				LOGGER.info("Generating statistics...");
-//				statisticsService.deleteByMatch(matchId);
-//				statisticsService.generateCompetitorStatistics(match);
+				statisticsService.deleteByMatch(matchId);
+				statisticsService.generateCompetitorStatistics(matchId);
 			}
 		}
 		catch (Exception e) {
