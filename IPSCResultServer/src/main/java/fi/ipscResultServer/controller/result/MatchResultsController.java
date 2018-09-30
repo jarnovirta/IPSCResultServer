@@ -21,7 +21,7 @@ public class MatchResultsController {
 			@RequestParam("matchId") String matchId,
 			@RequestParam(value="live", required = false) Boolean liveResultsView) {
 			
-		Match match = matchService.getOne(matchService.getIdByPractiScoreId(matchId));
+		Match match = matchService.getOne(matchService.getIdByPractiScoreId(matchId), true);
 		model.addAttribute("match", match);
 					
 		return "results/matchResultsMainPage";

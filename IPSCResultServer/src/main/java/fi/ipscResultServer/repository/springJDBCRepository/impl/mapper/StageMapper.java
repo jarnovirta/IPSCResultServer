@@ -1,4 +1,4 @@
-package fi.ipscResultServer.repository.springJDBCRepository.mapper;
+package fi.ipscResultServer.repository.springJDBCRepository.impl.mapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

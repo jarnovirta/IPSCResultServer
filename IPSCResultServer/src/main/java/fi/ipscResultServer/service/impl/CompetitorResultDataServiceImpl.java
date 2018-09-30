@@ -1,4 +1,4 @@
-package fi.ipscResultServer.service.resultDataService;
+package fi.ipscResultServer.service.impl;
 
 import java.util.HashMap;
 import java.util.List;
@@ -11,13 +11,15 @@ import fi.ipscResultServer.domain.Competitor;
 import fi.ipscResultServer.domain.Match;
 import fi.ipscResultServer.domain.ScoreCard;
 import fi.ipscResultServer.domain.resultData.CompetitorResultData;
+import fi.ipscResultServer.service.CompetitorResultDataService;
 import fi.ipscResultServer.service.CompetitorService;
 import fi.ipscResultServer.service.MatchService;
 import fi.ipscResultServer.service.ScoreCardService;
+import fi.ipscResultServer.service.StageResultDataService;
 import fi.ipscResultServer.service.StageService;
 
 @Service
-public class CompetitorResultDataService {
+public class CompetitorResultDataServiceImpl implements CompetitorResultDataService {
 
 	@Autowired
 	ScoreCardService scoreCardService;
@@ -45,7 +47,7 @@ public class CompetitorResultDataService {
 		}
 		
 		Competitor competitor = competitorService.getOne(competitorId);
-		Match match = matchService.lazyGetOne(competitor.getMatchId());
+		Match match = matchService.getOne(competitor.getMatchId(), false);
 		match.setStages(stageService.findByMatch(match.getId()));
 
 		return new CompetitorResultData(match, competitor, scoreCards);

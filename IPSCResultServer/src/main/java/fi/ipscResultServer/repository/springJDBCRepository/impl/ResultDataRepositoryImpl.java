@@ -1,4 +1,4 @@
-package fi.ipscResultServer.repository.springJDBCRepository;
+package fi.ipscResultServer.repository.springJDBCRepository.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,11 +18,12 @@ import org.springframework.stereotype.Repository;
 
 import fi.ipscResultServer.domain.resultData.MatchResultData;
 import fi.ipscResultServer.domain.resultData.MatchResultDataLine;
-import fi.ipscResultServer.repository.springJDBCRepository.mapper.MatchResultDataLineMapper;
-import fi.ipscResultServer.repository.springJDBCRepository.mapper.MatchResultDataMapper;
+import fi.ipscResultServer.repository.springJDBCRepository.ResultDataRepository;
+import fi.ipscResultServer.repository.springJDBCRepository.impl.mapper.MatchResultDataLineMapper;
+import fi.ipscResultServer.repository.springJDBCRepository.impl.mapper.MatchResultDataMapper;
 
 @Repository
-public class MatchResultDataRepository {
+public class ResultDataRepositoryImpl implements ResultDataRepository {
 	@Autowired
 	private DatabaseUtil dbUtil;
 	

@@ -1,4 +1,4 @@
-package fi.ipscResultServer.service.resultDataService;
+package fi.ipscResultServer.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,10 +15,11 @@ import fi.ipscResultServer.domain.resultData.StageResultDataLine;
 import fi.ipscResultServer.service.CompetitorService;
 import fi.ipscResultServer.service.MatchService;
 import fi.ipscResultServer.service.ScoreCardService;
+import fi.ipscResultServer.service.StageResultDataService;
 import fi.ipscResultServer.service.StageService;
 
 @Service
-public class StageResultDataService {
+public class StageResultDataServiceImpl implements StageResultDataService {
 	
 	@Autowired
 	ScoreCardService scoreCardService;
@@ -43,7 +44,7 @@ public class StageResultDataService {
 		StageResultData stageResultData = new StageResultData(stage, division);
 		List<StageResultDataLine> dataLines = new ArrayList<StageResultDataLine>();
 		stageResultData.setDataLines(dataLines);
-		stageResultData.getStage().setMatch(matchService.lazyGetOne(stage.getMatchId()));
+		stageResultData.getStage().setMatch(matchService.getOne(stage.getMatchId(), false));
 		stageResultData.getStage().getMatch().setStages(stageService.findByMatch(stage.getMatchId()));
 		
 		double topHitFactor = -1;

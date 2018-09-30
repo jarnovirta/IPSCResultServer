@@ -2,45 +2,20 @@ package fi.ipscResultServer.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.stereotype.Component;
 
 import fi.ipscResultServer.domain.Competitor;
-import fi.ipscResultServer.repository.springJDBCRepository.CompetitorRepository;
 
-@Service
-public class CompetitorService {
-	@Autowired
-	private CompetitorRepository competitorRepository;
+@Component
+public interface CompetitorService {
 	
-	public Competitor getOne(Long id) {
-		Competitor competitor = competitorRepository.getOne(id);
-		competitor.setCategories(competitorRepository.getCategories(id));
-		return competitor;
-	}
+	public Competitor getOne(Long id);
 	
-	@Transactional
-	public void save(List<Competitor> competitors) {
-		if (competitors == null) return;
-		competitorRepository.save(competitors);
-		
-	}
+	public void save(List<Competitor> competitors);
 	
-	public List<Competitor> findByMatch(Long matchId) {
-		return competitorRepository.findByMatch(matchId);
-	}
+	public List<Competitor> findByMatch(Long matchId);
 	
-	public Competitor findByPractiScoreReferences(String matchPractiScoreId, String competitorPractiScoreId) {
-		return competitorRepository.findByPractiScoreReferences(matchPractiScoreId, competitorPractiScoreId);
-	}
+	public Competitor findByPractiScoreReferences(String matchPractiScoreId, String competitorPractiScoreId);
 	
-	@Transactional
-	public void deleteByMatch(Long matchId) {
-		competitorRepository.deleteByMatch(matchId);
-	}
-	
-	public Long getIdByPractiScoreReferences(String competitorPractiScoreId, String matchPractiScoreId) {
-		return competitorRepository.getIdByPractiScoreReferences(competitorPractiScoreId, matchPractiScoreId);
-	}
+	public void deleteByMatch(Long matchId);
 }

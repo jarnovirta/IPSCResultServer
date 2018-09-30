@@ -2,7 +2,6 @@ package fi.ipscResultServer.controller.statistics;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,12 +25,10 @@ public class StatisticsController {
 	@Autowired
 	MatchService matchService;
 	
-	private final static Logger LOGGER = Logger.getLogger(StatisticsController.class);
-	
 	@RequestMapping(method = RequestMethod.GET)
 	public String getStatisticsPage(Model model, @RequestParam("matchId") String matchId,
 			@RequestParam(value="division", required = false) String division) {
-		Match match = matchService.getOne(matchService.getIdByPractiScoreId(matchId));
+		Match match = matchService.getOne(matchService.getIdByPractiScoreId(matchId), true);
 		if (division == null) {
 			if (match.getDivisionsWithResults().contains(Constants.COMBINED_DIVISION)) {
 				division = Constants.COMBINED_DIVISION;

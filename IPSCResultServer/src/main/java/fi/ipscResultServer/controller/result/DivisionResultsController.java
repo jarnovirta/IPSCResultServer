@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import fi.ipscResultServer.domain.Match;
+import fi.ipscResultServer.service.MatchResultDataService;
 import fi.ipscResultServer.service.MatchService;
-import fi.ipscResultServer.service.resultDataService.MatchResultDataService;
 
 @Controller
 @RequestMapping("/divisionResults")
@@ -24,7 +24,7 @@ public class DivisionResultsController {
 	public String getDivisionOverAllResultsPage(Model model, @RequestParam("matchId") String matchId, 
 			@RequestParam("division") String division) {
 		
-			Match match = matchService.getOne(matchService.getIdByPractiScoreId(matchId));
+			Match match = matchService.getOne(matchService.getIdByPractiScoreId(matchId), true);
 			
 			model.addAttribute("matchResultData", matchResultDataService.findByMatchAndDivision(match.getId(), division));
 			return "results/divisionResults/divisionResultsPage";

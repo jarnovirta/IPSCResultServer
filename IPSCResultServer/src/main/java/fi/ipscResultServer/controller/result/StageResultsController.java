@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import fi.ipscResultServer.domain.Stage;
 import fi.ipscResultServer.domain.resultData.StageResultData;
+import fi.ipscResultServer.service.StageResultDataService;
 import fi.ipscResultServer.service.StageService;
-import fi.ipscResultServer.service.resultDataService.StageResultDataService;
 
 @Controller
 @RequestMapping("/stageResults")

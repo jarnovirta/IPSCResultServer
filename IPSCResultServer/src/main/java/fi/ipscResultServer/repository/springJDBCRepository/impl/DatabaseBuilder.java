@@ -1,4 +1,4 @@
-package fi.ipscResultServer.repository.springJDBCRepository;
+package fi.ipscResultServer.repository.springJDBCRepository.impl;
 
 import java.nio.charset.Charset;
 

@@ -1,4 +1,4 @@
-package fi.ipscResultServer.repository.springJDBCRepository;
+package fi.ipscResultServer.repository.springJDBCRepository.impl;
 
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;

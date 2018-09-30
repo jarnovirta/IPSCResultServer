@@ -1,4 +1,4 @@
-package fi.ipscResultServer.service.resultDataService;
+package fi.ipscResultServer.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,20 +16,20 @@ import fi.ipscResultServer.domain.Stage;
 import fi.ipscResultServer.domain.resultData.MatchResultData;
 import fi.ipscResultServer.domain.resultData.MatchResultDataLine;
 import fi.ipscResultServer.domain.resultData.StageResultDataLine;
-import fi.ipscResultServer.exception.DatabaseException;
-import fi.ipscResultServer.repository.springJDBCRepository.MatchResultDataRepository;
+import fi.ipscResultServer.repository.springJDBCRepository.ResultDataRepository;
 import fi.ipscResultServer.service.CompetitorService;
+import fi.ipscResultServer.service.MatchResultDataService;
 import fi.ipscResultServer.service.MatchService;
-import fi.ipscResultServer.service.ScoreCardService;
+import fi.ipscResultServer.service.StageResultDataService;
 
 @Service
-public class MatchResultDataService {
+public class MatchResultDataServiceImpl implements MatchResultDataService {
 	
 	@Autowired
 	StageResultDataService stageResultDataService;
 	
 	@Autowired
-	private MatchResultDataRepository matchResultDataRepository;
+	private ResultDataRepository matchResultDataRepository;
 	
 	@Autowired
 	private MatchService matchService;
@@ -38,11 +38,11 @@ public class MatchResultDataService {
 	private CompetitorService competitorService;
 
 	
-	private final static Logger LOGGER = Logger.getLogger(ScoreCardService.class);
+	private final static Logger LOGGER = Logger.getLogger(ScoreCardServiceImpl.class);
 	
 	public MatchResultData findByMatchAndDivision(Long matchId, String division) {
 		MatchResultData data = matchResultDataRepository.findByMatchAndDivision(matchId, division);
-		data.setMatch(matchService.lazyGetOne(data.getMatchId()));
+		data.setMatch(matchService.getOne(data.getMatchId(), false));
 		data.setDataLines(matchResultDataRepository.getDataLines(data.getId()));
 		data.setDivision(division);
 		for (MatchResultDataLine line : data.getDataLines()) {
@@ -52,15 +52,7 @@ public class MatchResultDataService {
 		
 		return data;
 	}
-	
-	public List<MatchResultData> findByMatch(Long matchId) throws DatabaseException {
-		return null;
-	}
-	
-	public MatchResultDataLine findMatchResultDataLinesByCompetitor(Competitor competitor) 
-			throws DatabaseException {
-		return null;
-	}
+
 	
 	@Transactional
 	public void save(MatchResultData matchResultData) {
@@ -75,7 +67,7 @@ public class MatchResultDataService {
 	public MatchResultData generateMatchResultListing(Long matchId) {
 		LOGGER.info("Generating match result data (match ID: " + matchId + ")");
 		deleteByMatch(matchId);
-		Match match = matchService.getOne(matchId);
+		Match match = matchService.getOne(matchId, true);
 
 		for (String division : match.getDivisionsWithResults()) {
 			
@@ -126,9 +118,7 @@ public class MatchResultDataService {
 		}
 		return null;
 	}
-	public MatchResultDataLine findLineByCompetitor(Long competitorId, String division) {
-		return matchResultDataRepository.findLineByCompetitor(competitorId, division);
-	}
+
 	private List<StageResultDataLine> getCompetitorStageResultDataLines(Competitor competitor, List<StageResultDataLine> allStageResultDatalines) {
 		List<StageResultDataLine> stageResultDataLines = new ArrayList<StageResultDataLine>();
 		for (StageResultDataLine line : allStageResultDatalines) {

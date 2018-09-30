@@ -1,9 +1,8 @@
-package fi.ipscResultServer.service;
+package fi.ipscResultServer.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,16 +14,18 @@ import fi.ipscResultServer.domain.Stage;
 import fi.ipscResultServer.domain.practiScore.PractiScoreMatchData;
 import fi.ipscResultServer.domain.practiScore.PractiScoreStageScore;
 import fi.ipscResultServer.exception.DatabaseException;
+import fi.ipscResultServer.service.MatchService;
+import fi.ipscResultServer.service.PractiScoreDataService;
+import fi.ipscResultServer.service.ScoreCardService;
 
 @Service
-public class PractiScoreMatchDataService {
+public class PractiScoreDataServiceImpl implements PractiScoreDataService {
 	@Autowired
 	MatchService matchService;
 	
 	@Autowired
 	private ScoreCardService scoreCardService;
 	
-	private final static Logger LOGGER = Logger.getLogger(PractiScoreMatchDataService.class);
 	
 	public void save(PractiScoreMatchData matchData) throws DatabaseException {
 		Match match = matchData.getMatch();

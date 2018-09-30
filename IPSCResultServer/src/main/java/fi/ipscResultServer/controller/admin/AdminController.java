@@ -2,7 +2,6 @@ package fi.ipscResultServer.controller.admin;
 
 import java.util.Arrays;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,13 +15,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import fi.ipscResultServer.domain.Match;
 import fi.ipscResultServer.domain.MatchStatus;
 import fi.ipscResultServer.domain.User;
+import fi.ipscResultServer.service.MatchResultDataService;
 import fi.ipscResultServer.service.MatchService;
 import fi.ipscResultServer.service.StatisticsService;
 import fi.ipscResultServer.service.UserService;
-import fi.ipscResultServer.service.resultDataService.MatchResultDataService;
 
 @Controller
 @RequestMapping("/admin")
@@ -40,9 +38,6 @@ public class AdminController {
 	@Autowired
 	private StatisticsService statisticsService;
 	
-
-	private final static Logger LOGGER = Logger.getLogger(AdminController.class);
-	
 	@RequestMapping(method = RequestMethod.GET)
 	public String getAdminMainPage(Model model) {
 		if (userService.isCurrentUserAdmin()) {
@@ -51,7 +46,7 @@ public class AdminController {
 		}
 		else {
 			User user = userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
-			model.addAttribute("matchList", matchService.getMatchListForUser(user));
+			model.addAttribute("matchList", matchService.findByUser(user.getId()));
 		}
 		model.addAttribute("matchStatusList", Arrays.asList(MatchStatus.values()));
 		return "adminPages/adminMainPage";

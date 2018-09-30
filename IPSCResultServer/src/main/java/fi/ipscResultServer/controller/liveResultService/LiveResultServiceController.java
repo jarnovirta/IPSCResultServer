@@ -15,10 +15,9 @@ import fi.ipscResultServer.domain.Constants;
 import fi.ipscResultServer.domain.Match;
 import fi.ipscResultServer.domain.Stage;
 import fi.ipscResultServer.domain.resultData.StageResultData;
-import fi.ipscResultServer.exception.DatabaseException;
 import fi.ipscResultServer.service.MatchService;
+import fi.ipscResultServer.service.StageResultDataService;
 import fi.ipscResultServer.service.StageService;
-import fi.ipscResultServer.service.resultDataService.StageResultDataService;
 
 @Controller
 @RequestMapping("/live")
@@ -61,7 +60,7 @@ public class LiveResultServiceController {
 			// Pass configuration info to JavaScript code (rows per page in result table and page change interval)
 			model.addAttribute("config", liveResultServiceConfig);
 			
-			Match match = matchService.getOne(matchService.getIdByPractiScoreId(matchId));
+			Match match = matchService.getOne(matchService.getIdByPractiScoreId(matchId), true);
 			
 			// If no result data exists, set empty data instance and show empty result table
 			if (match == null || match.getDivisionsWithResults() == null || match.getDivisionsWithResults().size() == 0) {

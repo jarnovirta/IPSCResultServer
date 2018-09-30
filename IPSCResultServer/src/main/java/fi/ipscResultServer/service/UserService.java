@@ -2,53 +2,23 @@ package fi.ipscResultServer.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.stereotype.Component;
 
 import fi.ipscResultServer.domain.User;
-import fi.ipscResultServer.repository.springJDBCRepository.UserRepository;
 
-@Service
-public class UserService {
+@Component
+public interface UserService {
 	
-	@Autowired
-	private UserRepository userRepository;
+	public User saveOrUpdate(User user);
 	
-	@Transactional
-	public User saveOrUpdate(User user) {
-		if (user.getId() != null) userRepository.updateUser(user);
-		else user = userRepository.save(user);
-		return user;
-	}
+	public User getOne(Long id);
 	
-	public User getOne(Long id) {
-		return userRepository.getOne(id);
-	}
+	public User findByUsername(String username);
 	
-	public List<User> findEnabledUsers() {
-		return userRepository.findEnabledUsers();
-	}
+	public List<User> findEnabledUsers();
 	
-	public User findByUsername(String username) {
-		return null;
-	}
+	public void setEnabled(Long userId, boolean enabled);
 	
-	@Transactional
-	public void delete(Long userId) {
-		
-	}
+	public boolean isCurrentUserAdmin();
 	
-	@Transactional
-	public void setEnabled(Long userId, boolean enabled) {
-		User user = userRepository.getOne(userId);
-		if (user != null) {
-			user.setEnabled(false);
-			saveOrUpdate(user);
-		}
-	}
-	
-	public boolean isCurrentUserAdmin() {
-		return true;
-	}
 }

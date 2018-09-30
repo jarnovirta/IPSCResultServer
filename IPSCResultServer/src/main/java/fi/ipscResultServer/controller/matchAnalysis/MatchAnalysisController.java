@@ -13,42 +13,24 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import fi.ipscResultServer.domain.Competitor;
-import fi.ipscResultServer.domain.Constants;
 import fi.ipscResultServer.domain.Match;
 import fi.ipscResultServer.domain.ScoreCard;
-import fi.ipscResultServer.domain.Stage;
 import fi.ipscResultServer.domain.resultData.CompetitorResultData;
 import fi.ipscResultServer.domain.resultData.StageResultDataLine;
-import fi.ipscResultServer.exception.DatabaseException;
-import fi.ipscResultServer.service.CompetitorService;
 import fi.ipscResultServer.service.MatchService;
-import fi.ipscResultServer.service.resultDataService.CompetitorErrorCostDataService;
-import fi.ipscResultServer.service.resultDataService.CompetitorResultDataService;
-import fi.ipscResultServer.service.resultDataService.StageResultDataService;
 
 @Controller
 @RequestMapping("/matchAnalysis")
 public class MatchAnalysisController {
 
 	@Autowired
-	private CompetitorResultDataService competitorResultDataService;
-	
-	@Autowired
-	private StageResultDataService stageResultDataService;
-	
-	@Autowired
 	private MatchService matchService;
-	
-	@Autowired
-	private CompetitorService competitorService;
-
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public String getMatchAnalysisPage(Model model, @RequestParam("competitorId") String competitorPractiScoreId,
 			@RequestParam("matchId") String matchPractiScoreId) {
 	
-		Match match = matchService.getOne(matchService.getIdByPractiScoreId(matchPractiScoreId));
+		Match match = matchService.getOne(matchService.getIdByPractiScoreId(matchPractiScoreId), true);
 		
 		model.addAttribute("matchId", matchPractiScoreId);
 		model.addAttribute("competitorId", competitorPractiScoreId);
@@ -61,7 +43,7 @@ public class MatchAnalysisController {
 			@RequestParam("competitorId") String competitorPractiScoreId,
 			@RequestParam("compareToCompetitorId") String compareToCompetitorId) {
 		
-			Match match = matchService.getOne(matchService.getIdByPractiScoreId(matchPractiScoreId));
+			Match match = matchService.getOne(matchService.getIdByPractiScoreId(matchPractiScoreId), true);
 			
 			CompetitorMatchAnalysisData competitorMatchAnalysisData = getCompetitorMatchAnalysisData(competitorPractiScoreId, 
 					matchPractiScoreId);

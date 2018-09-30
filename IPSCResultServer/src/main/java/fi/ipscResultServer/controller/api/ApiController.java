@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import fi.ipscResultServer.domain.practiScore.PractiScoreMatchData;
-import fi.ipscResultServer.service.PractiScoreMatchDataService;
+import fi.ipscResultServer.service.PractiScoreDataService;
 
 
 @Controller
@@ -19,7 +19,7 @@ import fi.ipscResultServer.service.PractiScoreMatchDataService;
 public class ApiController {
 	
 	@Autowired
-	private PractiScoreMatchDataService practiScoreMatchDataService;
+	private PractiScoreDataService practiScoreMatchDataService;
 	
 	private final static Logger LOGGER = Logger.getLogger(ApiController.class);
 	

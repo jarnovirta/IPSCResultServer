@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import fi.ipscResultServer.controller.matchAnalysis.CompetitorErrorCostDataGenerator;
 import fi.ipscResultServer.domain.Competitor;
 import fi.ipscResultServer.domain.ScoreCard;
 import fi.ipscResultServer.domain.resultData.CompetitorResultData;
+import fi.ipscResultServer.service.CompetitorResultDataService;
 import fi.ipscResultServer.service.CompetitorService;
 import fi.ipscResultServer.service.MatchService;
-import fi.ipscResultServer.service.resultDataService.CompetitorErrorCostDataService;
-import fi.ipscResultServer.service.resultDataService.CompetitorResultDataService;
 
 @Controller
 @RequestMapping("/competitorResults")
@@ -43,7 +43,7 @@ public class CompetitorResultsController {
 		
 		model.addAttribute("resultData", resultData);
 		model.addAttribute("additionalPenaltiesColumn", additionalPenaltiesColumn);
-		model.addAttribute("errorCostDataLines", CompetitorErrorCostDataService.getErrorCostTableLines(resultData.getMatch(), competitor, new ArrayList<ScoreCard>(resultData.getScoreCards().values())));
+		model.addAttribute("errorCostDataLines", CompetitorErrorCostDataGenerator.getErrorCostTableLines(resultData.getMatch(), competitor, new ArrayList<ScoreCard>(resultData.getScoreCards().values())));
 		return "results/competitorResults/competitorResultsPage";
 	}
 }

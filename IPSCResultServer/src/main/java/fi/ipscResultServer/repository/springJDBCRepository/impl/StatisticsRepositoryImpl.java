@@ -1,4 +1,4 @@
-package fi.ipscResultServer.repository.springJDBCRepository;
+package fi.ipscResultServer.repository.springJDBCRepository.impl;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -12,10 +12,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import fi.ipscResultServer.domain.statistics.CompetitorStatistics;
-import fi.ipscResultServer.repository.springJDBCRepository.mapper.CompetitorStatisticsMapper;
+import fi.ipscResultServer.repository.springJDBCRepository.StatisticsRepository;
+import fi.ipscResultServer.repository.springJDBCRepository.impl.mapper.CompetitorStatisticsMapper;
 
 @Repository
-public class CompetitorStatisticsRepository {
+public class StatisticsRepositoryImpl implements StatisticsRepository {
 	@Autowired
 	private DatabaseUtil dbUtil;
 	
@@ -25,6 +26,7 @@ public class CompetitorStatisticsRepository {
     public void init() {
         jdbcTemplate = dbUtil.getJdbcTemplate();
     }
+
 	public void save(List<CompetitorStatistics> stats) {
 		String query = "INSERT INTO competitorstatistics (ahitpercentage, ahits, additionalpenalties,"
 				+ "chits, dhits, divisionpoints, divisionrank, divisionscorepercentage,"

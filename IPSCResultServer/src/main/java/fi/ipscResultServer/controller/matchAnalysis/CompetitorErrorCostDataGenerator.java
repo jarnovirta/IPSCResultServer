@@ -1,11 +1,10 @@
-package fi.ipscResultServer.service.resultDataService;
+package fi.ipscResultServer.controller.matchAnalysis;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import fi.ipscResultServer.controller.matchAnalysis.ErrorCostTableLine;
 import fi.ipscResultServer.domain.Competitor;
 import fi.ipscResultServer.domain.Match;
 import fi.ipscResultServer.domain.PowerFactor;
@@ -13,7 +12,7 @@ import fi.ipscResultServer.domain.ScoreCard;
 import fi.ipscResultServer.domain.Stage;
 import fi.ipscResultServer.util.DataFormatUtils;
 
-public class CompetitorErrorCostDataService {
+public class CompetitorErrorCostDataGenerator {
 	private static int cHitPointLoss;
 	private static int dHitPointLoss;
 	private static int proceduralAndNoShootPointLoss = 10;
