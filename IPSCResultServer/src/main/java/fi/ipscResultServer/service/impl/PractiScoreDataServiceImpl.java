@@ -1,6 +1,7 @@
 package fi.ipscResultServer.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,61 +32,86 @@ public class PractiScoreDataServiceImpl implements PractiScoreDataService {
 		Match match = matchData.getMatch();
 		matchService.deleteByPractiScoreId(match.getPractiScoreId());
 		match = matchService.save(match);
-		prepareStageScoresForSave(matchData.getMatchScore().getStageScores(), match);
-		scoreCardService.save(getMatchScoreCards(matchData));
-
+		List<ScoreCard> cards = prepareStageScoresForSave(matchData.getMatchScore().getStageScores(), match);
+		scoreCardService.save(cards);
 	}
 	
-	private List<ScoreCard> getMatchScoreCards(PractiScoreMatchData matchData) {
-		List<ScoreCard> scoreCards = new ArrayList<ScoreCard>();
-		for (PractiScoreStageScore ss : matchData.getMatchScore().getStageScores()) {
-			scoreCards.addAll(ss.getScoreCards());
-		}
-	return scoreCards;
-	}
-	private void prepareStageScoresForSave(List<PractiScoreStageScore> stageScores, Match match) {
+	private List<ScoreCard> prepareStageScoresForSave(List<PractiScoreStageScore> stageScores, Match match) {
+		
+		List<ScoreCard> resultScoreCardsList = new ArrayList<ScoreCard>();
 		if (match.getDivisions() == null) match.setDivisions(new ArrayList<String>());
 		if (match.getDivisionsWithResults() == null) match.setDivisionsWithResults(new ArrayList<String>());
 		
 		for (PractiScoreStageScore stageScore : stageScores) {
-			Stage stage = null;
-			for (Stage savedStage : match.getStages()) {
-				if (savedStage.getPractiScoreId().equals(stageScore.getStagePractiScoreId())) {
-					stage = savedStage;
-				}
+			Stage stage = getStageByPractiScoreId(match.getStages(), stageScore.getStagePractiScoreId());
+			List<ScoreCard> scoreCards = stageScore.getScoreCards();
+			setReferencesInScoreCards(scoreCards, stage, match);
+			scoreCards = removeCardsForInvalidStagesAndCompetitors(scoreCards);
+			setHitsDataInScoreCards(scoreCards);
+			Collections.sort(scoreCards);
+			for (String division : match.getDivisions()) {
+				setStageResultDataInScoreCards(scoreCards, stage, division);
+			}
+			if (match.getDivisions().size() > 1) {
+				setStageResultDataInScoreCards(scoreCards, stage, Constants.COMBINED_DIVISION); 
 			}
 					
-			List<ScoreCard> cardsToRemove = new ArrayList<ScoreCard>();
+			resultScoreCardsList.addAll(scoreCards);
+		}
+		return resultScoreCardsList;
+	}	
+	
+	private void setHitsDataInScoreCards(List<ScoreCard> cards) {
+		for (ScoreCard scoreCard : cards) scoreCard.setHitsAndPoints();
+	}
+	
+	private void setStageResultDataInScoreCards(List<ScoreCard> cards, Stage stage, String division) {
+		double topHitFactor = -1;
+		for (ScoreCard scoreCard : cards) {
+			// Skip competitors in other divisions unless setting result data for combined division. Also skip disqualified competitors
+			if (scoreCard.getCompetitor().isDisqualified()
+					|| (!division.equals(Constants.COMBINED_DIVISION) 
+					&& !scoreCard.getCompetitor().getDivision().equals(division))) continue;
 			
-			for (ScoreCard scoreCard : stageScore.getScoreCards()) {
-				// Set competitor
-				Competitor competitor = null;
-				for (Competitor comp : match.getCompetitors()) {
-					if (comp.getPractiScoreId().equals(scoreCard.getCompetitorPractiScoreId())) competitor = comp;
-				}
-				
-				// Remove cards if competitor or stage has been deleted
-				if (competitor == null || competitor.isDeleted() || stage == null) {
-					cardsToRemove.add(scoreCard);
-					continue;
-				}
-				
-				scoreCard.setCompetitor(competitor);
-				scoreCard.setHitsAndPoints();
-				scoreCard.setStage(stage);
-				
-				String scoreCardDivision = scoreCard.getCompetitor().getDivision();
+			// Set stage result points, percentage and rank
+			if (topHitFactor == -1 || scoreCard.getHitFactor() > topHitFactor) topHitFactor = scoreCard.getHitFactor();
 
-				if (!match.getDivisionsWithResults().contains(scoreCardDivision))  {
-					match.getDivisionsWithResults().add(scoreCardDivision);
-				}
+			double points;
+			if (topHitFactor > 0) points = (scoreCard.getHitFactor() / topHitFactor) * stage.getMaxPoints();
+			else points = stage.getMaxPoints();
+			if (division.equals(Constants.COMBINED_DIVISION)) {
+				scoreCard.setCombinedDivisionStagePoints(points);
 			}
-			stageScore.getScoreCards().removeAll(cardsToRemove);
-			
-			// If match has results for more than one division, add IPSCDivision combined to match for result listing purposes.
-			if (match.getDivisionsWithResults().size() > 1 && !match.getDivisionsWithResults().contains(Constants.COMBINED_DIVISION)) {
-				match.getDivisionsWithResults().add(Constants.COMBINED_DIVISION);
+			else scoreCard.setStagePoints(points);
+		}
+	}
+	
+	private void setReferencesInScoreCards(List<ScoreCard> cards, Stage stage, Match match) {
+		for (ScoreCard card : cards) {
+			card.setStage(stage);
+			card.setCompetitor(getCompetitorByPractiScoreId(match.getCompetitors(), card.getCompetitorPractiScoreId()));
+			card.setStage(stage);
+		}
+	}
+	
+	private Stage getStageByPractiScoreId(List<Stage> stages, String practiScroreId) {
+		for (Stage stage : stages) if (stage.getPractiScoreId().equals(practiScroreId)) return stage;
+		return null;
+	}
+	
+	private Competitor getCompetitorByPractiScoreId(List<Competitor> competitors, String id) {
+		for (Competitor comp : competitors) if (comp.getPractiScoreId().equals(id)) return comp;
+		return null;
+	}
+	private List<ScoreCard> removeCardsForInvalidStagesAndCompetitors(List<ScoreCard> cards) {
+		List<ScoreCard> resultCards = new ArrayList<ScoreCard>();
+		for (ScoreCard card : cards) {
+			// Remove cards if competitor or stage has been deleted
+
+			if (card.getCompetitor() != null && !card.getCompetitor().isDeleted() && card.getStage() != null) {
+				resultCards.add(card);
 			}
 		}
+		return resultCards;
 	}
 }

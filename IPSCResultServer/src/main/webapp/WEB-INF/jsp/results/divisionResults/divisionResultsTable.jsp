@@ -39,7 +39,7 @@
 					</td>
 					<td>
 						<c:url var="competitorResultsUrl" value="/competitorResults">
-							<c:param name="matchId" value="${dataline.matchResultData.match.practiScoreId}" />
+							<c:param name="matchId" value="${matchResultData.match.practiScoreId}" />
 							<c:param name="competitorId" value="${dataline.competitor.practiScoreId}" />
 						</c:url>
 

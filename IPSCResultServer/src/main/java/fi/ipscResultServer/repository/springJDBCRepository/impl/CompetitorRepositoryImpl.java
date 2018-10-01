@@ -85,7 +85,15 @@ public class CompetitorRepositoryImpl implements CompetitorRepository {
 			return null;
 		}
 	}
-	
+	public List<Competitor> findByMatchAndDivision(Long matchId, String division) {
+		try {
+			String query = "SELECT * FROM competitor WHERE match_id = ? AND division = ? ORDER BY UPPER(TRIM(lastname)) ASC";
+			return jdbcTemplate.query(query, new Object[] { matchId, division }, new CompetitorMapper());
+		}
+		catch (EmptyResultDataAccessException e) {
+			return null;
+		}
+	}
 	public void deleteByMatch(Long matchId) {
 		String query = "DELETE cc FROM competitor_categories cc INNER JOIN competitor c ON cc.competitor_id = c.id WHERE c.match_id = ?;";
 		jdbcTemplate.update(query, new Object[] { matchId });
@@ -94,15 +102,30 @@ public class CompetitorRepositoryImpl implements CompetitorRepository {
 	}
 	
 	public Competitor findByPractiScoreReferences(String matchPractiScoreId, String competitorPractiScoreId) {
-		String sql = "SELECT * FROM competitor c "
-				+ "INNER JOIN ipscmatch m ON c.match_id = m.id "
-				+ "WHERE m.practiscoreid = ? AND c.practiscoreid = ?";
-		return jdbcTemplate.queryForObject(sql, new Object[] { matchPractiScoreId, competitorPractiScoreId }, 
-				new CompetitorMapper());		
+		try {
+			String sql = "SELECT * FROM competitor c "
+					+ "INNER JOIN ipscmatch m ON c.match_id = m.id "
+					+ "WHERE m.practiscoreid = ? AND c.practiscoreid = ?";
+			return jdbcTemplate.queryForObject(sql, new Object[] { matchPractiScoreId, competitorPractiScoreId }, 
+					new CompetitorMapper());
+		}
+		catch (EmptyResultDataAccessException e) {
+			return null;
+		}
+		
 	}
+		
 
 	public List<String> getCategories(Long competitorId) {
 		String sql = "SELECT categories FROM competitor_categories WHERE competitor_id = ?";
 		return jdbcTemplate.queryForList(sql, new Object[] { competitorId }, String.class);
+	}
+	
+	public Long getIdByPractiScoreReferences(String competitorPractiScoreId, String matchPractiScoreId) {
+		String sql = "SELECT c.id FROM competitor c "
+				+ "INNER JOIN ipscmatch m ON c.match_id = m.id "
+				+ "WHERE m.practiscoreid = ? AND c.practiscoreid = ?";
+		return jdbcTemplate.queryForObject(sql, new Object[] { matchPractiScoreId, competitorPractiScoreId }, 
+				Long.class);		
 	}
 }

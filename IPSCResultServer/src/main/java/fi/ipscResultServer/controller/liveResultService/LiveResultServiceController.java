@@ -106,17 +106,12 @@ public class LiveResultServiceController {
 	}
 
 	private StageResultData getEmptyStageResultData(Match match) {
-		StageResultData data = new StageResultData();
 		Stage stage = new Stage();
 		stage.setMatch(match);
-		data.setStage(stage);
-		return data;
+		return new StageResultData(stage, null, null);
 	}
 	private StageResultData getEmptyStageResultData(Stage stage, String division) {
-		StageResultData data = new StageResultData();
-		data.setStage(stage);
-		data.setDivision(division);
-		return data;
+		return new StageResultData(stage, division, null);
 	}
 	private String getNextDivision(Match match, List<String> divisions, String previousDivision) {
 		int divisionIndex = divisions.indexOf(previousDivision);

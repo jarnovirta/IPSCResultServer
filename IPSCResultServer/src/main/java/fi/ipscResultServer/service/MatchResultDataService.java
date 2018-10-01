@@ -7,7 +7,7 @@ import fi.ipscResultServer.domain.resultData.MatchResultData;
 @Component
 public interface MatchResultDataService {
 	
-	public MatchResultData findByMatchAndDivision(Long matchId, String division);
+	public MatchResultData findByMatchAndDivision(String matchPractiScoreId, String division);
 
 	public void save(MatchResultData matchResultData);
 	

@@ -64,8 +64,8 @@ public class ResultDataRepositoryImpl implements ResultDataRepository {
 		matchResultData.setId(keyHolder.getKey().longValue());
 		
 		String dataLinesInsert = "INSERT INTO matchresultdataline (points, rank,"
-				+ " scorepercentage, scoredstages, competitor_id, matchresultdata_id)"
-				+ " VALUES (?, ?, ?, ?, ?, ?);";
+				+ " scorepercentage, scoredstages, competitor_id)"
+				+ " VALUES (?, ?, ?, ?, ?);";
 		
 		List<MatchResultDataLine> lines = matchResultData.getDataLines(); 
 		jdbcTemplate.batchUpdate(dataLinesInsert, new BatchPreparedStatementSetter() {
@@ -77,7 +77,7 @@ public class ResultDataRepositoryImpl implements ResultDataRepository {
 				ps.setDouble(3, line.getScorePercentage());
 				ps.setInt(4, line.getScoredStages());
 				ps.setLong(5, line.getCompetitor().getId());
-				ps.setLong(6, line.getMatchResultData().getId());
+//				ps.setLong(6, line.getMatchResultData().getId());
 			}
 			@Override
 			public int getBatchSize() {
@@ -115,5 +115,48 @@ public class ResultDataRepositoryImpl implements ResultDataRepository {
 			e.printStackTrace();
 			return null;
 		}
+	}
+	public List<MatchResultDataLine> findResultDataLinesByMatchAndDivision(Long matchId, String division) {
+		try {
+			String sql = "SELECT c.id AS competitor_id, SUM(sc.stagepoints) AS points_sum, COUNT(sc.id) AS scored_stages_count"
+					+ " FROM SCORECARD sc"
+					+ " LEFT JOIN COMPETITOR c ON sc.COMPETITOR_ID = c.ID"
+					+ " INNER JOIN STAGE s ON sc.STAGE_ID = s.ID"
+					+ " WHERE c.DIVISION = ?"
+					+ " AND c.DISQUALIFIED = 0" 
+					+ " AND s.MATCH_ID = ? "
+					+ " GROUP BY c.ID "
+					+ " ORDER BY points_sum DESC";
+			return jdbcTemplate.query(sql, new Object[] { division, matchId }, new MatchResultDataLineMapper());
+		}
+		catch (EmptyResultDataAccessException e) {
+			return null;
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}		
+	}
+	
+	public List<MatchResultDataLine> findResultDataLinesByMatch(Long matchId) {
+		try {
+			String sql = "SELECT c.id AS competitor_id, SUM(sc.combineddivisionstagepoints) AS points_sum, COUNT(sc.id) AS scored_stages_count"
+					+ " FROM SCORECARD sc"
+					+ " LEFT JOIN COMPETITOR c ON sc.COMPETITOR_ID = c.ID"
+					+ " INNER JOIN STAGE s ON sc.STAGE_ID = s.ID"
+					+ " WHERE c.DISQUALIFIED = 0" 
+					+ " AND s.MATCH_ID = ? "
+					+ " GROUP BY c.ID "
+					+ " ORDER BY points_sum DESC";
+			return jdbcTemplate.query(sql, new Object[] { matchId }, new MatchResultDataLineMapper());
+		}
+		catch (EmptyResultDataAccessException e) {
+			return null;
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}		
+	
 	}
 }

@@ -30,7 +30,7 @@ public class ApiController {
 			LOGGER.info("Saving match data for " + matchData.getMatch().getName());
 			practiScoreMatchDataService.save(matchData);
 			long estimatedTime = System.currentTimeMillis() - startTime;
-			LOGGER.info("Match data saved in " + estimatedTime / 1000 + " sec.");
+			LOGGER.info("Match data saved in " + estimatedTime + " ms.");
 			
 			return new ResponseEntity<String>("Match data saved!", null, HttpStatus.OK);
 		}

@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ScoreCard {
+public class ScoreCard implements Comparable<ScoreCard> {
 	
 	private Long id;
 	
@@ -67,9 +67,22 @@ public class ScoreCard {
 	
 	private double hitFactor;
 	
-	private int stagePoints;
-	
 	private int stageRank;
+		
+	private double stageScorePercentage = 0.0;
+	
+	private double stagePoints = 0.0;
+	
+	private double combinedDivisionStagePoints = 0.0;
+	
+	private double inViewStagePoints = 0.0;
+	
+	@Override
+	public int compareTo(ScoreCard compareToScoreCard) {
+		final int EQUAL = 0;
+	    if (this == compareToScoreCard) return EQUAL;
+	    return new Double(compareToScoreCard.getHitFactor()).compareTo(new Double(this.hitFactor));
+	}
 	
 	public String getCompetitorPractiScoreId() {
 		return competitorPractiScoreId;
@@ -117,7 +130,6 @@ public class ScoreCard {
 	}
 	public void setPopperNoshootHits(int popperNoshootHits) {
 		this.popperNoshootHits = popperNoshootHits;
-		this.noshootHits += popperNoshootHits;
 	}
 	public int getPoints() {
 		return points;
@@ -141,6 +153,12 @@ public class ScoreCard {
 	}
 	
 	public void setHitsAndPoints() {
+		
+		aHits = 0;
+		cHits = 0;
+		dHits = 0;
+		noshootHits = 0;
+		misses = 0;
 		
 		// Count total hits from PractiScore hits data
 		int cHitsBitShift = 8;
@@ -257,14 +275,6 @@ public class ScoreCard {
 		this.hitFactor = hitFactor;
 	}
 
-	public int getStagePoints() {
-		return stagePoints;
-	}
-
-	public void setStagePoints(int stagePoints) {
-		this.stagePoints = stagePoints;
-	}
-
 	public int getStageRank() {
 		return stageRank;
 	}
@@ -306,5 +316,37 @@ public class ScoreCard {
 	public void setCompetitorId(Long competitorId) {
 		this.competitorId = competitorId;
 	}
-	
+
+	public double getStageScorePercentage() {
+		return stageScorePercentage;
+	}
+
+	public void setStageScorePercentage(double stageScorePercentage) {
+		this.stageScorePercentage = stageScorePercentage;
+	}
+
+	public double getStagePoints() {
+		return stagePoints;
+	}
+
+	public void setStagePoints(double stagePoints) {
+		this.stagePoints = stagePoints;
+	}
+
+	public double getCombinedDivisionStagePoints() {
+		return combinedDivisionStagePoints;
+	}
+
+	public void setCombinedDivisionStagePoints(double combinedDivisionStagePoints) {
+		this.combinedDivisionStagePoints = combinedDivisionStagePoints;
+	}
+
+	public double getInViewStagePoints() {
+		return inViewStagePoints;
+	}
+
+	public void setInViewStagePoints(double inViewStagePoints) {
+		this.inViewStagePoints = inViewStagePoints;
+	}
+
 }

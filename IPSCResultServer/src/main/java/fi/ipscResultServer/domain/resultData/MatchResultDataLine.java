@@ -5,7 +5,7 @@ import fi.ipscResultServer.domain.Competitor;
 public class MatchResultDataLine implements Comparable<MatchResultDataLine> {
 	private Long id;
 	
-	private MatchResultData matchResultData;
+//	private MatchResultData matchResultData;
 	
 	private Competitor competitor;
 	
@@ -20,9 +20,12 @@ public class MatchResultDataLine implements Comparable<MatchResultDataLine> {
 	private int scoredStages;
 	
 	public MatchResultDataLine() { }
-	public MatchResultDataLine(Competitor competitor, MatchResultData matchResultData) {
-		this.competitor = competitor;
-		this.matchResultData = matchResultData;
+	
+	public MatchResultDataLine(Long competitorId, double points, int scoredStages) {
+		this.competitorId = competitorId;
+		this.points = points;
+		this.scoredStages = scoredStages;
+
 	}
 	@Override
 	public int compareTo(MatchResultDataLine compareToDataLine) {
@@ -37,14 +40,6 @@ public class MatchResultDataLine implements Comparable<MatchResultDataLine> {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public MatchResultData getMatchResultData() {
-		return matchResultData;
-	}
-
-	public void setMatchResultData(MatchResultData matchResultData) {
-		this.matchResultData = matchResultData;
 	}
 
 	public Competitor getCompetitor() {

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import fi.ipscResultServer.domain.Competitor;
+import fi.ipscResultServer.domain.Constants;
 import fi.ipscResultServer.domain.Match;
 import fi.ipscResultServer.domain.ScoreCard;
 import fi.ipscResultServer.domain.resultData.MatchResultData;
@@ -56,71 +57,71 @@ public class StatisticsServiceImpl implements StatisticsService {
 	
 	@Transactional
 	public void generateCompetitorStatistics(Long matchId) {
-		// Delete old statistics
-		LOGGER.info("Generating statistics for match");
-		deleteByMatch(matchId);	
-		
-		List<CompetitorStatistics> competitorStatisticsList = new ArrayList<CompetitorStatistics>();
-		Match match = matchService.getOne(matchId, true);
-		List<ScoreCard> allScoreCards = scoreCardService.findByMatch(matchId, false);
-		
-		for (String division : match.getDivisionsWithResults()) {
-			MatchResultData matchResultData = matchResultDataService.findByMatchAndDivision(matchId, division);
-			
-			// Generate CompetitorStatisticsLine instances for competitors
-			for (Competitor competitor : match.getCompetitors()) {
-				if (!competitor.getDivision().equals(division)) continue;
-				CompetitorStatistics line = new CompetitorStatistics(competitor, match);
-				double matchTime = 0.0;
-				int aHits = 0;
-				int cHits = 0;
-				int dHits = 0;
-				int misses = 0;
-				int proceduralPenalties = 0;
-				int additionalPenalties = 0;
-				int noShootHits = 0;
-				int sumOfPoints = 0;
-				
-				List<ScoreCard> scoreCards = getScoreCardsForCompetitor(allScoreCards, competitor.getId()); 
-				
-				// Exclude competitors with no score card data. Will not be shown at all in statistics listing.
-				if (scoreCards.size() == 0) continue; 
-				for (ScoreCard card : scoreCards) {
-					aHits += card.getaHits();
-					cHits += card.getcHits();
-					dHits += card.getdHits();
-					misses += card.getMisses();
-					proceduralPenalties += card.getProceduralPenalties();
-					additionalPenalties += card.getAdditionalPenalties();
-					noShootHits += card.getNoshootHits();
-					sumOfPoints += card.getPoints();
-					matchTime += card.getTime();
-				}
-				line.setaHits(aHits);
-				line.setcHits(cHits);
-				line.setdHits(dHits);
-				line.setMisses(misses);
-				line.setProceduralPenalties(proceduralPenalties);
-				line.setAdditionalPenalties(additionalPenalties);
-				line.setNoShootHits(noShootHits);
-				line.setSumOfPoints(sumOfPoints);
-				line.setMatchTime(matchTime);
-				
-				int totalShots = aHits + cHits + dHits + misses + noShootHits;
-				line.setaHitPercentage((double) aHits / (double) totalShots * 100.0);
-				
-				// Get following data from competitor's MatchResultDataLine instance: position within division results,
-				// total points and score percentage within division. 
-				MatchResultDataLine matchDataLine = getMatchResultDataLineForCompetitor(matchResultData, competitor.getId());
-				if (matchDataLine != null) {
-					line.setDivisionRank(matchDataLine.getRank());
-					line.setDivisionPoints(matchDataLine.getPoints());
-					line.setDivisionScorePercentage(matchDataLine.getScorePercentage());
-				}
-				competitorStatisticsList.add(line);
-			}
-		}
-		competitorStatisticsRepository.save(competitorStatisticsList);
+//		// Delete old statistics
+//		LOGGER.info("Generating statistics for match");
+//		deleteByMatch(matchId);	
+//		
+//		List<CompetitorStatistics> competitorStatisticsList = new ArrayList<CompetitorStatistics>();
+//		Match match = matchService.getOne(matchId, true);
+//		List<ScoreCard> allScoreCards = scoreCardService.findByMatch(matchId, false);
+//		
+//		for (String division : match.getDivisionsWithResults()) {
+//			MatchResultData matchResultData = matchResultDataService.findByMatchAndDivision(matchId, division);
+//			
+//			// Generate CompetitorStatisticsLine instances for competitors
+//			for (Competitor competitor : match.getCompetitors()) {
+//				if (!competitor.getDivision().equals(division)) continue;
+//				CompetitorStatistics line = new CompetitorStatistics(competitor, match);
+//				double matchTime = 0.0;
+//				int aHits = 0;
+//				int cHits = 0;
+//				int dHits = 0;
+//				int misses = 0;
+//				int proceduralPenalties = 0;
+//				int additionalPenalties = 0;
+//				int noShootHits = 0;
+//				int sumOfPoints = 0;
+//				
+//				List<ScoreCard> scoreCards = getScoreCardsForCompetitor(allScoreCards, competitor.getId()); 
+//				
+//				// Exclude competitors with no score card data. Will not be shown at all in statistics listing.
+//				if (scoreCards.size() == 0) continue; 
+//				for (ScoreCard card : scoreCards) {
+//					aHits += card.getaHits();
+//					cHits += card.getcHits();
+//					dHits += card.getdHits();
+//					misses += card.getMisses();
+//					proceduralPenalties += card.getProceduralPenalties();
+//					additionalPenalties += card.getAdditionalPenalties();
+//					noShootHits += card.getNoshootHits();
+//					sumOfPoints += card.getPoints();
+//					matchTime += card.getTime();
+//				}
+//				line.setaHits(aHits);
+//				line.setcHits(cHits);
+//				line.setdHits(dHits);
+//				line.setMisses(misses);
+//				line.setProceduralPenalties(proceduralPenalties);
+//				line.setAdditionalPenalties(additionalPenalties);
+//				line.setNoShootHits(noShootHits);
+//				line.setSumOfPoints(sumOfPoints);
+//				line.setMatchTime(matchTime);
+//				
+//				int totalShots = aHits + cHits + dHits + misses + noShootHits;
+//				line.setaHitPercentage((double) aHits / (double) totalShots * 100.0);
+//				
+//				// Get following data from competitor's MatchResultDataLine instance: position within division results,
+//				// total points and score percentage within division. 
+//				MatchResultDataLine matchDataLine = getMatchResultDataLineForCompetitor(matchResultData, competitor.getId());
+//				if (matchDataLine != null) {
+//					line.setDivisionRank(matchDataLine.getRank());
+//					line.setDivisionPoints(matchDataLine.getPoints());
+//					line.setDivisionScorePercentage(matchDataLine.getScorePercentage());
+//				}
+//				competitorStatisticsList.add(line);
+//			}
+//		}
+//		competitorStatisticsRepository.save(competitorStatisticsList);
 	}
 	
 	@Transactional
@@ -142,7 +143,7 @@ public class StatisticsServiceImpl implements StatisticsService {
 	}
 	
 	private void fetchReferences(List<CompetitorStatistics> stats, Long matchId) {
-		List<Competitor> competitors = competitorService.findByMatch(matchId);
+		List<Competitor> competitors = competitorService.findByMatchAndDivision(matchId, Constants.COMBINED_DIVISION);
 		for (CompetitorStatistics stat : stats) {
 			stat.setCompetitor(getCompetitorForStatisticsLine(competitors, stat.getCompetitorId()));
 		}

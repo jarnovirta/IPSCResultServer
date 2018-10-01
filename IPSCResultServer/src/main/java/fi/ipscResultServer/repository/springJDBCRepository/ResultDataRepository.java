@@ -20,4 +20,9 @@ public interface ResultDataRepository {
 	
 	public MatchResultDataLine findLineByCompetitor(Long competitorId, String division);
 	
+	public List<MatchResultDataLine> findResultDataLinesByMatchAndDivision(Long matchId, String division);
+	
+	public List<MatchResultDataLine> findResultDataLinesByMatch(Long matchId);
+	
 }
+

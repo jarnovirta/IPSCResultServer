@@ -15,9 +15,14 @@ public interface CompetitorRepository {
 
 	public List<Competitor> findByMatch(Long matchId);
 	
+	public List<Competitor> findByMatchAndDivision(Long matchId, String division);
+	
 	public Competitor findByPractiScoreReferences(String matchPractiScoreId, String competitorPractiScoreId);
 	
 	public void deleteByMatch(Long matchId);
 
 	public List<String> getCategories(Long competitorId);
+	
+	public Long getIdByPractiScoreReferences(String competitorPractiScoreId, String matchPractiScoreId);
+	
 }

@@ -19,6 +19,7 @@ public class StageServiceImpl implements StageService {
 	
 	public Stage getOne(Long id) {
 		Stage stage = stageRepository.getOne(id);
+		
 		return stage;
 	}
 

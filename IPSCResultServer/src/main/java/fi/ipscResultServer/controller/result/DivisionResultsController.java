@@ -21,12 +21,10 @@ public class DivisionResultsController {
 	private MatchService matchService;
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public String getDivisionOverAllResultsPage(Model model, @RequestParam("matchId") String matchId, 
+	public String getDivisionOverAllResultsPage(Model model, @RequestParam("matchId") String matchPractiScoreId, 
 			@RequestParam("division") String division) {
-		
-			Match match = matchService.getOne(matchService.getIdByPractiScoreId(matchId), true);
-			
-			model.addAttribute("matchResultData", matchResultDataService.findByMatchAndDivision(match.getId(), division));
+					
+			model.addAttribute("matchResultData", matchResultDataService.findByMatchAndDivision(matchPractiScoreId, division));
 			return "results/divisionResults/divisionResultsPage";
 		
 	}

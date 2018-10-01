@@ -61,7 +61,7 @@ public class MatchServiceImpl implements MatchService {
 		// Save competitors and get saved instances with IDs
 		prepareCompetitorsForSave(match);
 		competitorService.save(match.getCompetitors());
-		match.setCompetitors(competitorService.findByMatch(match.getId()));
+		match.setCompetitors(competitorService.findByMatchAndDivision(match.getId(), Constants.COMBINED_DIVISION));
 		
 		// Save stages and get saved instances with IDs
 		stageService.save(match.getStages());
@@ -114,7 +114,7 @@ public class MatchServiceImpl implements MatchService {
 		match.setDivisionsWithResults(scoreCardService.getDivisionsWithResults(id));
 		if (match.getDivisionsWithResults().size() > 1) match.getDivisionsWithResults().add(Constants.COMBINED_DIVISION);
 		if (eager) {
-			match.setCompetitors(competitorService.findByMatch(match.getId()));
+			match.setCompetitors(competitorService.findByMatchAndDivision(match.getId(), Constants.COMBINED_DIVISION));
 			match.setStages(stageService.findByMatch(match.getId()));
 			if (match.getUserId() != null) match.setUser(userService.getOne(match.getUserId()));
 		}

@@ -12,12 +12,9 @@ public class MatchResultDataLineMapper implements RowMapper<MatchResultDataLine>
 	@Override
 	public MatchResultDataLine mapRow(ResultSet rs, int rowNum) throws SQLException {
 		MatchResultDataLine line = new MatchResultDataLine();
-		line.setId(rs.getLong("id"));
-		line.setPoints(rs.getDouble("points"));
-		line.setRank(rs.getInt("rank"));
-		line.setScorePercentage(rs.getDouble("scorepercentage"));
-		line.setScoredStages(rs.getInt("scoredstages"));
+		line.setPoints(rs.getDouble("points_sum"));
 		line.setCompetitorId(rs.getLong("competitor_id"));
+		line.setScoredStages(rs.getInt("scored_stages_count"));
 		return line;
 	}
 

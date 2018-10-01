@@ -34,8 +34,8 @@ public class ScoreCardRepositoryImpl implements ScoreCardRepository {
 	
 	public void save(List<ScoreCard> cards) {
 		String query = "INSERT INTO scorecard (ahits, additionalpenalties, chits, dhits, time, hitfactor, misses, noshoothits"
-				+ ", proceduralpenalties, stagepoints, stagerank, competitor_id, stage_id, modified"
-	      		+ ", points, poppermisses, popperhits, poppernoshoothits)"
+				+ ", proceduralpenalties, stagepoints, competitor_id, stage_id, modified"
+	      		+ ", points, poppermisses, popperhits, poppernoshoothits, combineddivisionstagepoints)"
 	      		+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 		
 		jdbcTemplate.batchUpdate(query, new BatchPreparedStatementSetter() {
@@ -51,15 +51,15 @@ public class ScoreCardRepositoryImpl implements ScoreCardRepository {
 				ps.setInt(7, card.getMisses());
 				ps.setInt(8, card.getNoshootHits());
 				ps.setInt(9, card.getProceduralPenalties());
-				ps.setInt(10, card.getStagePoints());
-				ps.setInt(11, card.getStageRank());
-				ps.setLong(12, card.getCompetitor().getId());
-				ps.setLong(13, card.getStage().getId());
-				ps.setTimestamp(14, new java.sql.Timestamp(card.getModified().getTimeInMillis()));
-				ps.setInt(15, card.getPoints());
-				ps.setInt(16, card.getPopperMisses());
-				ps.setInt(17, card.getPopperHits());
-				ps.setInt(18,  card.getPopperNoshootHits());
+				ps.setDouble(10, card.getStagePoints());
+				ps.setLong(11, card.getCompetitor().getId());
+				ps.setLong(12, card.getStage().getId());
+				ps.setTimestamp(13, new java.sql.Timestamp(card.getModified().getTimeInMillis()));
+				ps.setInt(14, card.getPoints());
+				ps.setInt(15, card.getPopperMisses());
+				ps.setInt(16, card.getPopperHits());
+				ps.setInt(17,  card.getPopperNoshootHits());
+				ps.setDouble(18, card.getCombinedDivisionStagePoints());
 			}
 			@Override
 			public int getBatchSize() {
@@ -72,13 +72,17 @@ public class ScoreCardRepositoryImpl implements ScoreCardRepository {
 		return jdbcTemplate.query(sql, new Object[] { competitorId }, new ScoreCardMapper());
 	}
 	public List<ScoreCard> findByStage(Long stageId) {
-		String sql = "SELECT * FROM scorecard WHERE stage_id = ? ORDER BY hitfactor DESC";
+		String sql = "SELECT * FROM scorecard sc"
+				+ " INNER JOIN competitor c on sc.competitor_id = c.id"
+				+ " WHERE stage_id = ? AND c.disqualified = 0"
+				+ " ORDER BY hitfactor DESC";
 		return jdbcTemplate.query(sql, new Object[] { stageId }, new ScoreCardMapper());
 	}
 	public List<ScoreCard> findByStageAndDivision(Long stageId, String division) {
 		String sql = "SELECT * FROM scorecard s"
 				+ " INNER JOIN competitor c ON s.competitor_id = c.id"
-				+ " WHERE s.stage_id = ? AND c.division = ? ORDER BY s.hitfactor DESC";
+				+ " WHERE s.stage_id = ? AND c.division = ? AND c.disqualified = 0"
+				+ " ORDER BY s.hitfactor DESC";
 		return jdbcTemplate.query(sql, new Object[] { stageId, division }, new ScoreCardMapper());
 	}
 	public List<ScoreCard> findByMatch(Long matchId) {
@@ -95,7 +99,8 @@ public class ScoreCardRepositoryImpl implements ScoreCardRepository {
 				+ " INNER JOIN scorecard sc ON sc.competitor_id = c.id"
 				+ " INNER JOIN stage s ON sc.stage_id = s.id"
 				+ " INNER JOIN ipscmatch m ON s.match_id = m.id"
-				+ " WHERE m.id = ? ORDER BY c.division ASC";
+				+ " WHERE m.id = ? AND c.disqualified = 0"
+				+ " ORDER BY c.division ASC";
 		return jdbcTemplate.queryForList(sql, new Object[] { matchId }, String.class);
 	}
 }

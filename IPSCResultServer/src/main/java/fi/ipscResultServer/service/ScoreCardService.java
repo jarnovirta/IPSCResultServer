@@ -14,8 +14,6 @@ public interface ScoreCardService {
 	
 	public List<ScoreCard> findByMatch(Long matchId, boolean eager);
 	
-	public List<ScoreCard> findByStage(Long stageId);
-	
 	public List<ScoreCard> findByStageAndDivision(Long stageId, String division);
 	
 	public void deleteByMatch(Long matchId);

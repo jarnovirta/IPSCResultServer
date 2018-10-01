@@ -31,6 +31,9 @@ public class ScoreCardMapper implements RowMapper<ScoreCard> {
 		card.setPoints(rs.getInt("points"));
 		card.setStageId(rs.getLong("stage_id"));
 		card.setCompetitorId(rs.getLong("competitor_id"));
+		card.setStagePoints(rs.getDouble("stagepoints"));
+		card.setCombinedDivisionStagePoints(rs.getDouble("combineddivisionstagepoints"));
+		card.setStageRank(rowNum + 1);
 		return card;
 	}
 }

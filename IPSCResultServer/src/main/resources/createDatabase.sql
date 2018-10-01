@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS `matchresultdataline` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE IF NOT EXISTS `match_divisions` (
-  `Match_ID` bigint(20) NOT NULL,
+  `MATCH_ID` bigint(20) NOT NULL,
   `DIVISIONS` varchar(255) NOT NULL,
   KEY `FK_Match_DIVISIONS_Match_ID` (`Match_ID`),
   CONSTRAINT `FK_Match_DIVISIONS_Match_ID` FOREIGN KEY (`Match_ID`) REFERENCES `ipscmatch` (`ID`)
@@ -94,8 +94,8 @@ CREATE TABLE IF NOT EXISTS `scorecard` (
   `TIME` double NOT NULL,
   `HITFACTOR` double NOT NULL,
   `POINTS` int(11) NOT NULL,
-  `STAGEPOINTS` int(11) DEFAULT NULL,
-  `STAGERANK` int(11) DEFAULT NULL,
+  `STAGEPOINTS` double DEFAULT NULL,
+  `COMBINEDDIVISIONSTAGEPOINTS` double DEFAULT NULL,
   `MODIFIED` datetime NOT NULL,
   `COMPETITOR_ID` bigint(20) NOT NULL,
   `STAGE_ID` bigint(20) NOT NULL,

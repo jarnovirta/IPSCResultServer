@@ -13,7 +13,6 @@ public class MatchResultDataMapper implements RowMapper<MatchResultData> {
 	public MatchResultData mapRow(ResultSet rs, int rowNum) throws SQLException {
 		MatchResultData data = new MatchResultData();
 		data.setId(rs.getLong("id"));
-		data.setMatchId(rs.getLong("match_id"));
 		data.setDivision(rs.getString("division"));
 		return data;
 	}

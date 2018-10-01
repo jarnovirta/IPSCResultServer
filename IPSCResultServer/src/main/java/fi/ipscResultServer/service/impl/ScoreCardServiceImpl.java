@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import fi.ipscResultServer.domain.Constants;
 import fi.ipscResultServer.domain.ScoreCard;
 import fi.ipscResultServer.exception.DatabaseException;
 import fi.ipscResultServer.repository.springJDBCRepository.ScoreCardRepository;
@@ -40,13 +41,9 @@ public class ScoreCardServiceImpl implements ScoreCardService {
 		return cards;	
 	}
 
-	public List<ScoreCard> findByStage(Long stageId) {
-		List<ScoreCard> cards = scoreCardRepository.findByStage(stageId);
-		return cards;
-	}
 	public List<ScoreCard> findByStageAndDivision(Long stageId, String division) {
-		List<ScoreCard> cards = scoreCardRepository.findByStageAndDivision(stageId, division);
-		return cards;
+		if (division.equals(Constants.COMBINED_DIVISION)) return scoreCardRepository.findByStage(stageId);
+		else return scoreCardRepository.findByStageAndDivision(stageId, division);
 	}
 
 	@Transactional

@@ -30,11 +30,11 @@ public class CompetitorResultsController {
 	MatchService matchService;
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public String getCompetitorResultsPage(Model model, @RequestParam("competitorId") String competitorId, 
-			@RequestParam("matchId") String matchId) {
+	public String getCompetitorResultsPage(Model model, @RequestParam("competitorId") String competitorPractiScoreId, 
+			@RequestParam("matchId") String matchPractiScoreId) {
 			
-		Competitor competitor = competitorService.findByPractiScoreReferences(matchId, competitorId);
-		CompetitorResultData resultData = competitorResultDataService.getCompetitorResultData(competitor.getId());
+		Long competitorId = competitorService.getIdByPractiScoreReferences(competitorPractiScoreId, matchPractiScoreId);
+		CompetitorResultData resultData = competitorResultDataService.getCompetitorResultData(competitorId);
 		
 		boolean additionalPenaltiesColumn = false;
 		for (ScoreCard card : resultData.getScoreCards().values()) {
@@ -43,7 +43,6 @@ public class CompetitorResultsController {
 		
 		model.addAttribute("resultData", resultData);
 		model.addAttribute("additionalPenaltiesColumn", additionalPenaltiesColumn);
-		model.addAttribute("errorCostDataLines", CompetitorErrorCostDataGenerator.getErrorCostTableLines(resultData.getMatch(), competitor, new ArrayList<ScoreCard>(resultData.getScoreCards().values())));
 		return "results/competitorResults/competitorResultsPage";
 	}
 }

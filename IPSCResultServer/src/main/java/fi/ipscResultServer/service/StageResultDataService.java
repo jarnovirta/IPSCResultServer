@@ -8,6 +8,6 @@ import fi.ipscResultServer.domain.resultData.StageResultData;
 @Component
 public interface StageResultDataService {
 
-	public StageResultData getStageResultListing(Stage stage, String division);
+	public StageResultData getStageResultListing(String matchPractiScoreId, String stagePractiScoreId, String division);
 	
 }

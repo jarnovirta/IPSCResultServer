@@ -40,50 +40,49 @@
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach var="dataline" items="${stageResultData.dataLines}">
+						<c:forEach var="card" items="${stageResultData.scoreCards}">
 							<tr>
 								<td align="right">
-									${dataline.stageRank}
+									${card.stageRank}
 								</td>
 								<td align="left">
 									<c:url var="competitorResultsUrl" value="/competitorResults">
-										<c:param name="matchId" value="${dataline.stageResultData.stage.match.practiScoreId}" />
-										<c:param name="competitorId" value="${dataline.competitor.practiScoreId}" />
+										<c:param name="matchId" value="${stageResultData.stage.match.practiScoreId}" />
+										<c:param name="competitorId" value="${card.competitor.practiScoreId}" />
 									</c:url>
-									<a href="${competitorResultsUrl }">${dataline.competitor.firstName }</a>
+									<a href="${competitorResultsUrl }">${card.competitor.firstName }</a>
 								</td>
 								<td align="left">
-									<a href="${competitorResultsUrl }">${dataline.competitor.lastName }</a>
+									<a href="${competitorResultsUrl }">${card.competitor.lastName }</a>
 								</td>
 								<td align="right">
-									${dataline.scoreCard.points}
+									${card.points}
 								</td>
 								<td align="right">
-									<fmt:formatNumber type = "number" minFractionDigits = "2" maxFractionDigits = "2" value="${dataline.scoreCard.time }" />
+									<fmt:formatNumber type = "number" minFractionDigits = "2" maxFractionDigits = "2" value="${card.time }" />
 								</td>
 								<td align="right">
-									<fmt:formatNumber type = "number" minFractionDigits = "4" maxFractionDigits = "4" value="${dataline.scoreCard.hitFactor }" />
+									<fmt:formatNumber type = "number" minFractionDigits = "4" maxFractionDigits = "4" value="${card.hitFactor }" />
 								</td>
 								<td align="right">
-									<fmt:formatNumber type = "number" minFractionDigits = "4" maxFractionDigits = "4" value="${dataline.stagePoints }" />
+									<fmt:formatNumber type = "number" minFractionDigits = "4" maxFractionDigits = "4" value="${card.inViewStagePoints }" />
 								</td>
 								<td align="right">
-									<fmt:formatNumber type = "number" minFractionDigits = "2" maxFractionDigits = "2" value="${dataline.stageScorePercentage }" />			
+									<fmt:formatNumber type = "number" minFractionDigits = "2" maxFractionDigits = "2" value="${card.stageScorePercentage }" />			
 								</td>
 								<td align="center">
-									<c:forEach items = "${dataline.competitor.categories}" var = "category">
+									<c:forEach items = "${card.competitor.categories}" var = "category">
 											${category}
 									</c:forEach>
 								</td>
 								<td align="center">
-									<c:if test="${dataline.competitor.powerFactor eq  'MINOR'}">
+									<c:if test="${card.competitor.powerFactor eq  'MINOR'}">
 										<c:set var="pf" value="-" />
 									</c:if>
-									<c:if test="${dataline.competitor.powerFactor eq  'MAJOR'}">
+									<c:if test="${card.competitor.powerFactor eq  'MAJOR'}">
 										<c:set var="pf" value="+" />
 									</c:if>
-									${dataline.competitor.division }${pf }
-									<%-- ${fn:substring(dataline.competitor.division, 0, 1)}${pf} --%>
+									${card.competitor.division }${pf }
 									</td>
 								</tr> 
 							</c:forEach>
