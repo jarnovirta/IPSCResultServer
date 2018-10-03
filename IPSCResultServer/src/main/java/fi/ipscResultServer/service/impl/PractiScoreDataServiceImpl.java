@@ -15,6 +15,7 @@ import fi.ipscResultServer.domain.Stage;
 import fi.ipscResultServer.domain.practiScore.PractiScoreMatchData;
 import fi.ipscResultServer.domain.practiScore.PractiScoreStageScore;
 import fi.ipscResultServer.exception.DatabaseException;
+import fi.ipscResultServer.service.CompetitorService;
 import fi.ipscResultServer.service.MatchService;
 import fi.ipscResultServer.service.PractiScoreDataService;
 import fi.ipscResultServer.service.ScoreCardService;
@@ -26,6 +27,9 @@ public class PractiScoreDataServiceImpl implements PractiScoreDataService {
 	
 	@Autowired
 	private ScoreCardService scoreCardService;
+	
+	@Autowired
+	private CompetitorService competitorService;
 	
 	
 	public void save(PractiScoreMatchData matchData) throws DatabaseException {
@@ -48,6 +52,7 @@ public class PractiScoreDataServiceImpl implements PractiScoreDataService {
 			setReferencesInScoreCards(scoreCards, stage, match);
 			scoreCards = removeCardsForInvalidStagesAndCompetitors(scoreCards);
 			setHitsDataInScoreCards(scoreCards);
+			setDnfForCompetitors(scoreCards);
 			Collections.sort(scoreCards);
 			for (String division : match.getDivisions()) {
 				setStageResultDataInScoreCards(scoreCards, stage, division);
@@ -63,6 +68,12 @@ public class PractiScoreDataServiceImpl implements PractiScoreDataService {
 	
 	private void setHitsDataInScoreCards(List<ScoreCard> cards) {
 		for (ScoreCard scoreCard : cards) scoreCard.setHitsAndPoints();
+	}
+	
+	private void setDnfForCompetitors(List<ScoreCard> cards) {
+		for (ScoreCard scoreCard : cards) {
+			if (scoreCard.isDnf()) competitorService.setDnf(scoreCard.getCompetitor().getId());
+		}
 	}
 	
 	private void setStageResultDataInScoreCards(List<ScoreCard> cards, Stage stage, String division) {

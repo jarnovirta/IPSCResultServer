@@ -49,6 +49,9 @@ public class ScoreCard implements Comparable<ScoreCard> {
 	@JsonProperty("ts")
 	private int[] paperTargetHits = {};
 	
+	@JsonProperty("dnf")
+	private boolean dnf;
+	
 	private int aHits;
 	
 	private int cHits;
@@ -155,6 +158,11 @@ public class ScoreCard implements Comparable<ScoreCard> {
 	}
 	
 	public void setHitsAndPoints() {
+		
+		if (dnf) {
+			points = 0;
+			return;
+		}
 		
 		aHits = 0;
 		cHits = 0;
@@ -357,6 +365,14 @@ public class ScoreCard implements Comparable<ScoreCard> {
 
 	public void setCombinedDivisionScorePercentage(double combinedDivisionScorePercentage) {
 		this.combinedDivisionScorePercentage = combinedDivisionScorePercentage;
+	}
+
+	public boolean isDnf() {
+		return dnf;
+	}
+
+	public void setDnf(boolean dnf) {
+		this.dnf = dnf;
 	}
 
 

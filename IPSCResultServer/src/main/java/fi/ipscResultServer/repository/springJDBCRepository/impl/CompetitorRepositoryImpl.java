@@ -128,4 +128,9 @@ public class CompetitorRepositoryImpl implements CompetitorRepository {
 		return jdbcTemplate.queryForObject(sql, new Object[] { matchPractiScoreId, competitorPractiScoreId }, 
 				Long.class);		
 	}
+	
+	public void setDnf(Long competitorId) {
+		String sql = "UPDATE competitor SET dnf = 1 WHERE id = ?";
+		jdbcTemplate.update(sql, new Object[] { competitorId });
+	}
 }

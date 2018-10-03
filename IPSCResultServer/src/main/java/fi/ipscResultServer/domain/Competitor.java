@@ -61,6 +61,8 @@ public class Competitor {
 	@JsonProperty("sh_sqd")
 	private int squad;
 	
+	private boolean dnf;
+	
 	public Long getId() {
 		return id;
 	}
@@ -221,6 +223,14 @@ public class Competitor {
 
 	public void setCountry(String country) {
 		this.country = country;
+	}
+
+	public boolean isDnf() {
+		return dnf;
+	}
+
+	public void setDnf(boolean dnf) {
+		this.dnf = dnf;
 	}
 
 }

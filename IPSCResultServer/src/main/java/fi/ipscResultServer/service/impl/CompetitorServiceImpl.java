@@ -47,4 +47,9 @@ public class CompetitorServiceImpl implements CompetitorService {
 	public Long getIdByPractiScoreReferences(String competitorPractiScoreId, String matchPractiScoreId) {
 		return competitorRepository.getIdByPractiScoreReferences(competitorPractiScoreId, matchPractiScoreId);
 	}
+	
+	@Transactional
+	public void setDnf(Long competitorId) {
+		competitorRepository.setDnf(competitorId);
+	}
 }

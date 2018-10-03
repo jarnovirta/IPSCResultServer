@@ -482,7 +482,7 @@ function updateErrorCostAnalysisTable(tableClass, competitorData) {
 			+ card.stage.stage_name;
 		var aTime;
 		var errorCosts;
-		var stageValue = "";
+		var stageValue = "-";
 		var time = "-";
 		if (line != null && card.hitFactor > 0) {
 			aTime = line.aTime;

@@ -25,4 +25,6 @@ public interface CompetitorRepository {
 	
 	public Long getIdByPractiScoreReferences(String competitorPractiScoreId, String matchPractiScoreId);
 	
+	public void setDnf(Long competitorId);
+	
 }

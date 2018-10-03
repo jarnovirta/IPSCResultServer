@@ -2,7 +2,6 @@ package fi.ipscResultServer.controller.admin;
 
 import java.util.Arrays;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,9 +17,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import fi.ipscResultServer.domain.MatchStatus;
 import fi.ipscResultServer.domain.User;
-import fi.ipscResultServer.service.MatchResultDataService;
 import fi.ipscResultServer.service.MatchService;
-import fi.ipscResultServer.service.StatisticsService;
 import fi.ipscResultServer.service.UserService;
 
 @Controller
@@ -32,14 +29,6 @@ public class AdminController {
 	
 	@Autowired
 	private UserService userService;
-	
-	@Autowired
-	private MatchResultDataService matchResultDataService;
-	
-	@Autowired
-	private StatisticsService statisticsService;
-	
-	private final static Logger LOGGER = Logger.getLogger(AdminController.class);
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public String getAdminMainPage(Model model) {

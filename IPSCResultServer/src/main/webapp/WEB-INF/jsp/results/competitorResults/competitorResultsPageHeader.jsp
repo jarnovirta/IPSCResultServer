@@ -12,7 +12,10 @@
 			        			<c:if test="${resultData.competitor.disqualified eq true }">
 			        				<c:set var="dq" value="<span class='label label-danger'>&nbsp&nbspDQ&nbsp&nbsp</span>" />
 			        			</c:if>
-			        			<b>${resultData.competitor.firstName } ${resultData.competitor.lastName } &nbsp ${dq } </b>
+			        			<c:if test="${resultData.competitor.dnf eq true }">
+			        				<c:set var="dnf" value="<span class='label label-info'>&nbsp&nbspDNF&nbsp&nbsp</span>" />
+			        			</c:if>
+			        			<b>${resultData.competitor.firstName } ${resultData.competitor.lastName } &nbsp ${dnf }${dq } </b>
 			        		</td>
 			        	</tr>
 			        	<tr>
