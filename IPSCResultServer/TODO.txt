@@ -6,6 +6,7 @@ MY�S STAGE RESULTS STATISTIIKASSA COMBINED/DIV RESULTS
 DQ kisaaja: Ei lainkaan dataa match analysis sivulla
 Lisää joukkuetulokset
 
+Käyttäjät: organisaatio, eli voi kirjautua etu- sukunimi tai organisaatio
 
 
 Virhe ilmeisesti MatchAnalysis DQ kisaajalle:
