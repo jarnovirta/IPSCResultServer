@@ -5,6 +5,6 @@
 
 <footer class="footer">
   <div class="container">
-    <span class="text-muted">www.hitfactor.fi</span>
+    <span class="text-muted">hitfactor.fi</span>
   </div>
 </footer>

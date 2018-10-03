@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import fi.ipscResultServer.domain.Competitor;
 import fi.ipscResultServer.domain.Constants;
-import fi.ipscResultServer.domain.Match;
 import fi.ipscResultServer.domain.ScoreCard;
 import fi.ipscResultServer.domain.Stage;
 import fi.ipscResultServer.domain.resultData.StageResultData;
@@ -65,7 +64,7 @@ public class StageResultDataServiceImpl implements StageResultDataService {
 			
 			// Set score percentage
 			if (stagePoints > topPoints) topPoints = stagePoints;
-			if (topPoints > 0) card.setStageScorePercentage(stagePoints / topPoints * 100);
+			if (topPoints > 0) card.setScorePercentage(stagePoints / topPoints * 100);
 		}
 	}
 }

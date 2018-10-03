@@ -51,9 +51,9 @@ public class ScoreCardServiceImpl implements ScoreCardService {
 		scoreCardRepository.deleteByMatch(matchId);
 	}
 	
-	public List<ScoreCard> findByCompetitor(Long competitorId) {
+	public List<ScoreCard> findByCompetitor(Long competitorId, boolean eager) {
 		List<ScoreCard> cards = scoreCardRepository.findByCompetitor(competitorId);
-		setReferencedInstances(cards);
+		if (eager) setReferencedInstances(cards);
 		return cards;
 	}
 	

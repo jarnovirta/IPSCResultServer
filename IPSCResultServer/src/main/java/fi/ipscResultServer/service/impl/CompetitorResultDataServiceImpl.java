@@ -37,7 +37,7 @@ public class CompetitorResultDataServiceImpl implements CompetitorResultDataServ
 	StageService stageService;
 	
 	public CompetitorResultData getCompetitorResultData(Long competitorId) {
-		List<ScoreCard> cards = scoreCardService.findByCompetitor(competitorId);
+		List<ScoreCard> cards = scoreCardService.findByCompetitor(competitorId, true);
 		Map<Long, ScoreCard> scoreCards = new HashMap<Long, ScoreCard>();
 		if (cards != null) {
 			for (ScoreCard card : cards) {

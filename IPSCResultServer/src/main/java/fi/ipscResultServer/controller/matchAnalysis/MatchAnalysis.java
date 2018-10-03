@@ -2,13 +2,13 @@ package fi.ipscResultServer.controller.matchAnalysis;
 
 import fi.ipscResultServer.domain.Match;
 
-public class MatchAnalysisData {
+public class MatchAnalysis {
 	private Match match;
 	
 	private CompetitorMatchAnalysisData competitorMatchAnalysisData;
 	private CompetitorMatchAnalysisData compareToCompetitorMatchAnalysisData;
 	
-	public MatchAnalysisData(Match match, CompetitorMatchAnalysisData competitorData, 
+	public MatchAnalysis(Match match, CompetitorMatchAnalysisData competitorData, 
 			CompetitorMatchAnalysisData compareToCompetitorData) {
 		this.match = match;
 		this.competitorMatchAnalysisData = competitorData;

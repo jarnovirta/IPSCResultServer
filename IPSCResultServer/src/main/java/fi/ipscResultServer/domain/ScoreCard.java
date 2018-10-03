@@ -27,19 +27,19 @@ public class ScoreCard implements Comparable<ScoreCard> {
 	private Calendar modified;
 	
 	@JsonProperty("popm")
-	private int popperMisses = 0;
+	private int popperMisses;
 	
 	@JsonProperty("poph")
-	private int popperHits = 0;
+	private int popperHits;
 	
 	@JsonProperty("popns")
-	private int popperNoshootHits = 0;
+	private int popperNoshootHits;
 	
 	@JsonProperty("popnpm")
-	private int popperNonPenaltyMisses = 0;
+	private int popperNonPenaltyMisses;
 	
 	@JsonProperty("rawpts")
-	private int points = 0;
+	private int points;
 	
 	@JsonProperty("str")
 	private double[] stringTimes;
@@ -49,33 +49,35 @@ public class ScoreCard implements Comparable<ScoreCard> {
 	@JsonProperty("ts")
 	private int[] paperTargetHits = {};
 	
-	private int aHits = 0;
+	private int aHits;
 	
-	private int cHits = 0;
+	private int cHits;
 	
-	private int dHits = 0;
+	private int dHits;
 	
-	private int misses = 0;
+	private int misses;
 	
-	private int noshootHits = 0;
+	private int noshootHits;
 	
 	@JsonProperty("proc")
-	private int proceduralPenalties = 0;
+	private int proceduralPenalties;
 	
 	@JsonProperty("apen")
-	private int additionalPenalties = 0;
+	private int additionalPenalties;
 	
 	private double hitFactor;
 	
 	private int stageRank;
 		
-	private double stageScorePercentage = 0.0;
+	private double scorePercentage;
 	
-	private double stagePoints = 0.0;
+	private double combinedDivisionScorePercentage;
 	
-	private double combinedDivisionStagePoints = 0.0;
+	private double stagePoints;
 	
-	private double inViewStagePoints = 0.0;
+	private double combinedDivisionStagePoints;
+	
+	private double inViewStagePoints;
 	
 	@Override
 	public int compareTo(ScoreCard compareToScoreCard) {
@@ -317,14 +319,6 @@ public class ScoreCard implements Comparable<ScoreCard> {
 		this.competitorId = competitorId;
 	}
 
-	public double getStageScorePercentage() {
-		return stageScorePercentage;
-	}
-
-	public void setStageScorePercentage(double stageScorePercentage) {
-		this.stageScorePercentage = stageScorePercentage;
-	}
-
 	public double getStagePoints() {
 		return stagePoints;
 	}
@@ -348,5 +342,22 @@ public class ScoreCard implements Comparable<ScoreCard> {
 	public void setInViewStagePoints(double inViewStagePoints) {
 		this.inViewStagePoints = inViewStagePoints;
 	}
+
+	public double getScorePercentage() {
+		return scorePercentage;
+	}
+
+	public void setScorePercentage(double scorePercentage) {
+		this.scorePercentage = scorePercentage;
+	}
+
+	public double getCombinedDivisionScorePercentage() {
+		return combinedDivisionScorePercentage;
+	}
+
+	public void setCombinedDivisionScorePercentage(double combinedDivisionScorePercentage) {
+		this.combinedDivisionScorePercentage = combinedDivisionScorePercentage;
+	}
+
 
 }

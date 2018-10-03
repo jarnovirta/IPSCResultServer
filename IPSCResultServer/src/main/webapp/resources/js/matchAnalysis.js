@@ -175,6 +175,7 @@ function setCompetitorHitSums(competitorData) {
 	
 }
 function setCompetitorsByDivisionList() {
+	
 	competitorsByDivision = {};
 	$.each(match.match_cats, function(key, division) {
 		if (division != 'Combined' && !Object.keys(competitorsByDivision).includes(division)) competitorsByDivision[division] = [];
@@ -309,14 +310,15 @@ function initializeHitsTable(tableClass) {
     } );
 }
 function updateHitsTable(tableClass, competitorData) {
-	if (competitorData == null) return;
+	if (competitorData == null || competitorData.scoreCards == null) return;
+	
 	var dataSet = [
-		[competitorData.aHitsSum, 
-			competitorData.cHitsSum,
-			competitorData.dHitsSum,
-			competitorData.missSum,
-			competitorData.noshootHitsSum,
-			competitorData.proceduralPenaltiesSum]
+			[getScoreCardsFieldSum(competitorData.scoreCards, "aHits"),
+			getScoreCardsFieldSum(competitorData.scoreCards, "cHits"),
+			getScoreCardsFieldSum(competitorData.scoreCards, "dHits"),
+			getScoreCardsFieldSum(competitorData.scoreCards, "misses"),
+			getScoreCardsFieldSum(competitorData.scoreCards, "noshootHits"),
+			getScoreCardsFieldSum(competitorData.scoreCards, "proc")]
 	];
 	
 	$.each($('table.' + tableClass), function(index, tableElement) {
@@ -393,7 +395,7 @@ function updateStageResultsTable(tableClass, competitorData) {
 	if (competitorData == null || match.match_stages == null) return;
 	var dataSet = [];
 	$.each(match.match_stages, function(index, stage) {
-		var line = competitorData.stageResultDataLines[stage.stage_uuid];
+		var card = getScoreCardByStageId(competitorData.scoreCards, stage.id)
 		var stageResultsPath = "${baseUrl}stageResults?matchId="
 			+ match.match_id
 			+ "&stageId="
@@ -403,21 +405,21 @@ function updateStageResultsTable(tableClass, competitorData) {
 		var stageName = stage.stage_number + ": " + stage.stage_name;
 		var stage = "<a href='" + stageResultsPath + "'>"+ stageName + "</a>";
 		var data;
-		if (line != null) {
+		if (card != null) {
 			data = [
 				"<a href='" + stageResultsPath + "'>"+ stageName + '</a>',
-				line.scoreCard.aHits,
-				line.scoreCard.cHits,
-				line.scoreCard.dHits,
-				line.scoreCard.misses,
-				line.scoreCard.noshootHits,
-				line.scoreCard.proc,
-				line.scoreCard.rawpts,
-				line.scoreCard.time,
-				line.scoreCard.hitFactor,
-				line.stagePoints,
-				line.stageRank,
-				line.stageScorePercentage
+				card.aHits,
+				card.cHits,
+				card.dHits,
+				card.misses,
+				card.noshootHits,
+				card.proc,
+				card.rawpts,
+				card.time,
+				card.hitFactor,
+				card.stagePoints,
+				card.stageRank,
+				card.scorePercentage
 			];
 		}
 		else {
@@ -468,27 +470,28 @@ function updateErrorCostAnalysisTable(tableClass, competitorData) {
 	
 	var dataSet = [];
 	$.each(match.match_stages, function(index, stage) {
-		var line = competitorData.errorCostTableLines[stage.stage_uuid];
+		var line = getErrorCostTableLineByStageId(competitorData.errorCostTableLines, stage.id);
+		var card = getScoreCardByStageId(competitorData.scoreCards, stage.id);
 		var stageResultsPath = "${baseUrl}stageResults?matchId="
 			+ match.match_id
 			+ "&stageId="
 			+ stage.stage_uuid
 			+ "&division="
 			+ competitorData.competitor.sh_dvp;
-		var stageName = stage.stage_number + ": " 
-			+ stage.stage_name;
+		var stageName = card.stage.stage_number + ": " 
+			+ card.stage.stage_name;
 		var aTime;
 		var errorCosts;
 		var stageValue = "";
 		var time = "-";
-		if (line != null && line.scoreCard.hitFactor > 0) {
+		if (line != null && card.hitFactor > 0) {
 			aTime = line.aTime;
 			errorCosts = "C=" + line.cCost.toString().replace(".", ",");
 			errorCosts +=" / D=" + line.dCost.toString().replace(".", ",");
 			errorCosts +=" / NS=" + line.proceduralPenaltyAndNoShootCost.toString().replace(".", ",");
 			errorCosts +=" / Miss=" + line.missCost.toString().replace(".", ",");
-			stageValue = stage.maxPoints + " (" + line.stageValuePercentage + "%)";
-			time = line.scoreCard.time
+			stageValue = card.stage.maxPoints + " (" + line.stageValuePercentage + "%)";
+			time = card.time;
 		}
 		else {
 			aTime = "-";
@@ -514,14 +517,14 @@ function updateErrorCostAnalysisTable(tableClass, competitorData) {
 }
 
 function drawAccuracyPieChart(chartId, competitorData) {
-	if (competitorData == null) return;
+	if (competitorData == null || competitorData.scoreCards == null) return;
 	var data = google.visualization.arrayToDataTable([
 		['Hit zone', 'Hits'],
-        ['A', competitorData.aHitsSum],
-        ['C', competitorData.cHitsSum],
-        ['D', competitorData.dHitsSum],
-        ['Miss', competitorData.missSum],
-        ['NS', competitorData.noshootHitsSum]
+		['A', getScoreCardsFieldSum(competitorData.scoreCards, "aHits")],
+        ['C', getScoreCardsFieldSum(competitorData.scoreCards, "cHits")],
+        ['D', getScoreCardsFieldSum(competitorData.scoreCards, "dHits")],
+        ['Miss', getScoreCardsFieldSum(competitorData.scoreCards, "misses")],
+        ['NS', getScoreCardsFieldSum(competitorData.scoreCards, "noshootHits")]
 	]);
 	var options = {
 		width: 300,
@@ -534,22 +537,20 @@ function drawAccuracyPieChart(chartId, competitorData) {
 
 
 function drawPercentByStageChart() {
-	if (match == null || competitorMatchAnalysisData.divisionStagePercentages == null
-			|| compareToCompetitorMatchAnalysisData.divisionStagePercentages == null) return;
+	if (match == null) return;
+	
 	var competitorPercentages;
 	var compareToCompetitorPercentages;
+	
+	var combinedResults = false;
 	
 	// Show division stage percentages if same division for both competitors
 	// and Combined results stage percentages if different divisions.
 	if (competitorMatchAnalysisData.competitor.sh_dvp == compareToCompetitorMatchAnalysisData.competitor.sh_dvp) {
-		competitorPercentages = competitorMatchAnalysisData.divisionStagePercentages;
-		compareToCompetitorPercentages = compareToCompetitorMatchAnalysisData.divisionStagePercentages;
 		$('#percentByStageDivision').html("");
 	}
 	else {
-		competitorPercentages = competitorMatchAnalysisData.combinedResultsStagePercentages;
-		compareToCompetitorPercentages = compareToCompetitorMatchAnalysisData.combinedResultsStagePercentages;
-		
+		combinedResults = true;
 		$('#percentByStageDivision').html("(Combined results)");
 	}
 	
@@ -559,10 +560,24 @@ function drawPercentByStageChart() {
 	data.addColumn('number', compareToCompetitorMatchAnalysisData.competitor.name);
 	
 	var rows = [];
-	for (stageNumber = 1; stageNumber <= match.match_stages.length; stageNumber++) {
-		rows[stageNumber - 1] = [stageNumber.toString(), competitorPercentages[stageNumber], 
-			compareToCompetitorPercentages[stageNumber]];
-	};
+	
+	$.each(match.match_stages, function(index, stage) {
+		var competitorCard = getScoreCardByStageId(competitorMatchAnalysisData.scoreCards, stage.id);
+		var compareToCompetitorCard = getScoreCardByStageId(compareToCompetitorMatchAnalysisData.scoreCards, stage.id);
+		
+		var competitorPercentage;
+		var compareToCompetitorPercentage;
+		if (combinedResults = true) {
+			competitorPercentage = competitorCard.combinedDivisionScorePercentage;
+			compareToCompetitorPercentage = compareToCompetitorCard.combinedDivisionScorePercentage;
+		}
+		else {
+			competitorPercentage = competitorCard.scorePercentage;
+			compareToCompetitorPercentage = compareToCompetitorCard.scorePercentage;
+		}
+		rows[index] = [stage.stage_number.toString(), competitorPercentage, compareToCompetitorPercentage];
+	});
+
 	data.addRows(rows);
 	
 	var options = {
@@ -576,8 +591,8 @@ function drawPercentByStageChart() {
 	chart.draw(data, options);
 }
 function drawTimeByStageChart() {
-	if (competitorMatchAnalysisData.stageResultDataLines == null 
-			|| compareToCompetitorMatchAnalysisData.stageResultDataLines == null
+	if (competitorMatchAnalysisData.scoreCards == null 
+			|| compareToCompetitorMatchAnalysisData.scoreCards == null
 			|| match.match_stages == null) {
 		return;
 	}
@@ -591,8 +606,11 @@ function drawTimeByStageChart() {
 		var competitorTime = null;
 		var compareToCompetitorTime = null;
 		
-		if (competitorMatchAnalysisData.empty == false && competitorMatchAnalysisData.stageResultDataLines[stage.stage_uuid] != null) competitorTime = competitorMatchAnalysisData.stageResultDataLines[stage.stage_uuid].scoreCard.time;
-		if (compareToCompetitorMatchAnalysisData.empty == false && compareToCompetitorMatchAnalysisData.stageResultDataLines[stage.stage_uuid] != null) compareToCompetitorTime = compareToCompetitorMatchAnalysisData.stageResultDataLines[stage.stage_uuid].scoreCard.time;
+		var competitorCard = getScoreCardByStageId(competitorMatchAnalysisData.scoreCards, stage.id);
+		var compareToCompetitorCard = getScoreCardByStageId(compareToCompetitorMatchAnalysisData.scoreCards, stage.id);
+		
+		if (competitorCard != null) competitorTime = competitorCard.time;
+		if (compareToCompetitorCard != null) compareToCompetitorTime = compareToCompetitorCard.time;
 		rows[index] = [stage.stage_number.toString(), competitorTime,
 			compareToCompetitorTime];
 	});
@@ -610,3 +628,25 @@ function drawTimeByStageChart() {
 	chart.draw(data, options);
 	
 }
+function getScoreCardByStageId(cards, stageId) {
+	var resultCard;
+	$.each(cards, function(index, card) {
+		if (card.stageId == stageId) resultCard = card;
+	});
+	return resultCard;
+}
+function getErrorCostTableLineByStageId(lines, stageId) {
+	var resultLine;
+	$.each(lines, function(index, line) {
+		if (line.stageId == stageId) resultLine = line;
+	});
+	return resultLine;
+}
+function getScoreCardsFieldSum(cards, field) {
+	var sum = 0;
+	$.each(cards, function(index, card) {
+		sum += card[field];
+	});
+	return sum;
+}
+

@@ -35,8 +35,9 @@ public class ScoreCardRepositoryImpl implements ScoreCardRepository {
 	public void save(List<ScoreCard> cards) {
 		String query = "INSERT INTO scorecard (ahits, additionalpenalties, chits, dhits, time, hitfactor, misses, noshoothits"
 				+ ", proceduralpenalties, stagepoints, competitor_id, stage_id, modified"
-	      		+ ", points, poppermisses, popperhits, poppernoshoothits, combineddivisionstagepoints)"
-	      		+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+	      		+ ", points, poppermisses, popperhits, poppernoshoothits, combineddivisionstagepoints"
+	      		+ ", scorepercentage, combineddivisionscorepercentage)"
+	      		+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 		
 		jdbcTemplate.batchUpdate(query, new BatchPreparedStatementSetter() {
 			@Override
@@ -60,6 +61,8 @@ public class ScoreCardRepositoryImpl implements ScoreCardRepository {
 				ps.setInt(16, card.getPopperHits());
 				ps.setInt(17,  card.getPopperNoshootHits());
 				ps.setDouble(18, card.getCombinedDivisionStagePoints());
+				ps.setDouble(19, card.getScorePercentage());
+				ps.setDouble(20, card.getCombinedDivisionScorePercentage());
 			}
 			@Override
 			public int getBatchSize() {

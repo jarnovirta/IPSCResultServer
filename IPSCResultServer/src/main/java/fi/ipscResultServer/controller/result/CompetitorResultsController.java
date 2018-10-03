@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import fi.ipscResultServer.controller.matchAnalysis.CompetitorErrorCostDataGenerator;
+import fi.ipscResultServer.controller.matchAnalysis.ErrorCostDataGenerator;
 import fi.ipscResultServer.domain.Competitor;
 import fi.ipscResultServer.domain.ScoreCard;
 import fi.ipscResultServer.domain.resultData.CompetitorResultData;

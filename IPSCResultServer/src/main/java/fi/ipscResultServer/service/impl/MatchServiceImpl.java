@@ -116,11 +116,15 @@ public class MatchServiceImpl implements MatchService {
 		if (eager) {
 			match.setCompetitors(competitorService.findByMatchAndDivision(match.getId(), Constants.COMBINED_DIVISION));
 			match.setStages(stageService.findByMatch(match.getId()));
+			match.setDivisions(getDivisions(id));
 			if (match.getUserId() != null) match.setUser(userService.getOne(match.getUserId()));
 		}
 		return match;
 	}
 
+	public List<String> getDivisions(Long matchId) {
+		return matchRepository.getDivisions(matchId);
+	}
 	public Long getIdByPractiScoreId(String practiScoreId) {
 		return matchRepository.getIdByPractiScoreId(practiScoreId);
 	}

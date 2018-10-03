@@ -134,4 +134,10 @@ public class MatchRepositoryImpl implements MatchRepository{
 		String sql = "UPDATE ipscmatch SET status = ? WHERE id = ?";
 		jdbcTemplate.update(sql, new Object[] { status.ordinal(), matchId });
 	}
+	
+	public List<String> getDivisions(Long matchId) {
+		String sql = "SELECT divisions FROM match_divisions WHERE match_id = ?";
+		return jdbcTemplate.queryForList(sql, new Object[] { matchId }, String.class);
+		
+	}
 }

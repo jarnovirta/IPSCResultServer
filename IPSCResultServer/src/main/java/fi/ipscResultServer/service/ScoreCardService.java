@@ -18,7 +18,7 @@ public interface ScoreCardService {
 	
 	public void deleteByMatch(Long matchId);
 	
-	public List<ScoreCard> findByCompetitor(Long competitorId);
+	public List<ScoreCard> findByCompetitor(Long competitorId, boolean eager);
 	
 	public List<String> getDivisionsWithResults(Long matchId);
 		

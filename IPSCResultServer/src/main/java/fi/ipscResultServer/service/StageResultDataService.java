@@ -2,7 +2,6 @@ package fi.ipscResultServer.service;
 
 import org.springframework.stereotype.Component;
 
-import fi.ipscResultServer.domain.Stage;
 import fi.ipscResultServer.domain.resultData.StageResultData;
 
 @Component

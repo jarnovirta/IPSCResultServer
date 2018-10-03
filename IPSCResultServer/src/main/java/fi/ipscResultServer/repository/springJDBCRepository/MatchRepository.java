@@ -14,6 +14,8 @@ public interface MatchRepository {
 	
 	public Match getOne(Long matchId);
 	
+	public List<String> getDivisions(Long matchId);
+	
 	public List<Match> findAll();
 	
 	public List<Match> findByUser(Long userId);

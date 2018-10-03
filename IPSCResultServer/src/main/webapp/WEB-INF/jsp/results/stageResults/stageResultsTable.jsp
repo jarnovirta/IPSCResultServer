@@ -68,7 +68,7 @@
 									<fmt:formatNumber type = "number" minFractionDigits = "4" maxFractionDigits = "4" value="${card.inViewStagePoints }" />
 								</td>
 								<td align="right">
-									<fmt:formatNumber type = "number" minFractionDigits = "2" maxFractionDigits = "2" value="${card.stageScorePercentage }" />			
+									<fmt:formatNumber type = "number" minFractionDigits = "2" maxFractionDigits = "2" value="${card.scorePercentage }" />			
 								</td>
 								<td align="center">
 									<c:forEach items = "${card.competitor.categories}" var = "category">

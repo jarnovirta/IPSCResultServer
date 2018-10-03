@@ -67,6 +67,7 @@ public class PractiScoreDataServiceImpl implements PractiScoreDataService {
 	
 	private void setStageResultDataInScoreCards(List<ScoreCard> cards, Stage stage, String division) {
 		double topHitFactor = -1;
+		double topPoints = -1;
 		for (ScoreCard scoreCard : cards) {
 			// Skip competitors in other divisions unless setting result data for combined division. Also skip disqualified competitors
 			if (scoreCard.getCompetitor().isDisqualified()
@@ -79,10 +80,19 @@ public class PractiScoreDataServiceImpl implements PractiScoreDataService {
 			double points;
 			if (topHitFactor > 0) points = (scoreCard.getHitFactor() / topHitFactor) * stage.getMaxPoints();
 			else points = stage.getMaxPoints();
+			if (points == -1 || points > topPoints) topPoints = points;
+			
+			double scorePercentage = -1;
+			if (topPoints > 0) scorePercentage = points / topPoints * 100;
+			
 			if (division.equals(Constants.COMBINED_DIVISION)) {
 				scoreCard.setCombinedDivisionStagePoints(points);
+				scoreCard.setCombinedDivisionScorePercentage(scorePercentage);
 			}
-			else scoreCard.setStagePoints(points);
+			else {
+				scoreCard.setStagePoints(points);
+				scoreCard.setScorePercentage(scorePercentage);
+			}
 		}
 	}
 	

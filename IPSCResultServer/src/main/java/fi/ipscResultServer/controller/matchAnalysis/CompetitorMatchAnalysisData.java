@@ -1,46 +1,38 @@
 package fi.ipscResultServer.controller.matchAnalysis;
 
-import java.util.Map;
+import java.util.List;
 
 import fi.ipscResultServer.domain.Competitor;
+import fi.ipscResultServer.domain.ScoreCard;
 
 public class CompetitorMatchAnalysisData {
 	
 	private Competitor competitor;
 	
-	// Key: stage practiScoreId
-//	private Map<String, StageResultDataLine> stageResultDataLines;
+	private List<ScoreCard> scoreCards;
 	
 	// Key: stage practiScoreId
-	private Map<String, ErrorCostTableLine> errorCostTableLines; 
+	private List<ErrorCostTableLine> errorCostTableLines; 
 	
-	private Map<Integer, Double> divisionStagePercentages;
-	
-	private Map<Integer, Double> combinedResultsStagePercentages;
-	
-//	public CompetitorMatchAnalysisData(Competitor competitor, Map<String, StageResultDataLine> stageResultDataLines,
-//			Map<String, ErrorCostTableLine> errorCostTableLines,
-//			Map<Integer, Double> divisionStagePercentages,
-//			Map<Integer, Double> combinedResultsStagePercentages) {
-//		this.competitor = competitor;
-////		this.stageResultDataLines = stageResultDataLines;
-//		this.errorCostTableLines = errorCostTableLines;
-//		this.divisionStagePercentages = divisionStagePercentages;
-//		this.combinedResultsStagePercentages = combinedResultsStagePercentages;
-//	}
+	public CompetitorMatchAnalysisData(Competitor competitor, List<ScoreCard> scoreCards,
+			List<ErrorCostTableLine> errorCostTableLines) {
+		this.competitor = competitor;
+		this.scoreCards = scoreCards;
+		this.errorCostTableLines = errorCostTableLines;
 
-//	public Map<String, StageResultDataLine> getStageResultDataLines() {
-//		return stageResultDataLines;
-//	}
-//	public void setStageResultDataLines(Map<String, StageResultDataLine> stageResultDataLines) {
-//		this.stageResultDataLines = stageResultDataLines;
-//	}
-	public Map<String, ErrorCostTableLine> getErrorCostTableLines() {
+	}
+
+
+	public List<ErrorCostTableLine> getErrorCostTableLines() {
 		return errorCostTableLines;
 	}
-	public void setErrorCostTableLines(Map<String, ErrorCostTableLine> errorCostTableLines) {
+
+
+	public void setErrorCostTableLines(List<ErrorCostTableLine> errorCostTableLines) {
 		this.errorCostTableLines = errorCostTableLines;
 	}
+
+
 	public Competitor getCompetitor() {
 		return competitor;
 	}
@@ -48,20 +40,11 @@ public class CompetitorMatchAnalysisData {
 		this.competitor = competitor;
 	}
 
-	public Map<Integer, Double> getDivisionStagePercentages() {
-		return divisionStagePercentages;
+	public List<ScoreCard> getScoreCards() {
+		return scoreCards;
 	}
 
-	public void setDivisionStagePercentages(Map<Integer, Double> divisionStagePercentages) {
-		this.divisionStagePercentages = divisionStagePercentages;
+	public void setScoreCards(List<ScoreCard> scoreCards) {
+		this.scoreCards = scoreCards;
 	}
-
-	public Map<Integer, Double> getCombinedResultsStagePercentages() {
-		return combinedResultsStagePercentages;
-	}
-
-	public void setCombinedResultsStagePercentages(Map<Integer, Double> combinedResultsStagePercentages) {
-		this.combinedResultsStagePercentages = combinedResultsStagePercentages;
-	}
-	
 }

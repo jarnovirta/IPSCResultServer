@@ -15,6 +15,7 @@
 		<!-- Google charts scripts -->
 		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 		<script>
+
 			<%@ include file="/resources/js/matchAnalysis.js" %>
 		</script>
 	</head>
@@ -73,7 +74,7 @@
 									<h3 align='center'><span id="analysisColumnCompareToCompetitorName"></span></h3>
 									<br>
 									<h4>Accuracy</h4>
-									<div id="compareToCompetitorAccuracyChart-large"></div>
+									<div id="compareToCompetitorAccuracyChart-large" align='center'></div>
 									<hr>
 									<h4>Hits</h4>
 									<div class="table-responsive">

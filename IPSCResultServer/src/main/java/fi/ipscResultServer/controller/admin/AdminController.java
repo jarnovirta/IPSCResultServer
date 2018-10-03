@@ -88,17 +88,7 @@ public class AdminController {
 			@RequestParam("status") MatchStatus status, Model model) {
 		try {
 			matchService.setStatus(matchId, status);
-			
-//			if (status == MatchStatus.SCORING_ENDED) {
-//				long startTime = System.currentTimeMillis();
-//				matchResultDataService.generateMatchResultListing(matchId);
-//				
-//				statisticsService.deleteByMatch(matchId);
-//				statisticsService.generateCompetitorStatistics(matchId);
-//				long estimatedTime = System.currentTimeMillis() - startTime;
-//				LOGGER.info("Match result listings and statistics "
-//						+ "generated in " + estimatedTime + " ms.");
-//			}
+
 		}
 		catch (Exception e) {
 			e.printStackTrace();

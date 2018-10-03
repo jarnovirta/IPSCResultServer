@@ -1,21 +1,14 @@
 package fi.ipscResultServer.controller.matchAnalysis;
 
-import fi.ipscResultServer.domain.ScoreCard;
-
 public class ErrorCostTableLine {
-	private ScoreCard scoreCard;
+	private Long stageId;
 	private int stageValuePercentage;
 	private double aTime = -1;
 	private double cCost = -1;
 	private double dCost = -1;
 	private double proceduralPenaltyAndNoShootCost = -1;
 	private double missCost = -1;
-	public ScoreCard getScoreCard() {
-		return scoreCard;
-	}
-	public void setScoreCard(ScoreCard scoreCard) {
-		this.scoreCard = scoreCard;
-	}
+	
 	public int getStageValuePercentage() {
 		return stageValuePercentage;
 	}
@@ -51,6 +44,12 @@ public class ErrorCostTableLine {
 	}
 	public void setMissCost(double missCost) {
 		this.missCost = missCost;
+	}
+	public Long getStageId() {
+		return stageId;
+	}
+	public void setStageId(Long stageId) {
+		this.stageId = stageId;
 	}
 
 	
