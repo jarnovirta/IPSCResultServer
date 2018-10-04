@@ -1,18 +1,20 @@
-24.9.: KATSO ETT� POPPER NOSHOOT ON VARMASTI OIKEIN HUOMIOITU!!!!
-MIT� TAPAHTUU JOS SAMA HENKIL� REKISTER�ITY KAHDESTI ERI DIVISIOONIIN?
+24.9.: KATSO ETTÄ POPPER NOSHOOT ON VARMASTI OIKEIN HUOMIOITU!!!!
+MITÄ TAPAHTUU JOS SAMA HENKILÖ REKISTERÖITY KAHDESTI ERI DIVISIOONIIN?
 EXPLORER EI TUE .INCLUDES
 
-Live result service menee rikki tulosdatan latauksen aikana -> javascript niin ett� jos virhe niin lataa kuitenkin uudelleen.
- - Rivien ja taulujen m��r�n s��t� aloitusvalikkoon
+Scorecard tulosten muuntaminen: loopissa on int. Vaihda long.
+
+Live result service menee rikki tulosdatan latauksen aikana -> javascript niin että jos virhe niin lataa kuitenkin uudelleen.
+ - Rivien ja taulujen määrän säätö aloitusvalikkoon
  
 DQ kisaaja: Ei lainkaan dataa match analysis sivulla
 
-Subminor huomioiminen. Näkyy taulukoissa Production-. Onko varma että suljettu tuloksista?
+Subminor huomioiminen. NÃ¤kyy taulukoissa Production-. Onko varma ettÃ¤ suljettu tuloksista?
 
-- Chrono stage: pitÃ¤Ã¤ tehdÃ¤ palvelimelle!! PractiScoressa "Actual" pf -> voidaan muuttaa chrono stagessa.
+- Chrono stage: pitÃƒÂ¤ÃƒÂ¤ tehdÃƒÂ¤ palvelimelle!! PractiScoressa "Actual" pf -> voidaan muuttaa chrono stagessa.
 
 TESTIT:
-	- Mit� practiscore tekee, jos luodaan eri laitteilla sama walkin kilpailija? Tallentaako se monta kertaa saman kilpailijan,
+	- Mitä practiscore tekee, jos luodaan eri laitteilla sama walkin kilpailija? Tallentaako se monta kertaa saman kilpailijan,
 	 	eri sh_uuid numeroilla?
 	 	
 Virhe ilmeisesti MatchAnalysis DQ kisaajalle:
@@ -109,9 +111,9 @@ EI KIIREELLISET:
 
 
  - Joukkuetulokset?
-- Korjaa stage rank verify listassa: nÃ¤yttÃ¤Ã¤ combined, ei divisioona. Poista comment out verify-listan JSP:stÃ¤.
-- Korjaa virheviestit datan lï¿½hetyksen aikana, niin ettï¿½ nï¿½yttï¿½ï¿½ palvelimen viestin. Nyt vain virhekoodi.
+- Korjaa stage rank verify listassa: nÃƒÂ¤yttÃƒÂ¤ÃƒÂ¤ combined, ei divisioona. Poista comment out verify-listan JSP:stÃƒÂ¤.
+- Korjaa virheviestit datan lÃ¯Â¿Â½hetyksen aikana, niin ettÃ¯Â¿Â½ nÃ¯Â¿Â½yttÃ¯Â¿Â½Ã¯Â¿Â½ palvelimen viestin. Nyt vain virhekoodi.
 - Tee SSI-PS registration import
-- Favicon: ei ole ja aiheuttaa virheitä lokiin.
+- Favicon: ei ole ja aiheuttaa virheitÃ¤ lokiin.
 
 
