@@ -1,6 +1,7 @@
 package fi.ipscResultServer.repository.springJDBCRepository;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.stereotype.Component;
 
@@ -20,11 +21,11 @@ public interface CompetitorRepository {
 	public Competitor findByPractiScoreReferences(String matchPractiScoreId, String competitorPractiScoreId);
 	
 	public void deleteByMatch(Long matchId);
-
-	public List<String> getCategories(Long competitorId);
 	
 	public Long getIdByPractiScoreReferences(String competitorPractiScoreId, String matchPractiScoreId);
 	
 	public void setDnf(Long competitorId);
+	
+	public List<Object[]> getCategories(Set<Long> competitorIds);
 	
 }

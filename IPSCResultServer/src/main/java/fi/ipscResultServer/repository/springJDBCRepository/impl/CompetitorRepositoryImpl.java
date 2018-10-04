@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
@@ -11,12 +12,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import fi.ipscResultServer.domain.Competitor;
 import fi.ipscResultServer.repository.springJDBCRepository.CompetitorRepository;
+import fi.ipscResultServer.repository.springJDBCRepository.impl.mapper.CompetitorCategoriesMapper;
 import fi.ipscResultServer.repository.springJDBCRepository.impl.mapper.CompetitorMapper;
 
 @Repository
@@ -114,11 +118,16 @@ public class CompetitorRepositoryImpl implements CompetitorRepository {
 		}
 		
 	}
-		
 
-	public List<String> getCategories(Long competitorId) {
-		String sql = "SELECT categories FROM competitor_categories WHERE competitor_id = ?";
-		return jdbcTemplate.queryForList(sql, new Object[] { competitorId }, String.class);
+	public List<Object[]> getCategories(Set<Long> competitorIds) {
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValue("ids", competitorIds);
+
+		String sql = "SELECT * FROM competitor_categories WHERE competitor_id IN (:ids)";
+
+		NamedParameterJdbcTemplate template = 
+			    new NamedParameterJdbcTemplate(jdbcTemplate.getDataSource());
+		return template.query(sql, parameters, new CompetitorCategoriesMapper());
 	}
 	
 	public Long getIdByPractiScoreReferences(String competitorPractiScoreId, String matchPractiScoreId) {

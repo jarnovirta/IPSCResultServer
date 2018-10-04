@@ -1,6 +1,9 @@
 package fi.ipscResultServer.service.impl;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,24 +22,25 @@ public class CompetitorServiceImpl implements CompetitorService {
 	
 	public Competitor getOne(Long id) {
 		Competitor competitor = competitorRepository.getOne(id);
-		competitor.setCategories(competitorRepository.getCategories(id));
-		return competitor;
+		return setCategories(competitor);
 	}
 	
 	@Transactional
 	public void save(List<Competitor> competitors) {
 		if (competitors == null) return;
 		competitorRepository.save(competitors);
-		
 	}
 	
 	public List<Competitor> findByMatchAndDivision(Long matchId, String division) {
-		if (division.equals(Constants.COMBINED_DIVISION)) return competitorRepository.findByMatch(matchId);
-		return competitorRepository.findByMatchAndDivision(matchId, division);
+		if (division.equals(Constants.COMBINED_DIVISION)) {
+			return setCategories(competitorRepository.findByMatch(matchId));
+		}
+		return setCategories(competitorRepository.findByMatchAndDivision(matchId, division));
 	}
 	
 	public Competitor findByPractiScoreReferences(String matchPractiScoreId, String competitorPractiScoreId) {
-		return competitorRepository.findByPractiScoreReferences(matchPractiScoreId, competitorPractiScoreId);
+		return setCategories(competitorRepository.findByPractiScoreReferences(
+				matchPractiScoreId, competitorPractiScoreId));
 	}
 	
 	@Transactional
@@ -51,5 +55,30 @@ public class CompetitorServiceImpl implements CompetitorService {
 	@Transactional
 	public void setDnf(Long competitorId) {
 		competitorRepository.setDnf(competitorId);
+	}
+	
+	private List<Competitor> setCategories(List<Competitor> competitors) {
+		Set<Long> idList = new HashSet<Long>();
+		for (Competitor comp : competitors) {
+			idList.add(comp.getId());
+		}
+		List<Object[]> categories = competitorRepository.getCategories(idList);
+		for (Object[] categoryArray : categories) {
+			for (Competitor comp : competitors) {
+				if (comp.getCategories() == null) {
+					comp.setCategories(new ArrayList<String>());
+				}
+				if (((Long) categoryArray[0]).equals(comp.getId())) {
+					comp.getCategories().add((String) categoryArray[1]); 
+				}
+				
+			}
+		}
+		return competitors;
+	}
+	private Competitor setCategories(Competitor competitor) {
+		List<Competitor> compList = new ArrayList<Competitor>();
+		compList.add(competitor);
+		return setCategories(compList).get(0);
 	}
 }
