@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import fi.ipscResultServer.domain.Constants;
 import fi.ipscResultServer.domain.ScoreCard;
+import fi.ipscResultServer.domain.statistics.CompetitorStatistics;
 import fi.ipscResultServer.exception.DatabaseException;
 import fi.ipscResultServer.repository.springJDBCRepository.ScoreCardRepository;
 import fi.ipscResultServer.service.CompetitorService;
@@ -44,6 +45,11 @@ public class ScoreCardServiceImpl implements ScoreCardService {
 	public List<ScoreCard> findByStageAndDivision(Long stageId, String division) {
 		if (division.equals(Constants.COMBINED_DIVISION)) return scoreCardRepository.findByStage(stageId);
 		else return scoreCardRepository.findByStageAndDivision(stageId, division);
+	}
+	
+	public List<CompetitorStatistics> getStatistics(Long matchId, String division) {
+		if (division.equals(Constants.COMBINED_DIVISION)) return scoreCardRepository.getStatistics(matchId);
+		else return scoreCardRepository.getStatistics(matchId, division);
 	}
 
 	@Transactional

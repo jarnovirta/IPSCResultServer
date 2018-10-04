@@ -12,7 +12,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import fi.ipscResultServer.domain.ScoreCard;
+import fi.ipscResultServer.domain.statistics.CompetitorStatistics;
 import fi.ipscResultServer.repository.springJDBCRepository.ScoreCardRepository;
+import fi.ipscResultServer.repository.springJDBCRepository.impl.mapper.StatisticsMapper;
 import fi.ipscResultServer.repository.springJDBCRepository.impl.mapper.ScoreCardMapper;
 
 @Repository
@@ -21,6 +23,16 @@ public class ScoreCardRepositoryImpl implements ScoreCardRepository {
 	private DatabaseUtil dbUtil;
 	
 	private JdbcTemplate jdbcTemplate;
+	
+	private final String getStatsSql = "SELECT sc.competitor_id, SUM(sc.ahits) as ahitssum, SUM(sc.chits) AS chitssum"
+			+ ", SUM(sc.dhits) AS dhitssum, SUM(sc.misses) AS missessum, SUM(sc.noshoothits) AS nshitssum"
+			+ ", SUM(sc.proceduralpenalties) AS procsum, SUM(sc.additionalpenalties) AS adpensum"
+			+ ", SUM(sc.time) AS timesum, SUM(sc.hitfactor) AS hfsum, SUM(sc.points) AS pointssum"
+			+ ", SUM(sc.stagepoints) AS stagepointssum"
+			+ " FROM scorecard sc"
+			+ " INNER JOIN competitor c ON sc.competitor_id = c.id"
+			+ " INNER JOIN stage s ON sc.stage_id = s.id";
+
 	
 	@PostConstruct
     public void init() {
@@ -35,9 +47,8 @@ public class ScoreCardRepositoryImpl implements ScoreCardRepository {
 	public void save(List<ScoreCard> cards) {
 		String query = "INSERT INTO scorecard (ahits, additionalpenalties, chits, dhits, time, hitfactor, misses, noshoothits"
 				+ ", proceduralpenalties, stagepoints, competitor_id, stage_id, modified"
-	      		+ ", points, poppermisses, popperhits, poppernoshoothits, combineddivisionstagepoints"
-	      		+ ", scorepercentage, combineddivisionscorepercentage)"
-	      		+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+	      		+ ", points, combineddivisionstagepoints, scorepercentage, combineddivisionscorepercentage)"
+	      		+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 		
 		jdbcTemplate.batchUpdate(query, new BatchPreparedStatementSetter() {
 			@Override
@@ -57,12 +68,9 @@ public class ScoreCardRepositoryImpl implements ScoreCardRepository {
 				ps.setLong(12, card.getStage().getId());
 				ps.setTimestamp(13, new java.sql.Timestamp(card.getModified().getTimeInMillis()));
 				ps.setInt(14, card.getPoints());
-				ps.setInt(15, card.getPopperMisses());
-				ps.setInt(16, card.getPopperHits());
-				ps.setInt(17,  card.getPopperNoshootHits());
-				ps.setDouble(18, card.getCombinedDivisionStagePoints());
-				ps.setDouble(19, card.getScorePercentage());
-				ps.setDouble(20, card.getCombinedDivisionScorePercentage());
+				ps.setDouble(15, card.getCombinedDivisionStagePoints());
+				ps.setDouble(16, card.getScorePercentage());
+				ps.setDouble(17, card.getCombinedDivisionScorePercentage());
 			}
 			@Override
 			public int getBatchSize() {
@@ -106,4 +114,24 @@ public class ScoreCardRepositoryImpl implements ScoreCardRepository {
 				+ " ORDER BY c.division ASC";
 		return jdbcTemplate.queryForList(sql, new Object[] { matchId }, String.class);
 	}
+	
+	public List<CompetitorStatistics> getStatistics(Long matchId, String division) {
+		String sql = getStatsSql 				
+				+ " WHERE s.match_id = ? AND c.division = ?"
+				+ " GROUP BY sc.competitor_id"
+				+ " ORDER BY stagepointssum DESC";
+		
+		return jdbcTemplate.query(sql, new Object[] { matchId, division}, new StatisticsMapper());	
+				
+	}
+	
+	public List<CompetitorStatistics> getStatistics(Long matchId) {
+		String sql = getStatsSql 				
+				+ " WHERE s.match_id = ?"
+				+ " GROUP BY sc.competitor_id"
+				+ " ORDER BY stagepointssum DESC";
+		return jdbcTemplate.query(sql, new Object[] { matchId }, new StatisticsMapper());
+	}
+	
+	
 }

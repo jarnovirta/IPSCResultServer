@@ -121,6 +121,7 @@ public class Competitor {
 
 	public void setDisqualified(boolean disqualified) {
 		this.disqualified = disqualified;
+		dnf = false;
 	}
 
 	public String getTeam() {
@@ -230,7 +231,8 @@ public class Competitor {
 	}
 
 	public void setDnf(boolean dnf) {
-		this.dnf = dnf;
+		if (dnf && !this.disqualified) this.dnf = dnf;
+		else this.dnf = false;
+		
 	}
-
 }

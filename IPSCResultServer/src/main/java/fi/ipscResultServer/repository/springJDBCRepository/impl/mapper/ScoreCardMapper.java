@@ -20,9 +20,6 @@ public class ScoreCardMapper implements RowMapper<ScoreCard> {
 		card.setMisses(rs.getInt("misses"));
 		card.setNoshootHits(rs.getInt("noshoothits"));
 		card.setProceduralPenalties(rs.getInt("proceduralpenalties"));
-		card.setPopperHits(rs.getInt("popperhits"));
-		card.setPopperMisses(rs.getInt("poppermisses"));
-		card.setPopperNoshootHits(rs.getInt("poppernoshoothits"));
 		card.setTime(rs.getDouble("time"));
 		card.setHitFactor(rs.getDouble("hitfactor"));
 		Calendar cal = Calendar.getInstance();

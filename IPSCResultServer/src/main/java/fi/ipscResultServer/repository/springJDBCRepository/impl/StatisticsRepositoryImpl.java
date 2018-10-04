@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import fi.ipscResultServer.domain.statistics.CompetitorStatistics;
 import fi.ipscResultServer.repository.springJDBCRepository.StatisticsRepository;
-import fi.ipscResultServer.repository.springJDBCRepository.impl.mapper.CompetitorStatisticsMapper;
+import fi.ipscResultServer.repository.springJDBCRepository.impl.mapper.StatisticsMapper;
 
 @Repository
 public class StatisticsRepositoryImpl implements StatisticsRepository {
@@ -63,14 +63,14 @@ public class StatisticsRepositoryImpl implements StatisticsRepository {
 	}
 	public List<CompetitorStatistics> findByMatch(Long matchId) {
 		String sql = "SELECT * FROM competitorstatistics WHERE match_id = ?";
-		return jdbcTemplate.query(sql, new Object[] { matchId }, new CompetitorStatisticsMapper());
+		return jdbcTemplate.query(sql, new Object[] { matchId }, new StatisticsMapper());
 	}
 	
 	public List<CompetitorStatistics> findByMatchAndDivision(Long matchId, String division) {
 		String sql = "SELECT * FROM competitorstatistics cs"
 				+ " INNER JOIN competitor c ON cs.competitor_id = c.id"
 				+ " WHERE cs.match_id = ? AND c.division = ?";
-		return jdbcTemplate.query(sql, new Object[] { matchId, division }, new CompetitorStatisticsMapper());
+		return jdbcTemplate.query(sql, new Object[] { matchId, division }, new StatisticsMapper());
 	}
 	public void deleteByMatch(Long matchId) {
 		String sql = "DELETE FROM competitorstatistics WHERE match_id = ?;";

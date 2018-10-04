@@ -15,11 +15,9 @@ import fi.ipscResultServer.domain.MatchStatus;
 import fi.ipscResultServer.domain.Stage;
 import fi.ipscResultServer.repository.springJDBCRepository.MatchRepository;
 import fi.ipscResultServer.service.CompetitorService;
-import fi.ipscResultServer.service.MatchResultDataService;
 import fi.ipscResultServer.service.MatchService;
 import fi.ipscResultServer.service.ScoreCardService;
 import fi.ipscResultServer.service.StageService;
-import fi.ipscResultServer.service.StatisticsService;
 import fi.ipscResultServer.service.UserService;
 
 @Service
@@ -39,13 +37,6 @@ public class MatchServiceImpl implements MatchService {
 	
 	@Autowired
 	private ScoreCardService scoreCardService;
-	
-	@Autowired
-	private MatchResultDataService matchResultDataService;
-	
-	@Autowired
-	private StatisticsService statisticsService;
-
 
 	@Transactional
 	public Match save(Match match) {
@@ -141,8 +132,6 @@ public class MatchServiceImpl implements MatchService {
 	
 	@Transactional
 	public void delete(Long id) {
-		statisticsService.deleteByMatch(id);
-		matchResultDataService.deleteByMatch(id);
 		scoreCardService.deleteByMatch(id);
 		competitorService.deleteByMatch(id);
 		stageService.deleteByMatch(id);

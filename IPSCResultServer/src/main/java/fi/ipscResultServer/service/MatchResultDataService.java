@@ -9,10 +9,4 @@ public interface MatchResultDataService {
 	
 	public MatchResultData findByMatchAndDivision(String matchPractiScoreId, String division);
 
-	public void save(MatchResultData matchResultData);
-	
-	public void deleteByMatch(Long matchId);
-	
-	public MatchResultData generateMatchResultListing(Long matchId);
-	
 }

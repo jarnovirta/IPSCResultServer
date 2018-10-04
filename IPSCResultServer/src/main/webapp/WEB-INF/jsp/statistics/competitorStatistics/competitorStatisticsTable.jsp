@@ -11,7 +11,7 @@
 				<thead>
 					<tr>
 						<th>
-							Div Pos
+							Pos
 						</th>
 						<th>
 							Name

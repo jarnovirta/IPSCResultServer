@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import fi.ipscResultServer.domain.ScoreCard;
+import fi.ipscResultServer.domain.statistics.CompetitorStatistics;
 
 @Component
 public interface ScoreCardRepository {
@@ -22,5 +23,9 @@ public interface ScoreCardRepository {
 	public List<ScoreCard> findByMatch(Long matchId);
 		
 	public List<String> getDivisionsWithResults(Long matchId);
+	
+	public List<CompetitorStatistics> getStatistics(Long matchId, String division);
+	
+	public List<CompetitorStatistics> getStatistics(Long matchId);
 	
 }

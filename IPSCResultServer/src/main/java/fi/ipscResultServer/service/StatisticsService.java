@@ -9,13 +9,6 @@ import fi.ipscResultServer.domain.statistics.CompetitorStatistics;
 @Component
 public interface StatisticsService {
 	
-	public List<CompetitorStatistics> findByMatchAndDivision(Long matchId, 
-			String division);
-	
-	public List<CompetitorStatistics> findByMatch(Long matchId);
-	
-	public void generateCompetitorStatistics(Long matchId);
-	
-	public void deleteByMatch(Long matchId);
+	public List<CompetitorStatistics> get(Long matchId, String division);
 	
 }

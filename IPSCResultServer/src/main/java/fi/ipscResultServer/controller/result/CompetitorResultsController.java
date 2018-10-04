@@ -1,7 +1,5 @@
 package fi.ipscResultServer.controller.result;
 
-import java.util.ArrayList;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,8 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import fi.ipscResultServer.controller.matchAnalysis.ErrorCostDataGenerator;
-import fi.ipscResultServer.domain.Competitor;
 import fi.ipscResultServer.domain.ScoreCard;
 import fi.ipscResultServer.domain.resultData.CompetitorResultData;
 import fi.ipscResultServer.service.CompetitorResultDataService;

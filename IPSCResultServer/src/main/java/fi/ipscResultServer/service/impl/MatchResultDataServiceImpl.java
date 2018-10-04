@@ -3,10 +3,8 @@ package fi.ipscResultServer.service.impl;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import fi.ipscResultServer.domain.Competitor;
 import fi.ipscResultServer.domain.Constants;
@@ -33,9 +31,6 @@ public class MatchResultDataServiceImpl implements MatchResultDataService {
 	
 	@Autowired
 	private CompetitorService competitorService;
-
-	
-	private final static Logger LOGGER = Logger.getLogger(ScoreCardServiceImpl.class);
 	
 	public MatchResultData findByMatchAndDivision(String matchPractiScoreId, String division) {
 		
@@ -71,27 +66,4 @@ public class MatchResultDataServiceImpl implements MatchResultDataService {
 		return null;
 	}
 	
-	@Transactional
-	public void save(MatchResultData matchResultData) {
-		matchResultDataRepository.save(matchResultData);
-	}
-	@Transactional
-	public void deleteByMatch(Long matchId) {
-		matchResultDataRepository.deleteByMatch(matchId);
-	}
-	
-	@Transactional
-	public MatchResultData generateMatchResultListing(Long matchId) {
-		LOGGER.info("Generating match result data (match ID: " + matchId + ")");
-
-		return null;
-	}
-
-//	private List<StageResultDataLine> getCompetitorStageResultDataLines(Competitor competitor, List<StageResultDataLine> allStageResultDatalines) {
-//		List<StageResultDataLine> stageResultDataLines = new ArrayList<StageResultDataLine>();
-//		for (StageResultDataLine line : allStageResultDatalines) {
-//			if (line.getCompetitor().getPractiScoreId().equals(competitor.getPractiScoreId())) stageResultDataLines.add(line);
-//		}
-//		return stageResultDataLines;
-//	}
 }

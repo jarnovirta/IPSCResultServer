@@ -13,6 +13,7 @@ import fi.ipscResultServer.domain.Constants;
 import fi.ipscResultServer.domain.Match;
 import fi.ipscResultServer.domain.statistics.CompetitorStatistics;
 import fi.ipscResultServer.service.MatchService;
+import fi.ipscResultServer.service.ScoreCardService;
 import fi.ipscResultServer.service.StatisticsService;
 
 @Controller
@@ -25,38 +26,31 @@ public class StatisticsController {
 	@Autowired
 	MatchService matchService;
 	
+	@Autowired
+	ScoreCardService scoreCardService;
+	
 	@RequestMapping(method = RequestMethod.GET)
 	public String getStatisticsPage(Model model, @RequestParam("matchId") String matchId,
 			@RequestParam(value="division", required = false) String division) {
-		Match match = matchService.getOne(matchService.getIdByPractiScoreId(matchId), true);
+		Match match = matchService.getOne(matchService.getIdByPractiScoreId(matchId), false);
+		
 		if (division == null) {
-			if (match.getDivisionsWithResults().contains(Constants.COMBINED_DIVISION)) {
-				division = Constants.COMBINED_DIVISION;
-			}
-			else {
-				if (match.getDivisionsWithResults().size() > 0) {
+			division = Constants.COMBINED_DIVISION;
+			List<String> divisionsWithResults = scoreCardService.getDivisionsWithResults(match.getId());
+			if (divisionsWithResults.size() == 1) {
 					division = match.getDivisionsWithResults().get(0);
-				}
 			}
 		}
-		List<CompetitorStatistics> competitorStatistics = getCompetitorStatistics(match.getId(), division);
+		List<CompetitorStatistics> statisticstatistics = statisticsService.get(match.getId(), division);
 		boolean additionalPenaltiesColumn = false;
-		for (CompetitorStatistics stats : competitorStatistics) {
+		for (CompetitorStatistics stats : statisticstatistics) {
 			if (stats.getAdditionalPenalties() > 0) additionalPenaltiesColumn = true;
 		}
 		model.addAttribute("match", match);
 		model.addAttribute("division", division);
-		model.addAttribute("statistics", competitorStatistics);
+		model.addAttribute("statistics", statisticstatistics);
 		model.addAttribute("additionalPenaltiesColumn", additionalPenaltiesColumn);
 
 		return "statistics/competitorStatistics/competitorStatisticsPage";
-	}
-	
-	private List<CompetitorStatistics> getCompetitorStatistics(Long matchId, String division) {
-	
-		if (division == null || division.equals(Constants.COMBINED_DIVISION)) {
-			return statisticsService.findByMatch(matchId);
-		}
-		else return statisticsService.findByMatchAndDivision(matchId, division);
 	}
 }

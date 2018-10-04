@@ -197,5 +197,4 @@ public class CompetitorStatistics implements Comparable<CompetitorStatistics> {
 	public void setCompetitorId(Long competitorId) {
 		this.competitorId = competitorId;
 	}
-
 }
