@@ -23,11 +23,4 @@ public class HomePageController {
 		return "home";
 	}
 	
-	@RequestMapping(value = "/mg", method = RequestMethod.GET)
-	public String migrate(Model model) {
-		sci.migrate();
-		return "home";
-	}
-	
-	
 }
