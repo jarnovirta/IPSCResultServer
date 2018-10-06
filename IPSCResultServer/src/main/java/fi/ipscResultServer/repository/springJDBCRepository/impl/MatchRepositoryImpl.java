@@ -3,6 +3,7 @@ package fi.ipscResultServer.repository.springJDBCRepository.impl;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -34,14 +35,14 @@ public class MatchRepositoryImpl implements MatchRepository{
         jdbcTemplate = dbUtil.getJdbcTemplate();
     }
 	public Match save(Match match) {
-		String matchTableQuery = "INSERT INTO ipscmatch (date, level, name, practiscoreid, "
-				+ "status, uploadedbyadmin, user_id) VALUES (?, ?, ?, ?, ?, ?, ?);";
+		String matchTableQuery = "INSERT INTO ipscmatch (DATE, LEVEL, NAME, PRACTISCOREID, "
+				+ "STATUS, UPLOADEDBYADMIN, USER_ID) VALUES (?, ?, ?, ?, ?, ?, ?);";
 		
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		jdbcTemplate.update(new PreparedStatementCreator() {
 			@Override
 			public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
-				PreparedStatement ps = connection.prepareStatement(matchTableQuery, new String[] { "id" });
+				PreparedStatement ps = connection.prepareStatement(matchTableQuery, new String[] { "ID" });
 				ps.setDate(1, new java.sql.Date(match.getDate().getTimeInMillis()));
 				ps.setString(2, match.getLevel());
 				ps.setString(3, match.getName());
@@ -59,7 +60,7 @@ public class MatchRepositoryImpl implements MatchRepository{
 		match.setId(keyHolder.getKey().longValue());
 		
 		List<String> divisions = match.getDivisions();
-		String matchDivisionsTableQuery = "INSERT INTO match_divisions (match_id, divisions)"
+		String matchDivisionsTableQuery = "INSERT INTO match_divisions (MATCH_ID, DIVISIONS)"
 				+ " VALUES (?, ?);";
 		jdbcTemplate.batchUpdate(matchDivisionsTableQuery, new BatchPreparedStatementSetter() {
 
@@ -79,7 +80,7 @@ public class MatchRepositoryImpl implements MatchRepository{
 	}
 	public Match getOne(Long matchId) {
 		try {
-			String query = "SELECT * FROM ipscmatch WHERE id = ?";
+			String query = "SELECT * FROM ipscmatch WHERE ID = ?";
 			Match match = jdbcTemplate.queryForObject(query, new Object[] { matchId }, new MatchMapper());
 			return match;
 		}
@@ -88,17 +89,22 @@ public class MatchRepositoryImpl implements MatchRepository{
 		}
 	}
 	public List<Match> findAll() {
-		String query = "SELECT * FROM ipscmatch ORDER BY date DESC";
+		String query = "SELECT * FROM ipscmatch ORDER BY DATE DESC";
 		return jdbcTemplate.query(query, new MatchMapper());
 	}
 	
 	public List<Match> findByUser(Long userId) {
-		String sql = "SELECT * FROM ipscmatch WHERE userid = ?";
-		return jdbcTemplate.query(sql, new Object[] { userId }, new MatchMapper());
+		try {
+			String sql = "SELECT * FROM ipscmatch WHERE USER_ID = ?";
+			return jdbcTemplate.query(sql, new Object[] { userId }, new MatchMapper());
+		}
+		catch (EmptyResultDataAccessException e) {
+			return new ArrayList<Match>();
+		}
 	}
 	public Long getIdByPractiScoreId(String practiScoreId) {
 		try {
-			String query = "SELECT id FROM ipscmatch WHERE practiscoreid = ?";
+			String query = "SELECT id FROM ipscmatch WHERE PRACTISCOREID = ?";
 			return jdbcTemplate.queryForObject(query, new Object[] { practiScoreId }, Long.class);
 			
 		}
@@ -114,7 +120,7 @@ public class MatchRepositoryImpl implements MatchRepository{
 
 	public List<Long> getAllIdsByPractiScoreId(String matchPractiScoreId) {
 		try {
-			String sql = "SELECT id FROM ipscmatch WHERE practiscoreid = ?";
+			String sql = "SELECT id FROM ipscmatch WHERE PRACTISCOREID = ?";
 			return jdbcTemplate.queryForList(sql, new Object[] { matchPractiScoreId }, Long.class);
 		}
 		catch (DataAccessException e){
@@ -124,19 +130,19 @@ public class MatchRepositoryImpl implements MatchRepository{
 	}
 	
 	public void delete(Long id) {
-		String query = "DELETE FROM match_divisions WHERE Match_ID = ?;";
+		String query = "DELETE FROM match_divisions WHERE MATCH_ID = ?;";
 		jdbcTemplate.update(query, new Object[] { id});
-		query = "DELETE FROM ipscmatch WHERE id = ?";
+		query = "DELETE FROM ipscmatch WHERE ID = ?";
 		jdbcTemplate.update(query, new Object[] { id});
 	}
 	
 	public void setStatus(Long matchId, MatchStatus status) {
-		String sql = "UPDATE ipscmatch SET status = ? WHERE id = ?";
+		String sql = "UPDATE ipscmatch SET STATUS = ? WHERE ID = ?";
 		jdbcTemplate.update(sql, new Object[] { status.ordinal(), matchId });
 	}
 	
 	public List<String> getDivisions(Long matchId) {
-		String sql = "SELECT divisions FROM match_divisions WHERE match_id = ?";
+		String sql = "SELECT divisions FROM match_divisions WHERE MATCH_ID = ?";
 		return jdbcTemplate.queryForList(sql, new Object[] { matchId }, String.class);
 		
 	}

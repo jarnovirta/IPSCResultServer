@@ -12,13 +12,13 @@ public class StageMapper implements RowMapper<Stage> {
 	@Override
 	public Stage mapRow(ResultSet rs, int rowNum) throws SQLException {
 		Stage stage = new Stage();
-		stage.setId(rs.getLong("id"));
-		stage.setName(rs.getString("name"));
-		stage.setMaxPoints(rs.getInt("maxpoints"));
-		stage.setPractiScoreId(rs.getString("practiscoreid"));
-		stage.setStageNumber(rs.getInt("stagenumber"));
-		stage.setMatchId(rs.getLong("match_id"));
-		stage.setMatchStagesIndex(rs.getInt("stages_ORDER"));		
+		stage.setId(rs.getLong("ID"));
+		stage.setName(rs.getString("NAME"));
+		stage.setMaxPoints(rs.getInt("MAXPOINTS"));
+		stage.setPractiScoreId(rs.getString("PRACTISCOREID"));
+		stage.setStageNumber(rs.getInt("STAGENUMBER"));
+		stage.setMatchId(rs.getLong("MATCH_ID"));
+		stage.setMatchStagesIndex(rs.getInt("STAGES_ORDER"));		
 		return stage;
 	}
 

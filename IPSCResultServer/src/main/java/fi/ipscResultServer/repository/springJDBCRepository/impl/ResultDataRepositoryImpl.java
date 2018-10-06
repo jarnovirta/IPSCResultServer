@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -20,17 +21,20 @@ public class ResultDataRepositoryImpl implements ResultDataRepository {
 	
 	private JdbcTemplate jdbcTemplate;
 	
+	private final static Logger LOGGER = Logger.getLogger(ResultDataRepository.class);
+	
 	@PostConstruct
     public void init() {
         jdbcTemplate = dbUtil.getJdbcTemplate();
     }
 
 	public List<MatchResultDataLine> findResultDataLinesByMatchAndDivision(Long matchId, String division) {
+		
 		try {
-			String sql = "SELECT c.id AS competitor_id, SUM(sc.stagepoints) AS points_sum, COUNT(sc.id) AS scored_stages_count"
-					+ " FROM SCORECARD sc"
-					+ " LEFT JOIN COMPETITOR c ON sc.COMPETITOR_ID = c.ID"
-					+ " INNER JOIN STAGE s ON sc.STAGE_ID = s.ID"
+			String sql = "SELECT c.ID AS competitor_id, SUM(sc.STAGEPOINTS) AS points_sum, COUNT(sc.ID) AS scored_stages_count"
+					+ " FROM scorecard sc"
+					+ " LEFT JOIN competitor c ON sc.COMPETITOR_ID = c.ID"
+					+ " INNER JOIN stage s ON sc.STAGE_ID = s.ID"
 					+ " WHERE c.DIVISION = ?"
 					+ " AND c.DISQUALIFIED = 0" 
 					+ " AND s.MATCH_ID = ? "
@@ -42,17 +46,17 @@ public class ResultDataRepositoryImpl implements ResultDataRepository {
 			return null;
 		}
 		catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.debug(e.getStackTrace().toString());
 			return null;
 		}		
 	}
 	
 	public List<MatchResultDataLine> findResultDataLinesByMatch(Long matchId) {
 		try {
-			String sql = "SELECT c.id AS competitor_id, SUM(sc.combineddivisionstagepoints) AS points_sum, COUNT(sc.id) AS scored_stages_count"
-					+ " FROM SCORECARD sc"
-					+ " LEFT JOIN COMPETITOR c ON sc.COMPETITOR_ID = c.ID"
-					+ " INNER JOIN STAGE s ON sc.STAGE_ID = s.ID"
+			String sql = "SELECT c.id AS competitor_id, SUM(sc.COMBINEDDIVISIONSTAGEPOINTS) AS points_sum, COUNT(sc.ID) AS scored_stages_count"
+					+ " FROM scorecard sc"
+					+ " LEFT JOIN competitor c ON sc.COMPETITOR_ID = c.ID"
+					+ " INNER JOIN stage s ON sc.STAGE_ID = s.ID"
 					+ " WHERE c.DISQUALIFIED = 0" 
 					+ " AND s.MATCH_ID = ? "
 					+ " GROUP BY c.ID "

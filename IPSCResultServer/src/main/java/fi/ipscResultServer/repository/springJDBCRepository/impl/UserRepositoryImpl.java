@@ -34,7 +34,7 @@ public class UserRepositoryImpl implements UserRepository {
 	
 	public User getOne(Long id) {
 		try {
-			String query = "SELECT * FROM user WHERE id = ?";
+			String query = "SELECT * FROM USER WHERE ID = ?";
 			return jdbcTemplate.queryForObject(query, new Object[] { id }, new UserMapper());
 		}
 		catch (EmptyResultDataAccessException e) {
@@ -43,13 +43,13 @@ public class UserRepositoryImpl implements UserRepository {
 	}
 	@Transactional
 	public User save(User user) {
-		String sql = "INSERT INTO user (email, enabled, firstname, lastname, password, phone, role, username)"
+		String sql = "INSERT INTO USER (EMAIL, ENABLED, FIRSTNAME, LASTNAME, PASSWORD, PHONE, ROLE, USERNAME)"
 				+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		jdbcTemplate.update(new PreparedStatementCreator() {
 			@Override
 			public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
-				PreparedStatement ps = connection.prepareStatement(sql, new String[] { "id" });
+				PreparedStatement ps = connection.prepareStatement(sql, new String[] { "ID" });
 				if (user.getEmail() == null) ps.setNull(1, java.sql.Types.NULL);
 				else ps.setString(1, user.getEmail());
 				ps.setBoolean(2, user.isEnabled());
@@ -71,8 +71,8 @@ public class UserRepositoryImpl implements UserRepository {
 	}
 	@Transactional
 	public void updateUser(User user) {
-		String sql = "UPDATE user SET email = ?, enabled = ?, firstname = ?, lastname = ?, "
-				+ "password = ?, phone = ?, role = ?, username = ? WHERE id = ?";
+		String sql = "UPDATE USER SET EMAIL = ?, ENABLED = ?, FIRSTNAME = ?, LASTNAME = ?, "
+				+ "PASSWORD = ?, PHONE = ?, ROLE = ?, USERNAME = ? WHERE ID = ?";
 		jdbcTemplate.update(new PreparedStatementCreator() {
 			@Override
 			public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
@@ -96,12 +96,12 @@ public class UserRepositoryImpl implements UserRepository {
 	}
 			
 	public List<User> findEnabledUsers() {
-		String sql = "SELECT * FROM user WHERE enabled = 1";
+		String sql = "SELECT * FROM USER WHERE ENABLED = 1";
 		return jdbcTemplate.query(sql, new UserMapper());
 	}
 	
 	public User findByUsername(String username) {
-		String sql = "SELECT * FROM user WHERE username = ?";
+		String sql = "SELECT * FROM USER WHERE USERNAME = ?";
 		return jdbcTemplate.queryForObject(sql, new Object[] { username }, new UserMapper());
 	}
 	

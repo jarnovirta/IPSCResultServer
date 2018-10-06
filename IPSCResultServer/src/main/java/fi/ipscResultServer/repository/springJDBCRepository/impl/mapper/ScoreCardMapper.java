@@ -13,26 +13,28 @@ import fi.ipscResultServer.domain.ScoreCard;
 public class ScoreCardMapper implements RowMapper<ScoreCard> {
 	public ScoreCard mapRow(ResultSet rs, int rowNum) throws SQLException {
 		ScoreCard card = new ScoreCard();
-		card.setId(rs.getLong("id"));
-		card.setaHits(rs.getInt("ahits"));
-		card.setcHits(rs.getInt("chits"));
-		card.setdHits(rs.getInt("dhits"));
-		card.setMisses(rs.getInt("misses"));
-		card.setNoshootHits(rs.getInt("noshoothits"));
-		card.setProceduralPenalties(rs.getInt("proceduralpenalties"));
-		card.setTime(rs.getDouble("time"));
-		card.setHitFactor(rs.getDouble("hitfactor"));
+		card.setId(rs.getLong("ID"));
+		card.setaHits(rs.getInt("AHITS"));
+		card.setcHits(rs.getInt("CHITS"));
+		card.setdHits(rs.getInt("DHITS"));
+		card.setMisses(rs.getInt("MISSES"));
+		card.setNoshootHits(rs.getInt("NOSHOOTHITS"));
+		card.setProceduralPenalties(rs.getInt("PROCEDURALPENALTIES"));
+		card.setTime(rs.getDouble("TIME"));
+		card.setHitFactor(rs.getDouble("HITFACTOR"));
 		Calendar cal = Calendar.getInstance();
-		cal.setTime(rs.getTimestamp("modified"));
+		cal.setTime(rs.getTimestamp("MODIFIED"));
 		card.setModified(cal);
-		card.setPoints(rs.getInt("points"));
-		card.setStageId(rs.getLong("stage_id"));
-		card.setCompetitorId(rs.getLong("competitor_id"));
-		card.setStagePoints(rs.getDouble("stagepoints"));
-		card.setCombinedDivisionStagePoints(rs.getDouble("combineddivisionstagepoints"));
-		card.setScorePercentage(rs.getDouble("scorepercentage"));
-		card.setCombinedDivisionScorePercentage(rs.getDouble("combineddivisionscorepercentage"));
-		card.setStageRank(rowNum + 1);
+		card.setPoints(rs.getInt("POINTS"));
+		card.setStageId(rs.getLong("STAGE_ID"));
+		card.setCompetitorId(rs.getLong("COMPETITOR_ID"));
+		card.setStagePoints(rs.getDouble("STAGEPOINTS"));
+		card.setCombinedDivisionStagePoints(rs.getDouble("COMBINEDDIVISIONSTAGEPOINTS"));
+		card.setScorePercentage(rs.getDouble("SCOREPERCENTAGE"));
+		card.setCombinedDivisionScorePercentage(rs.getDouble("COMBINEDDIVISIONSCOREPERCENTAGE"));
+		card.setStageRank(rs.getInt("STAGERANK"));
+		card.setDnf(rs.getBoolean("DNF"));
+		if (rs.wasNull()) card.setDnf(false);
 		return card;
 	}
 }

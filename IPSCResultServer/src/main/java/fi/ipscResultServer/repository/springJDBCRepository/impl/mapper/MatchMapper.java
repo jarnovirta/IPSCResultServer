@@ -16,16 +16,16 @@ public class MatchMapper implements RowMapper<Match> {
 	@Override
 	public Match mapRow(ResultSet rs, int rowNum) throws SQLException {
 		Match match = new Match();
-		match.setId(rs.getLong("id"));
+		match.setId(rs.getLong("ID"));
 		Calendar cal = Calendar.getInstance();
-		cal.setTime(rs.getDate("date"));
+		cal.setTime(rs.getDate("DATE"));
 		match.setDate(cal);
-		match.setLevel(rs.getString("level"));
-		match.setName(rs.getString("name"));
-		match.setPractiScoreId(rs.getString("practiscoreid"));
-		match.setStatus(MatchStatus.values()[rs.getInt("status")]);
-		match.setUploadedByAdmin(rs.getBoolean("uploadedbyadmin"));
-		match.setUserId(rs.getLong("user_id"));
+		match.setLevel(rs.getString("LEVEL"));
+		match.setName(rs.getString("NAME"));
+		match.setPractiScoreId(rs.getString("PRACTISCOREID"));
+		match.setStatus(MatchStatus.values()[rs.getInt("STATUS")]);
+		match.setUploadedByAdmin(rs.getBoolean("UPLOADEDBYADMIN"));
+		match.setUserId(rs.getLong("USER_ID"));
 		if (rs.wasNull()) match.setUserId(null);
 		return match;
 	}

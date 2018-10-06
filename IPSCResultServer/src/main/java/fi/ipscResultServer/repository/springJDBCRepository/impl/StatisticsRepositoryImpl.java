@@ -28,10 +28,10 @@ public class StatisticsRepositoryImpl implements StatisticsRepository {
     }
 
 	public void save(List<CompetitorStatistics> stats) {
-		String query = "INSERT INTO competitorstatistics (ahitpercentage, ahits, additionalpenalties,"
-				+ "chits, dhits, divisionpoints, divisionrank, divisionscorepercentage,"
-				+ "matchtime, misses, noshoothits, proceduralpenalties, sumofpoints, "
-				+ "competitor_id, match_id)"
+		String query = "INSERT INTO competitorstatistics (AHITPERCENTAGE, AHITS, ADDITIONALPENALTIES,"
+				+ "CHITS, DHITS, DIVISIONPOINTS, DIVISIONRANK, DIVISIONSCOREPERCENTAGE,"
+				+ "MATCHTIME, MISSES, NOSHOOTHITS, PROCEDURALPENALTIES, SUMOFPOINTS, "
+				+ "COMPETITOR_ID, MATCH_ID)"
 	      		+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 		
 		jdbcTemplate.batchUpdate(query, new BatchPreparedStatementSetter() {
@@ -62,18 +62,18 @@ public class StatisticsRepositoryImpl implements StatisticsRepository {
 		});
 	}
 	public List<CompetitorStatistics> findByMatch(Long matchId) {
-		String sql = "SELECT * FROM competitorstatistics WHERE match_id = ?";
+		String sql = "SELECT * FROM competitorstatistics WHERE MATCH_ID = ?";
 		return jdbcTemplate.query(sql, new Object[] { matchId }, new StatisticsMapper());
 	}
 	
 	public List<CompetitorStatistics> findByMatchAndDivision(Long matchId, String division) {
 		String sql = "SELECT * FROM competitorstatistics cs"
-				+ " INNER JOIN competitor c ON cs.competitor_id = c.id"
-				+ " WHERE cs.match_id = ? AND c.division = ?";
+				+ " INNER JOIN competitor c ON cs.COMPETITOR_ID = c.ID"
+				+ " WHERE cs.MATCH_ID = ? AND c.DIVISION = ?";
 		return jdbcTemplate.query(sql, new Object[] { matchId, division }, new StatisticsMapper());
 	}
 	public void deleteByMatch(Long matchId) {
-		String sql = "DELETE FROM competitorstatistics WHERE match_id = ?;";
+		String sql = "DELETE FROM competitorstatistics WHERE MATCH_ID = ?;";
 		jdbcTemplate.update(sql, new Object[] { matchId });
 	}
 }

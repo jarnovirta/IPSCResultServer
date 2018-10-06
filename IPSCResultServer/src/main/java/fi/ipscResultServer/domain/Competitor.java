@@ -61,8 +61,6 @@ public class Competitor {
 	@JsonProperty("sh_sqd")
 	private int squad;
 	
-	private boolean dnf;
-	
 	public Long getId() {
 		return id;
 	}
@@ -121,7 +119,6 @@ public class Competitor {
 
 	public void setDisqualified(boolean disqualified) {
 		this.disqualified = disqualified;
-		dnf = false;
 	}
 
 	public String getTeam() {
@@ -226,13 +223,4 @@ public class Competitor {
 		this.country = country;
 	}
 
-	public boolean isDnf() {
-		return dnf;
-	}
-
-	public void setDnf(boolean dnf) {
-		if (dnf && !this.disqualified) this.dnf = dnf;
-		else this.dnf = false;
-		
-	}
 }

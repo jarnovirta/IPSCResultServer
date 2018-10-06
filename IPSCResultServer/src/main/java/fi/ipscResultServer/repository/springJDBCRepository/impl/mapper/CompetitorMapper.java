@@ -13,20 +13,19 @@ import fi.ipscResultServer.domain.PowerFactor;
 public class CompetitorMapper implements RowMapper<Competitor> {
 	public Competitor mapRow(ResultSet rs, int rowNum) throws SQLException {
 		Competitor comp = new Competitor();
-		comp.setId(rs.getLong("id"));
-		comp.setDisqualified(rs.getBoolean("disqualified"));
-		comp.setDivision(rs.getString("division"));
-		comp.setFirstName(rs.getString("firstname"));
-		comp.setIpscAlias(rs.getString("ipscalias"));
-		comp.setLastName(rs.getString("lastname"));
-		comp.setPowerFactor(PowerFactor.values()[rs.getInt("powerfactor")]);
-		comp.setPractiScoreId(rs.getString("practiscoreid"));
-		comp.setShooterNumber(rs.getInt("shooternumber"));
-		comp.setSquad(rs.getInt("squad"));
-		comp.setTeam(rs.getString("team"));
-		comp.setMatchId(rs.getLong("match_id"));
-		comp.setCountry(rs.getString("country"));
-		comp.setDnf(rs.getBoolean("dnf"));
+		comp.setId(rs.getLong("ID"));
+		comp.setDisqualified(rs.getBoolean("DISQUALIFIED"));
+		comp.setDivision(rs.getString("DIVISION"));
+		comp.setFirstName(rs.getString("FIRSTNAME"));
+		comp.setIpscAlias(rs.getString("IPSCALIAS"));
+		comp.setLastName(rs.getString("LASTNAME"));
+		comp.setPowerFactor(PowerFactor.values()[rs.getInt("POWERFACTOR")]);
+		comp.setPractiScoreId(rs.getString("PRACTISCOREID"));
+		comp.setShooterNumber(rs.getInt("SHOOTERNUMBER"));
+		comp.setSquad(rs.getInt("SQUAD"));
+		comp.setTeam(rs.getString("TEAM"));
+		comp.setMatchId(rs.getLong("MATCH_ID"));
+		comp.setCountry(rs.getString("COUNTRY"));
 		return comp;
 	}
 }

@@ -59,6 +59,9 @@
 									${scoreCard.stage.stageNumber }
 								</td>
 								<td>
+									<c:if test="${scoreCard.dnf eq true }">
+			        					<c:set var="dnf" value="<span class='label label-info'>&nbsp&nbspDNF&nbsp&nbsp</span>" />
+			        				</c:if>
 									<c:choose>
 										<c:when test="${resultData.match.status eq 'SCORING_ENDED' }">
 											<c:url var="stageResultsUrl" value="/stageResults" >

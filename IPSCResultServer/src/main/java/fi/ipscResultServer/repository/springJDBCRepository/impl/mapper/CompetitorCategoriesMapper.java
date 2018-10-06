@@ -10,8 +10,8 @@ public class CompetitorCategoriesMapper implements RowMapper<Object[]>{
 	@Override
 	public Object[] mapRow(ResultSet rs, int rowNum) throws SQLException {
 		return new Object[] { 
-				rs.getLong("competitor_id"), 
-				rs.getString("categories") 
+				rs.getLong("COMPETITOR_ID"), 
+				rs.getString("CATEGORIES") 
 				};
 	}
 }

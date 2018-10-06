@@ -14,15 +14,15 @@ public class UserMapper implements RowMapper<User> {
 	@Override
 	public User mapRow(ResultSet rs, int row) throws SQLException {
 		User user = new User();
-		user.setId(rs.getLong("id"));
-		user.setEmail(rs.getString("email"));
-		user.setEnabled(rs.getBoolean("enabled"));
-		user.setFirstName(rs.getString("firstname"));
-		user.setLastName(rs.getString("lastname"));
-		user.setPassword(rs.getString("password"));
-		user.setPhone(rs.getString("phone"));
-		user.setRole(User.UserRole.valueOf(rs.getString("role")));
-		user.setUsername(rs.getString("username"));
+		user.setId(rs.getLong("ID"));
+		user.setEmail(rs.getString("EMAIL"));
+		user.setEnabled(rs.getBoolean("ENABLED"));
+		user.setFirstName(rs.getString("FIRSTNAME"));
+		user.setLastName(rs.getString("LASTNAME"));
+		user.setPassword(rs.getString("PASSWORD"));
+		user.setPhone(rs.getString("PHONE"));
+		user.setRole(User.UserRole.valueOf(rs.getString("ROLE")));
+		user.setUsername(rs.getString("USERNAME"));
 		return user;
 	}
 }

@@ -52,11 +52,6 @@ public class CompetitorServiceImpl implements CompetitorService {
 		return competitorRepository.getIdByPractiScoreReferences(competitorPractiScoreId, matchPractiScoreId);
 	}
 	
-	@Transactional
-	public void setDnf(Long competitorId) {
-		competitorRepository.setDnf(competitorId);
-	}
-	
 	private List<Competitor> setCategories(List<Competitor> competitors) {
 		Set<Long> idList = new HashSet<Long>();
 		for (Competitor comp : competitors) {

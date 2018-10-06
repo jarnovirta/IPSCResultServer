@@ -40,11 +40,11 @@ public class CompetitorRepositoryImpl implements CompetitorRepository {
 		return jdbcTemplate.queryForObject(sql, new Object[] { id }, new CompetitorMapper());
 	}
 	public void save(final List<Competitor> competitors) {
-		String insertCompetitorSql = "INSERT INTO competitor (disqualified, division, firstname, ipscalias, lastname"
-				+ ", powerfactor, practiscoreid, shooternumber, squad, team, country, match_id)"
+		String insertCompetitorSql = "INSERT INTO competitor (DISQUALIFIED, DIVISION, FIRSTNAME, IPSCALIAS, LASTNAME"
+				+ ", POWERFACTOR, PRACTISCOREID, SHOOTERNUMBER, SQUAD, TEAM, COUNTRY, MATCH_ID)"
 	      		+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 		
-		String insertCompetitorCategoriesSql = "INSERT INTO competitor_categories (competitor_id, categories)"
+		String insertCompetitorCategoriesSql = "INSERT INTO competitor_categories (COMPETITOR_ID, CATEGORIES)"
 				+ " VALUES (?, ?);";
 		
 		for (Competitor competitor : competitors) {
@@ -52,7 +52,7 @@ public class CompetitorRepositoryImpl implements CompetitorRepository {
 			jdbcTemplate.update(new PreparedStatementCreator() {
 				@Override
 				public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
-					PreparedStatement ps = connection.prepareStatement(insertCompetitorSql, new String[] { "id" });
+					PreparedStatement ps = connection.prepareStatement(insertCompetitorSql, new String[] { "ID" });
 					ps.setBoolean(1, competitor.isDisqualified());
 					ps.setString(2, competitor.getDivision());
 					ps.setString(3, competitor.getFirstName());
@@ -82,7 +82,7 @@ public class CompetitorRepositoryImpl implements CompetitorRepository {
 
 	public List<Competitor> findByMatch(Long matchId) {
 		try {
-			String query = "SELECT * FROM competitor WHERE match_id = ? ORDER BY UPPER(TRIM(lastname)) ASC";
+			String query = "SELECT * FROM competitor WHERE MATCH_ID = ? ORDER BY UPPER(TRIM(LASTNAME)) ASC";
 			return jdbcTemplate.query(query, new Object[] { matchId }, new CompetitorMapper());
 		}
 		catch (EmptyResultDataAccessException e) {
@@ -91,7 +91,7 @@ public class CompetitorRepositoryImpl implements CompetitorRepository {
 	}
 	public List<Competitor> findByMatchAndDivision(Long matchId, String division) {
 		try {
-			String query = "SELECT * FROM competitor WHERE match_id = ? AND division = ? ORDER BY UPPER(TRIM(lastname)) ASC";
+			String query = "SELECT * FROM competitor WHERE MATCH_ID = ? AND DIVISION = ? ORDER BY UPPER(TRIM(LASTNAME)) ASC";
 			return jdbcTemplate.query(query, new Object[] { matchId, division }, new CompetitorMapper());
 		}
 		catch (EmptyResultDataAccessException e) {
@@ -99,16 +99,16 @@ public class CompetitorRepositoryImpl implements CompetitorRepository {
 		}
 	}
 	public void deleteByMatch(Long matchId) {
-		String query = "DELETE cc FROM competitor_categories cc INNER JOIN competitor c ON cc.competitor_id = c.id WHERE c.match_id = ?;";
+		String query = "DELETE cc FROM competitor_categories cc INNER JOIN competitor c ON cc.COMPETITOR_ID = c.id WHERE c.MATCH_ID = ?;";
 		jdbcTemplate.update(query, new Object[] { matchId });
-		query = "DELETE FROM competitor WHERE match_id = ?;";
+		query = "DELETE FROM competitor WHERE MATCH_ID = ?;";
 		jdbcTemplate.update(query, new Object[] { matchId });
 	}
 	
 	public Competitor findByPractiScoreReferences(String matchPractiScoreId, String competitorPractiScoreId) {
 		try {
 			String sql = "SELECT * FROM competitor c "
-					+ "INNER JOIN ipscmatch m ON c.match_id = m.id "
+					+ "INNER JOIN ipscmatch m ON c.MATCH_ID = m.ID "
 					+ "WHERE m.practiscoreid = ? AND c.practiscoreid = ?";
 			return jdbcTemplate.queryForObject(sql, new Object[] { matchPractiScoreId, competitorPractiScoreId }, 
 					new CompetitorMapper());
@@ -123,7 +123,7 @@ public class CompetitorRepositoryImpl implements CompetitorRepository {
 		MapSqlParameterSource parameters = new MapSqlParameterSource();
 		parameters.addValue("ids", competitorIds);
 
-		String sql = "SELECT * FROM competitor_categories WHERE competitor_id IN (:ids)";
+		String sql = "SELECT * FROM competitor_categories WHERE COMPETITOR_ID IN (:ids)";
 
 		NamedParameterJdbcTemplate template = 
 			    new NamedParameterJdbcTemplate(jdbcTemplate.getDataSource());
@@ -132,14 +132,9 @@ public class CompetitorRepositoryImpl implements CompetitorRepository {
 	
 	public Long getIdByPractiScoreReferences(String competitorPractiScoreId, String matchPractiScoreId) {
 		String sql = "SELECT c.id FROM competitor c "
-				+ "INNER JOIN ipscmatch m ON c.match_id = m.id "
-				+ "WHERE m.practiscoreid = ? AND c.practiscoreid = ?";
+				+ "INNER JOIN ipscmatch m ON c.MATCH_ID = m.ID "
+				+ "WHERE m.PRACTISCOREID = ? AND c.PRACTISCOREID = ?";
 		return jdbcTemplate.queryForObject(sql, new Object[] { matchPractiScoreId, competitorPractiScoreId }, 
 				Long.class);		
-	}
-	
-	public void setDnf(Long competitorId) {
-		String sql = "UPDATE competitor SET dnf = 1 WHERE id = ?";
-		jdbcTemplate.update(sql, new Object[] { competitorId });
 	}
 }

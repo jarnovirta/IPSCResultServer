@@ -15,7 +15,6 @@ import fi.ipscResultServer.domain.Stage;
 import fi.ipscResultServer.domain.practiScore.PractiScoreMatchData;
 import fi.ipscResultServer.domain.practiScore.PractiScoreStageScore;
 import fi.ipscResultServer.exception.DatabaseException;
-import fi.ipscResultServer.service.CompetitorService;
 import fi.ipscResultServer.service.MatchService;
 import fi.ipscResultServer.service.PractiScoreDataService;
 import fi.ipscResultServer.service.ScoreCardService;
@@ -27,10 +26,7 @@ public class PractiScoreDataServiceImpl implements PractiScoreDataService {
 	
 	@Autowired
 	private ScoreCardService scoreCardService;
-	
-	@Autowired
-	private CompetitorService competitorService;
-	
+
 	
 	public void save(PractiScoreMatchData matchData) throws DatabaseException {
 		Match match = matchData.getMatch();
@@ -52,7 +48,6 @@ public class PractiScoreDataServiceImpl implements PractiScoreDataService {
 			setReferencesInScoreCards(scoreCards, stage, match);
 			scoreCards = removeCardsForInvalidStagesAndCompetitors(scoreCards);
 			setHitsDataInScoreCards(scoreCards);
-			setDnfForCompetitors(scoreCards);
 			Collections.sort(scoreCards);
 			for (String division : match.getDivisions()) {
 				setStageResultDataInScoreCards(scoreCards, stage, division);
@@ -70,15 +65,10 @@ public class PractiScoreDataServiceImpl implements PractiScoreDataService {
 		for (ScoreCard scoreCard : cards) scoreCard.setHitsAndPoints();
 	}
 	
-	private void setDnfForCompetitors(List<ScoreCard> cards) {
-		for (ScoreCard scoreCard : cards) {
-			if (scoreCard.isDnf()) competitorService.setDnf(scoreCard.getCompetitor().getId());
-		}
-	}
-	
 	private void setStageResultDataInScoreCards(List<ScoreCard> cards, Stage stage, String division) {
 		double topHitFactor = -1;
 		double topPoints = -1;
+		int rank = 1;
 		for (ScoreCard scoreCard : cards) {
 			// Skip competitors in other divisions unless setting result data for combined division. Also skip disqualified competitors
 			if (scoreCard.getCompetitor().isDisqualified()
@@ -103,6 +93,7 @@ public class PractiScoreDataServiceImpl implements PractiScoreDataService {
 			else {
 				scoreCard.setStagePoints(points);
 				scoreCard.setScorePercentage(scorePercentage);
+				scoreCard.setStageRank(rank++);
 			}
 		}
 	}

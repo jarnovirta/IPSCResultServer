@@ -31,7 +31,7 @@ public class StageRepositoryImpl implements StageRepository {
 	
 	public Stage getOne(Long id) {
 		try {
-			String sql = "SELECT * FROM stage WHERE id = ?";
+			String sql = "SELECT * FROM stage WHERE ID = ?";
 			return jdbcTemplate.queryForObject(sql, new Object[]{ id }, new StageMapper());
 		}
 		catch (EmptyResultDataAccessException e) {
@@ -39,7 +39,7 @@ public class StageRepositoryImpl implements StageRepository {
 		}
 	}
 	public void save(List<Stage> stages) {
-		String query = "INSERT INTO stage (name, maxpoints, practiscoreid, stagenumber, match_id, stages_order)"
+		String query = "INSERT INTO stage (NAME, MAXPOINTS, PRACTISCOREID, STAGENUMBER, MATCH_ID, STAGES_ORDER)"
 	      		+ " VALUES (?, ?, ?, ?, ?, ?);";
 		
 		jdbcTemplate.batchUpdate(query, new BatchPreparedStatementSetter() {
@@ -62,8 +62,8 @@ public class StageRepositoryImpl implements StageRepository {
 	public Stage findByPractiScoreReference(String matchPractiScoreId, String stagePractiScoreId) {
 		try {
 			String query = "SELECT * FROM stage s"
-					+ " INNER JOIN ipscmatch m ON s.match_id = m.id"
-					+ " WHERE s.practiscoreid = ? AND m.practiscoreid = ?;";
+					+ " INNER JOIN ipscmatch m ON s.MATCH_ID = m.ID"
+					+ " WHERE s.practiscoreid = ? AND m.PRACTISCOREID = ?;";
 			return jdbcTemplate.queryForObject(query, new Object[] { stagePractiScoreId, 
 					matchPractiScoreId }, new StageMapper());
 		}
@@ -77,18 +77,18 @@ public class StageRepositoryImpl implements StageRepository {
 	}
 	
 	public List<Stage> findByMatch(Long matchId) {
-		String query = "SELECT * FROM stage WHERE match_id = ? ORDER BY stages_order";
+		String query = "SELECT * FROM stage WHERE MATCH_ID = ? ORDER BY STAGES_ORDER";
 		return jdbcTemplate.query(query, new Object[] { matchId }, new StageMapper());
 	}
 	@Transactional
 	public void deleteByMatch(Long matchId) {
-		String query = "DELETE FROM stage WHERE match_id = ?";
+		String query = "DELETE FROM stage WHERE MATCH_ID = ?";
 		jdbcTemplate.update(query, new Object[] { matchId }); 
 	}
 	public Long getIdByPractiScoreReference(String matchPractiScoreId, String stagePractiScoreId) {
 		String sql = "SELECT s.id FROM stage s"
-				+ " INNER JOIN ipscmatch m ON s.match_id = m.id"
-				+ " WHERE s.practiscoreid = ? and m.practiscoreid = ?;";
+				+ " INNER JOIN ipscmatch m ON s.MATCH_ID = m.ID"
+				+ " WHERE s.PRACTISCOREID = ? and m.PRACTISCOREID = ?;";
 		return jdbcTemplate.queryForObject(sql, new Object[] { stagePractiScoreId, matchPractiScoreId }, Long.class);
 	}
 }

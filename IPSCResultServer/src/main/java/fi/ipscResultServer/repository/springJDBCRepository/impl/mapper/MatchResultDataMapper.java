@@ -12,8 +12,8 @@ public class MatchResultDataMapper implements RowMapper<MatchResultData> {
 	@Override
 	public MatchResultData mapRow(ResultSet rs, int rowNum) throws SQLException {
 		MatchResultData data = new MatchResultData();
-		data.setId(rs.getLong("id"));
-		data.setDivision(rs.getString("division"));
+		data.setId(rs.getLong("ID"));
+		data.setDivision(rs.getString("DIVISION"));
 		return data;
 	}
 }
