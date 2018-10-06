@@ -70,13 +70,13 @@ public class PractiScoreDataServiceImpl implements PractiScoreDataService {
 		for (ScoreCard scoreCard : cards) scoreCard.setHitsAndPoints();
 	}
 	
-	public void setDnfForCompetitors(List<ScoreCard> cards) {
+	private void setDnfForCompetitors(List<ScoreCard> cards) {
 		for (ScoreCard scoreCard : cards) {
 			if (scoreCard.isDnf()) competitorService.setDnf(scoreCard.getCompetitor().getId());
 		}
 	}
 	
-	public void setStageResultDataInScoreCards(List<ScoreCard> cards, Stage stage, String division) {
+	private void setStageResultDataInScoreCards(List<ScoreCard> cards, Stage stage, String division) {
 		double topHitFactor = -1;
 		double topPoints = -1;
 		for (ScoreCard scoreCard : cards) {
@@ -128,7 +128,6 @@ public class PractiScoreDataServiceImpl implements PractiScoreDataService {
 		List<ScoreCard> resultCards = new ArrayList<ScoreCard>();
 		for (ScoreCard card : cards) {
 			// Remove cards if competitor or stage has been deleted
-
 			if (card.getCompetitor() != null && !card.getCompetitor().isDeleted() && card.getStage() != null) {
 				resultCards.add(card);
 			}

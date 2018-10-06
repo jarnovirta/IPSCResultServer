@@ -2,9 +2,6 @@ package fi.ipscResultServer.repository.springJDBCRepository.impl;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -14,10 +11,7 @@ import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import fi.ipscResultServer.domain.Constants;
-import fi.ipscResultServer.domain.Match;
 import fi.ipscResultServer.domain.ScoreCard;
-import fi.ipscResultServer.domain.Stage;
 import fi.ipscResultServer.domain.statistics.CompetitorStatistics;
 import fi.ipscResultServer.repository.springJDBCRepository.ScoreCardRepository;
 import fi.ipscResultServer.repository.springJDBCRepository.impl.mapper.ScoreCardMapper;
@@ -63,102 +57,6 @@ public class ScoreCardRepositoryImpl implements ScoreCardRepository {
 	
 	@Autowired
 	ScoreCardService cardService;
-	
-	private void calculateScores(List<ScoreCard> cards) {
-		
-	}
-	
-	private List<ScoreCard> getCardsForDivision(List<ScoreCard> cards, String division) {
-		List<ScoreCard> resultCards = new ArrayList<ScoreCard>();
-		for (ScoreCard card : cards) if (card.getCompetitor().getDivision().equals(division)) resultCards.add(card);
-		return resultCards;
-	}
-	
-	private List<ScoreCard> setDivisionCards(Stage stage, String division) {
-		List<ScoreCard> resultList = new ArrayList<ScoreCard>();
-			
-			List<ScoreCard> cards = cardService.findByStageAndDivision(stage.getId(), division, true);
-			resultList.addAll(cards);	
-			
-			System.out.println("Stage: " + stage.getName() + " division: " + division + " card count: " + cards.size());
-			psDataService.setDnfForCompetitors(cards);
-			Collections.sort(cards);
-			
-			psDataService.setStageResultDataInScoreCards(cards, stage, division);
-			updateCards(cards);
-		return resultList;
-	}
-	
-	
-	public void migrate() {
-		List<Match> matchList = matchService.findAll();
-		
-		for (Match match : matchList) {
-			if (!match.getName().equals("Haurin Kinkkukisa 2017")) continue;
-			System.out.println("\n**** MATCH: " + match.getName());
-			List<Stage> stages = stageService.findByMatch(match.getId());
-			List<String> divisions = getDivisionsWithResults(match.getId());
-			for (String division : divisions) {
-				for (Stage stage : stages) {
-					setDivisionCards(stage, division);
-				}
-				
-			}
-			if (divisions.size() > 1) {
-				System.out.println("\n*** SETTING COMBINED");
-				for (Stage stage : stages) {
-					setDivisionCards(stage, Constants.COMBINED_DIVISION);
-					
-				}
-			}
-		}
-	}
-	
-	private void updateCards(List<ScoreCard> cards) {
-		Statement statement = null;
-		try {
-			statement = jdbcTemplate.getDataSource().getConnection().createStatement();
-			for (ScoreCard card : cards) {
-			statement.addBatch("UPDATE scorecard SET stagepoints = " + card.getStagePoints() 
-			+ ", combineddivisionstagepoints = " + card.getCombinedDivisionStagePoints() 
-			+ ", scorepercentage = " + card.getScorePercentage() 
-			+ ", combineddivisionscorepercentage = " + card.getCombinedDivisionScorePercentage()
-			+ " WHERE stage_id = " + card.getStageId() + " AND competitor_id = " + card.getCompetitorId());
-			}
-			statement.executeBatch();
-		
-		} 
-		catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		finally {
-			try {
-			    if(statement != null) statement.close();
-			}
-			catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-			
-	
-	}
-//		String sql = "SELECT match_id, competitors_id FROM ipscmatch_competitor";
-//		try {
-//			Statement statement = jdbcTemplate.getDataSource().getConnection().createStatement();
-//			ResultSet rs = statement.executeQuery(sql);
-//			List<Long[]> idList = new ArrayList<Long[]>();
-//			while (rs.next()) {
-//				idList.add(new Long[] { rs.getLong("Match_ID"), rs.getLong("competitors_id") });
-//				}
-//			
-//			for (Long[] ids : idList) {
-//				sql = "UPDATE competitor SET match_id = " + ids[0] + " WHERE id = " + ids[1];
-//				int count = statement.executeUpdate(sql);
-//				System.out.println("updated " + count + " competitors");
-//			}
-//		}
-//		catch (Exception e) { e.printStackTrace();}
 	
 	public void deleteByMatch(Long matchId) {
 		String query = "DELETE sc FROM scorecard sc INNER JOIN stage s ON sc.stage_id = s.id WHERE s.match_id = ?";
