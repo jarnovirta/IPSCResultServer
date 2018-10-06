@@ -9,7 +9,11 @@ Live result service menee rikki tulosdatan latauksen aikana -> javascript niin e
  
 DQ kisaaja: Ei lainkaan dataa match analysis sivulla
 
+<<<<<<< HEAD
 Subminor huomioiminen. NÃ¤kyy taulukoissa Production-. Onko varma ettÃ¤ suljettu tuloksista?
+=======
+Käyttäjät: organisaatio, eli voi kirjautua etu- sukunimi tai organisaatio
+>>>>>>> branch 'master' of https://github.com/jarnovirta/IPSCResultServer.git
 
 - Chrono stage: pitÃƒÂ¤ÃƒÂ¤ tehdÃƒÂ¤ palvelimelle!! PractiScoressa "Actual" pf -> voidaan muuttaa chrono stagessa.
 
