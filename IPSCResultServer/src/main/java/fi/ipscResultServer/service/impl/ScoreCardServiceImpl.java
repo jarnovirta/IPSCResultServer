@@ -42,9 +42,12 @@ public class ScoreCardServiceImpl implements ScoreCardService {
 		return cards;	
 	}
 
-	public List<ScoreCard> findByStageAndDivision(Long stageId, String division) {
-		if (division.equals(Constants.COMBINED_DIVISION)) return scoreCardRepository.findByStage(stageId);
-		else return scoreCardRepository.findByStageAndDivision(stageId, division);
+	public List<ScoreCard> findByStageAndDivision(Long stageId, String division, boolean eager) {
+		List<ScoreCard> cards;
+		if (division.equals(Constants.COMBINED_DIVISION)) cards = scoreCardRepository.findByStage(stageId);
+		else cards = scoreCardRepository.findByStageAndDivision(stageId, division);
+		if (eager) setReferencedInstances(cards);
+		return cards;
 	}
 	
 	public List<CompetitorStatistics> getStatistics(Long matchId, String division) {

@@ -35,7 +35,7 @@ public class StageResultDataServiceImpl implements StageResultDataService {
 		Stage stage = stageService.getOne(stageService.getIdByPractiScoreReference(matchPractiScoreId, stagePractiScoreId));
 		Long matchId = matchService.getIdByPractiScoreId(matchPractiScoreId);
 		stage.setMatch(matchService.getOne(matchId, true));
-		List<ScoreCard> cards = scoreCardService.findByStageAndDivision(stage.getId(), division);
+		List<ScoreCard> cards = scoreCardService.findByStageAndDivision(stage.getId(), division, false);
 		setCompetitorsToCards(cards, stage.getMatch().getCompetitors());
 		finalizeResultDataForView(cards, division);
 		

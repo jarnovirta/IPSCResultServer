@@ -88,7 +88,7 @@ public class MatchRepositoryImpl implements MatchRepository{
 		}
 	}
 	public List<Match> findAll() {
-		String query = "SELECT * FROM ipscmatch";
+		String query = "SELECT * FROM ipscmatch ORDER BY date DESC";
 		return jdbcTemplate.query(query, new MatchMapper());
 	}
 	
