@@ -25,7 +25,7 @@
 				</div>
 				<br><br>
 				<form action="${pageContext.request.contextPath}/login" method="POST">
-					<label for="userName">User name: </label>
+					<label for="userName">Username: </label>
 					<br>
 					<input name="username" type="text" id="username" style="width: 15em; max-width: 100%" />
 					<br><br>

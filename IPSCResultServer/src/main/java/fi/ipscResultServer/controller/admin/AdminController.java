@@ -19,7 +19,6 @@ import fi.ipscResultServer.domain.MatchStatus;
 import fi.ipscResultServer.domain.User;
 import fi.ipscResultServer.service.MatchService;
 import fi.ipscResultServer.service.UserService;
-
 @Controller
 @RequestMapping("/admin")
 @SessionAttributes("user")
