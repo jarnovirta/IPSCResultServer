@@ -396,18 +396,10 @@ function updateStageResultsTable(tableClass, competitorData) {
 	var dataSet = [];
 	$.each(match.match_stages, function(index, stage) {
 		var card = getScoreCardByStageId(competitorData.scoreCards, stage.id)
-		var stageResultsPath = "${baseUrl}stageResults?matchId="
-			+ match.match_id
-			+ "&stageId="
-			+ stage.stage_uuid
-			+ "&division="
-			+ competitorData.competitor.sh_dvp;
-		var stageName = stage.stage_number + ": " + stage.stage_name;
-		var stage = "<a href='" + stageResultsPath + "'>"+ stageName + "</a>";
 		var data;
 		if (card != null) {
 			data = [
-				"<a href='" + stageResultsPath + "'>"+ stageName + '</a>',
+				getStageNameCellText(stage, competitorData.competitor.sh_dvp),
 				card.aHits,
 				card.cHits,
 				card.dHits,
@@ -472,25 +464,17 @@ function updateErrorCostAnalysisTable(tableClass, competitorData) {
 	$.each(match.match_stages, function(index, stage) {
 		var line = getErrorCostTableLineByStageId(competitorData.errorCostTableLines, stage.id);
 		var card = getScoreCardByStageId(competitorData.scoreCards, stage.id);
-		var stageResultsPath = "${baseUrl}stageResults?matchId="
-			+ match.match_id
-			+ "&stageId="
-			+ stage.stage_uuid
-			+ "&division="
-			+ competitorData.competitor.sh_dvp;
-		var stageName = card.stage.stage_number + ": " 
-			+ card.stage.stage_name;
 		var aTime;
 		var errorCosts;
 		var stageValue = "-";
 		var time = "-";
-		if (line != null && card.hitFactor > 0) {
+		if (line != null && card != null && card.hitFactor > 0) {
 			aTime = line.aTime;
 			errorCosts = "C=" + line.cCost.toString().replace(".", ",");
 			errorCosts +=" / D=" + line.dCost.toString().replace(".", ",");
 			errorCosts +=" / NS=" + line.proceduralPenaltyAndNoShootCost.toString().replace(".", ",");
 			errorCosts +=" / Miss=" + line.missCost.toString().replace(".", ",");
-			stageValue = card.stage.maxPoints + " (" + line.stageValuePercentage + "%)";
+			stageValue = stage.maxPoints + " (" + line.stageValuePercentage + "%)";
 			time = card.time;
 		}
 		else {
@@ -499,7 +483,7 @@ function updateErrorCostAnalysisTable(tableClass, competitorData) {
 		}
 		
 		dataSet[index] = [
-			"<a href='" + stageResultsPath + "'>"+ stageName + '</a>',
+			getStageNameCellText(stage, competitorData.competitor.sh_dvp),
 			stageValue,
 			time,
 			aTime,
@@ -513,9 +497,24 @@ function updateErrorCostAnalysisTable(tableClass, competitorData) {
 			table.rows.add(dataSet);
 			table.draw();
 		}
+		
 	});
 }
 
+function getStageNameCellText(stage, division) {
+	var result;
+	var stageResultsPath = "${baseUrl}stageResults?matchId="
+		+ match.match_id
+		+ "&stageId="
+		+ stage.stage_uuid
+		+ "&division="
+		+ division;
+	var stageName = stage.stage_number + ": " 
+		+ stage.stage_name;
+	result = "<a href='" + stageResultsPath + "'>"+ stageName + '</a>';
+	
+	return result;
+}
 function drawAccuracyPieChart(chartId, competitorData) {
 	if (competitorData == null || competitorData.scoreCards == null) return;
 	var data = google.visualization.arrayToDataTable([
@@ -565,16 +564,15 @@ function drawPercentByStageChart() {
 		var competitorCard = getScoreCardByStageId(competitorMatchAnalysisData.scoreCards, stage.id);
 		var compareToCompetitorCard = getScoreCardByStageId(compareToCompetitorMatchAnalysisData.scoreCards, stage.id);
 		
-		var competitorPercentage;
-		var compareToCompetitorPercentage;
-		if (combinedResults = true) {
-			competitorPercentage = competitorCard.combinedDivisionScorePercentage;
-			compareToCompetitorPercentage = compareToCompetitorCard.combinedDivisionScorePercentage;
-		}
-		else {
-			competitorPercentage = competitorCard.scorePercentage;
-			compareToCompetitorPercentage = compareToCompetitorCard.scorePercentage;
-		}
+		var percentageField = "scorePercentage";
+		if (combinedResults == true) percentageField = "combinedDivisionScorePercentage";
+		
+		var competitorPercentage = null;
+		var compareToCompetitorPercentage = null;
+		
+		if (competitorCard != null) competitorPercentage = competitorCard[percentageField];
+		if (compareToCompetitorCard != null) compareToCompetitorPercentage = compareToCompetitorCard[percentageField];
+		
 		rows[index] = [stage.stage_number.toString(), competitorPercentage, compareToCompetitorPercentage];
 	});
 
@@ -611,6 +609,7 @@ function drawTimeByStageChart() {
 		
 		if (competitorCard != null) competitorTime = competitorCard.time;
 		if (compareToCompetitorCard != null) compareToCompetitorTime = compareToCompetitorCard.time;
+		
 		rows[index] = [stage.stage_number.toString(), competitorTime,
 			compareToCompetitorTime];
 	});

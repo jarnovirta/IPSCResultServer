@@ -48,6 +48,7 @@
 							</thead>
 							
 							<tbody>
+								
 								<c:forEach var="match" items="${matches}">
 									<c:if test="${match.status ne 'CLOSED' }">
 										<tr>

@@ -11,52 +11,68 @@
 		<jsp:include page="/WEB-INF/jsp/include/headTag.jsp" />
 		<jsp:include page="/WEB-INF/jsp/include/dataTablesHeadTagLinks.jsp" />
 	</head>
+	
 	<body class="liveResultService">
 	<div id="wrap">
 		<div class="container">
+		
+			<c:url var="nextPageUrl" value="/live/nextPage">
+				<c:param name="matchId" value="${matchPractiScoreId }" />
+				<c:if test="${not empty stagePractiScoreId }">
+					<c:param name="previousStagePractiScoreId" value="${stagePractiScoreId }" />
+					<c:param name="previousDivision" value="${division }" />
+				</c:if>
+			</c:url>
 			<%@ include file="/WEB-INF/jsp/results/liveResultService/liveResultServicePageHeader.jsp" %>
-			<div class="liveResultServiceResultsTable">
-				<%@ include file="/WEB-INF/jsp/results/stageResults/stageResultsTable.jsp" %>
+			<c:choose>
+				<c:when test="${stageResultData != null }">
+
+					<div class="liveResultServiceResultsTable">
+						<%@ include file="/WEB-INF/jsp/results/stageResults/stageResultsTable.jsp" %>
+					</div>
+
+					<jsp:include page="/WEB-INF/jsp/include/footer.jsp" />
+
+					<script>
+						$(document).ready(function() {
+							$('#stageResultTable').dataTable( {
+								paging: true,
+								searching: false,
+								info: false,
+								pageLength: Number('${config.resultTableRows}'),
+								lengthChange: false
+							});
+								
+							var tablePage = 0;
+							setInterval(function() { 
+								var resultTable = $('#stageResultTable').DataTable();
+								tablePage++;
+								
+								if (tablePage + 1 > Number(resultTable.page.info().pages)) {
+									location.replace('${nextPageUrl}');
+								}
+								else 
+								{
+									resultTable.page(tablePage).draw('page');
+								}
+							}, 1000 * Number('${config.pageChangeInterval}'));
+									
+						} );
+						</script>  
+					</c:when>
+					<c:otherwise>
+						<div id="loader"></div>
+						<script>
+						$(document).ready(function() {
+							setInterval(function() { 
+								location.replace('${nextPageUrl}');
+								
+							}, 3000);
+						});
+						</script>
+					</c:otherwise>
+				</c:choose>
 			</div>
 		</div>
-	</div>
-<jsp:include page="/WEB-INF/jsp/include/footer.jsp" />
-
-<c:url var="nextPageUrl" value="/live/nextPage">
-	<c:param name="matchId" value="${stageResultData.stage.match.practiScoreId }" />
-	<c:param name="previousStagePractiScoreId" value="${stageResultData.stage.practiScoreId }" />
-	<c:param name="previousDivision" value="${stageResultData.division }" />
-	
-</c:url>
-
-<script>
-	$(document).ready(function() {
-		$('#stageResultTable').dataTable( {
-			paging: true,
-			searching: false,
-			info: false,
-			pageLength: Number('${config.resultTableRows}'),
-			lengthChange: false
-		});
-			
-			var tablePage = 0;
-			setInterval(function(){ 
-				var resultTable = $('#stageResultTable').DataTable();
-				tablePage++;
-				
-				if (tablePage + 1 > Number(resultTable.page.info().pages)) {
-					location.replace('${nextPageUrl}');
-				}
-				else 
-				{
-					resultTable.page(tablePage).draw('page');
-				}
-			}, 1000 * Number('${config.pageChangeInterval}'));
-				
-	} );
-
-</script>  
-
-
-</body>
+	</body>
 </html>

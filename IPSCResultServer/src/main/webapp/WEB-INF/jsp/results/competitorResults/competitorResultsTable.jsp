@@ -59,22 +59,16 @@
 									${scoreCard.stage.stageNumber }
 								</td>
 								<td>
-									<c:if test="${scoreCard.dnf eq true }">
+<%-- 									<c:if test="${scoreCard.dnf eq true }">
 			        					<c:set var="dnf" value="<span class='label label-info'>&nbsp&nbspDNF&nbsp&nbsp</span>" />
 			        				</c:if>
-									<c:choose>
-										<c:when test="${resultData.match.status eq 'SCORING_ENDED' }">
-											<c:url var="stageResultsUrl" value="/stageResults" >
-												<c:param name="matchId" value="${resultData.match.practiScoreId}" />
-												<c:param name="stageId" value="${scoreCard.stage.practiScoreId}" />
-												<c:param name="division" value="${scoreCard.competitor.division }" />
-											</c:url>
-											<a href="${stageResultsUrl}">${scoreCard.stage.name}</a>
-										</c:when>
-										<c:otherwise>
-											${scoreCard.stage.name}
-										</c:otherwise>
-									</c:choose>
+ --%>								
+									<c:url var="stageResultsUrl" value="/stageResults" >
+										<c:param name="matchId" value="${resultData.match.practiScoreId}" />
+										<c:param name="stageId" value="${scoreCard.stage.practiScoreId}" />
+										<c:param name="division" value="${scoreCard.competitor.division }" />
+									</c:url>
+									<a href="${stageResultsUrl}">${scoreCard.stage.name}</a>
 								</td>
 
 								<td align="right">
