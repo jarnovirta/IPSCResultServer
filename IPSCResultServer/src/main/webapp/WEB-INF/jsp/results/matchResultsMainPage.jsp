@@ -75,7 +75,7 @@
 									<c:forEach var="stage" items="${match.stages}">
 										<tr>
 											<td style="width: 50%">
-												${stage.name}
+												${stage.stageNumber }. ${stage.name}
 											</td>
 											<td style="width: 50%">
 												<c:set var="divisionsSize" value="${fn:length(match.divisionsWithResults) }" />
@@ -100,12 +100,24 @@
 						<hr />
 		
 						<h4><b>Verify List:</b></h4>
-						<div style="max-width: 470px">
+						<div style="max-width: 750px">
 							<table class="table table-striped table-bordered" id="competitorTable">
 								<thead>
 									<tr>
 										<th>
-											Competitor
+											Competitor (${fn:length(match.competitors)})
+										</th>
+										<th>
+											Division
+										</th>
+										<th>
+											Category
+										</th>
+										<th>
+											Country
+										</th>
+										<th>
+											Team
 										</th>
 									</tr>
 								</thead>
@@ -121,6 +133,26 @@
 													${competitor.lastName }, ${competitor.firstName} 
 												</a>
 											</td>
+											<td align="center">
+												<c:if test="${competitor.powerFactor eq  'MINOR'}">
+													<c:set var="pf" value="-" />
+												</c:if>
+												<c:if test="${competitor.powerFactor eq  'MAJOR'}">
+													<c:set var="pf" value="+" />
+												</c:if>
+												${competitor.division }${pf }
+											</td>
+											<td align="center">
+												<c:forEach items = "${competitor.categories}" var = "category">
+													${category}
+												</c:forEach>
+											</td>
+											<td>
+		        								${competitor.country }
+		        							</td>
+											<td>
+		        								${competitor.team }
+		        							</td>
 										</tr>		
 									</c:forEach>
 								</tbody>
@@ -147,7 +179,7 @@
 				$('#competitorTable').DataTable( {
 					paging: false,
 					searching: true,
-					sort: false,
+					sort: true,
 					info: false
 				});
 			} );

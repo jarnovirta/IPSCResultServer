@@ -52,7 +52,7 @@ public class CompetitorServiceImpl implements CompetitorService {
 		return competitorRepository.getIdByPractiScoreReferences(competitorPractiScoreId, matchPractiScoreId);
 	}
 	
-	private List<Competitor> setCategories(List<Competitor> competitors) {
+	public List<Competitor> setCategories(List<Competitor> competitors) {
 		Set<Long> idList = new HashSet<Long>();
 		for (Competitor comp : competitors) {
 			idList.add(comp.getId());

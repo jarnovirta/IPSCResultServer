@@ -83,7 +83,7 @@
 										<c:set var="pf" value="+" />
 									</c:if>
 									${card.competitor.division }${pf }
-									</td>
+								</td>
 								</tr> 
 							</c:forEach>
 						</tbody>
