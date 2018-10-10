@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
@@ -77,11 +77,8 @@
 						</div>	
 					</c:if>
 			</div>
-		
-		<jsp:include page="/WEB-INF/jsp/include/footer.jsp" />
-		
-	</body>
-
+		</div>
+	<jsp:include page="/WEB-INF/jsp/include/footer.jsp" />
 	<script>
 		$(document).ready(function() {
 			$('#matchTable').DataTable( {
@@ -92,5 +89,8 @@
 			});
 		} );
 	</script>
+</body>
+
+
 	
 </html>

@@ -114,7 +114,7 @@
 					</c:if>
 			</c:forEach>
  			<tr>
-				<td />
+				<td></td>
 				<td align="right" style="font-weight:bold">
 					Total:
 				</td>
@@ -146,11 +146,11 @@
 				<td align="right">
 					<fmt:formatNumber type = "number" minFractionDigits = "4" maxFractionDigits = "4" value="${resultData.hitFactorSum}" />
 				</td>
-				<td />
+				<td></td>
 			</tr>
 			<tr>
-				<td />
-				<td />
+				<td></td>
+				<td></td>
 				<td align="right">
 					<fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${resultData.aHitsPercentage }" />%
 				</td>
@@ -163,14 +163,14 @@
 				<td align="right">
 					<fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${resultData.missPercentage }" />%
 				</td>
-				<td />
-				<td />
-				<td />
-				<td />
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
 				<td align="right">
 					Avg: <fmt:formatNumber type="number" minFractionDigits="4" maxFractionDigits="4" value="${resultData.hitFactorAverage }" />
 				</td>
-				<td />
+				<td></td>
 			</tr>												
 		</tbody>
 	</table>

@@ -42,7 +42,7 @@
 						${match.name }
 					</td>
 					<td>
-						<fmt:formatDate value="${match.date.time}" pattern="dd.MM.yyyy" />
+						<fmt:formatDate value="${match.date.time}" pattern="dd.MM.yyyy"></fmt:formatDate>
 					</td>
 					<td>
 						<h4 class="adminTableLabel">
@@ -77,8 +77,8 @@
 										<option value="${status }"><c:out value="${status }" /></option>
 									</c:if>
 								</c:forEach>
-								<input type="hidden" name="matchId" value="${match.id }" />
 							</select>
+							<input type="hidden" name="matchId" value="${match.id }">
 							<button class="btn btn-default adminTableStatusButton" type="submit">Set</button>	
 						</form>
 						

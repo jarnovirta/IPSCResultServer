@@ -178,11 +178,11 @@ function setCompetitorsByDivisionList() {
 	
 	competitorsByDivision = {};
 	$.each(match.match_cats, function(key, division) {
-		if (division != 'Combined' && !Object.keys(competitorsByDivision).includes(division)) competitorsByDivision[division] = [];
+		if (division != 'Combined' && (Object.keys(competitorsByDivision).indexOf(division) == -1)) competitorsByDivision[division] = [];
 	});
 	$.each(match.match_shooters, function(key, competitor) {
 		competitorsByDivision[competitor.sh_dvp].push(competitor);
-		if (Object.keys(competitorsByDivision).includes('Combined')) competitorsByDivision['Combined'].push(competitor);
+		if (Object.keys(competitorsByDivision).indexOf('Combined') > -1) competitorsByDivision['Combined'].push(competitor);
 	});
 	$.each(Object.keys(competitorsByDivision), function(key, division) {
 		competitorsByDivision[division].sort(sortAlphabetically);

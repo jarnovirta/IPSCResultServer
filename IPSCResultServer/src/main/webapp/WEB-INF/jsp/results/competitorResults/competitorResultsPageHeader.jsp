@@ -10,9 +10,9 @@
 			        		</td>
 			        		<td>
 			        			<c:if test="${resultData.competitor.disqualified eq true }">
-			        				<c:set var="dq" value="<span class='label label-danger'>&nbsp&nbspDQ&nbsp&nbsp</span>" />
+			        				<c:set var="dq" value="<span class='label label-danger'>&nbsp;&nbsp;DQ&nbsp;&nbsp;</span>" />
 			        			</c:if>
-			        			<b>${resultData.competitor.firstName } ${resultData.competitor.lastName } &nbsp ${dq } </b>
+			        			<b>${resultData.competitor.firstName } ${resultData.competitor.lastName } &nbsp; ${dq } </b>
 			        		</td>
 			        	</tr>
 			        	<tr>

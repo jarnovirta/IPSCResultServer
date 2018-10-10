@@ -54,7 +54,11 @@ public class StageResultDataServiceImpl implements StageResultDataService {
 	}
 	private void finalizeResultDataForView(List<ScoreCard> cards, String division) {
 		double topPoints = -1;
+		int rank = 1;
 		for (ScoreCard card : cards) {
+			// Competitor rank needs to be re-set to be correct for combined division. DB value is
+			// rank within division (used for match analysis page).
+			card.setStageRank(rank++);
 			// Set stage score to be shown in view
 			double stagePoints;
 			if (division.equals(Constants.COMBINED_DIVISION)) stagePoints =  card.getCombinedDivisionStagePoints();

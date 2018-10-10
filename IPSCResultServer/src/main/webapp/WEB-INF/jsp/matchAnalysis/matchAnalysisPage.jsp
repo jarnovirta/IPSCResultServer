@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
+<!DOCTYPE html>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix = "fn" uri = "http://java.sun.com/jsp/jstl/functions"  %>
@@ -42,7 +42,7 @@
 				
 				<div id="loader"></div>
 				
-				<div id="contentDiv" class="animate-bottom">
+				<div id="contentDiv" class="animate-bottom" style="display:none">
 					<%@ include file="/WEB-INF/jsp/matchAnalysis/matchAnalysisPageHeader.jsp" %>
 					
 	<!-- MONITOR / TABLET LAYOUT -->
@@ -96,7 +96,7 @@
 							<hr>
 							<div class="row">
 								<div class="col-xs-6">
-									<h4 style="text-align:center">Percent by Stage <span id="percentByStageDivision"</span></h4>
+									<h4 style="text-align:center">Percent by Stage <span id="percentByStageDivision"></span></h4>
 									<div id="percentByStageChart-large" align='center'></div>
 								</div>
 								<div class="col-xs-6" style="border-left: 1px solid #ccc">
@@ -215,7 +215,8 @@
 				</c:if>
 			</div>
 		</div>
+	
+		<jsp:include page="/WEB-INF/jsp/include/footer.jsp" />
 	</body>
-	<jsp:include page="/WEB-INF/jsp/include/footer.jsp" />
 </html>
 

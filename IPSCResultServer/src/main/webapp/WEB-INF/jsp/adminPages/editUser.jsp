@@ -68,10 +68,9 @@
 				</sf:form>
 			</div>
 		</div>
+		<jsp:include page="/WEB-INF/jsp/include/footer.jsp" />
+
 	</body>
-		
-	<jsp:include page="/WEB-INF/jsp/include/footer.jsp" />
-	
 </html>
 
 	
